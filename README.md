@@ -2,9 +2,9 @@
 
 <!-- PROJECT SHIELDS -->
 
-[![Stargazers][stars-shield]][stars-url]
+<!-- [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
-[![MIT License][license-shield]][license-url]
+[![MIT License][license-shield]][license-url] -->
 
 <!-- PROJECT LOGO -->
 <br />
@@ -152,13 +152,14 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 <!-- MARKDOWN LINKS & IMAGES -->
 
-[stars-shield]: https://img.shields.io/github/stars/lgf2111/lovelace.svg?style=for-the-badge
+<!-- [stars-shield]: https://img.shields.io/github/stars/lgf2111/lovelace.svg?style=for-the-badge
 [stars-url]: https://github.com/lgf2111/lovelace/stargazers
 [issues-shield]: https://img.shields.io/github/issues/lgf2111/lovelace.svg?style=for-the-badge
 [issues-url]: https://github.com/lgf2111/lovelace/issues
 [license-shield]: https://img.shields.io/github/license/lgf2111/lovelace.svg?style=for-the-badge
-[license-url]: https://github.com/lgf2111/lovelace/blob/main/LICENSE
-[product-screenshot]: sources/screenshot.png
+[license-url]: https://github.com/lgf2111/lovelace/blob/main/LICENSE -->
+<!-- [product-screenshot]: sources/screenshot.png -->
+
 [flutter]: https://img.shields.io/static/v1?style=for-the-badge&message=Flutter&color=02569B&logo=Flutter&logoColor=FFFFFF&label=
 [flutter-url]: https://flutter.dev/
 [flask]: https://img.shields.io/static/v1?style=for-the-badge&message=Flask&color=000000&logo=Flask&logoColor=FFFFFF&label=
