@@ -49,7 +49,6 @@
     <li><a href="#usage">Usage</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
     <li><a href="#theteam">The Team</a></li>
   </ol>
 </details>
@@ -134,16 +133,6 @@ See the [open issues](https://github.com/lgf2111/lovelace/issues) for a full lis
 ## License
 
 Distributed under the MIT License. See `LICENSE` for more information.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-<!-- CONTACT -->
-
-## Contact
-
-Your Name - [@LeeGuanFeng4](https://twitter.com/LeeGuanFeng4) - lgf2111@gmail.com
-
-Project Link: [https://github.com/lgf2111/lovelace](https://github.com/lgf2111/lovelace)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
