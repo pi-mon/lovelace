@@ -88,7 +88,7 @@ To get a local copy up and running follow these simple example steps.
 
 ### Installation
 
-<p class="callout info">To be updated</p>
+> To be updated
 <!-- 1. Get a free API Key at [https://example.com](https://example.com)
 2. Clone the repo
    ```sh
@@ -109,7 +109,7 @@ To get a local copy up and running follow these simple example steps.
 
 ## Usage
 
-<p class="callout info">To be updated</p>
+> To be updated
 
 <!-- _For more examples, please refer to the [Documentation](https://example.com)_ -->
 
