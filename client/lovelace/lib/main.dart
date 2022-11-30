@@ -22,7 +22,7 @@ class Account extends StatelessWidget {
           ],
         )
       ),
-      
+
       body: Column(   
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.stretch,
