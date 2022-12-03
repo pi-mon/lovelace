@@ -14,7 +14,7 @@ class NavigationPage extends StatefulWidget {
 class _NavigationPageState extends State<NavigationPage> {
   int selectedPage = 0;
 
-  final screens = [ // * This is the list of pages to navigate to
+  final screens = [ // * This is a list of the different pages to navigate to in the app
     const HomePage(),
     const TestPage(),
     const AccountPage(),
@@ -27,7 +27,7 @@ class _NavigationPageState extends State<NavigationPage> {
         backgroundColor: Colors.purple,        
         title: Image.asset('assets/images/logo-square.png', height: 50.0, width: 50.0)
       ),
-      body: screens[selectedPage], // * This is to navigate between the different pages via the bottom navigation
+      body: screens[selectedPage], // * This makes the naviagtion betwen pages work via the bottom navigation bar
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: selectedPage,
         type: BottomNavigationBarType.fixed,
@@ -52,5 +52,7 @@ class _NavigationPageState extends State<NavigationPage> {
       ),
       // TODO: Hide bottom navigation bar for larger screens and display the navigation menu options
     );
+    // TODO: Create top navigation menu for bigger screens
+    // TODO: Hide bottom navigatino bar for bigger screens
   }
 }

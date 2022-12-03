@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:lovelace/app/account/test.dart';
 
 class AccountPage extends StatelessWidget {
   const AccountPage({super.key});

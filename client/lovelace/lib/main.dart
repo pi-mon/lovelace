@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:lovelace/app/home/home_page.dart';
 import 'package:lovelace/core/navigation.dart';
 
 void main() {
