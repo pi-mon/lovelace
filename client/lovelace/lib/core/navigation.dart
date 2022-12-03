@@ -50,6 +50,7 @@ class _NavigationPageState extends State<NavigationPage> {
           });
         }
       ),
+      // TODO: Hide bottom navigation bar for larger screens and display the navigation menu options
     );
     // TODO: Create top navigation menu for bigger screens
     // TODO: Hide bottom navigatino bar for bigger screens
