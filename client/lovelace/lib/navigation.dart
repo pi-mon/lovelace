@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lovelace/screens/account_screen.dart';
-import 'package:lovelace/screens/test.dart';
+import 'package:lovelace/screens/chat_screen.dart';
 import 'package:lovelace/screens/home_screen.dart';
 
 
@@ -16,7 +16,7 @@ class _NavigationPageState extends State<NavigationPage> {
 
   final screens = [ // * This is a list of the different pages to navigate to in the app
     const HomeScreen(),
-    const TestScreen(),
+    const ChatScreen(),
     const AccountScreen(),
   ];
 
@@ -50,9 +50,6 @@ class _NavigationPageState extends State<NavigationPage> {
           });
         }
       ),
-      // TODO: Hide bottom navigation bar for larger screens and display the navigation menu options
     );
-    // TODO: Create top navigation menu for bigger screens
-    // TODO: Hide bottom navigatino bar for bigger screens
   }
 }
