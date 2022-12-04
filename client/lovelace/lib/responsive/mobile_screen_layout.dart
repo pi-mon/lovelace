@@ -17,7 +17,7 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.purple,        
-        title: Image.asset('assets/images/logo-square.png', height: 50.0, width: 50.0)
+        title: Image.asset('assets/images/logo-square.png', height: 45.0, width: 45.0)
       ),
       body: screens[_selectedPage], 
       bottomNavigationBar: BottomNavigationBar(
