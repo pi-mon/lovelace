@@ -1,10 +1,8 @@
 from flask import Blueprint, jsonify, request
 from db import mongo
-import os, logging
+from log import setup_custom_logger
 
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
-logger.addHandler(logging.FileHandler(f'{os.getcwd()}\\server\\lovelace\\logs\\account.log'))
+logger = setup_custom_logger(__name__)
 
 account_page = Blueprint('account_page', __name__,
                         template_folder='templates')
