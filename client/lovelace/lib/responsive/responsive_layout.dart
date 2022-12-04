@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lovelace/utils/global_variable.dart';
+import 'package:lovelace/utils/global_variables.dart';
 
 class ResponsiveLayout extends StatelessWidget {
   final Widget mobileScreenLayout;

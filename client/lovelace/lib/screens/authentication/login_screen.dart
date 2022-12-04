@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lovelace/screens/authentication/register_email_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:lovelace/widgets/text_field_input.dart';
 
@@ -34,7 +35,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         GestureDetector(
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
                           child: const Icon(
                             Icons.arrow_back_ios,
                             color: primaryColor,
@@ -84,12 +87,17 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: Container(),
                     ),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          return const RegisterEmailScreen();
+                        }));
+                      },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: const [
                           Text(
-                            "Forgot Password?",
+                            "Not a user?",
                             style: TextStyle(color: linkColor),
                           ),
                         ],

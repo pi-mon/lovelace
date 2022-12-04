@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lovelace/screens/register_password_screen.dart';
+import 'package:lovelace/screens/authentication/register_password_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:lovelace/widgets/text_field_input.dart';
 
@@ -33,7 +33,9 @@ class _RegisterEmailScreenState extends State<RegisterEmailScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         GestureDetector(
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
                           child: const Icon(
                             Icons.arrow_back_ios,
                             color: primaryColor,
