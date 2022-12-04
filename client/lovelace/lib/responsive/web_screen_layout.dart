@@ -26,53 +26,50 @@ class _WebScreenLayoutState extends State<WebScreenLayout> {
   }
 
   void onPageChanged(int page) {
-    setState(() => {
-      _selectedPage = page
-    });
+    setState(() => {_selectedPage = page});
   }
 
   void navigationTapped(int page) {
     pageController.jumpToPage(page); // Animating  Page
-    setState(() => {
-      _selectedPage = page
-    });    
-  } 
+    setState(() => {_selectedPage = page});
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.purple,        
-        title: Image.asset('assets/images/logo-square.png', height: 45.0, width: 45.0),
+        backgroundColor: Colors.purple,
+        title: Image.asset('assets/images/logo-square.png',
+            height: 45.0, width: 45.0),
         actions: [
           IconButton(
             onPressed: () => navigationTapped(0),
-            icon: Icon(
-              Icons.home,
-              color: _selectedPage == 0 ? selectedIconColor : unselectedIconColor
-            ),
+            icon: Icon(Icons.home,
+                color: _selectedPage == 0
+                    ? selectedIconColor
+                    : unselectedIconColor),
           ),
           IconButton(
             onPressed: () => navigationTapped(1),
-            icon: Icon(
-              Icons.chat,
-              color: _selectedPage == 1 ? selectedIconColor : unselectedIconColor
-            ),
+            icon: Icon(Icons.chat,
+                color: _selectedPage == 1
+                    ? selectedIconColor
+                    : unselectedIconColor),
           ),
           IconButton(
             onPressed: () => navigationTapped(2),
-            icon: Icon(
-              Icons.person,
-              color: _selectedPage == 2 ? selectedIconColor : unselectedIconColor
-            ),
-          ),        
-        ],        
-      ),    
+            icon: Icon(Icons.person,
+                color: _selectedPage == 2
+                    ? selectedIconColor
+                    : unselectedIconColor),
+          ),
+        ],
+      ),
       body: PageView(
         controller: pageController,
         onPageChanged: onPageChanged,
         children: screens,
-      ), 
+      ),
     );
   }
 }

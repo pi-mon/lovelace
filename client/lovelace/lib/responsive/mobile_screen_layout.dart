@@ -15,33 +15,33 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.purple,        
-        title: Image.asset('assets/images/logo-square.png', height: 45.0, width: 45.0)
-      ),
-      body: screens[_selectedPage], 
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedPage,
-        type: BottomNavigationBarType.fixed,
-        backgroundColor: Colors.purple,
-        items: const [ // * The number of BottomNavigationBarItems must be equal to the number of Widgets in the screens list
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          // BottomNavigationBarItem(icon: Icon(Icons.favorite), label: 'Feed'),
-          BottomNavigationBarItem(icon: Icon(Icons.chat), label: 'Chat'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Account'),
-        ],
-        elevation: 5.0,
-        selectedFontSize: 16.0,
-        unselectedFontSize: 12.0,
-        selectedItemColor: selectedIconColor,
-        unselectedItemColor: unselectedIconColor,
-        showUnselectedLabels: false,
-        onTap: (index) {
-          setState(() {
-            _selectedPage = index;
-          });
-        }
-      )
-    );
+        appBar: AppBar(
+            backgroundColor: Colors.purple,
+            title: Image.asset('assets/images/logo-square.png',
+                height: 45.0, width: 45.0)),
+        body: screens[_selectedPage],
+        bottomNavigationBar: BottomNavigationBar(
+            currentIndex: _selectedPage,
+            type: BottomNavigationBarType.fixed,
+            backgroundColor: Colors.purple,
+            items: const [
+              // * The number of BottomNavigationBarItems must be equal to the number of Widgets in the screens list
+              BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+              // BottomNavigationBarItem(icon: Icon(Icons.favorite), label: 'Feed'),
+              BottomNavigationBarItem(icon: Icon(Icons.chat), label: 'Chat'),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.person), label: 'Account'),
+            ],
+            elevation: 5.0,
+            selectedFontSize: 16.0,
+            unselectedFontSize: 12.0,
+            // selectedItemColor: selectedIconColor,
+            // unselectedItemColor: unselectedIconColor,
+            showUnselectedLabels: false,
+            onTap: (index) {
+              setState(() {
+                _selectedPage = index;
+              });
+            }));
   }
 }

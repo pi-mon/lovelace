@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:lovelace/utils/global_variables.dart';
+import 'package:lovelace/utils/global_variable.dart';
 
 class ResponsiveLayout extends StatelessWidget {
-  final Widget webScreenLayout;
   final Widget mobileScreenLayout;
-  
+  final Widget webScreenLayout;
   const ResponsiveLayout({
-    Key ? key, 
-    required this.webScreenLayout, 
-    required this.mobileScreenLayout
+    Key? key,
+    required this.mobileScreenLayout,
+    required this.webScreenLayout,
   }) : super(key: key);
 
   @override
@@ -17,9 +16,10 @@ class ResponsiveLayout extends StatelessWidget {
       builder: (context, constraints) {
         if (constraints.maxWidth > webScreenSize) {
           return webScreenLayout;
+        } else {
+          return mobileScreenLayout;
         }
-        return mobileScreenLayout;
-      }
+      },
     );
   }
 }
