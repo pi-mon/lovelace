@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:lovelace/screens/account_screen.dart';
-import 'package:lovelace/screens/home_screen.dart';
-import 'package:lovelace/screens/test.dart';
 import 'package:lovelace/utils/colors.dart';
+import 'package:lovelace/utils/global_variables.dart';
 
 class MobileScreenLayout extends StatefulWidget {
   const MobileScreenLayout({super.key});
@@ -12,13 +10,7 @@ class MobileScreenLayout extends StatefulWidget {
 }
 
 class _MobileScreenLayoutState extends State<MobileScreenLayout> {
-  int selectedPage = 0;
-
-  final screens = [ // * This is a list of the different pages to navigate to in the app
-    const HomeScreen(),
-    const TestScreen(),
-    const AccountScreen(),
-  ];
+  int _selectedPage = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -27,9 +19,9 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
         backgroundColor: Colors.purple,        
         title: Image.asset('assets/images/logo-square.png', height: 50.0, width: 50.0)
       ),
-      body: screens[selectedPage], 
+      body: screens[_selectedPage], 
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: selectedPage,
+        currentIndex: _selectedPage,
         type: BottomNavigationBarType.fixed,
         backgroundColor: Colors.purple,
         items: const [ // * The number of BottomNavigationBarItems must be equal to the number of Widgets in the screens list
@@ -46,7 +38,7 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
         showUnselectedLabels: false,
         onTap: (index) {
           setState(() {
-            selectedPage = index;
+            _selectedPage = index;
           });
         }
       )
