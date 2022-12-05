@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:lovelace/utils/colors.dart';
@@ -6,6 +7,7 @@ import 'package:lovelace/widgets/text_field_input.dart';
 
 import 'package:lovelace/models/user.dart';
 import 'package:lovelace/screens/landing/landing_screen.dart';
+import 'package:http/http.dart' as http;
 
 class RegisterPasswordScreen extends StatefulWidget {
   final String email;
@@ -98,10 +100,30 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
                     ),
                     const SizedBox(height: 16),
                     ElevatedButton(
-                        onPressed: () {
-                          String password = _passwordController.text;
-                          var user = User(email, password);
+                        onPressed: () async {
+                          final String password = _passwordController.text;
+                          User user = User(email, password);
                           String json = jsonEncode(user);
+                          String res = "Some error occured";
+
+                          try {
+                            var response = await http.post(
+                                Uri.http("127.0.0.1:5000"),
+                                headers: {
+                                  HttpHeaders.contentTypeHeader:
+                                      'application/json; charset=UTF-8'
+                                },
+                                body: json);
+                            if (response.statusCode != 200) {
+                              res = "Server error";
+                            } else {
+                              res = response.body;
+                            }
+                          } catch (err) {
+                            res = err.toString();
+                          }
+
+                          // ignore: use_build_context_synchronously
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -111,7 +133,7 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
                             context: context,
                             builder: (context) {
                               return AlertDialog(
-                                content: Text(json),
+                                content: Text(res),
                               );
                             },
                           );

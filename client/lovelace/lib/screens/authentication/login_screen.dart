@@ -116,15 +116,24 @@ class _LoginScreenState extends State<LoginScreen> {
                           final String password = _passwordController.text;
                           User user = User(email, password);
                           String json = jsonEncode(user);
+                          String res = "Some error occured";
 
-                          final response = await http.post(
-                              Uri.http("127.0.0.1:5000"),
-                              headers: {
-                                HttpHeaders.contentTypeHeader:
-                                    'application/json; charset=UTF-8'
-                              },
-                              body: json);
-                          final responseJson = jsonDecode(response.body);
+                          try {
+                            var response = await http.post(
+                                Uri.http("127.0.0.1:5000"),
+                                headers: {
+                                  HttpHeaders.contentTypeHeader:
+                                      'application/json; charset=UTF-8'
+                                },
+                                body: json);
+                            if (response.statusCode != 200) {
+                              res = "Server error";
+                            } else {
+                              res = response.body;
+                            }
+                          } catch (err) {
+                            res = err.toString();
+                          }
 
                           // ignore: use_build_context_synchronously
                           Navigator.push(
@@ -137,7 +146,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             context: context,
                             builder: (context) {
                               return AlertDialog(
-                                content: Text(response.body),
+                                content: Text(res),
                               );
                             },
                           );
