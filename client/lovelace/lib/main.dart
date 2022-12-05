@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-// import 'package:lovelace/screens/landing/guest_landing_screen.dart';
-import 'package:lovelace/screens/landing/landing_screen.dart';
+import 'package:lovelace/screens/landing/guest_landing_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:flutter/services.dart';
 
@@ -31,7 +30,7 @@ class MyApp extends StatelessWidget {
       //   mobileScreenLayout: MobileScreenLayout(),
       //   webScreenLayout: WebScreenLayout(),
       // ),
-      home: const LandingScreen(),
+      home: const GuestLandingScreen(),
     );
   }
 }

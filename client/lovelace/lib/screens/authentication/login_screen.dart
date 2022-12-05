@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lovelace/screens/authentication/register_email_screen.dart';
+import 'package:lovelace/screens/landing/landing_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:lovelace/widgets/text_field_input.dart';
 
@@ -26,7 +27,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       body: SafeArea(
           child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 32,vertical: 32),
+              padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 32),
               width: double.infinity,
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -105,7 +106,13 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     const SizedBox(height: 16),
                     ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const LandingScreen()),
+                          );
+                        },
                         style: ElevatedButton.styleFrom(
                           minimumSize: const Size(150, 50),
                           backgroundColor: primaryColor,

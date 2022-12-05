@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:lovelace/widgets/text_field_input.dart';
 
+import '../landing/landing_screen.dart';
+
 class RegisterPasswordScreen extends StatefulWidget {
   const RegisterPasswordScreen({super.key});
 
@@ -88,7 +90,13 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
                     ),
                     const SizedBox(height: 16),
                     ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const LandingScreen()),
+                          );
+                        },
                         style: ElevatedButton.styleFrom(
                           minimumSize: const Size(150, 50),
                           backgroundColor: primaryColor,
