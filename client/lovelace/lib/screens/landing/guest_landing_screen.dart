@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lovelace/screens/authentication/login_screen.dart';
 import 'package:lovelace/utils/colors.dart';
-import 'package:lovelace/widgets/text_field_input.dart';
 
 class GuestLandingScreen extends StatefulWidget {
   const GuestLandingScreen({super.key});
