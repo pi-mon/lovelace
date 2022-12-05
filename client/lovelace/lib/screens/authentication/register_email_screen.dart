@@ -82,8 +82,9 @@ class _RegisterEmailScreenState extends State<RegisterEmailScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) =>
-                                    const RegisterPasswordScreen()),
+                                builder: (context) => RegisterPasswordScreen(
+                                      email: _emailController.text,
+                                    )),
                           );
                         },
                         style: ElevatedButton.styleFrom(

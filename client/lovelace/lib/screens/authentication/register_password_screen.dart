@@ -1,17 +1,24 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:lovelace/widgets/text_field_input.dart';
 
-import '../landing/landing_screen.dart';
+import 'package:lovelace/models/user.dart';
+import 'package:lovelace/screens/landing/landing_screen.dart';
 
 class RegisterPasswordScreen extends StatefulWidget {
-  const RegisterPasswordScreen({super.key});
+  final String email;
+  const RegisterPasswordScreen({super.key, required this.email});
 
   @override
-  State<RegisterPasswordScreen> createState() => _RegisterPasswordScreenState();
+  State<RegisterPasswordScreen> createState() =>
+      _RegisterPasswordScreenState(this.email);
 }
 
 class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
+  _RegisterPasswordScreenState(this.email);
+  final String email;
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _password2Controller = TextEditingController();
 
@@ -91,12 +98,31 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
                     const SizedBox(height: 16),
                     ElevatedButton(
                         onPressed: () {
+                          String password = _passwordController.text;
+                          var user = User(email, password);
+                          String json = jsonEncode(user);
                           Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => const LandingScreen()),
                           );
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                content: Text(json),
+                              );
+                            },
+                          );
                         },
+
+                        // onPressed: () {
+                        //   Navigator.push(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //         builder: (context) => const LandingScreen()),
+                        //   );
+                        // },
                         style: ElevatedButton.styleFrom(
                           minimumSize: const Size(150, 50),
                           backgroundColor: primaryColor,
