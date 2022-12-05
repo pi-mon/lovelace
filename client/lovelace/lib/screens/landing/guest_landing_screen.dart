@@ -35,7 +35,7 @@ class _GuestLandingScreenState extends State<GuestLandingScreen> {
                       flex: 1,
                       child: Container(),
                     ),
-                    Image.asset('assets/images/logo.png',
+                    Image.asset('assets/images/logo-dark.png',
                         height: 200.0, width: 200.0),
                     GestureDetector(
                       onTap: () {
