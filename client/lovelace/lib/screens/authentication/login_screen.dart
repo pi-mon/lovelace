@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:lovelace/models/user.dart';
 import 'package:lovelace/screens/authentication/register_email_screen.dart';
 import 'package:lovelace/screens/landing/landing_screen.dart';
 import 'package:lovelace/utils/colors.dart';
@@ -107,10 +110,22 @@ class _LoginScreenState extends State<LoginScreen> {
                     const SizedBox(height: 16),
                     ElevatedButton(
                         onPressed: () {
+                          String email = _emailController.text;
+                          String password = _passwordController.text;
+                          var user = User(email, password);
+                          String json = jsonEncode(user);
                           Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => const LandingScreen()),
+                          );
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                content: Text(json),
+                              );
+                            },
                           );
                         },
                         style: ElevatedButton.styleFrom(
