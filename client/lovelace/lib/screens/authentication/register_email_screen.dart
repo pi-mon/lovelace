@@ -24,7 +24,7 @@ class _RegisterEmailScreenState extends State<RegisterEmailScreen> {
     return Scaffold(
       body: SafeArea(
           child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 32),
+              padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 32),
               width: double.infinity,
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
