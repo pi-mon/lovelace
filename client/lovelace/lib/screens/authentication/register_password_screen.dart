@@ -13,7 +13,8 @@ class RegisterPasswordScreen extends StatefulWidget {
 
   @override
   State<RegisterPasswordScreen> createState() =>
-      _RegisterPasswordScreenState(this.email);
+      // ignore: no_logic_in_create_state
+      _RegisterPasswordScreenState(email);
 }
 
 class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
@@ -115,18 +116,9 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
                             },
                           );
                         },
-
-                        // onPressed: () {
-                        //   Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //         builder: (context) => const LandingScreen()),
-                        //   );
-                        // },
                         style: ElevatedButton.styleFrom(
                           minimumSize: const Size(150, 50),
                           backgroundColor: primaryColor,
-                          // padding: const EdgeInsets.symmetric(vertical: 12),
                         ),
                         child: const Text("Sign Up",
                             style: TextStyle(

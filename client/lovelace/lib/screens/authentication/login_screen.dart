@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:lovelace/models/user.dart';
@@ -6,6 +7,7 @@ import 'package:lovelace/screens/authentication/register_email_screen.dart';
 import 'package:lovelace/screens/landing/landing_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:lovelace/widgets/text_field_input.dart';
+import 'package:http/http.dart' as http;
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -109,21 +111,33 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     const SizedBox(height: 16),
                     ElevatedButton(
-                        onPressed: () {
-                          String email = _emailController.text;
-                          String password = _passwordController.text;
-                          var user = User(email, password);
+                        onPressed: () async {
+                          final String email = _emailController.text;
+                          final String password = _passwordController.text;
+                          User user = User(email, password);
                           String json = jsonEncode(user);
+
+                          final response = await http.post(
+                              Uri.http("127.0.0.1:5000"),
+                              headers: {
+                                HttpHeaders.contentTypeHeader:
+                                    'application/json; charset=UTF-8'
+                              },
+                              body: json);
+                          final responseJson = jsonDecode(response.body);
+
+                          // ignore: use_build_context_synchronously
                           Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => const LandingScreen()),
                           );
+
                           showDialog(
                             context: context,
                             builder: (context) {
                               return AlertDialog(
-                                content: Text(json),
+                                content: Text(response.body),
                               );
                             },
                           );
