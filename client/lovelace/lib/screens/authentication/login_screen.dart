@@ -114,7 +114,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         onPressed: () async {
                           final String email = _emailController.text;
                           final String password = _passwordController.text;
-                          User user = User(email, password);
+                          User user = User(email: email, password: password);
                           String json = jsonEncode(user);
                           String res = "Some error occured";
 

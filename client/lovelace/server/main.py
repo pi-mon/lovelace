@@ -3,7 +3,7 @@ from flask import Flask, jsonify, request
 app = Flask(__name__)
 
 
-@app.route("/", methods=["POST"])
+@app.route("/register", methods=["POST"])
 def index():
     content = request.json
     print(content)
