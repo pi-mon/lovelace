@@ -71,7 +71,7 @@ class _RegisterEmailScreenState extends State<RegisterEmailScreen> {
                       textInputType: TextInputType.emailAddress,
                       textEditingController: _emailController,
                     ),
-                    const SizedBox(height: 256),
+                    const SizedBox(height: 128),
                     Flexible(
                       flex: 1,
                       child: Container(),

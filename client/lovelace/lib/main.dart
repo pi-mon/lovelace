@@ -30,12 +30,11 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: whiteColor,
         primaryColor: primaryColor,
       ),
-      // home: const ResponsiveLayout(
-      //   mobileScreenLayout: MobileScreenLayout(),
-      //   webScreenLayout: WebScreenLayout(),
-      // ),
+      home: const ResponsiveLayout(
+        mobileScreenLayout: MobileScreenLayout(),
+        webScreenLayout: WebScreenLayout(),
+      ),
       // home: const GuestLandingScreen(),
-      home: const LoginScreen() ,    
     );
   }
 }
