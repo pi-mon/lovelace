@@ -23,13 +23,13 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         fontFamily: 'Quicksand',
         scaffoldBackgroundColor: whiteColor,
-        // primaryColor: primaryColor,
+        primaryColor: primaryColor,
       ),
-      // home: const ResponsiveLayout(
-      //   mobileScreenLayout: MobileScreenLayout(),
-      //   webScreenLayout: WebScreenLayout(),
-      // ),
-      home: const GuestLandingScreen(),
+      home: const ResponsiveLayout(
+        mobileScreenLayout: MobileScreenLayout(),
+        webScreenLayout: WebScreenLayout(),
+      ),
+      // home: const GuestLandingScreen(),
       // home: const LoginScreen(),
     );
   }
