@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-const selectedIconColor = Color.fromRGBO(255, 255, 255, 1);
-const unselectedIconColor = Color.fromRGBO(128, 128, 128, 1);
+const selectedColor = Color.fromRGBO(255, 255, 255, 1);
+const unselectedColor = Color.fromRGBO(128, 128, 128, 1);
 const mobileBackgroundColor = Color.fromRGBO(0, 0, 0, 1);
 
 const primaryColor = Color.fromRGBO(143, 0, 255, 1);

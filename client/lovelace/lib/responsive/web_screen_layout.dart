@@ -46,22 +46,22 @@ class _WebScreenLayoutState extends State<WebScreenLayout> {
             onPressed: () => navigationTapped(0),
             icon: Icon(Icons.home,
                 color: _selectedPage == 0
-                    ? selectedIconColor
-                    : unselectedIconColor),
+                    ? selectedColor
+                    : unselectedColor),
           ),
           IconButton(
             onPressed: () => navigationTapped(1),
             icon: Icon(Icons.chat,
                 color: _selectedPage == 1
-                    ? selectedIconColor
-                    : unselectedIconColor),
+                    ? selectedColor
+                    : unselectedColor),
           ),
           IconButton(
             onPressed: () => navigationTapped(2),
             icon: Icon(Icons.person,
                 color: _selectedPage == 2
-                    ? selectedIconColor
-                    : unselectedIconColor),
+                    ? selectedColor
+                    : unselectedColor),
           ),
         ],
       ),

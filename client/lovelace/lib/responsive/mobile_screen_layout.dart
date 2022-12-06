@@ -26,7 +26,6 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
             currentIndex: _selectedPage,
             type: BottomNavigationBarType.fixed,
             backgroundColor: primaryColor,
-            selectedItemColor: whiteColor,
             items: const [
               // * The number of BottomNavigationBarItems must be equal to the number of Widgets in the screens list
               BottomNavigationBarItem(
@@ -41,8 +40,8 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
             elevation: 5.0,
             selectedFontSize: 16.0,
             unselectedFontSize: 12.0,
-            selectedItemColor: selectedIconColor,
-            unselectedItemColor: unselectedIconColor,
+            selectedItemColor: selectedColor,
+            unselectedItemColor: unselectedColor,
             showUnselectedLabels: false,
             onTap: (index) {
               setState(() {

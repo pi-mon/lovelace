@@ -1,5 +1,4 @@
 import 'package:lovelace/screens/account_screen.dart';
-import 'package:lovelace/screens/home_screen.dart';
 import 'package:lovelace/screens/chat_screen.dart';
 import 'package:lovelace/screens/landing/landing_screen.dart';
 
