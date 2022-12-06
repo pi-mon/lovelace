@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:lovelace/responsive/mobile_screen_layout.dart';
+import 'package:lovelace/responsive/responsive_layout.dart';
+import 'package:lovelace/responsive/web_screen_layout.dart';
 import 'package:lovelace/screens/landing/guest_landing_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:flutter/services.dart';
@@ -25,12 +28,14 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         fontFamily: 'Quicksand',
         scaffoldBackgroundColor: whiteColor,
+        primaryColor: primaryColor,
       ),
-      // home: const ResponsiveLayout(
-      //   mobileScreenLayout: MobileScreenLayout(),
-      //   webScreenLayout: WebScreenLayout(),
-      // ),
-      home: const GuestLandingScreen(),
+      home: const ResponsiveLayout(
+        mobileScreenLayout: MobileScreenLayout(),
+        webScreenLayout: WebScreenLayout(),
+      ),
+      // home: const GuestLandingScreen(),
+      // home: const LoginScreen(),
     );
   }
 }

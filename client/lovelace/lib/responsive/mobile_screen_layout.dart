@@ -35,8 +35,8 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
             elevation: 5.0,
             selectedFontSize: 16.0,
             unselectedFontSize: 12.0,
-            // selectedItemColor: selectedIconColor,
-            // unselectedItemColor: unselectedIconColor,
+            selectedItemColor: selectedIconColor,
+            unselectedItemColor: unselectedIconColor,
             showUnselectedLabels: false,
             onTap: (index) {
               setState(() {

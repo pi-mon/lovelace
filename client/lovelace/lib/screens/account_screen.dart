@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lovelace/utils/colors.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
 
 class AccountScreen extends StatelessWidget {
@@ -6,79 +7,85 @@ class AccountScreen extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 32),
-      child: Column(   
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.stretch,                
-        children: <Widget>[    
-          const SizedBox(height: 50.0),                
-          Center(                      
-            child: Row(   
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,           
-              children: <Widget>[
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(10.0),
-                  child: Image.asset('assets/images/user.png', height: 100.0, width: 100.0)
-                ),
-                Column(
-                  children: <Widget>[
-                    const Text('Name', style: TextStyle(fontSize: 20.0)),
-                    const SizedBox(height: 5.0),
-                    Row(                      
-                      children: const <Widget>[
-                        Icon(Icons.location_city),
-                        Text('Singapore', style: TextStyle(fontSize: 15.0))
-                      ],
-                    )
-                  ],
-                )
-              ],            
-            )
-          ),
-          const SizedBox(height: 55.0),
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(    
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,           
-                children: <Widget>[
-                  ElevatedButton(
-                    onPressed: () => {}, 
-                    style: ElevatedButton.styleFrom(backgroundColor: Colors.deepPurpleAccent),
-                    child:                    
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
-                        child: Row(
-                          children: const <Widget>[
-                            Icon(Icons.app_registration),
-                            SizedBox(width: 10.0),
-                            Text('Preferences', style: TextStyle(fontSize: 25.0)),
-                          ],
-                        ),
+    return Scaffold(
+      body: SafeArea(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Expanded(
+                child: Container(
+                  padding: const EdgeInsets.all(20.0),
+                  // color: Colors.pink,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          const Expanded(
+                            flex: 3,
+                            child: Icon(Icons.person, size: 60,)
+                          ),
+                          Expanded(
+                            flex: 3,
+                            child: Center(
+                              child: Column(
+                                children: <Widget>[
+                                  Row(children: const <Widget>[
+                                      Text('Name', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                                    ],                                  
+                                  ),
+                                  Row(children: const <Widget>[
+                                      Icon(Icons.location_city),
+                                      SizedBox(width: 10),
+                                      Text('Singapore')
+                                    ],
+                                  )
+                                ],
+                              ),
+                            )                            
+                          )
+                        ],
                       ),
-                    ),
-                    ElevatedButton(
-                      onPressed: () => {}, 
-                      style: ElevatedButton.styleFrom(backgroundColor: Colors.deepPurpleAccent),
-                      child: 
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
-                        child: Row(
-                          children: const <Widget>[
-                            Icon(Icons.settings),
-                            SizedBox(width: 10.0),
-                            Text('Settings', style: TextStyle(fontSize: 25.0)),
-                          ],
-                        )
-                      )
+                    ],
                   )
-                ],              
+                ),
               ),
-            )
+              Expanded(
+                child: Container(
+                  padding: const EdgeInsets.all(20.0),
+                  // color: Colors.amber,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          ElevatedButton(
+                            onPressed: () => {},
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: primaryColor
+                            ),
+                            child: const Text('Preferences', style: TextStyle(fontSize: 20))                      
+                          ),
+                          ElevatedButton(
+                            onPressed: () => {},
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: primaryColor
+                            ),
+                            child: const Text('Settings', style: TextStyle(fontSize: 20))
+                          )
+                        ],
+                      ),
+                    ],
+                  )
+                ),
+              ),
+            ],
           ),
-        ]
-      ),
+        ),
+      )
     );
   }
 }
