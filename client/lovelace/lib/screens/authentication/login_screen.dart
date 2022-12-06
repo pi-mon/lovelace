@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:lovelace/models/user.dart';
+import 'package:lovelace/resources/auth_methods.dart';
 import 'package:lovelace/screens/authentication/register_email_screen.dart';
 import 'package:lovelace/screens/landing/landing_screen.dart';
 import 'package:lovelace/utils/colors.dart';
@@ -114,26 +115,32 @@ class _LoginScreenState extends State<LoginScreen> {
                         onPressed: () async {
                           final String email = _emailController.text;
                           final String password = _passwordController.text;
-                          User user = User(email: email, password: password);
-                          String json = jsonEncode(user);
-                          String res = "Some error occured";
+                          String res = await AuthMethods()
+                              .login(email: email, password: password);
 
-                          try {
-                            var response = await http.post(
-                                Uri.http("127.0.0.1:5000"),
-                                headers: {
-                                  HttpHeaders.contentTypeHeader:
-                                      'application/json; charset=UTF-8'
-                                },
-                                body: json);
-                            if (response.statusCode != 200) {
-                              res = "Server error";
-                            } else {
-                              res = response.body;
-                            }
-                          } catch (err) {
-                            res = err.toString();
-                          }
+                          // onPressed: () async {
+                          //   final String email = _emailController.text;
+                          //   final String password = _passwordController.text;
+                          //   User user = User(email: email, password: password);
+                          //   String json = jsonEncode(user);
+                          //   String res = "Some error occured";
+
+                          //   try {
+                          //     var response = await http.post(
+                          //         Uri.http("127.0.0.1:5000"),
+                          //         headers: {
+                          //           HttpHeaders.contentTypeHeader:
+                          //               'application/json; charset=UTF-8'
+                          //         },
+                          //         body: json);
+                          //     if (response.statusCode != 200) {
+                          //       res = "Server error";
+                          //     } else {
+                          //       res = response.body;
+                          //     }
+                          //   } catch (err) {
+                          //     res = err.toString();
+                          //   }
 
                           // ignore: use_build_context_synchronously
                           Navigator.push(
