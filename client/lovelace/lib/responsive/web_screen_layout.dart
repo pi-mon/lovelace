@@ -61,14 +61,15 @@ class _WebScreenLayoutState extends State<WebScreenLayout> {
             icon: Icon(Icons.person,
                 color: _selectedPage == 2
                     ? selectedColor
-                    : unselectedColor),
+                    : unselectedColor
+                    ),
           ),
         ],
       ),
       body: PageView(
         controller: pageController,
         onPageChanged: onPageChanged,
-        children: screens,
+        children: userScreens,
       ),
     );
   }

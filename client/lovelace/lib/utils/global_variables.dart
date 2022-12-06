@@ -1,12 +1,18 @@
 import 'package:lovelace/screens/account_screen.dart';
 import 'package:lovelace/screens/chat_screen.dart';
+import 'package:lovelace/screens/landing/guest_landing_screen.dart';
 import 'package:lovelace/screens/landing/landing_screen.dart';
 
 const webScreenSize = 600;
 
-final screens = [
-  // * This is a list of the different pages to navigate to in the app
+final userScreens = [
+  // * List of pages only logged in users will see
   const LandingScreen(),
   const ChatScreen(),
   const AccountScreen(),
+];
+
+final guestScreens = [
+  // * List of pages logged out/guest users will see
+  const GuestLandingScreen()
 ];

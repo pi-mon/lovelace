@@ -21,7 +21,7 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
               height: 45.0, width: 45.0),
           toolbarHeight: 64,
         ),
-        body: screens[_selectedPage],
+        body: userScreens[_selectedPage],
         bottomNavigationBar: BottomNavigationBar(
             currentIndex: _selectedPage,
             type: BottomNavigationBarType.fixed,
@@ -47,6 +47,8 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
               setState(() {
                 _selectedPage = index;
               });
-            }));
+            },            
+          ),
+        );
   }
 }

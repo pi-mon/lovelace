@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:lovelace/screens/landing/guest_landing_screen.dart';
 import 'package:lovelace/utils/colors.dart';
-// import 'package:shared_preferences/shared_preferences.dart';
 
 class AccountScreen extends StatelessWidget {
   const AccountScreen({super.key});
@@ -67,10 +67,12 @@ class AccountScreen extends StatelessWidget {
                             style: ElevatedButton.styleFrom(
                               backgroundColor: primaryColor
                             ),
-                            child: const Text('Preferences', style: TextStyle(fontSize: 20))                      
+                            child: const Text('Logout', style: TextStyle(fontSize: 20))                      
                           ),
                           ElevatedButton(
-                            onPressed: () => {},
+                            onPressed: () => {
+                              Navigator.of(context, rootNavigator: true).pushReplacement(MaterialPageRoute(builder: (context) => const GuestLandingScreen())),
+                            },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: primaryColor
                             ),
