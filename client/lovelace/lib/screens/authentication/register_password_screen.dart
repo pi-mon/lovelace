@@ -1,17 +1,26 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:lovelace/widgets/text_field_input.dart';
 
-import '../landing/landing_screen.dart';
+import 'package:lovelace/screens/landing/landing_screen.dart';
+import 'package:lovelace/resources/auth_methods.dart';
 
 class RegisterPasswordScreen extends StatefulWidget {
-  const RegisterPasswordScreen({super.key});
+  final String email;
+  const RegisterPasswordScreen({super.key, required this.email});
 
   @override
-  State<RegisterPasswordScreen> createState() => _RegisterPasswordScreenState();
+  State<RegisterPasswordScreen> createState() =>
+      // ignore: no_logic_in_create_state
+      _RegisterPasswordScreenState(email);
 }
 
 class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
+  _RegisterPasswordScreenState(this.email);
+  final String email;
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _password2Controller = TextEditingController();
 
@@ -90,17 +99,29 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
                     ),
                     const SizedBox(height: 16),
                     ElevatedButton(
-                        onPressed: () {
+                        onPressed: () async {
+                          final String password = _passwordController.text;
+                          String res = await AuthMethods()
+                              .register(email: email, password: password);
+
+                          // ignore: use_build_context_synchronously
                           Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => const LandingScreen()),
                           );
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                content: Text(res),
+                              );
+                            },
+                          );
                         },
                         style: ElevatedButton.styleFrom(
                           minimumSize: const Size(150, 50),
                           backgroundColor: primaryColor,
-                          // padding: const EdgeInsets.symmetric(vertical: 12),
                         ),
                         child: const Text("Sign Up",
                             style: TextStyle(

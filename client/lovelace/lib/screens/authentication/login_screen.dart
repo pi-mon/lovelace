@@ -1,8 +1,13 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:lovelace/models/user.dart';
 import 'package:lovelace/screens/authentication/register_email_screen.dart';
 import 'package:lovelace/screens/landing/landing_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:lovelace/widgets/text_field_input.dart';
+import 'package:http/http.dart' as http;
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -106,17 +111,49 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     const SizedBox(height: 16),
                     ElevatedButton(
-                        onPressed: () {
+                        onPressed: () async {
+                          final String email = _emailController.text;
+                          final String password = _passwordController.text;
+                          User user = User(email: email, password: password);
+                          String json = jsonEncode(user);
+                          String res = "Some error occured";
+
+                          try {
+                            var response = await http.post(
+                                Uri.http("127.0.0.1:5000"),
+                                headers: {
+                                  HttpHeaders.contentTypeHeader:
+                                      'application/json; charset=UTF-8'
+                                },
+                                body: json);
+                            if (response.statusCode != 200) {
+                              res = "Server error";
+                            } else {
+                              res = response.body;
+                            }
+                          } catch (err) {
+                            res = err.toString();
+                          }
+
+                          // ignore: use_build_context_synchronously
                           Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => const LandingScreen()),
                           );
+
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                content: Text(res),
+                              );
+                            },
+                          );
                         },
                         style: ElevatedButton.styleFrom(
                           minimumSize: const Size(150, 50),
                           backgroundColor: primaryColor,
-                          // padding: const EdgeInsets.symmetric(vertical: 12),
                         ),
                         child: const Text("Login",
                             style: TextStyle(

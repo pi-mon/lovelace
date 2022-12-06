@@ -16,17 +16,23 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-            backgroundColor: Colors.purple,
-            title: Image.asset('assets/images/logo-square.png',
-                height: 45.0, width: 45.0)),
+          backgroundColor: primaryColor,
+          title: Image.asset('assets/images/logo-square.png',
+              height: 45.0, width: 45.0),
+          toolbarHeight: 64,
+        ),
         body: screens[_selectedPage],
         bottomNavigationBar: BottomNavigationBar(
             currentIndex: _selectedPage,
             type: BottomNavigationBarType.fixed,
-            backgroundColor: Colors.purple,
+            backgroundColor: primaryColor,
+            selectedItemColor: whiteColor,
             items: const [
               // * The number of BottomNavigationBarItems must be equal to the number of Widgets in the screens list
-              BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.home),
+                label: 'Home',
+              ),
               // BottomNavigationBarItem(icon: Icon(Icons.favorite), label: 'Feed'),
               BottomNavigationBarItem(icon: Icon(Icons.chat), label: 'Chat'),
               BottomNavigationBarItem(
