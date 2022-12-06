@@ -92,7 +92,7 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
                       textInputType: TextInputType.text,
                       textEditingController: _password2Controller,
                     ),
-                    const SizedBox(height: 256),
+                    const SizedBox(height: 128),
                     Flexible(
                       flex: 1,
                       child: Container(),

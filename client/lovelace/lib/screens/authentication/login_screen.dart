@@ -87,7 +87,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       textEditingController: _passwordController,
                       isPass: true,
                     ),
-                    const SizedBox(height: 256),
+                    const SizedBox(height: 128),
                     Flexible(
                       flex: 1,
                       child: Container(),

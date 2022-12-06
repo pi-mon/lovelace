@@ -27,11 +27,11 @@ class MyApp extends StatelessWidget {
         fontFamily: 'Quicksand',
         scaffoldBackgroundColor: whiteColor,
       ),
-      home: const ResponsiveLayout(
-        mobileScreenLayout: MobileScreenLayout(),
-        webScreenLayout: WebScreenLayout(),
-      ),
-      // home: const GuestLandingScreen(),
+      // home: const ResponsiveLayout(
+      //   mobileScreenLayout: MobileScreenLayout(),
+      //   webScreenLayout: WebScreenLayout(),
+      // ),
+      home: const GuestLandingScreen(),
     );
   }
 }
