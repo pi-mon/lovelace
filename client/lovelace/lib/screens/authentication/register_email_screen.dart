@@ -28,10 +28,10 @@ class _RegisterEmailScreenState extends State<RegisterEmailScreen> {
               width: double.infinity,
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
+                  children: <Widget>[
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
+                      children: <Widget>[
                         GestureDetector(
                           onTap: () {
                             Navigator.pop(context);
@@ -48,8 +48,11 @@ class _RegisterEmailScreenState extends State<RegisterEmailScreen> {
                                   'Register',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
-                                      color: primaryColor, fontSize: 20),
-                                ))),
+                                    color: primaryColor, fontSize: 20
+                                  ),
+                                )
+                              )
+                            ),
                       ],
                     ),
                     const SizedBox(height: 16),
@@ -59,7 +62,8 @@ class _RegisterEmailScreenState extends State<RegisterEmailScreen> {
                       style: TextStyle(
                           color: primaryColor,
                           fontSize: 22,
-                          fontWeight: FontWeight.bold),
+                          fontWeight: FontWeight.bold
+                        ),
                     ),
                     Flexible(
                       flex: 1,
@@ -70,6 +74,7 @@ class _RegisterEmailScreenState extends State<RegisterEmailScreen> {
                       hintText: "Enter your email",
                       textInputType: TextInputType.emailAddress,
                       textEditingController: _emailController,
+                      validator: (value) {},
                     ),
                     const SizedBox(height: 128),
                     Flexible(
@@ -84,7 +89,8 @@ class _RegisterEmailScreenState extends State<RegisterEmailScreen> {
                             MaterialPageRoute(
                                 builder: (context) => RegisterPasswordScreen(
                                       email: _emailController.text,
-                                    )),
+                                    )
+                                  ),
                           );
                         },
                         style: ElevatedButton.styleFrom(
@@ -95,8 +101,14 @@ class _RegisterEmailScreenState extends State<RegisterEmailScreen> {
                             style: TextStyle(
                                 fontSize: 18,
                                 color: whiteColor,
-                                fontWeight: FontWeight.bold))),
-                  ]))),
+                                fontWeight: FontWeight.bold
+                              )
+                            )
+                          ),
+                  ]
+                )
+              )
+            ),
     );
   }
 }

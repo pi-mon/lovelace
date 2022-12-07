@@ -1,27 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:lovelace/utils/colors.dart';
 
-class LandingScreen extends StatefulWidget {
-  const LandingScreen({super.key});
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
 
   @override
-  State<LandingScreen> createState() => _LandingScreenState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _LandingScreenState extends State<LandingScreen> {
+class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: Scaffold(
           body: Column(
-            children: [
+            children: <Widget>[
               Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 32, vertical: 32),
+                padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 32),
                 child: Stack(
                   alignment: Alignment.bottomLeft,
-                  children: [
+                  children: <Widget>[
                     Container(
                       alignment: Alignment.centerLeft,
                       child: ClipRRect(
@@ -56,7 +55,7 @@ class _LandingScreenState extends State<LandingScreen> {
                         padding: const EdgeInsets.only(left: 18, bottom: 26),
                         child: Column(
                           // ignore: prefer_const_literals_to_create_immutables
-                          children: [
+                          children: <Widget>[
                             const Align(
                               alignment: Alignment.centerLeft,
                               child: Text(

@@ -13,10 +13,17 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
   int _selectedPage = 0;
 
   @override
+  void initState() {
+    super.initState();
+    // get username
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: primaryColor,
+          automaticallyImplyLeading: false, // hides the back arrow
           title: Image.asset('assets/images/logo-square.png',
               height: 45.0, width: 45.0),
           toolbarHeight: 64,

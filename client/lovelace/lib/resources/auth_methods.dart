@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:lovelace/models/user.dart';
 
 class AuthMethods {
-  final String _baseUrl = '127.0.0.1:5000';
+  final String _baseUrl = '10.0.2.2:5000';
   Future<String> register({
     required String email,
     required String password,
@@ -55,9 +55,10 @@ class AuthMethods {
           res = "Server error";
         } else {
           res = response.body;
+          // TODO: add user state to local storage
         }
       } else {
-        res = "Please enter all the fields";
+        res = "Invaid Input!";
       }
     } catch (err) {
       return err.toString();

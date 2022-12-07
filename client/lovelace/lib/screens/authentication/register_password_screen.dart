@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:lovelace/widgets/text_field_input.dart';
-
-import 'package:lovelace/screens/landing/landing_screen.dart';
+import 'package:lovelace/screens/landing/home_screen.dart';
 import 'package:lovelace/resources/auth_methods.dart';
 
 class RegisterPasswordScreen extends StatefulWidget {
@@ -80,6 +79,7 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
                       hintText: "6 characters minimum",
                       textInputType: TextInputType.text,
                       textEditingController: _passwordController,
+                      validator: (value) {},
                     ),
                     const SizedBox(height: 16),
                     TextFieldInput(
@@ -88,6 +88,7 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
                       hintText: "Re-enter your password",
                       textInputType: TextInputType.text,
                       textEditingController: _password2Controller,
+                      validator: (value) {},
                     ),
                     const SizedBox(height: 128),
                     Flexible(
@@ -105,7 +106,7 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const LandingScreen()),
+                                builder: (context) => const HomeScreen()),
                           );
                           showDialog(
                             context: context,
