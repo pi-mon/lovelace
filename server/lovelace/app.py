@@ -5,12 +5,10 @@ import os, logging
 logger = logging.getLogger("werkzeug")
 logger.setLevel(logging.INFO)
 logger.addHandler(
-    logging.FileHandler(f"{os.getcwd()}\\server\\lovelace\\logs\\werkzeug.log")
+    logging.FileHandler(f"{os.path.pardir}\\server\\lovelace\\logs\\werkzeug.log")
 )
 stream_handler = logging.StreamHandler()
-stream_handler.setLevel(logging.INFO)
 logger.addHandler(stream_handler)
-
 from recommendation import recommendation_page
 from chat import chat_page
 

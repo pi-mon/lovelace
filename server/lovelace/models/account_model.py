@@ -1,11 +1,8 @@
-import argon2
-
-
 class User:
     def __init__(self, email, password):
-        self._id = email
         self.email = email
         self.password = password
+        self.username = ""
 
 
 class User_details:

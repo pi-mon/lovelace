@@ -33,7 +33,7 @@ def token_required(f):
             # decoding the payload to fetch the stored details
             account_collection = mongo.account
             data = jwt.decode(
-                token, environ.get("APPLICATION_SYMMETRIC_KEY"), algorithms="HS256"
+                token, environ.get("APPLICATION_SIGNATURE_KEY"), algorithms="HS256"
             )
             print(data)
             current_user = account_collection.user.find_one(data["username"])
@@ -45,15 +45,14 @@ def token_required(f):
     return decorated
 
 
-@account_page.route("/account/register", methods=["POST"])
+@account_page.route("/account/create", methods=["POST"])
 def create_account():
-    credentials = request.get_json()
-    new_email, new_password = credentials["email"], credentials["password"]
     ph = PasswordHasher()
     account_collection = mongo.account
     # new_username = request.form.get("username")
-    # new_password = request.form.get("password")
-    # new_email = request.form.get("email")
+    account_json = request.get_json()
+    new_email = account_json["email"]
+    new_password = account_json["password"]
     if not new_email or not new_password:  # check if empty input
         return jsonify({"creation": False, "response": "Invalid email or password"})
     else:
@@ -61,44 +60,46 @@ def create_account():
             new_password_hash = ph.hash(new_password)
             new_user = account_model.User(new_email, new_password_hash)
             new_user_json = new_user.__dict__
-            print(new_user_json)
-            # account_collection.user.create_index("email", unique=True)
+            account_collection.user.create_index("email", unique=True)
             account_collection.user.insert_one(new_user_json)
             return jsonify(
                 {"creation": True, "response": "Account was created successfully"}
             )
         except db_errors.DuplicateKeyError:
-            return jsonify(
-                {"creation": False, "response": "Account email already exist"}
-            )
+            return jsonify({"creation": False, "response": "Email already exist"})
 
 
 @account_page.route("/account/login", methods=["POST", "GET"])
 def login_account():
-    credentials = request.get_json()
-    email, password = credentials["email"], credentials["password"]
     ph = PasswordHasher()
+    account_json = request.get_json()
+    email = account_json["email"]
+    password = account_json["password"]
     if not email or not password:  # check if empty input
         account_collection = mongo.account
         return jsonify({"login": False, "response": "Invalid email or password"})
     account_collection = mongo.account
-    print(account_collection)
-    print(account_collection.user)
-    print(account_collection.user.find_one(email))
-    valid_login = ph.verify(
-        account_collection.user.find_one(email=email)["password"], password
-    )  # compares password hash
+    try:
+        valid_login = ph.verify(
+            account_collection.user.find_one({"email": email}, {"password": 1})[
+                "password"
+            ],
+            password,
+        )  # compares password hash
+    except TypeError:
+        if account_collection.user.find_one({"email": email}, {"password": 1}) == None:
+            return jsonify({"login": False, "response": "Invalid email or password"})
     if valid_login:
         token = jwt.encode(
             {"email": email, "exp": datetime.utcnow() + timedelta(minutes=30)},
-            environ.get("APPLICATION_SYMMETRIC_KEY"),
+            environ.get("APPLICATION_SIGNATURE_KEY"),
             algorithm="HS256",
         )
-        resp = make_response(
-            jsonify({"login": True, "response": "User login successful"})
+        # resp = make_response(jsonify({"login":True,"response":"User login successful"}))
+        # resp.set_cookie("token", token)
+        return jsonify(
+            {"login": True, "response": "User login successful", "token": token}
         )
-        resp.set_cookie("token", token)
-        return resp
 
 
 @account_page.route("/account/test")
