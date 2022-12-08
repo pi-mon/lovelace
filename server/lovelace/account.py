@@ -31,7 +31,7 @@ def token_required(f):
         try:
             # decoding the payload to fetch the stored details
             account_collection = mongo.account
-            data = jwt.decode(token,environ.get("APPLICATION_SYMMETRIC_KEY"),algorithms="HS256")
+            data = jwt.decode(token,environ.get("APPLICATION_SIGNATURE_KEY"),algorithms="HS256")
             print(data)
             current_user = account_collection.user.find_one(data["username"])
         except:
@@ -73,12 +73,12 @@ def login_account():
     account_collection = mongo.account
     return(jsonify({"login":False,"response":"Invalid email or password"}))
   account_collection = mongo.account
-  valid_login = ph.verify(account_collection.user.find_one(email=email)["password"],password) #compares password hash
+  valid_login = ph.verify(account_collection.user.find_one({"email":email})["password"],password) #compares password hash
   if valid_login:
     token = jwt.encode({
             'email': email,
             'exp' : datetime.utcnow() + timedelta(minutes = 30)
-        }, environ.get("APPLICATION_SYMMETRIC_KEY"),algorithm="HS256")
+        }, environ.get("APPLICATION_SIGNATURE_KEY"),algorithm="HS256")
     resp = make_response(jsonify({"login":True,"response":"User login successful"}))
     resp.set_cookie("token", token)
     return(resp)
