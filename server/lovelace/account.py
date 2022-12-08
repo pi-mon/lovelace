@@ -46,34 +46,35 @@ def token_required(f):
 def create_account():
   ph = PasswordHasher()
   account_collection = mongo.account
-  new_username = request.form.get("username")
+  #new_username = request.form.get("username")
   new_password = request.form.get("password")
   new_email = request.form.get("email")
-  if not new_username or not new_password: #check if empty input
-    return(jsonify({"creation":False,"response":"Invalid username or password"}))
+  if not new_email or not new_password: #check if empty input
+    return(jsonify({"creation":False,"response":"Invalid email or password"}))
   else:
     try:
       new_password_hash = ph.hash(new_password)
-      new_user = account_model.User(new_username,new_password_hash,new_email)
+      new_user = account_model.User(new_email,new_password_hash,new_email)
       new_user_json = new_user.__dict__
+      account_collection.user.create_index(new_user_json["email"],unique=True)
       account_collection.user.insert_one(new_user_json)
       return(jsonify({"creation":True,"response":"Account was created successfully"}))
     except db_errors.DuplicateKeyError:
-      return(jsonify({"creation":False,"response":"Account username already exist"}))
+      return(jsonify({"creation":False,"response":"Email already exist"}))
 
 @account_page.route("/account/login",methods=["POST","GET"])
 def login_account():
   ph = PasswordHasher()
-  username = request.form.get("username")
+  email = request.form.get("email")
   password = request.form.get("password")
-  if not username or not password: #check if empty input
+  if not email or not password: #check if empty input
     account_collection = mongo.account
-    return(jsonify({"login":False,"response":"Invalid username or password"}))
+    return(jsonify({"login":False,"response":"Invalid email or password"}))
   account_collection = mongo.account
-  valid_login = ph.verify(account_collection.user.find_one(username)["password"],password) #compares password hash
+  valid_login = ph.verify(account_collection.user.find_one(email=email)["password"],password) #compares password hash
   if valid_login:
     token = jwt.encode({
-            'username': username,
+            'email': email,
             'exp' : datetime.utcnow() + timedelta(minutes = 30)
         }, environ.get("APPLICATION_SYMMETRIC_KEY"),algorithm="HS256")
     resp = make_response(jsonify({"login":True,"response":"User login successful"}))
