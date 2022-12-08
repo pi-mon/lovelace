@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:lovelace/models/storage_item.dart';
 import 'package:lovelace/resources/auth_methods.dart';
 import 'package:lovelace/responsive/mobile_screen_layout.dart';
 import 'package:lovelace/responsive/responsive_layout.dart';
 import 'package:lovelace/responsive/web_screen_layout.dart';
 import 'package:lovelace/screens/authentication/register_email_screen.dart';
+import 'package:lovelace/services/storage_service.dart';
 import 'package:lovelace/utils/colors.dart';
-import 'package:lovelace/utils/utils.dart';
 import 'package:lovelace/widgets/text_field_input.dart';
-import 'package:email_validator/email_validator.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -21,6 +21,9 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _passwordController = TextEditingController();
   final _userPages = const ResponsiveLayout(mobileScreenLayout: MobileScreenLayout(), webScreenLayout: WebScreenLayout());
   final _formKey = GlobalKey<FormState>();
+  // final StorageService _storageService = StorageService();
+  // late List<StorageItem> _items;
+  // bool _isLoading = true;
 
   @override
   void dispose() {
@@ -29,14 +32,21 @@ class _LoginScreenState extends State<LoginScreen> {
     _passwordController.dispose();
   }
 
-  void validateEmail(String email) {
-    bool isValid = EmailValidator.validate(email);
-    print(isValid);
-  }
+  // void iniState() async {
+  //   super.initState();
+  //   initList();
+  // }
+
+  // void initList() async {
+  //   _items = await _storageService.readAllSecureData(); // use the readAll method to update the list with all data in secure storage
+  //   _isLoading = false;
+  //   setState(() {});
+  // }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
           child: Form(
             key: _formKey,            
@@ -65,7 +75,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                     'Login',
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
-                                        color: primaryColor, fontSize: 20),
+                                      color: primaryColor, fontSize: 20
+                                    ),
                                   )
                                 )
                               ),
@@ -78,7 +89,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         style: TextStyle(
                             color: primaryColor,
                             fontSize: 22,
-                            fontWeight: FontWeight.bold),
+                            fontWeight: FontWeight.bold
+                          ),
                       ),
                       Flexible(
                         flex: 1,
@@ -89,7 +101,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         hintText: "Enter your email",
                         textInputType: TextInputType.emailAddress,
                         textEditingController: _emailController,
-                        validator: (value) {validateEmail(value);},
+                        validator: (value) {},
                       ),
                       const SizedBox(height: 16),
                       TextFieldInput(
@@ -149,8 +161,17 @@ class _LoginScreenState extends State<LoginScreen> {
                                   const SnackBar(content: Text('Incorrect email or password!')),
                                 );
                               } 
-                            } 
-                          },
+
+                              showDialog( // display pop-up of login status
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    content: Text(res),
+                                  );
+                                },
+                              );
+                            }
+                          },                          
                           style: ElevatedButton.styleFrom(
                             minimumSize: const Size(150, 50),
                             backgroundColor: primaryColor,
