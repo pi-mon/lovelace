@@ -54,7 +54,7 @@ def create_account():
   else:
     try:
       new_password_hash = ph.hash(new_password)
-      new_user = account_model.User(new_email,new_password_hash,new_email)
+      new_user = account_model.User(new_password_hash,new_email)
       new_user_json = new_user.__dict__
       account_collection.user.create_index(new_user_json["email"],unique=True)
       account_collection.user.insert_one(new_user_json)
