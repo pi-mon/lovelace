@@ -51,6 +51,7 @@ def create_account():
   new_email = account_json["email"]
   new_password = account_json["password"]
   if not new_email or not new_password: #check if empty input
+    logger.info("%s Invalid email or password", request.remote_addr)
     return(jsonify({"creation":False,"response":"Invalid email or password"}))
   else:
     try:
@@ -59,8 +60,10 @@ def create_account():
       new_user_json = new_user.__dict__
       account_collection.user.create_index("email",unique=True)
       account_collection.user.insert_one(new_user_json)
+      logger.info("%s Created User using Email %s", request.remote_addr, new_email)
       return(jsonify({"creation":True,"response":"Account was created successfully"}))
     except db_errors.DuplicateKeyError:
+      logger.info("%s Tried to created a User using Email %s but Email already exist.", request.remote_addr, new_email)
       return(jsonify({"creation":False,"response":"Email already exist"}))
 
 @account_page.route("/account/login",methods=["POST","GET"])
@@ -71,6 +74,7 @@ def login_account():
   password = account_json["password"]
   if not email or not password: #check if empty input
     account_collection = mongo.account
+    logger.info("%s Failed to login using Email %s", request.remote_addr, email)
     return(jsonify({"login":False,"response":"Invalid email or password"}))
   account_collection = mongo.account
   valid_login = ph.verify(account_collection.user.find_one({"email":email},{"password":1})["password"],password) #compares password hash
@@ -81,6 +85,7 @@ def login_account():
         }, environ.get("APPLICATION_SIGNATURE_KEY"),algorithm="HS256")
     resp = make_response(jsonify({"login":True,"response":"User login successful"}))
     resp.set_cookie("token", token)
+    logger.info("%s Succesfully login using Email %s", request.remote_addr, email)
     return(resp)
     
 @account_page.route("/account/test")
