@@ -4,7 +4,7 @@ import os, logging
 
 logger = logging.getLogger('werkzeug')
 logger.setLevel(logging.INFO)
-logger.addHandler(logging.FileHandler(f'{os.getcwd()}\\server\\lovelace\\logs\\werkzeug.log'))
+logger.addHandler(logging.FileHandler(f'{os.path.pardir}\\server\\lovelace\\logs\\werkzeug.log'))
 from recommendation import recommendation_page
 from chat import chat_page
 
