@@ -47,16 +47,17 @@ def create_account():
   ph = PasswordHasher()
   account_collection = mongo.account
   #new_username = request.form.get("username")
-  new_password = request.form.get("password")
-  new_email = request.form.get("email")
+  account_json = request.get_json()
+  new_email = account_json["email"]
+  new_password = account_json["password"]
   if not new_email or not new_password: #check if empty input
     return(jsonify({"creation":False,"response":"Invalid email or password"}))
   else:
     try:
       new_password_hash = ph.hash(new_password)
-      new_user = account_model.User(new_password_hash,new_email)
+      new_user = account_model.User(new_email,new_password_hash)
       new_user_json = new_user.__dict__
-      account_collection.user.create_index(new_user_json["email"],unique=True)
+      account_collection.user.create_index("email",unique=True)
       account_collection.user.insert_one(new_user_json)
       return(jsonify({"creation":True,"response":"Account was created successfully"}))
     except db_errors.DuplicateKeyError:
@@ -65,8 +66,9 @@ def create_account():
 @account_page.route("/account/login",methods=["POST","GET"])
 def login_account():
   ph = PasswordHasher()
-  email = request.form.get("email")
-  password = request.form.get("password")
+  account_json = request.get_json()
+  email = account_json["email"]
+  password = account_json["password"]
   if not email or not password: #check if empty input
     account_collection = mongo.account
     return(jsonify({"login":False,"response":"Invalid email or password"}))
