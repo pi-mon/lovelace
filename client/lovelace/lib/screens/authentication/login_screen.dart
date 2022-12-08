@@ -61,67 +61,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.pop(context);
-                            },
-                            child: const Icon(
-                              Icons.arrow_back_ios,
-                              color: primaryColor,
-                            ),
-                          ),
-                          const Expanded(
-                              child: Padding(
-                                  padding: EdgeInsets.only(right: 32.0),
-                                  child: Text(
-                                    'Login',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      color: primaryColor, fontSize: 20
-                                    ),
-                                  )
-                                )
-                              ),
-                        ],
-                      ),
-                      const SizedBox(height: 16),
-                      const Text(
-                        'Enter email and password',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            color: primaryColor,
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold
-                          ),
-                      ),
-                      Flexible(
-                        flex: 1,
-                        child: Container(),
-                      ),
-                      TextFieldInput(
-                        label: "Email",
-                        hintText: "Enter your email",
-                        textInputType: TextInputType.emailAddress,
-                        textEditingController: _emailController,
-                        validator: (value) {},
-                      ),
-                      const SizedBox(height: 16),
-                      TextFieldInput(
-                        label: "Password",
-                        hintText: "Enter your password",
-                        textInputType: TextInputType.text,
-                        textEditingController: _passwordController,
-                        isPass: true, 
-                        validator: (value) {},                
-                      ),
-                      const SizedBox(height: 128),
-                      Flexible(
-                        flex: 1,                                          
-                        child: Container(),
-                      ),
                       GestureDetector(
                         onTap: () {
                           Navigator.pop(context);
@@ -160,9 +99,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     hintText: "Enter your email",
                     textInputType: TextInputType.emailAddress,
                     textEditingController: _emailController,
-                    validator: (value) {
-                      validateEmail(value);
-                    },
+                    validator: (value) {},
                   ),
                   const SizedBox(height: 16),
                   TextFieldInput(
@@ -215,48 +152,37 @@ class _LoginScreenState extends State<LoginScreen> {
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(content: Text('Log in success!')),
                             );
+                          } else {
+                            // ignore: use_build_context_synchronously
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content:
+                                      Text('Incorrect email or password!')),
+                            );
+                          }
 
-                            showDialog(
-                              context: context,
-                              builder: (context) {
-                                return AlertDialog(
-                                  content: Text(res),
-                                );
-                              }
-                              else {
-                                // ignore: use_build_context_synchronously
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(content: Text('Incorrect email or password!')),
-                                );
-                              } 
-
-                              showDialog( // display pop-up of login status
-                                context: context,
-                                builder: (context) {
-                                  return AlertDialog(
-                                    content: Text(res),
-                                  );
-                                },
+                          showDialog(
+                            // display pop-up of login status
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                content: Text(res),
                               );
-                            }
-                          },                          
-                          style: ElevatedButton.styleFrom(
-                            minimumSize: const Size(150, 50),
-                            backgroundColor: primaryColor,
-                          ),
-                          child: const Text("Login",
-                              style: TextStyle(
-                                  fontSize: 18,
-                                  color: whiteColor,
-                                  fontWeight: FontWeight.bold
-                                )
-                              )
-                            ),
-                    ]
-                  )
-                ),
-              )
-            ),
-          );
-        }
-      }
+                            },
+                          );
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(150, 50),
+                        backgroundColor: primaryColor,
+                      ),
+                      child: const Text("Login",
+                          style: TextStyle(
+                              fontSize: 18,
+                              color: whiteColor,
+                              fontWeight: FontWeight.bold))),
+                ])),
+      )),
+    );
+  }
+}
