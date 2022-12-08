@@ -30,16 +30,17 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
           child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 32),
               width: double.infinity,
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
+                  children: <Widget>[
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
+                      children: <Widget>[
                         GestureDetector(
                           onTap: () {
                             Navigator.pop(context);
@@ -57,7 +58,9 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       color: primaryColor, fontSize: 20),
-                                ))),
+                                )
+                              )
+                            ),
                       ],
                     ),
                     const SizedBox(height: 16),
@@ -99,14 +102,14 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
                     ElevatedButton(
                         onPressed: () async {
                           final String password = _passwordController.text;
-                          String res = await AuthMethods()
-                              .register(email: email, password: password);
+                          String res = await AuthMethods().register(email: email, password: password);
 
                           // ignore: use_build_context_synchronously
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const HomeScreen()),
+                                builder: (context) => const HomeScreen()
+                              ),
                           );
                           showDialog(
                             context: context,
@@ -126,7 +129,10 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
                                 fontSize: 18,
                                 color: whiteColor,
                                 fontWeight: FontWeight.bold))),
-                  ]))),
+                  ]
+                )
+              )
+            ),
     );
   }
 }

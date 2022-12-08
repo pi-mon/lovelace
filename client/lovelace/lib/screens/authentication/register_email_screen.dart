@@ -19,9 +19,23 @@ class _RegisterEmailScreenState extends State<RegisterEmailScreen> {
     _emailController.dispose();
   }
 
+  // void iniState() {
+  //   super.initState();
+  //   init();
+  // }
+
+  // Future init() async {
+  //   final email = await SecureStorage().getEmail() ?? '';
+
+  //   setState(() {
+  //     this._emailController.text = email;
+  //   });
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
           child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 32),
@@ -83,14 +97,16 @@ class _RegisterEmailScreenState extends State<RegisterEmailScreen> {
                     ),
                     const SizedBox(height: 16),
                     ElevatedButton(
-                        onPressed: () {
+                        onPressed: () async {
+                          // await SecureStorage().setEmail(_emailController.text); // set the registered emailin local DB
+                          // ignore: use_build_context_synchronously
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => RegisterPasswordScreen(
-                                      email: _emailController.text,
-                                    )
-                                  ),
+                              builder: (context) => RegisterPasswordScreen(
+                                email: _emailController.text,
+                              )
+                            ),
                           );
                         },
                         style: ElevatedButton.styleFrom(
@@ -112,3 +128,4 @@ class _RegisterEmailScreenState extends State<RegisterEmailScreen> {
     );
   }
 }
+
