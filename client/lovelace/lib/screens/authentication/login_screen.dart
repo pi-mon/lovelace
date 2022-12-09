@@ -8,6 +8,7 @@ import 'package:lovelace/screens/authentication/register_email_screen.dart';
 import 'package:lovelace/services/storage_service.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:lovelace/widgets/text_field_input.dart';
+import 'package:email_validator/email_validator.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -23,8 +24,8 @@ class _LoginScreenState extends State<LoginScreen> {
       webScreenLayout: WebScreenLayout());
   final _formKey = GlobalKey<FormState>();
   bool _isLoading = true;
-  // final StorageService _storageService = StorageService();
-  // late List<StorageItem> _items;
+  final StorageService _storageService = StorageService();
+  late List<StorageItem> _items;
 
   @override
   void dispose() {
@@ -33,16 +34,17 @@ class _LoginScreenState extends State<LoginScreen> {
     _passwordController.dispose();
   }
 
-  // void iniState() async {
-  //   super.initState();
-  //   initList();
-  // }
+  void iniState() async {
+    super.initState();
+    initList();
+  }
 
-  // void initList() async {
-  //   _items = await _storageService.readAllSecureData(); // use the readAll method to update the list with all data in secure storage
-  //   _isLoading = false;
-  //   setState(() {});
-  // }
+  void initList() async {
+    // use the readAll method to update the list with all data in secure storage
+    _items = await _storageService.readAllSecureData(); 
+    _isLoading = false;
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -154,33 +156,36 @@ class _LoginScreenState extends State<LoginScreen> {
                       if (_formKey.currentState!.validate()) {
                         final String email = _emailController.text;
                         final String password = _passwordController.text;
-                        String res = await AuthMethods().login(email: email, password: password);
-
+                        String res = await AuthMethods().login(email: email, password: password); // what AuthMethods.login() returns
+                                                
                         if (res.isNotEmpty) {
-                          debugPrint(res);  
-                          // TODO: STORE TOKEN AND LOGIN CREDENTIALS INSIDE SECURE_STORAGE
-                          // StorageService().writeSecureData(StorageItem("JWT TOKEN", res));
-
+                          // TODO: READ DATA IN SECURE_STORAGE AND RETURN AS POP UP
+                          // ignore: use_build_context_synchronously
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(res), // To become login successs message
+                              backgroundColor: success,
+                            )
+                          );
+                          // ignore: use_build_context_synchronously
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => _userPages
+                            )
+                          );
+                        }
+                        else {
                           showDialog(
                             // display pop-up of login status
                             context: context,
                             builder: (context) {
                               return AlertDialog(
-                                content:
-                                  SingleChildScrollView(child: Text(res)),
+                                content: Text(res),
                               );
                             },
                           );
                         }
-                        showDialog(
-                          // display pop-up of login status
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              content: Text(res),
-                            );
-                          },
-                        );
                       }
                     },
                   ),

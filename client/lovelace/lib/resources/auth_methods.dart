@@ -3,12 +3,14 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
+import 'package:lovelace/models/storage_item.dart';
 import 'package:lovelace/models/user.dart';
+import 'package:lovelace/services/storage_service.dart';
 
 var logger = Logger();
 
 class AuthMethods {
-  final String _baseUrl = '127.0.0.1:3000';
+  final String _baseUrl = '10.0.2.2:3000';
   Future<String> register({
     required String email,
     required String password,
@@ -26,6 +28,14 @@ class AuthMethods {
             },
             body: userJson);
         output = res.body;
+        dynamic outputJson = jsonDecode(output);
+        if (outputJson['register'] == true) {
+          String token = outputJson['token'];
+          // STORE USER REGISTER CREDENTAILS IN SECURE_STORAGE
+          StorageService().writeSecureData(StorageItem(token, userJson.toString()));
+          debugPrint("Register data written to SECURE_STORAGE");
+          return token;                    
+        }
       } catch (err) {
         return err.toString();
       }
@@ -56,9 +66,11 @@ class AuthMethods {
         dynamic outputJson = jsonDecode(output);
         if (outputJson['login'] == true) {
           String token = outputJson['token'];
-          return token;
+          // STORE USER LOGIN CREDENTAILS IN SECURE_STORAGE
+          StorageService().writeSecureData(StorageItem(token, userJson.toString()));
+          debugPrint("Login data written to SECURE_STORAGE");
+          return token;                    
         }
-        // res = response.headers['cookies']!;
         // TODO: add user state to local storage
       } catch (err) {
         return err.toString();

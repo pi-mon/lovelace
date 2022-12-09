@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:http/http.dart';
 import 'package:lovelace/models/storage_item.dart';
 
 // contains the methods used for CRUD functions from secured storage
@@ -18,9 +21,9 @@ class StorageService {
   }
 
   Future<String?> readSecureData(String key) async {
-    debugPrint("Reading data having the key $key");
+    debugPrint("Reading data with key $key");
     var readData = await _secureStorage.read(key: key, aOptions: _getAndroidOptions());
-    return readData;
+    return jsonEncode(readData);
   }
 
   Future<void> deleteSecureData(StorageItem item) async {
