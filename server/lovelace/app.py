@@ -4,7 +4,9 @@ import os, logging
 
 logger = logging.getLogger('werkzeug')
 logger.setLevel(logging.INFO)
-logger.addHandler(logging.FileHandler(f'{os.path.pardir}\\server\\lovelace\\logs\\werkzeug.log'))
+if not os.path.exists(f"{os.path.pardir}\\lovelace\\server\\lovelace\\logs"):
+    os.makedirs(f"{os.path.pardir}\\lovelace\\server\\lovelace\\logs")
+logger.addHandler(logging.FileHandler(f'{os.path.pardir}\\lovelace\\server\\lovelace\\logs\\werkzeug.log'))
 stream_handler = logging.StreamHandler()
 logger.addHandler(stream_handler)
 from recommendation import recommendation_page
