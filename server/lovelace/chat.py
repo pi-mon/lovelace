@@ -1,15 +1,14 @@
 from flask import Blueprint, jsonify, request
 from db import mongo
-from log import setup_custom_logger
+from logger import setup_logger
 
-logger = setup_custom_logger(__name__)
+logger = setup_logger(__name__)
+chat_page = Blueprint("chat_page", __name__, template_folder="templates")
 
-chat_page = Blueprint('chat_page', __name__,
-                        template_folder='templates')
 
 @chat_page.route("/chat/<user>")
 def chat(user):
-  target_user = user
-  #current_user = "user" #jwt token
-  logger.info('%s Accessed chat with User %s', request.remote_addr, str(user))
-  return("talking to "+user)
+    target_user = user
+    # current_user = "user" #jwt token
+    logger.info("%s Accessed chat with User %s", request.remote_addr, str(user))
+    return "talking to " + user
