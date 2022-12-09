@@ -21,5 +21,4 @@ def setup_logger(name):
     stream_handler = logging.StreamHandler()
     logger.addHandler(stream_handler)
     logger.addHandler(file_handler)
-    logger.addHandler(stream_handler)
     return logger
