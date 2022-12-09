@@ -8,6 +8,7 @@ from datetime import datetime, timedelta
 from os import environ
 from lovelace.logger import setup_logger
 from lovelace.account.utils import token_required
+from argon2 import exceptions as argon2_exceptions
 
 logger = setup_logger(__name__)
 account_page = Blueprint("account_page", __name__, template_folder="templates")
@@ -34,6 +35,9 @@ def create_account():
             )
         except db_errors.DuplicateKeyError:
             return jsonify({"creation": False, "response": "Email already exist"})
+
+        except argon2_exceptions.VerifyMismatchError:
+            return jsonify({"login":False, "response":"Invalid email or password"})
 
 
 @account_page.route("/account/login", methods=["POST", "GET"])
