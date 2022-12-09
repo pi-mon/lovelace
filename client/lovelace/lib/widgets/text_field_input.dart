@@ -15,7 +15,7 @@ class TextFieldInput extends StatelessWidget {
       required this.label,
       required this.hintText,
       this.error = "",
-      required this.textInputType});
+      required this.textInputType, required String? Function(dynamic value) validator});
 
   @override
   Widget build(BuildContext context) {
@@ -23,9 +23,8 @@ class TextFieldInput extends StatelessWidget {
       borderSide: Divider.createBorderSide(context, color: borderColor),
     );
     return Column(
-      children: [
-        Row(
-          children: [
+      children: <Widget>[
+        Row(children: <Widget>[
             Text(
               label,
               // ignore: prefer_const_constructors
@@ -37,7 +36,7 @@ class TextFieldInput extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 8),
-        TextField(
+        TextFormField(
           controller: textEditingController,
           decoration: InputDecoration(
             hintText: hintText,
@@ -49,10 +48,15 @@ class TextFieldInput extends StatelessWidget {
           ),
           keyboardType: textInputType,
           obscureText: isPass,
+          validator: (value) { // validate user input          
+            if (value == null || value.isEmpty) {
+              return "Invalid Input!"; // return error message
+            }             
+            return null; 
+          },
         ),
         const SizedBox(height: 8),
-        Row(
-          children: [
+        Row(children: <Widget>[
             Text(
               error,
               style: TextStyle(

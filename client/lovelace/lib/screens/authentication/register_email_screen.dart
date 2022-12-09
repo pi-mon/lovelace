@@ -19,19 +19,33 @@ class _RegisterEmailScreenState extends State<RegisterEmailScreen> {
     _emailController.dispose();
   }
 
+  // void iniState() {
+  //   super.initState();
+  //   init();
+  // }
+
+  // Future init() async {
+  //   final email = await SecureStorage().getEmail() ?? '';
+
+  //   setState(() {
+  //     this._emailController.text = email;
+  //   });
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
           child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 32),
               width: double.infinity,
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
+                  children: <Widget>[
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
+                      children: <Widget>[
                         GestureDetector(
                           onTap: () {
                             Navigator.pop(context);
@@ -48,8 +62,11 @@ class _RegisterEmailScreenState extends State<RegisterEmailScreen> {
                                   'Register',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
-                                      color: primaryColor, fontSize: 20),
-                                ))),
+                                    color: primaryColor, fontSize: 20
+                                  ),
+                                )
+                              )
+                            ),
                       ],
                     ),
                     const SizedBox(height: 16),
@@ -59,7 +76,8 @@ class _RegisterEmailScreenState extends State<RegisterEmailScreen> {
                       style: TextStyle(
                           color: primaryColor,
                           fontSize: 22,
-                          fontWeight: FontWeight.bold),
+                          fontWeight: FontWeight.bold
+                        ),
                     ),
                     Flexible(
                       flex: 1,
@@ -70,21 +88,25 @@ class _RegisterEmailScreenState extends State<RegisterEmailScreen> {
                       hintText: "Enter your email",
                       textInputType: TextInputType.emailAddress,
                       textEditingController: _emailController,
+                      validator: (value) {},
                     ),
-                    const SizedBox(height: 256),
+                    const SizedBox(height: 128),
                     Flexible(
                       flex: 1,
                       child: Container(),
                     ),
                     const SizedBox(height: 16),
                     ElevatedButton(
-                        onPressed: () {
+                        onPressed: () async {
+                          // await SecureStorage().setEmail(_emailController.text); // set the registered emailin local DB
+                          // ignore: use_build_context_synchronously
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => RegisterPasswordScreen(
-                                      email: _emailController.text,
-                                    )),
+                              builder: (context) => RegisterPasswordScreen(
+                                email: _emailController.text,
+                              )
+                            ),
                           );
                         },
                         style: ElevatedButton.styleFrom(
@@ -95,8 +117,15 @@ class _RegisterEmailScreenState extends State<RegisterEmailScreen> {
                             style: TextStyle(
                                 fontSize: 18,
                                 color: whiteColor,
-                                fontWeight: FontWeight.bold))),
-                  ]))),
+                                fontWeight: FontWeight.bold
+                              )
+                            )
+                          ),
+                  ]
+                )
+              )
+            ),
     );
   }
 }
+

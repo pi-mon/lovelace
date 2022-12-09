@@ -1,13 +1,8 @@
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:lovelace/widgets/text_field_input.dart';
-
-import 'package:lovelace/models/user.dart';
-import 'package:lovelace/screens/landing/landing_screen.dart';
-import 'package:http/http.dart' as http;
+import 'package:lovelace/screens/landing/home_screen.dart';
+import 'package:lovelace/resources/auth_methods.dart';
 
 class RegisterPasswordScreen extends StatefulWidget {
   final String email;
@@ -35,16 +30,17 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
           child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 32),
               width: double.infinity,
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
+                  children: <Widget>[
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
+                      children: <Widget>[
                         GestureDetector(
                           onTap: () {
                             Navigator.pop(context);
@@ -62,7 +58,9 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       color: primaryColor, fontSize: 20),
-                                ))),
+                                )
+                              )
+                            ),
                       ],
                     ),
                     const SizedBox(height: 16),
@@ -84,6 +82,7 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
                       hintText: "6 characters minimum",
                       textInputType: TextInputType.text,
                       textEditingController: _passwordController,
+                      validator: (value) {},
                     ),
                     const SizedBox(height: 16),
                     TextFieldInput(
@@ -92,8 +91,9 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
                       hintText: "Re-enter your password",
                       textInputType: TextInputType.text,
                       textEditingController: _password2Controller,
+                      validator: (value) {},
                     ),
-                    const SizedBox(height: 256),
+                    const SizedBox(height: 128),
                     Flexible(
                       flex: 1,
                       child: Container(),
@@ -102,32 +102,14 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
                     ElevatedButton(
                         onPressed: () async {
                           final String password = _passwordController.text;
-                          User user = User(email, password);
-                          String json = jsonEncode(user);
-                          String res = "Some error occured";
-
-                          try {
-                            var response = await http.post(
-                                Uri.http("127.0.0.1:5000"),
-                                headers: {
-                                  HttpHeaders.contentTypeHeader:
-                                      'application/json; charset=UTF-8'
-                                },
-                                body: json);
-                            if (response.statusCode != 200) {
-                              res = "Server error";
-                            } else {
-                              res = response.body;
-                            }
-                          } catch (err) {
-                            res = err.toString();
-                          }
+                          String res = await AuthMethods().register(email: email, password: password);
 
                           // ignore: use_build_context_synchronously
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const LandingScreen()),
+                                builder: (context) => const HomeScreen()
+                              ),
                           );
                           showDialog(
                             context: context,
@@ -147,7 +129,10 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
                                 fontSize: 18,
                                 color: whiteColor,
                                 fontWeight: FontWeight.bold))),
-                  ]))),
+                  ]
+                )
+              )
+            ),
     );
   }
 }
