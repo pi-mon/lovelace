@@ -47,7 +47,7 @@ class _GuestLandingScreenState extends State<GuestLandingScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: const [
                           Text(
-                            "Sign In >",
+                            "Sign In >", 
                             style: TextStyle(color: primaryColor, fontSize: 20),
                           ),
                         ],

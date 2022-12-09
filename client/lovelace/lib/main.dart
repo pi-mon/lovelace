@@ -3,6 +3,7 @@ import 'package:lovelace/screens/authentication/login_screen.dart';
 import 'package:lovelace/screens/landing/guest_landing_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:flutter/services.dart';
+import 'package:logging/logging.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
