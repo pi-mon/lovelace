@@ -3,14 +3,14 @@ from flask import Flask, jsonify, request
 app = Flask(__name__)
 
 
-@app.route("/register", methods=["POST"])
+@app.route("/account/create", methods=["POST"])
 def register():
     content = request.json
     print(content)
     return jsonify(content)
 
 
-@app.route("/login", methods=["POST"])
+@app.route("/account/login", methods=["POST"])
 def login():
     content = request.json
     print(content)

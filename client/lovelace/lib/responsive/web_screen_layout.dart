@@ -38,7 +38,7 @@ class _WebScreenLayoutState extends State<WebScreenLayout> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.purple,
+        backgroundColor: primaryColor,
         automaticallyImplyLeading: false, // hides the back arrow
         title: Image.asset('assets/images/logo-square.png',
             height: 45.0, width: 45.0),

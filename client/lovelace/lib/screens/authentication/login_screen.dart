@@ -23,9 +23,9 @@ class _LoginScreenState extends State<LoginScreen> {
       mobileScreenLayout: MobileScreenLayout(),
       webScreenLayout: WebScreenLayout());
   final _formKey = GlobalKey<FormState>();
+  bool _isLoading = true;
   // final StorageService _storageService = StorageService();
   // late List<StorageItem> _items;
-  // bool _isLoading = true;
 
   @override
   void dispose() {
@@ -50,7 +50,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SafeArea(
-          child: Form(
+        child: Form(
         key: _formKey,
         child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 32),
@@ -77,8 +77,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                 'Login',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                    color: primaryColor, fontSize: 20),
-                              ))),
+                                    color: primaryColor, fontSize: 20
+                                  ),
+                              )
+                            )
+                          ),
                     ],
                   ),
                   const SizedBox(height: 16),
@@ -88,7 +91,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     style: TextStyle(
                         color: primaryColor,
                         fontSize: 22,
-                        fontWeight: FontWeight.bold),
+                        fontWeight: FontWeight.bold
+                      ),
                   ),
                   Flexible(
                     flex: 1,
@@ -117,6 +121,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   GestureDetector(
                     onTap: () {
+                      FocusManager.instance.primaryFocus?.unfocus(); // closes keyboard on login
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) {
                         return const RegisterEmailScreen();
@@ -134,55 +139,66 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   const SizedBox(height: 16),
                   ElevatedButton(
-                      onPressed: () async {
-                        if (_formKey.currentState!.validate()) {
-                          final String email = _emailController.text;
-                          final String password = _passwordController.text;
-                          String res = await AuthMethods()
-                              .login(email: email, password: password);
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: const Size(150, 50),
+                      backgroundColor: primaryColor,
+                    ),
+                    child: const Text("Login",
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: whiteColor,
+                          fontWeight: FontWeight.bold
+                          )
+                        ),
+                    onPressed: () async {                
+                      // debugPrint("Test");
+                      if (_formKey.currentState!.validate()) {
+                        final String email = _emailController.text;
+                        final String password = _passwordController.text;
+                        String res = await AuthMethods().login(email: email, password: password);
 
-                          if (res.isNotEmpty) {
-                            // ignore: use_build_context_synchronously
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => _userPages),
-                            );
-                            // ignore: use_build_context_synchronously
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text('Log in success!')),
-                            );
-                          } else {
-                            // ignore: use_build_context_synchronously
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                  content:
-                                      Text('Incorrect email or password!')),
-                            );
-                          }
+                        if (res.isNotEmpty) {
+                          debugPrint(res);  
+                          // TODO: STORE TOKEN AND LOGIN CREDENTIALS INSIDE SECURE_STORAGE
+                          // StorageService().writeSecureData(StorageItem("JWT TOKEN", res));
 
-                          showDialog(
-                            // display pop-up of login status
-                            context: context,
-                            builder: (context) {
-                              return AlertDialog(
-                                content: Text(res),
-                              );
-                            },
+                          // ignore: use_build_context_synchronously
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => _userPages
+                            ),
+                          );
+                          // ignore: use_build_context_synchronously
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Log in success!')),
+                          );
+                        } else {
+                          // ignore: use_build_context_synchronously
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content:
+                                    Text('Incorrect email or password!')
+                                  ),
                           );
                         }
-                      },
-                      style: ElevatedButton.styleFrom(
-                        minimumSize: const Size(150, 50),
-                        backgroundColor: primaryColor,
-                      ),
-                      child: const Text("Login",
-                          style: TextStyle(
-                              fontSize: 18,
-                              color: whiteColor,
-                              fontWeight: FontWeight.bold))),
-                ])),
-      )),
+                        showDialog(
+                          // display pop-up of login status
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              content: Text(res),
+                            );
+                          },
+                        );
+                      }
+                    },
+                  ),
+                ]
+              )
+            ),
+        )        
+      ),    
     );
   }
 }

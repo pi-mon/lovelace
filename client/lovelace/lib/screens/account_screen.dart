@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lovelace/services/storage_service.dart';
 import 'package:lovelace/utils/colors.dart';
 
 class AccountScreen extends StatelessWidget {
@@ -7,7 +8,8 @@ class AccountScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
+      resizeToAvoidBottomInset: false,
+      body: SafeArea(        
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,

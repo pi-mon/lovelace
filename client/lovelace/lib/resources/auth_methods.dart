@@ -1,11 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:http/http.dart' as http;
 import 'package:lovelace/models/user.dart';
 
 class AuthMethods {
-  final String _baseUrl = '127.0.0.1:5000';
+  final String _baseUrl = '10.0.2.2:5000';
   Future<String> register({
     required String email,
     required String password,
@@ -17,7 +16,7 @@ class AuthMethods {
     try {
       if (email.isNotEmpty || password.isNotEmpty) {
         http.Response response = await http.post(
-            Uri.http(_baseUrl, '/account/register'),
+            Uri.http(_baseUrl, '/account/create'),
             headers: {
               HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8'
             },
@@ -46,6 +45,7 @@ class AuthMethods {
 
     try {
       if (email.isNotEmpty || password.isNotEmpty) {
+        //
         http.Response response = await http.post(
             Uri.http(_baseUrl, '/account/login'),
             headers: {
@@ -54,13 +54,11 @@ class AuthMethods {
             body: userJson);
         if (response.statusCode != 200) {
           res = "Server error";
-        } else {
+        } else {          
           res = response.body;
-          // res = response.headers['cookies']!;
-          // TODO: add user state to local storage
         }
       } else {
-        res = "Invaid Input!";
+        res = "Please enter all the fields";
       }
     } catch (err) {
       return err.toString();

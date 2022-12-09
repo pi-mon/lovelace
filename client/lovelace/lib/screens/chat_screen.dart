@@ -10,8 +10,13 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text('Chat Screen!'),
+    return const Scaffold(
+      resizeToAvoidBottomInset: false,
+      body: SafeArea(
+        child: Center(
+          child: Text('Chat screen!')
+        ),
+      )
     );
   }
 }
