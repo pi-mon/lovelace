@@ -1,46 +1,16 @@
 from flask import Blueprint, jsonify, request, make_response
-from db import mongo
+from lovelace.db import mongo
 from pymongo import errors as db_errors
 from argon2 import PasswordHasher
-from models import account_model
-from functools import wraps
+from lovelace.models import account_model
 import jwt
 from datetime import datetime, timedelta
 from os import environ
-from logger import setup_logger
-
+from lovelace.logger import setup_logger
+from lovelace.account.utils import token_required
 
 logger = setup_logger(__name__)
-
 account_page = Blueprint("account_page", __name__, template_folder="templates")
-
-
-def token_required(f):
-    @wraps(f)
-    def decorated(*args, **kwargs):
-        token = None
-        # jwt is passed in the form of a cookie
-        if request.cookies.get("token") != False:
-            token = request.cookies.get("token")
-        # return 401 if token is not passed
-        if not token:
-            return jsonify({"message": "Token is missing !!"}), 401
-
-        try:
-            # decoding the payload to fetch the stored details
-            account_collection = mongo.account
-            data = jwt.decode(
-                token, environ.get("APPLICATION_SIGNATURE_KEY"), algorithms="HS256"
-            )
-            print(data)
-            current_user = account_collection.user.find_one(data["username"])
-        except:
-            return jsonify({"message": "Token is invalid !!"}), 401
-        # returns the current logged in users contex to the routes
-        return f(current_user, *args, **kwargs)
-
-    return decorated
-
 
 @account_page.route("/account/create", methods=["POST"])
 def create_account():

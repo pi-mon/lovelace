@@ -7,7 +7,6 @@ LOG_DIR = os.path.join(Path(__file__).parent.parent, "logs")
 if not os.path.isdir(LOG_DIR):
     os.mkdir(LOG_DIR)
 
-
 def setup_logger(name):
     logger = logging.getLogger(name)
     logger.setLevel(logging.INFO)
