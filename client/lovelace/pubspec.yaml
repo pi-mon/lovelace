@@ -39,10 +39,15 @@ dependencies:
   flutter_secure_storage: ^6.1.0
   http: ^0.13.5
   email_validator: ^2.1.17  
+  logging: ^1.1.0
+  logger: ^1.1.0
+  device_info_plus: ^8.0.0
+  
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

@@ -11,7 +11,6 @@ import 'package:lovelace/widgets/text_field_input.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
-
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }
@@ -162,24 +161,15 @@ class _LoginScreenState extends State<LoginScreen> {
                           // TODO: STORE TOKEN AND LOGIN CREDENTIALS INSIDE SECURE_STORAGE
                           // StorageService().writeSecureData(StorageItem("JWT TOKEN", res));
 
-                          // ignore: use_build_context_synchronously
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => _userPages
-                            ),
-                          );
-                          // ignore: use_build_context_synchronously
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Log in success!')),
-                          );
-                        } else {
-                          // ignore: use_build_context_synchronously
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
+                          showDialog(
+                            // display pop-up of login status
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
                                 content:
-                                    Text('Incorrect email or password!')
-                                  ),
+                                  SingleChildScrollView(child: Text(res)),
+                              );
+                            },
                           );
                         }
                         showDialog(

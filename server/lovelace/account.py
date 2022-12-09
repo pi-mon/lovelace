@@ -6,14 +6,11 @@ from models import account_model
 from functools import wraps
 import jwt
 from datetime import datetime, timedelta
-from dotenv import load_dotenv
 from os import environ
-from log import setup_custom_logger
-
-load_dotenv()
+from logger import setup_logger
 
 
-logger = setup_custom_logger(__name__)
+logger = setup_logger(__name__)
 
 account_page = Blueprint("account_page", __name__, template_folder="templates")
 
@@ -69,7 +66,7 @@ def create_account():
             return jsonify({"creation": False, "response": "Email already exist"})
 
 
-@account_page.route("/account/login", methods=["POST", "GET"])
+@account_page.route("/account/login", methods=["POST"])
 def login_account():
     ph = PasswordHasher()
     account_json = request.get_json()
