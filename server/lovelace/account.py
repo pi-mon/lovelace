@@ -6,11 +6,8 @@ from lovelace.models import account_model
 from functools import wraps
 import jwt
 from datetime import datetime, timedelta
-from dotenv import load_dotenv
 from os import environ
 from logger import setup_logger
-
-load_dotenv()
 
 
 logger = setup_logger(__name__)
