@@ -8,12 +8,12 @@ import jwt
 from datetime import datetime, timedelta
 from dotenv import load_dotenv
 from os import environ
-from log import setup_custom_logger
+from logger import setup_logger
 
 load_dotenv()
 
 
-logger = setup_custom_logger(__name__)
+logger = setup_logger(__name__)
 
 account_page = Blueprint("account_page", __name__, template_folder="templates")
 
