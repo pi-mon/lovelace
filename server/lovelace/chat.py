@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
 from db import mongo
-from lovelace.logger import setup_logger
+from logger import setup_logger
 
 logger = setup_logger(__name__)
 chat_page = Blueprint("chat_page", __name__, template_folder="templates")

@@ -2,7 +2,7 @@ from flask import Blueprint, jsonify, request, make_response
 from db import mongo
 from pymongo import errors as db_errors
 from argon2 import PasswordHasher
-from lovelace.models import account_model
+from models import account_model
 from functools import wraps
 import jwt
 from datetime import datetime, timedelta
