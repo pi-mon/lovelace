@@ -50,7 +50,7 @@ class AuthMethods {
     try {
       if (email.isNotEmpty || password.isNotEmpty) {
         http.Response response = await http.post(
-            Uri.http(_baseUrl, '/account/login!'),
+            Uri.http(_baseUrl, '/account/login'),
             headers: {
               HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8'
             },
