@@ -165,7 +165,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             context: context,
                             builder: (context) {
                               return AlertDialog(
-                                content: Text(res),
+                                content:
+                                    SingleChildScrollView(child: Text(res)),
                               );
                             },
                           );

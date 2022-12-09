@@ -1,5 +1,5 @@
 # init a base image (python 3.11)
-FROM python:3.11
+FROM python:3.11.1-slim-bullseye
 
 # update pip
 RUN pip install --upgrade pip

@@ -66,7 +66,7 @@ def create_account():
             return jsonify({"creation": False, "response": "Email already exist"})
 
 
-@account_page.route("/account/login", methods=["POST", "GET"])
+@account_page.route("/account/login", methods=["POST"])
 def login_account():
     ph = PasswordHasher()
     account_json = request.get_json()
