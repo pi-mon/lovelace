@@ -53,6 +53,11 @@ class AuthMethods {
             },
             body: userJson);
         output = response.body;
+        dynamic outputJson = jsonDecode(output);
+        if (outputJson['login'] == true) {
+          String token = outputJson['token'];
+          return token;
+        }
         // res = response.headers['cookies']!;
         // TODO: add user state to local storage
       } catch (err) {
