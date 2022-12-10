@@ -5,7 +5,7 @@ class User:
         self.username = ""
 
 
-class User_details:
+class UserDetails:
     def __init__(self, id, age, location):
         self.id = id
         self.age = age
