@@ -1,26 +1,21 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:flutter/material.dart';
 
 class SecureStorage {
-  // Create storage
-  final storage = const FlutterSecureStorage();
+  static const _storage = FlutterSecureStorage(
+    aOptions: AndroidOptions(encryptedSharedPreferences: true),
+    // iOptions: IOSOptions(accessibility: IOSAccessibility.first_unlock)
+  );
 
-  final String _keyEmail = 'email';
-  final String _keyPassword = 'password';
-
-  Future setEmail(String email) async {
-    await storage.write(key: _keyEmail, value: email);
+  static const _key = 'token';
+  
+  static Future setToken(String token) async {    
+    debugPrint(token);
+    await _storage.write(key: _key, value: token);
   }
 
-  Future<String?> getEmail() async {
-    return await storage.read(key: _keyEmail);
-  }
-
-  Future setPassword(String password) async {
-    await storage.write(key: _keyPassword, value: password);
-  }
-
-  Future<String?> getPassword() async {
-    return await storage.read(key: _keyPassword);
+  static Future<String?> getToken() async {
+    debugPrint("Getting token from secure storage");
+    await _storage.read(key: _key);
   }
 }
-

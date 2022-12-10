@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:lovelace/screens/landing/guest_landing_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:flutter/services.dart';
-import 'package:logging/logging.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
@@ -14,7 +14,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({Key? key}) : super(key: key);  
 
   @override
   Widget build(BuildContext context) {
@@ -26,8 +26,7 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: whiteColor,
         primaryColor: primaryColor,
       ),
-      home: const GuestLandingScreen(),
-      // home: ResponsiveLayout(mobileScreenLayout: , webScreenLayout: ,)
+      home: const GuestLandingScreen()
     );
   }
 }

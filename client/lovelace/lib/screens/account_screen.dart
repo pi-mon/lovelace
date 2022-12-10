@@ -1,93 +1,128 @@
 import 'package:flutter/material.dart';
-import 'package:lovelace/services/storage_service.dart';
+import 'package:lovelace/resources/storage_methods.dart';
 import 'package:lovelace/utils/colors.dart';
 
-class AccountScreen extends StatelessWidget {
+class AccountScreen extends StatefulWidget {
   const AccountScreen({super.key});
-  
+
   @override
+  State<AccountScreen> createState() => _AccountScreenState();
+}
+
+class _AccountScreenState extends State<AccountScreen> {
+  @override
+
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: SafeArea(        
-        child: Center(
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-              Expanded(
-                child: Container(
-                  padding: const EdgeInsets.all(20.0),
-                  // color: Colors.pink,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          const Expanded(
-                            flex: 3,
-                            child: Icon(Icons.person, size: 60,)
-                          ),
-                          Expanded(
-                            flex: 3,
-                            child: Center(
-                              child: Column(
-                                children: <Widget>[
-                                  Row(children: const <Widget>[
-                                      Text('Name', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                                    ],                                  
-                                  ),
-                                  Row(children: const <Widget>[
-                                      Icon(Icons.location_city),
-                                      SizedBox(width: 10),
-                                      Text('Singapore')
-                                    ],
-                                  )
-                                ],
-                              ),
-                            )                            
-                          )
-                        ],
-                      ),
+              Column(
+                children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const <Widget>[
+                      Icon(Icons.person, size: 60)
+                    ]
+                  ),
+                  const SizedBox(height: 15),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const <Widget>[
+                      Text('Name', style: TextStyle(fontSize: 25, color: blackColor, fontWeight: FontWeight.bold)),
                     ],
-                  )
-                ),
-              ),
-              Expanded(
-                child: Container(
-                  padding: const EdgeInsets.all(20.0),
-                  // color: Colors.amber,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: <Widget>[
-                          ElevatedButton(
-                            onPressed: () => {},
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: primaryColor
-                            ),
-                            child: const Text('Logout', style: TextStyle(fontSize: 20))                      
-                          ),
-                          ElevatedButton(
-                            onPressed: () => {},
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: primaryColor
-                            ),
-                            child: const Text('Settings', style: TextStyle(fontSize: 20))
-                          )
-                        ],
-                      ),
+                  ),
+                  const SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const <Widget>[
+                      Text('Location', style: TextStyle(fontSize: 17, color: placeholderColor, fontWeight: FontWeight.bold)),
                     ],
-                  )
-                ),
+                  ),
+                ],
               ),
-            ],
+              
+              Column(
+                children: <Widget>[
+                  ElevatedButton(
+                    onPressed: () {}, 
+                    style: ElevatedButton.styleFrom(backgroundColor: primaryColor),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const <Widget>[
+                        Icon(Icons.person),
+                        SizedBox(width: 10),
+                        Text('Token', style: TextStyle(fontSize: 17))
+                      ],
+                    )
+                  ),
+                  const SizedBox(height: 5),
+                  ElevatedButton(
+                    onPressed: () {}, 
+                    style: ElevatedButton.styleFrom(backgroundColor: primaryColor),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const <Widget>[
+                        Icon(Icons.person),
+                        SizedBox(width: 10),
+                        Text('Button 2', style: TextStyle(fontSize: 17))
+                      ],
+                    )
+                  ),
+                  const SizedBox(height: 5),
+                  ElevatedButton(
+                    onPressed: () {}, 
+                    style: ElevatedButton.styleFrom(backgroundColor: primaryColor),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const <Widget>[
+                        Icon(Icons.person),
+                        SizedBox(width: 10),
+                        Text('Button 3', style: TextStyle(fontSize: 17))
+                      ],
+                    )
+                  ),
+                ],
+              ),
+
+              Container(
+                height: 50,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: const <Widget>[
+                    Text('My Profile'),
+                    Icon(Icons.arrow_right, color: placeholderColor)
+                  ],
+                )
+              ),
+              Container(
+                height: 50,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: const <Widget>[
+                    Text('My Ideal Person'),
+                    Icon(Icons.arrow_right, color: placeholderColor)
+                  ],
+                )
+              ),
+              Container(
+                height: 50,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: const <Widget>[
+                    Text('Account Settings'),
+                    Icon(Icons.arrow_right, color: placeholderColor)
+                  ],
+                )
+              ),
+            ]
           ),
-        ),
+        )
       )
     );
   }
 }
-

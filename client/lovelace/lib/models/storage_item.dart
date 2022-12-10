@@ -1,4 +1,3 @@
-
 // defines the model/stateto store data in a key-value pair
 class StorageItem {
   StorageItem(this.key, this.value);

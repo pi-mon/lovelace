@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
 import 'package:lovelace/models/storage_item.dart';
 import 'package:lovelace/models/user.dart';
-import 'package:lovelace/services/storage_service.dart';
+import 'package:lovelace/resources/storage_methods.dart';
 
 var logger = Logger();
 
@@ -28,14 +28,6 @@ class AuthMethods {
             },
             body: userJson);
         output = res.body;
-        dynamic outputJson = jsonDecode(output);
-        if (outputJson['register'] == true) {
-          String token = outputJson['token'];
-          // STORE USER REGISTER CREDENTAILS IN SECURE_STORAGE
-          StorageService().writeSecureData(StorageItem(token, userJson.toString()));
-          debugPrint("Register data written to SECURE_STORAGE");
-          return token;                    
-        }
       } catch (err) {
         return err.toString();
       }
@@ -66,9 +58,6 @@ class AuthMethods {
         dynamic outputJson = jsonDecode(output);
         if (outputJson['login'] == true) {
           String token = outputJson['token'];
-          // STORE USER LOGIN CREDENTAILS IN SECURE_STORAGE
-          StorageService().writeSecureData(StorageItem(token, userJson.toString()));
-          debugPrint("Login data written to SECURE_STORAGE");
           return token;                    
         }
         // TODO: add user state to local storage

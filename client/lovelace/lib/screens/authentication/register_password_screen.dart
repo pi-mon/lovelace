@@ -3,7 +3,8 @@ import 'package:lovelace/models/storage_item.dart';
 import 'package:lovelace/responsive/mobile_screen_layout.dart';
 import 'package:lovelace/responsive/responsive_layout.dart';
 import 'package:lovelace/responsive/web_screen_layout.dart';
-import 'package:lovelace/services/storage_service.dart';
+import 'package:lovelace/screens/authentication/login_screen.dart';
+import 'package:lovelace/resources/storage_methods.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:lovelace/widgets/text_field_input.dart';
 import 'package:lovelace/screens/landing/home_screen.dart';
@@ -24,9 +25,6 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
   final String email;
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _password2Controller = TextEditingController();
-  final _userPages = const ResponsiveLayout(
-      mobileScreenLayout: MobileScreenLayout(),
-      webScreenLayout: WebScreenLayout());
 
 
   @override
@@ -112,14 +110,11 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
                         onPressed: () async {
                           final String password = _passwordController.text;
                           String res = await AuthMethods().register(email: email, password: password);
-                          // TODO: STORE TOKEN AND REGISTER CREDENTIALS INSIDE SECURE_STORAGE
-                          // StorageService().writeSecureData(StorageItem("JWT_TOKEN", res));
-
                           // ignore: use_build_context_synchronously
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => _userPages
+                                builder: (context) => const LoginScreen()
                               ),
                           );
                           showDialog(

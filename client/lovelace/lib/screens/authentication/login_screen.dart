@@ -5,10 +5,9 @@ import 'package:lovelace/responsive/mobile_screen_layout.dart';
 import 'package:lovelace/responsive/responsive_layout.dart';
 import 'package:lovelace/responsive/web_screen_layout.dart';
 import 'package:lovelace/screens/authentication/register_email_screen.dart';
-import 'package:lovelace/services/storage_service.dart';
+import 'package:lovelace/resources/storage_methods.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:lovelace/widgets/text_field_input.dart';
-import 'package:email_validator/email_validator.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -23,9 +22,7 @@ class _LoginScreenState extends State<LoginScreen> {
       mobileScreenLayout: MobileScreenLayout(),
       webScreenLayout: WebScreenLayout());
   final _formKey = GlobalKey<FormState>();
-  bool _isLoading = true;
-  final StorageService _storageService = StorageService();
-  late List<StorageItem> _items;
+  final controllerToken = TextEditingController();
 
   @override
   void dispose() {
@@ -33,19 +30,7 @@ class _LoginScreenState extends State<LoginScreen> {
     _emailController.dispose();
     _passwordController.dispose();
   }
-
-  void iniState() async {
-    super.initState();
-    initList();
-  }
-
-  void initList() async {
-    // use the readAll method to update the list with all data in secure storage
-    _items = await _storageService.readAllSecureData(); 
-    _isLoading = false;
-    setState(() {});
-  }
-
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -152,18 +137,22 @@ class _LoginScreenState extends State<LoginScreen> {
                           )
                         ),
                     onPressed: () async {                
-                      // debugPrint("Test");
+                      // debugPrint("Test");                      
                       if (_formKey.currentState!.validate()) {
                         final String email = _emailController.text;
                         final String password = _passwordController.text;
                         String res = await AuthMethods().login(email: email, password: password); // what AuthMethods.login() returns
-                                                
+
                         if (res.isNotEmpty) {
-                          // TODO: READ DATA IN SECURE_STORAGE AND RETURN AS POP UP
+                          // TODO: SEND FORM DATA AS POST REQUEST TO SERVER SIDE TO VALIDATE
+                          // TODO: FIX READ DATA FROM SECURE_STORAGE
+                          SecureStorage.setToken(res);
+                          debugPrint("Token written to SECURE_STORAGE");                          
+                          
                           // ignore: use_build_context_synchronously
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(res), // To become login successs message
+                            const SnackBar(
+                              content: Text("Login Success!"), // To become login successs message
                               backgroundColor: success,
                             )
                           );
@@ -193,7 +182,7 @@ class _LoginScreenState extends State<LoginScreen> {
               )
             ),
         )        
-      ),    
-    );
+      ),  
+    ); 
   }
 }
