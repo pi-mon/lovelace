@@ -8,7 +8,6 @@ import 'package:lovelace/screens/authentication/register_email_screen.dart';
 import 'package:lovelace/services/storage_service.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:lovelace/widgets/text_field_input.dart';
-import 'package:email_validator/email_validator.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -41,7 +40,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void initList() async {
     // use the readAll method to update the list with all data in secure storage
-    _items = await _storageService.readAllSecureData(); 
+    _items = await _storageService.readAllSecureData();
     _isLoading = false;
     setState(() {});
   }
@@ -51,7 +50,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SafeArea(
-        child: Form(
+          child: Form(
         key: _formKey,
         child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 32),
@@ -78,11 +77,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                 'Login',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                    color: primaryColor, fontSize: 20
-                                  ),
-                              )
-                            )
-                          ),
+                                    color: primaryColor, fontSize: 20),
+                              ))),
                     ],
                   ),
                   const SizedBox(height: 16),
@@ -92,8 +88,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     style: TextStyle(
                         color: primaryColor,
                         fontSize: 22,
-                        fontWeight: FontWeight.bold
-                      ),
+                        fontWeight: FontWeight.bold),
                   ),
                   Flexible(
                     flex: 1,
@@ -122,7 +117,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      FocusManager.instance.primaryFocus?.unfocus(); // closes keyboard on login
+                      FocusManager.instance.primaryFocus
+                          ?.unfocus(); // closes keyboard on login
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) {
                         return const RegisterEmailScreen();
@@ -146,54 +142,47 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     child: const Text("Login",
                         style: TextStyle(
-                          fontSize: 18,
-                          color: whiteColor,
-                          fontWeight: FontWeight.bold
-                          )
-                        ),
-                    onPressed: () async {                
+                            fontSize: 18,
+                            color: whiteColor,
+                            fontWeight: FontWeight.bold)),
+                    onPressed: () async {
                       // debugPrint("Test");
                       if (_formKey.currentState!.validate()) {
                         final String email = _emailController.text;
                         final String password = _passwordController.text;
-                        String res = await AuthMethods().login(email: email, password: password); // what AuthMethods.login() returns
-                                                
-                        if (res.isNotEmpty) {
-                          // TODO: READ DATA IN SECURE_STORAGE AND RETURN AS POP UP
-                          // ignore: use_build_context_synchronously
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(res), // To become login successs message
-                              backgroundColor: success,
-                            )
-                          );
+                        List response = await AuthMethods()
+                            .login(email: email, password: password);
+
+                        // TODO: READ DATA IN SECURE_STORAGE AND RETURN AS POP UP
+                        // ignore: use_build_context_synchronously
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text(
+                              response[1]), // To become login successs message
+                          backgroundColor:
+                              response[2] ? successColor : errorColor,
+                        ));
+
+                        if (response[2]) {
                           // ignore: use_build_context_synchronously
                           Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => _userPages
-                            )
-                          );
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => _userPages));
                         }
-                        else {
-                          showDialog(
-                            // display pop-up of login status
-                            context: context,
-                            builder: (context) {
-                              return AlertDialog(
-                                content: Text(res),
-                              );
-                            },
-                          );
-                        }
+
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              content: Text(response[0]),
+                            );
+                          },
+                        );
                       }
                     },
                   ),
-                ]
-              )
-            ),
-        )        
-      ),    
+                ])),
+      )),
     );
   }
 }
