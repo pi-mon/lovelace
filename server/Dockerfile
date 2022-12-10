@@ -17,4 +17,4 @@ RUN pip install -r requirements.txt
 ENV IN_DOCKER True
 
 # define the command to run the server
-CMD ["python", "lovelace/app.py"]
+CMD ["python", "run.py"]
