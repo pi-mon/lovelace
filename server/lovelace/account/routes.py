@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, request, make_response
+from flask import Blueprint, jsonify, request
 from lovelace.db import mongo
 from pymongo import errors as db_errors
 from argon2 import PasswordHasher
@@ -7,13 +7,15 @@ import jwt
 from datetime import datetime, timedelta
 from os import environ
 from lovelace.logger import setup_logger
-from lovelace.account.utils import token_required
+from lovelace.account.utils import token_required, schema, email_validation, password_validation
+from flask_expects_json import expects_json
 from argon2 import exceptions as argon2_exceptions
 
 logger = setup_logger(__name__)
 account_page = Blueprint("account_page", __name__, template_folder="templates")
 
 @account_page.route("/account/create", methods=["POST"])
+@expects_json(schema)
 def create_account():
     ph = PasswordHasher()
     account_collection = mongo.account
@@ -21,7 +23,7 @@ def create_account():
     account_json = request.get_json()
     new_email = account_json["email"]
     new_password = account_json["password"]
-    if not new_email or not new_password:  # check if empty input
+    if not new_email or not new_password or email_validation(new_email) or password_validation(new_password):  # check if empty input
         return jsonify({"creation": False, "response": "Invalid email or password"})
     else:
         try:
@@ -41,12 +43,13 @@ def create_account():
 
 
 @account_page.route("/account/login", methods=["POST", "GET"])
+@expects_json(schema)
 def login_account():
     ph = PasswordHasher()
     account_json = request.get_json()
     email = account_json["email"]
     password = account_json["password"]
-    if not email or not password:  # check if empty input
+    if not email or not password or email_validation(email) or password_validation(password):  # check if empty input
         account_collection = mongo.account
         return jsonify({"login": False, "response": "Invalid email or password"})
     account_collection = mongo.account
