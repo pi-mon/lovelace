@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:lovelace/models/storage_item.dart';
-import 'package:lovelace/responsive/mobile_screen_layout.dart';
-import 'package:lovelace/responsive/responsive_layout.dart';
-import 'package:lovelace/responsive/web_screen_layout.dart';
 import 'package:lovelace/screens/authentication/login_screen.dart';
-import 'package:lovelace/resources/storage_methods.dart';
+import 'package:lovelace/screens/authentication/register_email_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:lovelace/widgets/text_field_input.dart';
-import 'package:lovelace/screens/landing/home_screen.dart';
 import 'package:lovelace/resources/auth_methods.dart';
 
 class RegisterPasswordScreen extends StatefulWidget {
@@ -25,7 +20,6 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
   final String email;
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _password2Controller = TextEditingController();
-
 
   @override
   void dispose() {
@@ -65,9 +59,7 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       color: primaryColor, fontSize: 20),
-                                )
-                              )
-                            ),
+                                ))),
                       ],
                     ),
                     const SizedBox(height: 16),
@@ -109,19 +101,39 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
                     ElevatedButton(
                         onPressed: () async {
                           final String password = _passwordController.text;
-                          String res = await AuthMethods().register(email: email, password: password);
+
+                          List response = await AuthMethods()
+                              .register(email: email, password: password);
+
                           // ignore: use_build_context_synchronously
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const LoginScreen()
-                              ),
-                          );
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text(response[1]),
+                            backgroundColor:
+                                response[2] ? successColor : errorColor,
+                          ));
+
+                          if (response[2]) {
+                            // ignore: use_build_context_synchronously
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const LoginScreen()),
+                            );
+                          } else {
+                            // ignore: use_build_context_synchronously
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const RegisterEmailScreen()),
+                            );
+                          }
+
                           showDialog(
                             context: context,
                             builder: (context) {
                               return AlertDialog(
-                                content: Text(res),
+                                content: Text(response[0]),
                               );
                             },
                           );
@@ -135,10 +147,7 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
                                 fontSize: 18,
                                 color: whiteColor,
                                 fontWeight: FontWeight.bold))),
-                  ]
-                )
-              )
-            ),
+                  ]))),
     );
   }
 }

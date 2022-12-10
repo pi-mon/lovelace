@@ -36,7 +36,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SafeArea(
-        child: Form(
+          child: Form(
         key: _formKey,
         child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 32),
@@ -63,11 +63,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                 'Login',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                    color: primaryColor, fontSize: 20
-                                  ),
-                              )
-                            )
-                          ),
+                                    color: primaryColor, fontSize: 20),
+                              ))),
                     ],
                   ),
                   const SizedBox(height: 16),
@@ -77,8 +74,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     style: TextStyle(
                         color: primaryColor,
                         fontSize: 22,
-                        fontWeight: FontWeight.bold
-                      ),
+                        fontWeight: FontWeight.bold),
                   ),
                   Flexible(
                     flex: 1,
@@ -107,7 +103,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      FocusManager.instance.primaryFocus?.unfocus(); // closes keyboard on login
+                      FocusManager.instance.primaryFocus
+                          ?.unfocus(); // closes keyboard on login
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) {
                         return const RegisterEmailScreen();
@@ -131,58 +128,48 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     child: const Text("Login",
                         style: TextStyle(
-                          fontSize: 18,
-                          color: whiteColor,
-                          fontWeight: FontWeight.bold
-                          )
-                        ),
-                    onPressed: () async {                
-                      // debugPrint("Test");                      
+                            fontSize: 18,
+                            color: whiteColor,
+                            fontWeight: FontWeight.bold)),
+                    onPressed: () async {
+                      // debugPrint("Test");
                       if (_formKey.currentState!.validate()) {
                         final String email = _emailController.text;
                         final String password = _passwordController.text;
-                        String res = await AuthMethods().login(email: email, password: password); // what AuthMethods.login() returns
+                        List response = await AuthMethods()
+                            .login(email: email, password: password);
+                            
+                        // TODO: READ DATA IN SECURE_STORAGE AND RETURN AS POP UP
+                        // ignore: use_build_context_synchronously
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text(
+                              response[1]), 
+                          backgroundColor:
+                              response[2] ? successColor : errorColor,
+                        ));
 
-                        if (res.isNotEmpty) {
-                          // TODO: SEND FORM DATA AS POST REQUEST TO SERVER SIDE TO VALIDATE
-                          // TODO: FIX READ DATA FROM SECURE_STORAGE
-                          SecureStorage.setToken(res);
-                          debugPrint("Token written to SECURE_STORAGE");                          
-                          
-                          // ignore: use_build_context_synchronously
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text("Login Success!"), // To become login successs message
-                              backgroundColor: success,
-                            )
-                          );
+                        if (response[2]) {
                           // ignore: use_build_context_synchronously
                           Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => _userPages
-                            )
-                          );
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => _userPages
+                              )
+                            );
                         }
-                        else {
-                          showDialog(
-                            // display pop-up of login status
-                            context: context,
-                            builder: (context) {
-                              return AlertDialog(
-                                content: Text(res),
-                              );
-                            },
-                          );
-                        }
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              content: Text(response[0]),
+                            );
+                          },
+                        );
                       }
                     },
                   ),
-                ]
-              )
-            ),
-        )        
-      ),  
-    ); 
+                ])),
+      )),
+    );
   }
 }
