@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
-import 'package:lovelace/models/storage_item.dart';
 import 'package:lovelace/models/user.dart';
 import 'package:lovelace/resources/storage_methods.dart';
 

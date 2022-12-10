@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:lovelace/models/storage_item.dart';
-import 'package:lovelace/resources/storage_methods.dart';
-import 'package:lovelace/resources/storage_methods.dart';
 
 class VaultCard extends StatefulWidget {
   StorageItem item;
@@ -55,8 +53,7 @@ class _VaultCardState extends State<VaultCard> {
                 // TODO: READ THE DATA AND DISPLAY IT
               },
             ),
-          )
-        ),
+          )),
     );
   }
 }
