@@ -1,18 +1,17 @@
 from functools import wraps
 from flask import jsonify, request
 import jwt
-from lovelace.db import mongo
+from lovelace import mongo
 from os import environ
 from validate_email import validate_email
 import re
+
 schema = {
-    'type': 'object',
-    'properties': {
-        'email': {'type': 'string'},
-        'password': {'type': 'string'}
-    },
-    'required': ['email', 'password']
+    "type": "object",
+    "properties": {"email": {"type": "string"}, "password": {"type": "string"}},
+    "required": ["email", "password"],
 }
+
 
 def token_required(f):
     @wraps(f)
@@ -40,6 +39,7 @@ def token_required(f):
 
     return decorated
 
+
 def email_validation(email):
     is_valid = validate_email(email)
     if is_valid:
@@ -47,8 +47,12 @@ def email_validation(email):
     else:
         return False
 
+
 def password_validation(password):
-    if re.fullmatch(r'^(?=\S{6,20}$)(?=.*?\d)(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[^A-Za-z\s0-9])', password):
+    if re.fullmatch(
+        r"^(?=\S{6,20}$)(?=.*?\d)(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[^A-Za-z\s0-9])",
+        password,
+    ):
         return True
     else:
         return False

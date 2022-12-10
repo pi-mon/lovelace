@@ -1,12 +1,32 @@
-from flask import Flask, request, jsonify, Blueprint
+from flask import Flask
+import pymongo
+import certifi
+import os
+
 from lovelace.logger import setup_logger
-from lovelace.account.routes import account_page
-from lovelace.recommendation.routes import recommendation_page
-from lovelace.chat.routes import chat_page
-from lovelace.logs.routes import logs
-logger = setup_logger("")
-app = Flask(__name__)
-app.register_blueprint(account_page)
-app.register_blueprint(recommendation_page)
-app.register_blueprint(chat_page)
-app.register_blueprint(logs)
+
+ca = certifi.where()
+mongo = pymongo.MongoClient(host=os.environ.get("MONGO_URI"), tlsCAFile=ca)
+
+
+root_logger = setup_logger("")
+account_logger = setup_logger("account")
+chat_logger = setup_logger("chat")
+logs_logger = setup_logger("logs")
+recommendation_logger = setup_logger("recommendation")
+
+
+def create_app():
+    app = Flask(__name__)
+
+    from lovelace.account.routes import account
+    from lovelace.recommendation.routes import recommendation
+    from lovelace.chat.routes import chat
+    from lovelace.logger.routes import logs
+
+    app.register_blueprint(account)
+    app.register_blueprint(recommendation)
+    app.register_blueprint(chat)
+    app.register_blueprint(logs)
+
+    return app
