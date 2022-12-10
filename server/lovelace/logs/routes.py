@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
 from lovelace.logger import setup_logger
 from pathlib import Path
-import os, json
+import os, json, re
 
 logger = setup_logger(__name__)
 logs = Blueprint("logs", __name__)
@@ -14,10 +14,10 @@ def werkzeug_logs():
     logDict = {}
     with open(LOG_DIR) as f:
         for line in f:
-            stripped = line.strip("")
-            print(stripped)
-
-    return "asdasd"
+            decoded = json.loads(line)
+            logDict[counter] = decoded
+            counter += 1
+    return logDict
 
 @logs.route("/logs/account")
 def account_logs():
