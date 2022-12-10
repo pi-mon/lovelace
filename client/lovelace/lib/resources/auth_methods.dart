@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
 import 'package:lovelace/models/storage_item.dart';
 import 'package:lovelace/models/user.dart';
+import 'package:lovelace/resources/storage_methods.dart';
 
 var logger = Logger();
 
@@ -78,7 +79,8 @@ class AuthMethods {
           message = "Login successful";
 
           String token = outputJson['token'];
-          // TODO: WRITE DATA TO SECURE_STORAGE
+          SecureStorage.setToken(token);
+          debugPrint("Token: " + token);
           // StorageService().writeSecureData(StorageItem("token", token));
           // debugPrint("Login data written to SECURE_STORAGE");
         } else {
