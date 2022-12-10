@@ -83,7 +83,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     hintText: "Enter your email",
                     textInputType: TextInputType.emailAddress,
                     textEditingController: _emailController,
-                    validator: (value) {},
+                    validator: (value) {
+                      return null;
+                    },
                   ),
                   const SizedBox(height: 16),
                   TextFieldInput(
@@ -92,7 +94,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     textInputType: TextInputType.text,
                     textEditingController: _passwordController,
                     isPass: true,
-                    validator: (value) {},
+                    validator: (value) {
+                      return null;
+                    },
                   ),
                   const SizedBox(height: 128),
                   Flexible(

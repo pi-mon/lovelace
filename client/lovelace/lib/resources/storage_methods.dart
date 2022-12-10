@@ -8,8 +8,8 @@ class SecureStorage {
   );
 
   static const _key = 'token';
-  
-  static Future setToken(String token) async {    
+
+  static Future setToken(String token) async {
     debugPrint(token);
     await _storage.write(key: _key, value: token);
   }
@@ -17,5 +17,6 @@ class SecureStorage {
   static Future<String?> getToken() async {
     debugPrint("Getting token from secure storage");
     await _storage.read(key: _key);
+    return null;
   }
 }

@@ -79,7 +79,7 @@ class AuthMethods {
 
           String token = outputJson['token'];
           SecureStorage.setToken(token);
-          debugPrint("Token: " + token);
+          debugPrint("Token: $token");
           // StorageService().writeSecureData(StorageItem("token", token));
           // debugPrint("Login data written to SECURE_STORAGE");
         } else {

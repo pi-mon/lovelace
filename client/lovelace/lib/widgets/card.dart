@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lovelace/models/storage_item.dart';
 
+// ignore: must_be_immutable
 class VaultCard extends StatefulWidget {
   StorageItem item;
 

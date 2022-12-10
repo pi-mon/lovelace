@@ -81,7 +81,9 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
                       hintText: "6 characters minimum",
                       textInputType: TextInputType.text,
                       textEditingController: _passwordController,
-                      validator: (value) {},
+                      validator: (value) {
+                        return null;
+                      },
                     ),
                     const SizedBox(height: 16),
                     TextFieldInput(
@@ -90,7 +92,9 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
                       hintText: "Re-enter your password",
                       textInputType: TextInputType.text,
                       textEditingController: _password2Controller,
-                      validator: (value) {},
+                      validator: (value) {
+                        return null;
+                      },
                     ),
                     const SizedBox(height: 128),
                     Flexible(

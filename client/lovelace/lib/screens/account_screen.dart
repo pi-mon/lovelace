@@ -90,7 +90,7 @@ class _AccountScreenState extends State<AccountScreen> {
                         )),
                   ],
                 ),
-                Container(
+                SizedBox(
                     height: 50,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -99,7 +99,7 @@ class _AccountScreenState extends State<AccountScreen> {
                         Icon(Icons.arrow_right, color: placeholderColor)
                       ],
                     )),
-                Container(
+                SizedBox(
                     height: 50,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -108,7 +108,7 @@ class _AccountScreenState extends State<AccountScreen> {
                         Icon(Icons.arrow_right, color: placeholderColor)
                       ],
                     )),
-                Container(
+                SizedBox(
                     height: 50,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
