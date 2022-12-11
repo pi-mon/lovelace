@@ -131,10 +131,12 @@ class _LoginScreenState extends State<LoginScreen> {
                             fontWeight: FontWeight.bold)),
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
+                        debugPrint("Test1");
                         final String email = _emailController.text;
                         final String password = _passwordController.text;
                         List response = await AuthMethods().login(email: email, password: password);
-                            
+                        debugPrint(response.toString());
+                        debugPrint("Test3");
                         // ignore: use_build_context_synchronously
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           content: Text(
@@ -144,6 +146,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ));
 
                         if (response[2]) {
+                          debugPrint("Test2");
                           // ignore: use_build_context_synchronously                          
                           Navigator.push(
                             context,

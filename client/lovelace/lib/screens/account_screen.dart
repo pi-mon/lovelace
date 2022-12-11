@@ -1,19 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:lovelace/responsive/mobile_screen_layout.dart';
-import 'package:lovelace/responsive/responsive_layout.dart';
-import 'package:lovelace/responsive/web_screen_layout.dart';
 import 'package:lovelace/screens/test.dart';
 import 'package:lovelace/utils/colors.dart';
 
-class AccountScreen extends StatelessWidget {
-  final String token;
+class AccountScreen extends StatefulWidget {
+  const AccountScreen({super.key});
 
-  const AccountScreen({required this.token, Key? key}) : super(key: key);
+  @override
+  State<AccountScreen> createState() => _AccountScreenState();
+}
 
-  final _userPages = const ResponsiveLayout(
-      mobileScreenLayout: MobileScreenLayout(),
-      webScreenLayout: WebScreenLayout());
-
+class _AccountScreenState extends State<AccountScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -42,6 +42,7 @@ dependencies:
   logging: ^1.1.0
   logger: ^1.1.0
   device_info_plus: ^8.0.0 # to get device specific information
+  network_info_plus: ^3.0.1
   
 
 dev_dependencies:

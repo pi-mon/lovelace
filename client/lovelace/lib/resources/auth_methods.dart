@@ -54,12 +54,12 @@ class AuthMethods {
   Future<List> login({
     required String email,
     required String password,
-    String token = ""
   }) async {
     String output;
     String message = "An error occurred";
     bool success = false;
 
+    debugPrint("Inside AuthMethods");
     if (email.isNotEmpty && password.isNotEmpty) {
       try {
         User user = User(email: email, password: password);
@@ -73,13 +73,14 @@ class AuthMethods {
             body: userJson);
 
         output = response.body;
+        debugPrint(output);
         dynamic outputJson = jsonDecode(output);
         debugPrint("Test");
         if (outputJson['login'] == true) {
           success = true;
           message = "Login successful";
 
-          token = outputJson['token'];
+          String token = outputJson['token'];
           debugPrint("Token: $token");
           StorageMethods().writeSecureData(StorageItem(token, token));
           debugPrint("Token written to SECURE_STORAGE");
