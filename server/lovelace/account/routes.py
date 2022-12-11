@@ -31,8 +31,8 @@ def create_account():
     if (
         not new_email
         or not new_password
-        or email_validation(new_email)
-        or password_validation(new_password)
+        or not email_validation(new_email)
+        or not password_validation(new_password)
     ):  # check if empty input
         logger.info(
             "%s Did not succeed in creating an account due to failed input validation",
@@ -77,12 +77,7 @@ def login_account():
     account_json = request.get_json()
     email = account_json["email"]
     password = account_json["password"]
-    if (
-        not email
-        or not password
-        or email_validation(email)
-        or password_validation(password)
-    ):  # check if empty input
+    if not email or not password:  # check if empty input
         account_collection = mongo.account
         logger.info(
             "%s Failed to login using email %s due to failed input validation",

@@ -23,7 +23,7 @@ class AuthMethods {
       String userJson = jsonEncode(user);
       try {
         http.Response res = await http.post(
-            Uri.http(_baseUrl, '/account/create'),
+            Uri.https(_baseUrl, '/account/create'),
             headers: {
               HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8'
             },
@@ -42,8 +42,7 @@ class AuthMethods {
         output = err.toString();
       }
     } else {
-      output = "Please enter all the fields";
-      message = "Please enter all the fields";
+      output = message = "Please enter all the fields";
     }
     debugPrint(output, wrapWidth: 1024);
 
@@ -64,7 +63,7 @@ class AuthMethods {
         String userJson = jsonEncode(user);
 
         http.Response response = await http.post(
-            Uri.http(_baseUrl, '/account/login'),
+            Uri.https(_baseUrl, '/account/login'),
             headers: {
               HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8'
             },
@@ -90,8 +89,7 @@ class AuthMethods {
         message = "Invalid email or password";
       }
     } else {
-      output = "Please enter all the fields";
-      message = "Please enter all the fields";
+      output = message = "Please enter all the fields";
     }
     debugPrint(output, wrapWidth: 1024);
     return [output, message, success];
