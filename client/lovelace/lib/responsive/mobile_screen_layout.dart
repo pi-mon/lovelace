@@ -12,11 +12,6 @@ class MobileScreenLayout extends StatefulWidget {
 class _MobileScreenLayoutState extends State<MobileScreenLayout> {
   int _selectedPage = 0;
 
-  @override
-  void initState() {
-    super.initState();
-    // get username
-  }
 
   @override
   Widget build(BuildContext context) {

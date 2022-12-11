@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:lovelace/models/storage_item.dart';
 import 'package:lovelace/resources/auth_methods.dart';
 import 'package:lovelace/responsive/mobile_screen_layout.dart';
 import 'package:lovelace/responsive/responsive_layout.dart';
 import 'package:lovelace/responsive/web_screen_layout.dart';
 import 'package:lovelace/screens/authentication/register_email_screen.dart';
-import 'package:lovelace/resources/storage_methods.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:lovelace/widgets/text_field_input.dart';
 
@@ -132,14 +130,11 @@ class _LoginScreenState extends State<LoginScreen> {
                             color: whiteColor,
                             fontWeight: FontWeight.bold)),
                     onPressed: () async {
-                      // debugPrint("Test");
                       if (_formKey.currentState!.validate()) {
                         final String email = _emailController.text;
                         final String password = _passwordController.text;
-                        List response = await AuthMethods()
-                            .login(email: email, password: password);
+                        List response = await AuthMethods().login(email: email, password: password);
                             
-                        // TODO: READ DATA IN SECURE_STORAGE AND RETURN AS POP UP
                         // ignore: use_build_context_synchronously
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           content: Text(
@@ -149,13 +144,13 @@ class _LoginScreenState extends State<LoginScreen> {
                         ));
 
                         if (response[2]) {
-                          // ignore: use_build_context_synchronously
+                          // ignore: use_build_context_synchronously                          
                           Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => _userPages
-                              )
-                            );
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => _userPages
+                            )
+                          );
                         }
                         showDialog(
                           context: context,

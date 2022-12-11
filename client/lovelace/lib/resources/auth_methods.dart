@@ -10,7 +10,7 @@ import 'package:lovelace/resources/storage_methods.dart';
 var logger = Logger();
 
 class AuthMethods {
-  final String _baseUrl = '127.0.0.1:3000';
+  final String _baseUrl = '10.0.2.2:3000';
   Future<List> register({
     required String email,
     required String password,
@@ -54,6 +54,7 @@ class AuthMethods {
   Future<List> login({
     required String email,
     required String password,
+    String token = ""
   }) async {
     String output;
     String message = "An error occurred";
@@ -73,16 +74,16 @@ class AuthMethods {
 
         output = response.body;
         dynamic outputJson = jsonDecode(output);
-
+        debugPrint("Test");
         if (outputJson['login'] == true) {
           success = true;
           message = "Login successful";
 
-          String token = outputJson['token'];
-          SecureStorage.setToken(token);
-          debugPrint("Token: " + token);
-          // StorageService().writeSecureData(StorageItem("token", token));
-          // debugPrint("Login data written to SECURE_STORAGE");
+          token = outputJson['token'];
+          debugPrint("Token: $token");
+          StorageMethods().writeSecureData(StorageItem(token, token));
+          debugPrint("Token written to SECURE_STORAGE");
+          // StorageMethods().readSecureData(token);
         } else {
           message = outputJson['response'];
         }
