@@ -19,12 +19,12 @@ recommendation_logger = setup_logger("recommendation")
 def create_app():
     app = Flask(__name__)
 
-    from lovelace.account.routes import account
+    from lovelace.account.routes import account_page
     from lovelace.recommendation.routes import recommendation
     from lovelace.chat.routes import chat
     from lovelace.logger.routes import logs
 
-    app.register_blueprint(account)
+    app.register_blueprint(account_page)
     app.register_blueprint(recommendation)
     app.register_blueprint(chat)
     app.register_blueprint(logs)
