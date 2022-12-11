@@ -13,8 +13,5 @@ COPY . /server
 # run pip install
 RUN pip install -r requirements.txt
 
-# provide docker var
-ENV IN_DOCKER True
-
 # define the command to run the server
 CMD ["python", "run.py"]
