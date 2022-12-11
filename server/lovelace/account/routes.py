@@ -77,12 +77,7 @@ def login_account():
     account_json = request.get_json()
     email = account_json["email"]
     password = account_json["password"]
-    if (
-        not email
-        or not password
-        or email_validation(email)
-        or password_validation(password)
-    ):  # check if empty input
+    if not email or not password:  # check if empty input
         account_collection = mongo.account
         logger.info(
             "%s Failed to login using email %s due to failed input validation",

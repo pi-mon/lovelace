@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:lovelace/screens/landing/guest_landing_screen.dart';
 import 'package:lovelace/utils/colors.dart';
@@ -11,6 +13,10 @@ void main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]).then((value) => runApp(const MyApp()));
+
+  ByteData data = await PlatformAssetBundle().load('assets/ca/cert.pem');
+  SecurityContext.defaultContext
+      .setTrustedCertificatesBytes(data.buffer.asUint8List());
 
   runApp(const MyApp());
 }
