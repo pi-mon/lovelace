@@ -9,8 +9,21 @@ import 'package:lovelace/resources/storage_methods.dart';
 
 var logger = Logger();
 
+String _baseUrl = "127.0.0.1:3000";
+
+Future submit(User user, String route) async {
+  String userJson = jsonEncode(user);
+
+  http.Response response = await http.post(Uri.https(_baseUrl, route),
+      headers: {
+        HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8'
+      },
+      body: userJson);
+
+  return response.body;
+}
+
 class AuthMethods {
-  final String _baseUrl = '10.0.2.2:3000';
   Future<List> register({
     required String email,
     required String password,
@@ -21,26 +34,22 @@ class AuthMethods {
 
     if (email.isNotEmpty && password.isNotEmpty) {
       User user = User(email: email, password: password);
-      String userJson = jsonEncode(user);
       try {
-        http.Response res = await http.post(
-            Uri.https(_baseUrl, '/account/create'),
-            headers: {
-              HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8'
-            },
-            body: userJson);
+        output = await submit(user, '/account/create');
+        try {
+          dynamic outputJson = jsonDecode(output);
 
-        output = res.body;
-        dynamic outputJson = jsonDecode(output);
-
-        if (outputJson['creation'] == true) {
-          success = true;
-          message = "Registration successful";
-        } else {
-          message = outputJson['response'];
+          if (outputJson['creation'] == true) {
+            success = true;
+            message = "Registration successful";
+          } else {
+            message = outputJson['response'];
+          }
+        } catch (e) {
+          message = "An error occurred";
         }
-      } catch (err) {
-        output = err.toString();
+      } catch (e) {
+        output = e.toString();
       }
     } else {
       output = message = "Please enter all the fields";
@@ -60,36 +69,29 @@ class AuthMethods {
 
     debugPrint("Inside AuthMethods");
     if (email.isNotEmpty && password.isNotEmpty) {
+      User user = User(email: email, password: password);
       try {
-        User user = User(email: email, password: password);
-        String userJson = jsonEncode(user);
+        output = await submit(user, '/account/login');
+        try {
+          dynamic outputJson = jsonDecode(output);
 
-        http.Response response = await http.post(
-            Uri.https(_baseUrl, '/account/login'),
-            headers: {
-              HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8'
-            },
-            body: userJson);
+          if (outputJson['login'] == true) {
+            success = true;
+            message = "Login successful";
 
-        output = response.body;
-        debugPrint(output);
-        dynamic outputJson = jsonDecode(output);
-        debugPrint("Test");
-        if (outputJson['login'] == true) {
-          success = true;
-          message = "Login successful";
-
-          String token = outputJson['token'];
-          debugPrint("Token: $token");
-          StorageMethods().writeSecureData(StorageItem(token, token));
-          debugPrint("Token written to SECURE_STORAGE");
-          // StorageMethods().readSecureData(token);
-        } else {
-          message = outputJson['response'];
+            String token = outputJson['token'];
+            // SecureStorage.setToken(token);
+            debugPrint("Token: $token");
+            // StorageService().writeSecureData(StorageItem("token", token));
+            // debugPrint("Login data written to SECURE_STORAGE");
+          } else {
+            message = outputJson['response'];
+          }
+        } catch (e) {
+          message = "An error occurred";
         }
-      } catch (err) {
-        output = err.toString();
-        message = "Invalid email or password";
+      } catch (e) {
+        output = e.toString();
       }
     } else {
       output = message = "Please enter all the fields";
