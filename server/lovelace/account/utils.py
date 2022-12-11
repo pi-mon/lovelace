@@ -41,16 +41,17 @@ def token_required(f):
 
 
 def email_validation(email):
-    is_valid = validate_email(email)
-    if is_valid:
-        return True
-    else:
-        return False
+    if len(email) <= 320:
+        is_valid = validate_email(email)
+        if is_valid:
+            return True
+        else:
+            return False
 
 
 def password_validation(password):
     if re.fullmatch(
-        r"^(?=\S{6,20}$)(?=.*?\d)(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[^A-Za-z\s0-9])",
+        r"^(?=\S{8,20}$)(?=.*?\d)(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[^A-Za-z\s0-9])",
         password,
     ):
         return True
