@@ -1,7 +1,11 @@
 PODS:
   - device_info_plus (0.0.1):
     - Flutter
+  - DTTJailbreakDetection (0.4.0)
   - Flutter (1.0.0)
+  - flutter_jailbreak_detection (1.0.0):
+    - DTTJailbreakDetection
+    - Flutter
   - flutter_secure_storage (6.0.0):
     - Flutter
   - local_auth_ios (0.0.1):
@@ -14,16 +18,23 @@ PODS:
 DEPENDENCIES:
   - device_info_plus (from `.symlinks/plugins/device_info_plus/ios`)
   - Flutter (from `Flutter`)
+  - flutter_jailbreak_detection (from `.symlinks/plugins/flutter_jailbreak_detection/ios`)
   - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
   - local_auth_ios (from `.symlinks/plugins/local_auth_ios/ios`)
   - network_info_plus (from `.symlinks/plugins/network_info_plus/ios`)
   - shared_preferences_ios (from `.symlinks/plugins/shared_preferences_ios/ios`)
+
+SPEC REPOS:
+  trunk:
+    - DTTJailbreakDetection
 
 EXTERNAL SOURCES:
   device_info_plus:
     :path: ".symlinks/plugins/device_info_plus/ios"
   Flutter:
     :path: Flutter
+  flutter_jailbreak_detection:
+    :path: ".symlinks/plugins/flutter_jailbreak_detection/ios"
   flutter_secure_storage:
     :path: ".symlinks/plugins/flutter_secure_storage/ios"
   local_auth_ios:
@@ -35,7 +46,9 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   device_info_plus: e5c5da33f982a436e103237c0c85f9031142abed
+  DTTJailbreakDetection: 5e356c5badc17995f65a83ed9483f787a0057b71
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
+  flutter_jailbreak_detection: f6c01e4bc73641c6b69c5112e50301240601abb4
   flutter_secure_storage: 23fc622d89d073675f2eaa109381aefbcf5a49be
   local_auth_ios: 0d333dde7780f669e66f19d2ff6005f3ea84008d
   network_info_plus: b78876159360f5580608c2cea620d6ceffabd0ad
