@@ -28,7 +28,7 @@ class _LoginScreenState extends State<LoginScreen> {
     _emailController.dispose();
     _passwordController.dispose();
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -134,26 +134,24 @@ class _LoginScreenState extends State<LoginScreen> {
                         debugPrint("Test1");
                         final String email = _emailController.text;
                         final String password = _passwordController.text;
-                        List response = await AuthMethods().login(email: email, password: password);
+                        List response = await AuthMethods()
+                            .login(email: email, password: password);
                         debugPrint(response.toString());
                         debugPrint("Test3");
                         // ignore: use_build_context_synchronously
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          content: Text(
-                              response[1]), 
+                          content: Text(response[1]),
                           backgroundColor:
                               response[2] ? successColor : errorColor,
                         ));
 
                         if (response[2]) {
                           debugPrint("Test2");
-                          // ignore: use_build_context_synchronously                          
+                          // ignore: use_build_context_synchronously
                           Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => _userPages
-                            )
-                          );
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => _userPages));
                         }
                         showDialog(
                           context: context,
