@@ -16,10 +16,10 @@ from lovelace.account.utils import (
 from flask_expects_json import expects_json
 from argon2 import exceptions as argon2_exceptions
 
-account = Blueprint("account", __name__, template_folder="templates")
+account_page = Blueprint("account", __name__, template_folder="templates")
 
 
-@account.route("/account/create", methods=["POST"])
+@account_page.route("/account/create", methods=["POST"])
 @expects_json(schema)
 def create_account():
     ph = PasswordHasher()
@@ -29,10 +29,7 @@ def create_account():
     new_email = account_json["email"]
     new_password = account_json["password"]
     if (
-        not new_email
-        or not new_password
-        or email_validation(new_email)
-        or password_validation(new_password)
+        not email_validation(new_email) or not password_validation(new_password)
     ):  # check if empty input
         logger.info(
             "%s Did not succeed in creating an account due to failed input validation",
@@ -70,7 +67,7 @@ def create_account():
             return jsonify({"login": False, "response": "Invalid email or password"})
 
 
-@account.route("/account/login", methods=["POST", "GET"])
+@account_page.route("/account/login", methods=["POST", "GET"])
 @expects_json(schema)
 def login_account():
     ph = PasswordHasher()
@@ -78,10 +75,8 @@ def login_account():
     email = account_json["email"]
     password = account_json["password"]
     if (
-        not email
-        or not password
-        or email_validation(email)
-        or password_validation(password)
+        not email_validation(email)
+        or not password_validation(password)
     ):  # check if empty input
         account_collection = mongo.account
         logger.info(
@@ -102,9 +97,16 @@ def login_account():
         if account_collection.user.find_one({"email": email}, {"password": 1}) == None:
             logger.info("%s Failed to login using email %s", request.remote_addr, email)
             return jsonify({"login": False, "response": "Invalid email or password"})
+            
+    except argon2_exceptions.VerifyMismatchError:
+            logger.info(
+                "%s Did not succeed in creating an account due to argon2 exceptions mismatch",
+                request.remote_addr,
+            )
+            return jsonify({"login": False, "response": "Invalid email or password"})
     if valid_login:
         token = jwt.encode(
-            {"email": email, "exp": datetime.utcnow() + timedelta(minutes=30)},
+            {"email": email, "exp": datetime.utcnow() + timedelta(minutes=1)},
             environ.get("APPLICATION_SIGNATURE_KEY"),
             algorithm="HS256",
         )
@@ -118,7 +120,7 @@ def login_account():
         )
 
 
-@account.route("/account/test")
+@account_page.route("/account/test")
 @token_required
 def test(username):
     return username

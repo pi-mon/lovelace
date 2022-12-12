@@ -32,6 +32,8 @@ def token_required(f):
             )
             print(data)
             current_user = account_collection.user.find_one(data["username"])
+        except jwt.ExpiredSignatureError:
+            return jsonify({"message": "Token has expired !!"}), 401
         except:
             return jsonify({"message": "Token is invalid !!"}), 401
         # returns the current logged in users contex to the routes
@@ -41,17 +43,17 @@ def token_required(f):
 
 
 def email_validation(email):
-    is_valid = validate_email(email)
-    if is_valid:
+    if len(email) <= 320:
+        validate_email(email)
         return True
     else:
         return False
 
 
 def password_validation(password):
-    if re.fullmatch(
-        r"^(?=\S{6,20}$)(?=.*?\d)(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[^A-Za-z\s0-9])",
-        password,
+    if re.match(
+        r"^(?=\S{8,20}$)(?=.*?\d)(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[^A-Za-z\s0-9])",
+        password
     ):
         return True
     else:
