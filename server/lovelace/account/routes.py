@@ -97,6 +97,13 @@ def login_account():
         if account_collection.user.find_one({"email": email}, {"password": 1}) == None:
             logger.info("%s Failed to login using email %s", request.remote_addr, email)
             return jsonify({"login": False, "response": "Invalid email or password"})
+            
+    except argon2_exceptions.VerifyMismatchError:
+            logger.info(
+                "%s Did not succeed in creating an account due to argon2 exceptions mismatch",
+                request.remote_addr,
+            )
+            return jsonify({"login": False, "response": "Invalid email or password"})
     if valid_login:
         token = jwt.encode(
             {"email": email, "exp": datetime.utcnow() + timedelta(minutes=1)},
