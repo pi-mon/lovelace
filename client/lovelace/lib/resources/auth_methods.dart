@@ -1,22 +1,15 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
 import 'package:lovelace/models/storage_item.dart';
 import 'package:lovelace/models/user.dart';
 import 'package:flutter/foundation.dart';
 import 'package:lovelace/resources/storage_methods.dart';
+import 'package:lovelace/utils/global_variables.dart';
+import 'package:http/http.dart' as http;
 
 var logger = Logger();
 String token = "";
-
-String checkDevice() {
-  String baseUrl = "127.0.0.1";
-  if (defaultTargetPlatform == TargetPlatform.android) {
-    baseUrl == "10.0.2.2";
-  }
-  return "$baseUrl:3000";
-}
 
 Future submit(User user, String route) async {
   String baseUrl = checkDevice();

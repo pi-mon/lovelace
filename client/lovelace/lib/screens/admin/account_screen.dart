@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:lovelace/screens/admin/account_screen.dart';
+import 'package:lovelace/screens/admin/view_logs_screen.dart';
 import 'package:lovelace/screens/user/account_details_screen.dart';
+import 'package:lovelace/screens/user/account_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 
-class AccountScreen extends StatefulWidget {
-  const AccountScreen({super.key});
+class AdminAccountScreen extends StatefulWidget {
+  const AdminAccountScreen({super.key});
 
   @override
-  State<AccountScreen> createState() => _AccountScreenState();
+  State<AdminAccountScreen> createState() => _AdminAccountScreenState();
 }
 
-class _AccountScreenState extends State<AccountScreen> {
+class _AdminAccountScreenState extends State<AdminAccountScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,8 +58,7 @@ class _AccountScreenState extends State<AccountScreen> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      const AdminAccountScreen()));
+                                  builder: (context) => const AccountScreen()));
                         },
                         style: ElevatedButton.styleFrom(
                             backgroundColor: primaryColor),
@@ -67,21 +67,27 @@ class _AccountScreenState extends State<AccountScreen> {
                           children: const <Widget>[
                             Icon(Icons.admin_panel_settings),
                             SizedBox(width: 10),
-                            Text('Turn On Admin',
+                            Text('Turn Off Admin',
                                 style: TextStyle(fontSize: 17))
                           ],
                         )),
                     const SizedBox(height: 5),
                     ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const ViewLogsScreen()));
+                        },
                         style: ElevatedButton.styleFrom(
                             backgroundColor: primaryColor),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: const <Widget>[
-                            Icon(Icons.person),
+                            Icon(Icons.dataset),
                             SizedBox(width: 10),
-                            Text('Button 2', style: TextStyle(fontSize: 17))
+                            Text('View Logs', style: TextStyle(fontSize: 17))
                           ],
                         )),
                     const SizedBox(height: 5),

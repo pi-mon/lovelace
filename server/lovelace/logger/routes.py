@@ -12,13 +12,11 @@ def root_logs():
     logger.info("%s Accessed root logs", request.remote_addr)
     log_dir = os.path.join(LOG_DIR, "root.log")
 
-    counter = 0
     log_dict = {}
     with open(log_dir) as f:
-        for line in f:
+        for i, line in enumerate(f):
             decoded = json.loads(line)
-            log_dict[counter] = decoded
-            counter += 1
+            log_dict[i] = decoded
     return log_dict
 
 
@@ -27,13 +25,11 @@ def account_logs():
     logger.info("%s Accessed account logs", request.remote_addr)
     log_dir = os.path.join(LOG_DIR, "account.log")
 
-    counter = 0
     log_dict = {}
     with open(log_dir) as f:
-        for line in f:
+        for i, line in enumerate(f):
             decoded = json.loads(line)
-            log_dict[counter] = decoded
-            counter += 1
+            log_dict[i] = decoded
 
     return log_dict
 
@@ -43,13 +39,11 @@ def chat_logs():
     logger.info("%s Accessed chat logs", request.remote_addr)
     log_dir = os.path.join(LOG_DIR, "chat.log")
 
-    counter = 0
     log_dict = {}
     with open(log_dir) as f:
-        for line in f:
+        for i, line in enumerate(f):
             decoded = json.loads(line)
-            log_dict[counter] = decoded
-            counter += 1
+            log_dict[i] = decoded
 
     return log_dict
 
@@ -59,12 +53,10 @@ def recommendation_logs():
     logger.info("%s Accessed recommendation logs", request.remote_addr)
     log_dir = os.path.join(LOG_DIR, "recommendation.log")
 
-    counter = 0
     log_dict = {}
     with open(log_dir) as f:
-        for line in f:
+        for i, line in enumerate(f):
             decoded = json.loads(line)
-            log_dict[counter] = decoded
-            counter += 1
+            log_dict[i] = decoded
 
     return log_dict
