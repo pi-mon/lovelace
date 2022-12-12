@@ -30,7 +30,7 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
     setState(() {});
   }
 
-  _checkJailBreak() async {
+  Future<bool?> _checkJailBreak() async {
     bool jailBroken = false;
     bool _jailbroken = false;
 
@@ -105,7 +105,8 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
                   child: ElevatedButton(
                     onPressed: () async {
                       // CHECK IF DEVICE IS JAILBROKEN
-                      bool jailBreakStatus = _checkJailBreak();
+                    var jailBreakStatus = _checkJailBreak();
+                      // ignore: unrelated_type_equality_checks
                       if (jailBreakStatus == true) {
                         showDialog(
                             context: context,
