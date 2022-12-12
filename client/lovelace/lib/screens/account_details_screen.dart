@@ -2,19 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:lovelace/models/storage_item.dart';
 import 'package:lovelace/resources/storage_methods.dart';
 import 'package:lovelace/resources/user_state_methods.dart';
-import 'package:lovelace/screens/landing/guest_landing_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:lovelace/widgets/card.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-class Test extends StatefulWidget {
-  const Test({super.key});
+class AccoutnDetailsScreen extends StatefulWidget {
+  const AccoutnDetailsScreen({super.key});
 
   @override
-  State<Test> createState() => _TestState();
+  State<AccoutnDetailsScreen> createState() => _AccoutnDetailsScreenState();
 }
 
-class _TestState extends State<Test> {
+class _AccoutnDetailsScreenState extends State<AccoutnDetailsScreen> {
   late List<StorageItem> _tokens;
   final StorageMethods _storageService = StorageMethods();
 
@@ -48,8 +46,7 @@ class _TestState extends State<Test> {
                   shrinkWrap: true,
                   itemCount: _tokens.length,
                   padding: const EdgeInsets.symmetric(horizontal: 8),
-                  itemBuilder: (_, index) {
-                    // TODO: Use Dismissible Widget to delete a particular key-pair using the deleteSecureData method
+                  itemBuilder: (_, index) {                    
                     return VaultCard(item: _tokens[index]);
                   }),
             ),
@@ -59,7 +56,7 @@ class _TestState extends State<Test> {
                   onPressed: () async {     
                     showDialog(context: context, builder: (context) {
                       return const AlertDialog(
-                        content: Text('Logging out...'),
+                        content: Text('Logging out...')
                       );
                     });
                     UserStateMethods().logoutState(context);

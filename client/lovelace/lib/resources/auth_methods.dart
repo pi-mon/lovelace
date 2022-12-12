@@ -100,8 +100,8 @@ class AuthMethods {
 
             token = outputJson['token'];
             debugPrint("Token: $token");
-            StorageMethods().writeSecureData(StorageItem("token", token));
-            debugPrint("Login data written to SECURE_STORAGE");
+            StorageMethods().writeSecureData(StorageItem(token, token));
+            debugPrint("Token written to SECURE_STORAGE");
           } else {
             message = outputJson['response'];
           }

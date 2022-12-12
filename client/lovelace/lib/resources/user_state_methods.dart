@@ -21,9 +21,7 @@ class UserStateMethods {
   void logoutState(BuildContext context) async {
     final SharedPreferences preferences = await SharedPreferences.getInstance();
     await Future.delayed(const Duration(seconds: 2));
-    debugPrint("Inside logout function");
     preferences.setBool('isLoggedIn', false);
-    debugPrint("Testing logout");
 
     // ignore: use_build_context_synchronously
     Navigator.of(context).pushAndRemoveUntil(
@@ -31,6 +29,5 @@ class UserStateMethods {
           builder: (BuildContext context) => const GuestLandingScreen()),
       (Route route) => false,
     );
-    debugPrint("Logged out");
   }
 }

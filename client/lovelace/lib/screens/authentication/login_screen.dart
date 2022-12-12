@@ -7,7 +7,6 @@ import 'package:lovelace/responsive/web_screen_layout.dart';
 import 'package:lovelace/screens/authentication/register_email_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:lovelace/widgets/text_field_input.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});

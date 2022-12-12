@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lovelace/screens/test.dart';
+import 'package:lovelace/screens/account_details_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 
 class AccountScreen extends StatefulWidget {
@@ -129,7 +129,7 @@ class _AccountScreenState extends State<AccountScreen> {
                       onPressed: () {
                         // TODO: DISPLAY TOKEN IN POP UP
                         Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => const Test()));
+                            MaterialPageRoute(builder: (context) => const AccoutnDetailsScreen()));
                       },
                       style:
                           ElevatedButton.styleFrom(backgroundColor: whiteColor),
