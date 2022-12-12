@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_jailbreak_detection/flutter_jailbreak_detection.dart';
 import 'package:lovelace/responsive/mobile_screen_layout.dart';
 import 'package:lovelace/responsive/responsive_layout.dart';
 import 'package:lovelace/responsive/web_screen_layout.dart';
@@ -27,13 +28,39 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
+  bool? _jailbroken;
+  bool? _developerMode;
   final bool isLoggedIn;
   final _userPages = const ResponsiveLayout(
     mobileScreenLayout: MobileScreenLayout(),
     webScreenLayout: WebScreenLayout());
-  const MyApp({Key? key, required this.isLoggedIn}) : super(key: key);  
+  MyApp({Key? key, required this.isLoggedIn}) : super(key: key);  
 
   @override
+  // void initState() {
+  //   super.initState();
+  //   initPlatformState();
+  // }
+
+  // Future<void> initPlatformState() async {
+  //   bool _jailbroken;
+  //   bool _developerMode;
+
+  //   try {
+  //     _jailbroken = await FlutterJailbreakDetection.jailbroken;
+  //     _developerMode = await FlutterJailbreakDetection.developerMode;
+  //   } 
+  //   on PlatformException {
+  //     _jailbroken = true;
+  //     _developerMode = true;
+  //   }
+
+  //   // If the widget was removed from the tree whike the asynchronous platform message was in flight,
+  //   // we want to discard the reply rather than call setState to update our non-existent appearance
+  
+  // }
+
+
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: true,

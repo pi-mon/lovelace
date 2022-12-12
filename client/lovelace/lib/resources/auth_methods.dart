@@ -6,34 +6,29 @@ import 'package:lovelace/models/storage_item.dart';
 import 'package:lovelace/models/user.dart';
 import 'package:flutter/foundation.dart';
 import 'package:lovelace/resources/storage_methods.dart';
-import 'package:network_info_plus/network_info_plus.dart';
 
 var logger = Logger();
 String token = "";
-String _baseUrl = "10.0.2.2:3000";
 
-// GET IP ADDRESS OF LOCAL DEVICE
-// void getLocalIP() async {
-//   await NetworkInfo().getWifiIP();
-// }
-
-// void checkDevice() {
-//   if (defaultTargetPlatform == TargetPlatform.android) {
-//     _baseUrl == "10.0.2.2:3000";
-//     return _baseUrl;
-//   }
-//   else {
-//     _baseUrl == "127.0.0.1:3000";
-//     return _baseUrl;
-//   }
-// }
+String checkDevice() {
+  String _baseUrl = "";
+  
+  if (defaultTargetPlatform == TargetPlatform.android) {
+    _baseUrl == "10.0.2.2:3000";
+  }
+  else {
+    _baseUrl == "127.0.0.1:3000";
+  }
+  return _baseUrl;
+}
 
 
 Future submit(User user, String route) async {
+  String _baseUrl;
   String userJson = jsonEncode(user);
-
+  // String _baseUrl = checkDevice();
   // http.Response response = await http.post(Uri.https(_baseUrl, route),
-  http.Response response = await http.post(Uri.http(_baseUrl, route),
+  http.Response response = await http.post(Uri.http(_baseUrl = checkDevice(), route),
       headers: {
         HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8'
       },
@@ -51,6 +46,7 @@ class AuthMethods {
     String message = "An error occurred";
     bool success = false;
 
+    String _baseUrl = checkDevice();
     if (email.isNotEmpty && password.isNotEmpty) {
       User user = User(email: email, password: password);
       try {
@@ -86,7 +82,7 @@ class AuthMethods {
     String message = "An error occurred";
     bool success = false;
 
-    debugPrint("Inside AuthMethods");
+    String _baseUrl = checkDevice();
     if (email.isNotEmpty && password.isNotEmpty) {
       User user = User(email: email, password: password);
       try {
@@ -99,7 +95,8 @@ class AuthMethods {
             message = "Login successful";
 
             token = outputJson['token'];
-            debugPrint("Token: $token");
+            debugPrint(output);
+            debugPrint(token);
             StorageMethods().writeSecureData(StorageItem(token, token));
             debugPrint("Token written to SECURE_STORAGE");
           } else {

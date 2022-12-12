@@ -5,15 +5,15 @@ import 'package:lovelace/resources/user_state_methods.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:lovelace/widgets/card.dart';
 
-class AccoutnDetailsScreen extends StatefulWidget {
-  const AccoutnDetailsScreen({super.key});
+class AccountDetailsScreen extends StatefulWidget {
+  const AccountDetailsScreen({super.key});
 
   @override
-  State<AccoutnDetailsScreen> createState() => _AccoutnDetailsScreenState();
+  State<AccountDetailsScreen> createState() => _AccountDetailsScreenState();
 }
 
-class _AccoutnDetailsScreenState extends State<AccoutnDetailsScreen> {
-  late List<StorageItem> _tokens;
+class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
+  late List<StorageItem> _tokens = [];
   final StorageMethods _storageService = StorageMethods();
 
   @override

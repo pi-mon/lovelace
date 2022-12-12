@@ -32,6 +32,8 @@ class StorageMethods {
     var allData = await _secureStorage.readAll(aOptions: _getAndroidOptions());
     List<StorageItem> list =
         allData.entries.map((e) => StorageItem(e.key, e.value)).toList();
+    debugPrint('${list.length}'); // testing
+    debugPrint('$list'); // testing
     return list;
   }
 

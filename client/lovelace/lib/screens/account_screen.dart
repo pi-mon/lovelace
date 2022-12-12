@@ -129,7 +129,7 @@ class _AccountScreenState extends State<AccountScreen> {
                       onPressed: () {
                         // TODO: DISPLAY TOKEN IN POP UP
                         Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => const AccoutnDetailsScreen()));
+                            MaterialPageRoute(builder: (context) => const AccountDetailsScreen()));
                       },
                       style:
                           ElevatedButton.styleFrom(backgroundColor: whiteColor),
