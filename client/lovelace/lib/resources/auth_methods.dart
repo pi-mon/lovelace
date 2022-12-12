@@ -11,24 +11,17 @@ var logger = Logger();
 String token = "";
 
 String checkDevice() {
-  String _baseUrl = "";
-  
+  String baseUrl = "127.0.0.1";
   if (defaultTargetPlatform == TargetPlatform.android) {
-    _baseUrl == "10.0.2.2:3000";
+    baseUrl == "10.0.2.2";
   }
-  else {
-    _baseUrl == "127.0.0.1:3000";
-  }
-  return _baseUrl;
+  return "$baseUrl:3000";
 }
 
-
 Future submit(User user, String route) async {
-  String _baseUrl;
+  String baseUrl = checkDevice();
   String userJson = jsonEncode(user);
-  // String _baseUrl = checkDevice();
-  // http.Response response = await http.post(Uri.https(_baseUrl, route),
-  http.Response response = await http.post(Uri.http(_baseUrl = checkDevice(), route),
+  http.Response response = await http.post(Uri.http(baseUrl, route),
       headers: {
         HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8'
       },
@@ -74,7 +67,7 @@ class AuthMethods {
     return [output, message, success];
   }
 
-  Future<List> login({        
+  Future<List> login({
     required String email,
     required String password,
   }) async {
