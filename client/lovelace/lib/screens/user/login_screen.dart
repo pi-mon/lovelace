@@ -131,32 +131,34 @@ class _LoginScreenState extends State<LoginScreen> {
                             color: whiteColor,
                             fontWeight: FontWeight.bold)),
                     onPressed: () async {
-                      UserStateMethods().loginState(context);
                       if (_formKey.currentState!.validate()) {
                         final String email = _emailController.text;
                         final String password = _passwordController.text;
+
                         List response = await AuthMethods()
                             .login(email: email, password: password);
+
+                        String output = response[0];
+                        String message = response[1];
+                        bool isSuccess = response[2];
+
                         // ignore: use_build_context_synchronously
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          content: Text(response[1]),
+                          content: Text(message),
                           backgroundColor:
-                              response[2] ? successColor : errorColor,
+                              isSuccess ? successColor : errorColor,
                         ));
 
-                        if (response[2]) {
-                          debugPrint("Test2");
+                        if (isSuccess) {
                           // ignore: use_build_context_synchronously
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => _userPages));
+                          UserStateMethods().loginState(context);
                         }
+
                         showDialog(
                           context: context,
                           builder: (context) {
                             return AlertDialog(
-                              content: Text(response[0]),
+                              content: Text(output),
                             );
                           },
                         );

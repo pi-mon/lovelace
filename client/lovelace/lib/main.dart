@@ -54,6 +54,7 @@ class _MyAppState extends State<MyApp> {
           scaffoldBackgroundColor: whiteColor,
           primaryColor: primaryColor,
         ),
-        home: widget.isLoggedIn ? widget._userPages : const LandingScreen());
+        // home: widget.isLoggedIn ? widget._userPages : const LandingScreen());
+        home: const LandingScreen());
   }
 }
