@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter_jailbreak_detection/flutter_jailbreak_detection.dart';
 import 'package:lovelace/responsive/mobile_screen_layout.dart';
 import 'package:lovelace/responsive/responsive_layout.dart';
 import 'package:lovelace/responsive/web_screen_layout.dart';
@@ -41,26 +40,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   @override
-  // void initState() {
-  //   super.initState();
-  //   initPlatformState();
-  // }
-
-  // Future<void> initPlatformState() async {
-  //   bool _jailbroken;
-  //   bool _developerMode;
-
-  //   try {
-  //     _jailbroken = await FlutterJailbreakDetection.jailbroken;
-  //     _developerMode = await FlutterJailbreakDetection.developerMode;
-  //   } 
-  //   on PlatformException {
-  //     _jailbroken = true;
-  //     _developerMode = true;
-  //   }  
-  // }
-
-
+  
   Widget build(BuildContext context) {
     return MaterialApp(
         debugShowCheckedModeBanner: true,

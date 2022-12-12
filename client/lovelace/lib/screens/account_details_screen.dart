@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:lovelace/models/storage_item.dart';
 import 'package:lovelace/resources/storage_methods.dart';
 import 'package:lovelace/resources/user_state_methods.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:lovelace/widgets/card.dart';
+import 'package:flutter_jailbreak_detection/flutter_jailbreak_detection.dart';
 
 class AccountDetailsScreen extends StatefulWidget {
   const AccountDetailsScreen({super.key});
@@ -23,8 +25,25 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
   }
 
   void initList() async {
+    debugPrint("Executing from Account details page"); // testing
     _tokens = await _storageService.readAllSecureData();
     setState(() {});
+  }
+
+  _checkJailBreak() async {
+    bool jailBroken = false;
+    bool _jailbroken = false;
+
+    try {
+      jailBroken = await FlutterJailbreakDetection.jailbroken;
+      jailBroken = await FlutterJailbreakDetection
+          .developerMode; // andrdoid devices only
+    } on PlatformException {
+      jailBroken = true;
+    }
+    setState(() {
+      _jailbroken = jailBroken;
+    });
   }
 
   @override
@@ -46,34 +65,80 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
                   shrinkWrap: true,
                   itemCount: _tokens.length,
                   padding: const EdgeInsets.symmetric(horizontal: 8),
-                  itemBuilder: (_, index) {                    
+                  itemBuilder: (_, index) {
                     return VaultCard(item: _tokens[index]);
                   }),
             ),
-            SizedBox(
-                height: 50,
-                child: ElevatedButton(
-                  onPressed: () async {     
-                    showDialog(context: context, builder: (context) {
-                      return const AlertDialog(
-                        content: Text('Logging out...')
-                      );
-                    });
-                    UserStateMethods().logoutState(context);
-                  },
-                  style: ElevatedButton.styleFrom(backgroundColor: whiteColor),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const <Widget>[
-                      Text('Logout',
-                          style: TextStyle(
-                              fontSize: 17,
-                              fontWeight: FontWeight.bold,
-                              color: errorColor)),
-                      Icon(Icons.exit_to_app, color: placeholderColor)
-                    ],
-                  ),
-                )),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SizedBox(
+                  height: 50,
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return const AlertDialog(
+                                content: Text('Logging out...'));
+                          });
+                      UserStateMethods().logoutState(context);
+                    },
+                    style:
+                        ElevatedButton.styleFrom(backgroundColor: whiteColor),
+                    child: Row(
+                      children: const <Widget>[
+                        Icon(Icons.exit_to_app, color: placeholderColor),
+                        SizedBox(width: 10),
+                        Text('Logout',
+                            style: TextStyle(
+                                fontSize: 17,
+                                fontWeight: FontWeight.bold,
+                                color: errorColor)),
+                      ],
+                    ),
+                  )),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SizedBox(
+                  height: 50,
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      // CHECK IF DEVICE IS JAILBROKEN
+                      bool jailBreakStatus = _checkJailBreak();
+                      if (jailBreakStatus == true) {
+                        showDialog(
+                            context: context,
+                            builder: (context) {
+                              return const AlertDialog(
+                                content:
+                                    Text('Your device has been jail broken!'),
+                              );
+                            });
+                      }
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return const AlertDialog(
+                              content: Text('Your device is safe!'),
+                            );
+                          });
+                    },
+                    style:
+                        ElevatedButton.styleFrom(backgroundColor: whiteColor),
+                    child: Row(
+                      children: const <Widget>[
+                        Icon(Icons.safety_check, color: placeholderColor),
+                        SizedBox(width: 10),
+                        Text('Scan device',
+                            style: TextStyle(
+                                fontSize: 17,
+                                fontWeight: FontWeight.bold,
+                                color: errorColor)),
+                      ],
+                    ),
+                  )),
+            ),
           ]),
         ),
       ),
