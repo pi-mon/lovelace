@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lovelace/screens/authentication/register_password_screen.dart';
+import 'package:lovelace/screens/user/register_password_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:lovelace/widgets/text_field_input.dart';
 
@@ -62,11 +62,8 @@ class _RegisterEmailScreenState extends State<RegisterEmailScreen> {
                                   'Register',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
-                                    color: primaryColor, fontSize: 20
-                                  ),
-                                )
-                              )
-                            ),
+                                      color: primaryColor, fontSize: 20),
+                                ))),
                       ],
                     ),
                     const SizedBox(height: 16),
@@ -76,8 +73,7 @@ class _RegisterEmailScreenState extends State<RegisterEmailScreen> {
                       style: TextStyle(
                           color: primaryColor,
                           fontSize: 22,
-                          fontWeight: FontWeight.bold
-                        ),
+                          fontWeight: FontWeight.bold),
                     ),
                     Flexible(
                       flex: 1,
@@ -103,10 +99,9 @@ class _RegisterEmailScreenState extends State<RegisterEmailScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => RegisterPasswordScreen(
-                                email: _emailController.text,
-                              )
-                            ),
+                                builder: (context) => RegisterPasswordScreen(
+                                      email: _emailController.text,
+                                    )),
                           );
                         },
                         style: ElevatedButton.styleFrom(
@@ -117,15 +112,8 @@ class _RegisterEmailScreenState extends State<RegisterEmailScreen> {
                             style: TextStyle(
                                 fontSize: 18,
                                 color: whiteColor,
-                                fontWeight: FontWeight.bold
-                              )
-                            )
-                          ),
-                  ]
-                )
-              )
-            ),
+                                fontWeight: FontWeight.bold))),
+                  ]))),
     );
   }
 }
-

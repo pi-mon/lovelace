@@ -1,6 +1,6 @@
-import 'package:lovelace/screens/account_screen.dart';
-import 'package:lovelace/screens/chat_screen.dart';
-import 'package:lovelace/screens/landing/home_screen.dart';
+import 'package:lovelace/screens/user/account_screen.dart';
+import 'package:lovelace/screens/room/chat_screen.dart';
+import 'package:lovelace/screens/main/home_screen.dart';
 
 const webScreenSize = 600;
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:lovelace/screens/authentication/login_screen.dart';
-import 'package:lovelace/screens/authentication/register_email_screen.dart';
+import 'package:lovelace/screens/user/login_screen.dart';
+import 'package:lovelace/screens/user/register_email_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:lovelace/widgets/text_field_input.dart';
 import 'package:lovelace/resources/auth_methods.dart';

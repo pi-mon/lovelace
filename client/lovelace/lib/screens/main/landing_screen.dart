@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:local_auth/local_auth.dart';
-import 'package:lovelace/screens/authentication/login_screen.dart';
-import 'package:lovelace/screens/landing/home_screen.dart';
+import 'package:lovelace/screens/user/login_screen.dart';
+import 'package:lovelace/screens/main/home_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 
 enum _SupportState {
@@ -11,14 +11,14 @@ enum _SupportState {
   unsupported,
 }
 
-class GuestLandingScreen extends StatefulWidget {
-  const GuestLandingScreen({super.key});
+class LandingScreen extends StatefulWidget {
+  const LandingScreen({super.key});
 
   @override
-  State<GuestLandingScreen> createState() => _GuestLandingScreenState();
+  State<LandingScreen> createState() => _LandingScreenState();
 }
 
-class _GuestLandingScreenState extends State<GuestLandingScreen> {
+class _LandingScreenState extends State<LandingScreen> {
   final LocalAuthentication auth = LocalAuthentication();
   _SupportState _supportState = _SupportState.unknown;
   bool? _canCheckBiometrics;
