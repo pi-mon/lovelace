@@ -137,7 +137,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         final String password = _passwordController.text;
                         List response = await AuthMethods()
                             .login(email: email, password: password);
-
                         // ignore: use_build_context_synchronously
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           content: Text(response[1]),

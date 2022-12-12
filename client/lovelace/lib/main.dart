@@ -27,15 +27,19 @@ void main() async {
   runApp(MyApp(isLoggedIn: isLoggedIn));
 }
 
-class MyApp extends StatelessWidget {
-  bool? _jailbroken;
-  bool? _developerMode;
-  final bool isLoggedIn;
-  final _userPages = const ResponsiveLayout(
-    mobileScreenLayout: MobileScreenLayout(),
-    webScreenLayout: WebScreenLayout());
-  MyApp({Key? key, required this.isLoggedIn}) : super(key: key);  
+class MyApp extends StatefulWidget {
+      final bool isLoggedIn;
+    final _userPages = const ResponsiveLayout(
+        mobileScreenLayout: MobileScreenLayout(),
+        webScreenLayout: WebScreenLayout());
 
+  const MyApp({Key? key, required this.isLoggedIn}) : super(key: key);
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   @override
   // void initState() {
   //   super.initState();
@@ -53,24 +57,19 @@ class MyApp extends StatelessWidget {
   //   on PlatformException {
   //     _jailbroken = true;
   //     _developerMode = true;
-  //   }
-
-  //   // If the widget was removed from the tree whike the asynchronous platform message was in flight,
-  //   // we want to discard the reply rather than call setState to update our non-existent appearance
-  
+  //   }  
   // }
 
 
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: true,
-      title: 'Lovelace',
-      theme: ThemeData(
-        fontFamily: 'Quicksand',
-        scaffoldBackgroundColor: whiteColor,
-        primaryColor: primaryColor,
-      ),
-      home: isLoggedIn ? _userPages : const GuestLandingScreen()
-    );
+        debugShowCheckedModeBanner: true,
+        title: 'Lovelace',
+        theme: ThemeData(
+          fontFamily: 'Quicksand',
+          scaffoldBackgroundColor: whiteColor,
+          primaryColor: primaryColor,
+        ),
+        home: widget.isLoggedIn ? widget._userPages : const GuestLandingScreen());
   }
 }
