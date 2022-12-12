@@ -99,7 +99,7 @@ def login_account():
             return jsonify({"login": False, "response": "Invalid email or password"})
     if valid_login:
         token = jwt.encode(
-            {"email": email, "exp": datetime.utcnow() + timedelta(minutes=30)},
+            {"email": email, "exp": datetime.utcnow() + timedelta(minutes=1)},
             environ.get("APPLICATION_SIGNATURE_KEY"),
             algorithm="HS256",
         )
