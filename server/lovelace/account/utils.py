@@ -49,7 +49,7 @@ def email_validation(email):
 
 
 def password_validation(password):
-    if re.fullmatch(
+    if re.match(
         r"^(?=\S{6,20}$)(?=.*?\d)(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[^A-Za-z\s0-9])",
         password,
     ):
