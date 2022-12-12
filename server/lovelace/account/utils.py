@@ -32,6 +32,8 @@ def token_required(f):
             )
             print(data)
             current_user = account_collection.user.find_one(data["username"])
+        except jwt.ExpiredSignatureError:
+            return jsonify({"message": "Token has expired !!"}), 401
         except:
             return jsonify({"message": "Token is invalid !!"}), 401
         # returns the current logged in users contex to the routes
