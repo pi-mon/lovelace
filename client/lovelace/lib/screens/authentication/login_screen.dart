@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:lovelace/resources/auth_methods.dart';
+import 'package:lovelace/resources/user_state_methods.dart';
 import 'package:lovelace/responsive/mobile_screen_layout.dart';
 import 'package:lovelace/responsive/responsive_layout.dart';
 import 'package:lovelace/responsive/web_screen_layout.dart';
 import 'package:lovelace/screens/authentication/register_email_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:lovelace/widgets/text_field_input.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -28,7 +30,7 @@ class _LoginScreenState extends State<LoginScreen> {
     _emailController.dispose();
     _passwordController.dispose();
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -130,30 +132,27 @@ class _LoginScreenState extends State<LoginScreen> {
                             color: whiteColor,
                             fontWeight: FontWeight.bold)),
                     onPressed: () async {
+                      UserStateMethods().loginState(context);                      
                       if (_formKey.currentState!.validate()) {
-                        debugPrint("Test1");
                         final String email = _emailController.text;
                         final String password = _passwordController.text;
-                        List response = await AuthMethods().login(email: email, password: password);
-                        debugPrint(response.toString());
-                        debugPrint("Test3");
+                        List response = await AuthMethods()
+                            .login(email: email, password: password);
+
                         // ignore: use_build_context_synchronously
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          content: Text(
-                              response[1]), 
+                          content: Text(response[1]),
                           backgroundColor:
                               response[2] ? successColor : errorColor,
                         ));
 
                         if (response[2]) {
                           debugPrint("Test2");
-                          // ignore: use_build_context_synchronously                          
+                          // ignore: use_build_context_synchronously
                           Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => _userPages
-                            )
-                          );
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => _userPages));
                         }
                         showDialog(
                           context: context,

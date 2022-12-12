@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:lovelace/models/storage_item.dart';
 import 'package:lovelace/resources/storage_methods.dart';
+import 'package:lovelace/resources/user_state_methods.dart';
+import 'package:lovelace/screens/landing/guest_landing_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:lovelace/widgets/card.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Test extends StatefulWidget {
   const Test({super.key});
@@ -50,22 +53,30 @@ class _TestState extends State<Test> {
                     return VaultCard(item: _tokens[index]);
                   }),
             ),
-            Container(
-              height: 50,
-              child: ElevatedButton(
-                onPressed: () {
-                  // TODO: LOGOUT USER & DIRECT TO LOGIUN PAGE
-                },
-                style: ElevatedButton.styleFrom(backgroundColor: whiteColor),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const <Widget>[
-                    Text('Logout',
-                        style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: errorColor)),
-                    Icon(Icons.exit_to_app, color: placeholderColor)
-                  ],
-                ),
-              )),
+            SizedBox(
+                height: 50,
+                child: ElevatedButton(
+                  onPressed: () async {     
+                    showDialog(context: context, builder: (context) {
+                      return const AlertDialog(
+                        content: Text('Logging out...'),
+                      );
+                    });
+                    UserStateMethods().logoutState(context);
+                  },
+                  style: ElevatedButton.styleFrom(backgroundColor: whiteColor),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: const <Widget>[
+                      Text('Logout',
+                          style: TextStyle(
+                              fontSize: 17,
+                              fontWeight: FontWeight.bold,
+                              color: errorColor)),
+                      Icon(Icons.exit_to_app, color: placeholderColor)
+                    ],
+                  ),
+                )),
           ]),
         ),
       ),

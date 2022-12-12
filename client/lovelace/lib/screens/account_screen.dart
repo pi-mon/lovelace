@@ -91,7 +91,7 @@ class _AccountScreenState extends State<AccountScreen> {
                         )),
                   ],
                 ),
-                Container(
+                SizedBox(
                     height: 50,
                     child: ElevatedButton(
                       onPressed: () {},
@@ -107,7 +107,7 @@ class _AccountScreenState extends State<AccountScreen> {
                         ],
                       ),
                     )),
-                Container(
+                SizedBox(
                     height: 50,
                     child: ElevatedButton(
                       onPressed: () {},
@@ -123,13 +123,13 @@ class _AccountScreenState extends State<AccountScreen> {
                         ],
                       ),
                     )),
-                Container(
+                SizedBox(
                     height: 50,
                     child: ElevatedButton(
                       onPressed: () {
                         // TODO: DISPLAY TOKEN IN POP UP
                         Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => Test()));
+                            MaterialPageRoute(builder: (context) => const Test()));
                       },
                       style:
                           ElevatedButton.styleFrom(backgroundColor: whiteColor),
