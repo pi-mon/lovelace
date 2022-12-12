@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lovelace/resources/auth_methods.dart';
+import 'package:lovelace/resources/user_state_methods.dart';
 import 'package:lovelace/responsive/mobile_screen_layout.dart';
 import 'package:lovelace/responsive/responsive_layout.dart';
 import 'package:lovelace/responsive/web_screen_layout.dart';
@@ -130,14 +131,12 @@ class _LoginScreenState extends State<LoginScreen> {
                             color: whiteColor,
                             fontWeight: FontWeight.bold)),
                     onPressed: () async {
+                      UserStateMethods().loginState(context);                      
                       if (_formKey.currentState!.validate()) {
-                        debugPrint("Test1");
                         final String email = _emailController.text;
                         final String password = _passwordController.text;
                         List response = await AuthMethods()
                             .login(email: email, password: password);
-                        debugPrint(response.toString());
-                        debugPrint("Test3");
                         // ignore: use_build_context_synchronously
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           content: Text(response[1]),

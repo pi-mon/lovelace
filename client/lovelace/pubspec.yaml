@@ -44,6 +44,8 @@ dependencies:
   device_info_plus: ^8.0.0 # to get device specific information
   network_info_plus: ^3.0.1
   local_auth: ^2.1.2
+  get: ^4.6.5
+  flutter_spinkit: ^5.1.0
 
 dev_dependencies:
   flutter_test:

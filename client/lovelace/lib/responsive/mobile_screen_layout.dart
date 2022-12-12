@@ -34,17 +34,16 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
                 icon: Icon(Icons.home),
                 label: 'Home',
               ),
-              // BottomNavigationBarItem(icon: Icon(Icons.favorite), label: 'Feed'),
               BottomNavigationBarItem(icon: Icon(Icons.chat), label: 'Chat'),
               BottomNavigationBarItem(
                   icon: Icon(Icons.person), label: 'Account'),
+              // BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Settings')
             ],
             elevation: 5.0,
             selectedFontSize: 16.0,
             unselectedFontSize: 12.0,
             selectedItemColor: selectedColor,
-            unselectedItemColor: unselectedColor,
-            showUnselectedLabels: false,
+            unselectedItemColor: unselectedColor,          
             onTap: (index) {
               setState(() {
                 _selectedPage = index;
