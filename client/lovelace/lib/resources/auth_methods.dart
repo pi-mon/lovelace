@@ -37,7 +37,7 @@ class AuthMethods {
   }) async {
     String output;
     String message = "An error occurred";
-    bool success = false;
+    bool isSuccess = false;
 
     String _baseUrl = checkDevice();
     if (email.isNotEmpty && password.isNotEmpty) {
@@ -48,7 +48,7 @@ class AuthMethods {
           dynamic outputJson = jsonDecode(output);
 
           if (outputJson['creation'] == true) {
-            success = true;
+            isSuccess = true;
             message = "Registration successful";
           } else {
             message = outputJson['response'];
@@ -64,7 +64,7 @@ class AuthMethods {
     }
     debugPrint(output, wrapWidth: 1024);
 
-    return [output, message, success];
+    return [output, message, isSuccess];
   }
 
   Future<List> login({
@@ -73,7 +73,7 @@ class AuthMethods {
   }) async {
     String output;
     String message = "An error occurred";
-    bool success = false;
+    bool isSuccess = false;
 
     String _baseUrl = checkDevice();
     if (email.isNotEmpty && password.isNotEmpty) {
@@ -84,7 +84,7 @@ class AuthMethods {
           dynamic outputJson = jsonDecode(output);
 
           if (outputJson['login'] == true) {
-            success = true;
+            isSuccess = true;
             message = "Login successful";
 
             token = outputJson['token'];
@@ -105,6 +105,6 @@ class AuthMethods {
       output = message = "Please enter all the fields";
     }
     debugPrint(output, wrapWidth: 1024);
-    return [output, message, success];
+    return [output, message, isSuccess];
   }
 }

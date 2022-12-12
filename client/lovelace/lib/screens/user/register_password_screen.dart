@@ -100,40 +100,73 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
                     const SizedBox(height: 16),
                     ElevatedButton(
                         onPressed: () async {
+                          const String passwordRegex =
+                              r"^(?=\S{8,20}$)(?=.*?\d)(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[^A-Za-z\s0-9])";
                           final String password = _passwordController.text;
+                          final String password2 = _password2Controller.text;
+                          final bool passwordMatch = password == password2;
+                          final bool passwordValid =
+                              RegExp(passwordRegex).hasMatch(password);
 
-                          List response = await AuthMethods()
+                          if (!passwordMatch) {
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(const SnackBar(
+                              content: Text('Passwords do not match'),
+                              backgroundColor: errorColor,
+                            ));
+                            return;
+                          }
+
+                          if (!passwordValid) {
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(const SnackBar(
+                              content: Text(
+                                  'Password does not meet the requirements'),
+                              backgroundColor: errorColor,
+                            ));
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return const AlertDialog(
+                                  content: Text(
+                                      "Password Requirements:\n\t- Minimum 6 letters\n\t- Maximum 20 letters\n\t- At least 1 number\n\t- At least 1 lowercase alphabet\n\t- At least 1 uppercase alphabet\n\t- At least 1 special character"),
+                                );
+                              },
+                            );
+                            return;
+                          }
+
+                          List<dynamic> response = await AuthMethods()
                               .register(email: email, password: password);
+
+                          String output = response[0];
+                          String message = response[1];
+                          bool isSuccess = response[2];
 
                           // ignore: use_build_context_synchronously
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text(response[1]),
+                            content: Text(message),
                             backgroundColor:
-                                response[2] ? successColor : errorColor,
+                                isSuccess ? successColor : errorColor,
                           ));
 
-                          if (response[2]) {
+                          if (isSuccess) {
                             // ignore: use_build_context_synchronously
                             Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => const LoginScreen()),
                             );
-                          } else {
+                          } else if (message != "Please enter all the fields") {
                             // ignore: use_build_context_synchronously
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const RegisterEmailScreen()),
-                            );
+                            Navigator.pop(context);
                           }
 
                           showDialog(
                             context: context,
                             builder: (context) {
                               return AlertDialog(
-                                content: Text(response[0]),
+                                content: Text(output),
                               );
                             },
                           );
