@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lovelace/screens/admin/account_screen.dart';
+import 'package:lovelace/screens/admin/admin_account_screen.dart';
 import 'package:lovelace/screens/user/account_details_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 
@@ -56,9 +56,13 @@ class _AccountScreenState extends State<AccountScreen> {
                         onPressed: () {
                           Navigator.push(
                               context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const AdminAccountScreen()));
+                              PageRouteBuilder(
+                                pageBuilder:
+                                    (context, animation1, animation2) =>
+                                        const AdminAccountScreen(),
+                                transitionDuration: Duration.zero,
+                                reverseTransitionDuration: Duration.zero,
+                              ));
                         },
                         style: ElevatedButton.styleFrom(
                             backgroundColor: primaryColor),
