@@ -6,10 +6,14 @@ import certifi
 import os
 
 from lovelace.logger import setup_logger
+import dotenv
+dotenv.load_dotenv()
 
 ca = certifi.where()
 mongo = pymongo.MongoClient(host=os.environ.get("MONGO_URI"), tlsCAFile=ca)
-
+mongo_account_read = pymongo.MongoClient(host=os.environ.get("MONGO_URI_ACCOUNT_READ"), tlsCAFile=ca)
+mongo_account_write = pymongo.MongoClient(host=os.environ.get("MONGO_URI_ACCOUNT_WRITE"), tlsCAFile=ca)
+mongo_admin_read = pymongo.MongoClient(host=os.environ.get("MONGO_URI_ADMIN_READ"), tlsCAFile=ca)
 
 root_logger = setup_logger("")
 account_logger = setup_logger("account")
@@ -30,10 +34,12 @@ def create_app():
     from lovelace.recommendation.routes import recommendation
     from lovelace.chat.routes import chat
     from lovelace.logger.routes import logs
+    from lovelace.admin.routes import admin_page
 
     app.register_blueprint(account_page)
     app.register_blueprint(recommendation)
     app.register_blueprint(chat)
     app.register_blueprint(logs)
+    app.register_blueprint(admin_page)
 
     return app
