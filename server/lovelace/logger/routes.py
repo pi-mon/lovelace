@@ -110,3 +110,17 @@ def recommendation_logs():
     log_dict = get_paginated_list('/logs/recommendation', start, limit, count)
     log_dict["result"] = log_list[(start - 1):(start - 1 + limit)]
     return jsonify(log_dict)
+
+@logs.route("/logs/log")
+def log_logs():
+    logger.info("%s Accessed log logs", request.remote_addr)
+    log_dir = os.path.join(LOG_DIR, "log.log")
+    log_list = []
+
+    with open(log_dir) as f:
+        for line in f:
+            decoded = json.loads(line)
+            log_list.append(decoded)
+
+    log_dict = {"result":log_list}
+    return jsonify(log_dict)
