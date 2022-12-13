@@ -8,22 +8,22 @@ class StorageMethods {
   AndroidOptions _getAndroidOptions() => const AndroidOptions(
         encryptedSharedPreferences: true,
       );
-
+  
   Future<void> writeSecureData(StorageItem newItem) async {
-    debugPrint("Writing new data having key ${newItem.key}");
+    debugPrint("Writing new data to secure_storage");
     await _secureStorage.write(
         key: newItem.key, value: newItem.value, aOptions: _getAndroidOptions());
   }
 
   Future<String?> readSecureData(String key) async {
-    debugPrint("Reading data having key $key");
+    debugPrint("Reading data from secure_storage");
     var readData =
-        await _secureStorage.read(key: key, aOptions: _getAndroidOptions());
+        await Future.sync(() => _secureStorage.read(key: key, aOptions: _getAndroidOptions()));
     return readData;
   }
 
   Future<void> deleteSecureData(StorageItem item) async {
-    debugPrint("Deleting data having key ${item.key}");
+    debugPrint("Deleting data in secure_storage");
     await _secureStorage.delete(key: item.key, aOptions: _getAndroidOptions());
   }
 
@@ -40,12 +40,5 @@ class StorageMethods {
   Future<void> deleteAllSecureData() async {
     debugPrint("Deleting all secured data");
     await _secureStorage.deleteAll(aOptions: _getAndroidOptions());
-  }
-
-  Future<bool> containsKeyInSecureData(String key) async {
-    debugPrint("Checking data for the key $key");
-    var containsKey = await _secureStorage.containsKey(
-        key: key, aOptions: _getAndroidOptions());
-    return containsKey;
   }
 }

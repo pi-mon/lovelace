@@ -1,9 +1,5 @@
 import 'dart:convert';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:lovelace/screens/user/account_details_screen.dart';
-import 'package:lovelace/screens/user/account_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:lovelace/utils/global_variables.dart';
 import 'package:http/http.dart' as http;

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lovelace/models/storage_item.dart';
+import 'package:lovelace/resources/auth_methods.dart';
 import 'package:lovelace/resources/storage_methods.dart';
 import 'package:lovelace/resources/user_state_methods.dart';
 import 'package:lovelace/utils/colors.dart';
@@ -15,8 +16,8 @@ class AccountDetailsScreen extends StatefulWidget {
 }
 
 class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
-  late List<StorageItem> _tokens = [];
-  final StorageMethods _storageService = StorageMethods();
+  late final List<StorageItem> _tokens = [];
+  final StorageMethods _storageMethods = StorageMethods();
 
   @override
   void initState() {
@@ -25,8 +26,7 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
   }
 
   void initList() async {
-    debugPrint("Executing from Account details page"); // testing
-    _tokens = await _storageService.readAllSecureData();
+    _storageMethods.readAllSecureData();
     setState(() {});
   }
 
@@ -53,6 +53,7 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
         onPressed: () {
           StorageMethods().deleteAllSecureData();
           initList();
+          UserStateMethods().logoutState(context);
         },
         child: const Icon(Icons.delete),
       ),
@@ -75,37 +76,8 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
                   height: 50,
                   child: ElevatedButton(
                     onPressed: () async {
-                      showDialog(
-                          context: context,
-                          builder: (context) {
-                            return const AlertDialog(
-                                content: Text('Logging out...'));
-                          });
-                      UserStateMethods().logoutState(context);
-                    },
-                    style:
-                        ElevatedButton.styleFrom(backgroundColor: whiteColor),
-                    child: Row(
-                      children: const <Widget>[
-                        Icon(Icons.exit_to_app, color: placeholderColor),
-                        SizedBox(width: 10),
-                        Text('Logout',
-                            style: TextStyle(
-                                fontSize: 17,
-                                fontWeight: FontWeight.bold,
-                                color: errorColor)),
-                      ],
-                    ),
-                  )),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SizedBox(
-                  height: 50,
-                  child: ElevatedButton(
-                    onPressed: () async {
                       // CHECK IF DEVICE IS JAILBROKEN
-                    var jailBreakStatus = _checkJailBreak();
+                      var jailBreakStatus = _checkJailBreak();
                       // ignore: unrelated_type_equality_checks
                       if (jailBreakStatus == true) {
                         showDialog(
@@ -132,6 +104,39 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
                         Icon(Icons.safety_check, color: placeholderColor),
                         SizedBox(width: 10),
                         Text('Scan device',
+                            style: TextStyle(
+                                fontSize: 17,
+                                fontWeight: FontWeight.bold,
+                                color: errorColor)),
+                      ],
+                    ),
+                  )),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SizedBox(
+                  height: 50,
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return const AlertDialog(
+                                content: Text('Logging out...'));
+                          });
+                      // TODO: DELETE TOKEN FROM SECURE_STORAGE
+                      StorageMethods()
+                          .deleteSecureData(StorageItem('token', token));
+                      UserStateMethods().logoutState(context);
+                      initList();
+                    },
+                    style:
+                        ElevatedButton.styleFrom(backgroundColor: whiteColor),
+                    child: Row(
+                      children: const <Widget>[
+                        Icon(Icons.exit_to_app, color: placeholderColor),
+                        SizedBox(width: 10),
+                        Text('Logout',
                             style: TextStyle(
                                 fontSize: 17,
                                 fontWeight: FontWeight.bold,

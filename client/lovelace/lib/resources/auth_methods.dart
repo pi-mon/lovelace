@@ -79,9 +79,8 @@ class AuthMethods {
             message = "Login successful";
 
             token = outputJson['token'];
-            debugPrint(output);
             debugPrint(token);
-            StorageMethods().writeSecureData(StorageItem(token, token));
+            StorageMethods().writeSecureData(StorageItem('token', token));
             debugPrint("Token written to SECURE_STORAGE");
           } else {
             message = outputJson['response'];
@@ -90,6 +89,7 @@ class AuthMethods {
           message = "An error occurred";
         }
       } catch (e) {
+        
         output = e.toString();
       }
     } else {
