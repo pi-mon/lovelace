@@ -85,7 +85,9 @@ class _RegisterEmailScreenState extends State<RegisterEmailScreen> {
                       hintText: "Enter your email",
                       textInputType: TextInputType.emailAddress,
                       textEditingController: _emailController,
-                      validator: (value) {},
+                      validator: (value) {
+                        return null;
+                      },
                     ),
                     const SizedBox(height: 128),
                     Flexible(

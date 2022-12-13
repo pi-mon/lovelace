@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:lovelace/screens/admin/view_logs_detail_screen.dart';
-import 'package:lovelace/screens/user/account_details_screen.dart';
-import 'package:lovelace/screens/user/account_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 
 class ViewLogsScreen extends StatefulWidget {

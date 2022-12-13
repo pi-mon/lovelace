@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lovelace/resources/auth_methods.dart';
 import 'package:lovelace/resources/user_state_methods.dart';
-import 'package:lovelace/responsive/mobile_screen_layout.dart';
-import 'package:lovelace/responsive/responsive_layout.dart';
-import 'package:lovelace/responsive/web_screen_layout.dart';
 import 'package:lovelace/screens/user/register_email_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:lovelace/widgets/text_field_input.dart';
@@ -17,9 +14,6 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final _userPages = const ResponsiveLayout(
-      mobileScreenLayout: MobileScreenLayout(),
-      webScreenLayout: WebScreenLayout());
   final _formKey = GlobalKey<FormState>();
   final controllerToken = TextEditingController();
 
@@ -84,7 +78,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     hintText: "Enter your email",
                     textInputType: TextInputType.emailAddress,
                     textEditingController: _emailController,
-                    validator: (value) {},
+                    validator: (value) {
+                      return null;
+                    },
                   ),
                   const SizedBox(height: 16),
                   TextFieldInput(
@@ -93,7 +89,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     textInputType: TextInputType.text,
                     textEditingController: _passwordController,
                     isPass: true,
-                    validator: (value) {},
+                    validator: (value) {
+                      return null;
+                    },
                   ),
                   const SizedBox(height: 128),
                   Flexible(
