@@ -8,7 +8,7 @@ class StorageMethods {
   AndroidOptions _getAndroidOptions() => const AndroidOptions(
         encryptedSharedPreferences: true,
       );
-  
+
   Future<void> writeSecureData(StorageItem newItem) async {
     debugPrint("Writing new data to secure_storage");
     await _secureStorage.write(
@@ -17,8 +17,8 @@ class StorageMethods {
 
   Future<String?> readSecureData(String key) async {
     debugPrint("Reading data from secure_storage");
-    var readData =
-        await Future.sync(() => _secureStorage.read(key: key, aOptions: _getAndroidOptions()));
+    var readData = await Future.sync(
+        () => _secureStorage.read(key: key, aOptions: _getAndroidOptions()));
     return readData;
   }
 
@@ -31,7 +31,7 @@ class StorageMethods {
     debugPrint("Reading all secured data");
     var allData = await _secureStorage.readAll(aOptions: _getAndroidOptions());
     List<StorageItem> list =
-        allData.entries.map((e) => StorageItem(e.key, e.value)).toList();
+        allData.entries.map((e) => StorageItem(e.key, e.value)).toList();    
     debugPrint('${list.length}'); // testing
     debugPrint('$list'); // testing
     return list;

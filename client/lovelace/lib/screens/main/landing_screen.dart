@@ -42,7 +42,7 @@ class _LandingScreenState extends State<LandingScreen> {
       canCheckBiometrics = await auth.canCheckBiometrics;
     } on PlatformException catch (e) {
       canCheckBiometrics = false;
-      print(e);
+      debugPrint('$e');
     }
     if (!mounted) {
       return;
@@ -59,7 +59,7 @@ class _LandingScreenState extends State<LandingScreen> {
       availableBiometrics = await auth.getAvailableBiometrics();
     } on PlatformException catch (e) {
       availableBiometrics = <BiometricType>[];
-      print(e);
+      debugPrint('$e');
     }
     if (!mounted) {
       return;
@@ -87,7 +87,7 @@ class _LandingScreenState extends State<LandingScreen> {
         _isAuthenticating = false;
       });
     } on PlatformException catch (e) {
-      print(e);
+      debugPrint('$e');
       setState(() {
         _isAuthenticating = false;
         _authorized = 'Error - ${e.message}';
@@ -122,7 +122,7 @@ class _LandingScreenState extends State<LandingScreen> {
         _authorized = 'Authenticating';
       });
     } on PlatformException catch (e) {
-      print(e);
+      debugPrint('$e');
       setState(() {
         _isAuthenticating = false;
         _authorized = 'Error - ${e.message}';

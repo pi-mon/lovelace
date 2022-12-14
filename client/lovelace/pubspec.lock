@@ -104,13 +104,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_jailbreak_detection:
-    dependency: "direct main"
-    description:
-      name: flutter_jailbreak_detection
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.8.0"
   flutter_lints:
     dependency: "direct dev"
     description:
@@ -380,6 +373,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.2.4"
+  safe_device:
+    dependency: "direct main"
+    description:
+      name: safe_device
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.2"
   screen_capture_event:
     dependency: "direct main"
     description:
@@ -490,6 +490,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.4.12"
+  trust_location:
+    dependency: transitive
+    description:
+      name: trust_location
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.13"
   typed_data:
     dependency: transitive
     description:

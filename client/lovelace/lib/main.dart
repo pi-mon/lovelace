@@ -1,5 +1,8 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:lovelace/responsive/mobile_screen_layout.dart';
+import 'package:lovelace/responsive/responsive_layout.dart';
+import 'package:lovelace/responsive/web_screen_layout.dart';
 import 'package:lovelace/screens/main/landing_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:flutter/services.dart';
@@ -30,6 +33,7 @@ void main() async {
 // ignore: must_be_immutable
 class MyApp extends StatefulWidget {
   final bool isLoggedIn;
+  final _userPages = const ResponsiveLayout(mobileScreenLayout: MobileScreenLayout(), webScreenLayout: WebScreenLayout());
   const MyApp({Key? key, required this.isLoggedIn}) : super(key: key);
 
   @override
@@ -37,26 +41,26 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  // final ScreenCaptureEvent screenCaptureEvent = ScreenCaptureEvent();
+  final ScreenCaptureEvent screenCaptureEvent = ScreenCaptureEvent();
 
-  // @override
-  // void initState() {
-  //   screenCaptureEvent.addScreenShotListener((filePath) {
-  //     debugPrint("Screenshot detected!");
-  //   });
-  //   screenCaptureEvent.preventAndroidScreenShot(true);
-  //   screenCaptureEvent.addScreenRecordListener((recorded) {
-  //     debugPrint(recorded ? "Start recording" : "Stop Recording");
-  //   });
-  //   screenCaptureEvent.watch();
-  //   super.initState();
-  // }
+  @override
+  void initState() {
+    screenCaptureEvent.addScreenShotListener((filePath) {
+      debugPrint("Screenshot detected!");
+    });
+    screenCaptureEvent.preventAndroidScreenShot(true);
+    screenCaptureEvent.addScreenRecordListener((recorded) {
+      debugPrint(recorded ? "Start recording" : "Stop Recording");
+    });
+    screenCaptureEvent.watch();
+    super.initState();
+  }
 
-  // @override
-  // void dispose() {
-  //   screenCaptureEvent.dispose();
-  //   super.dispose();
-  // }
+  @override
+  void dispose() {
+    screenCaptureEvent.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +72,7 @@ class _MyAppState extends State<MyApp> {
           scaffoldBackgroundColor: whiteColor,
           primaryColor: primaryColor,
         ),
-        // home: widget.isLoggedIn ? widget._userPages : const LandingScreen());
-        home: const LandingScreen());
+        home: widget.isLoggedIn ? widget._userPages : const LandingScreen());
+        // home: const LandingScreen());
   }
 }

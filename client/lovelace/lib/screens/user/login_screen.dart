@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:lovelace/resources/auth_methods.dart';
 import 'package:lovelace/resources/user_state_methods.dart';
@@ -6,6 +7,7 @@ import 'package:lovelace/responsive/responsive_layout.dart';
 import 'package:lovelace/responsive/web_screen_layout.dart';
 import 'package:lovelace/screens/user/register_email_screen.dart';
 import 'package:lovelace/utils/colors.dart';
+import 'package:safe_device/safe_device.dart';
 import 'package:lovelace/widgets/text_field_input.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -22,12 +24,35 @@ class _LoginScreenState extends State<LoginScreen> {
       webScreenLayout: WebScreenLayout());
   final _formKey = GlobalKey<FormState>();
   final controllerToken = TextEditingController();
+  bool isJailbroken = false;
+  bool isSafeDevice = false;
 
   @override
+  void  initState() {
+    super.initState();
+    initPlatformState();
+  }
+
   void dispose() {
     super.dispose();
     _emailController.dispose();
     _passwordController.dispose();
+  }
+
+  Future<void> initPlatformState() async {
+    if (!mounted) return;
+    try {
+      debugPrint('Scanning device...');
+      isJailbroken = await SafeDevice.isJailBroken;
+      isSafeDevice = await SafeDevice.isSafeDevice;      
+    } catch (e) {      
+      debugPrint('$e');
+      showDialog(context: context, builder: (context) {
+        return const AlertDialog(
+          content: Text('ERROR: YOUR DEVICE IS JAILBROKEN !!'),
+        );
+      });
+    }
   }
 
   @override
