@@ -1,7 +1,7 @@
+import 'package:flutter/foundation.dart';
 import 'package:lovelace/screens/user/account_screen.dart';
 import 'package:lovelace/screens/room/chat_screen.dart';
 import 'package:lovelace/screens/main/home_screen.dart';
-import 'package:flutter/foundation.dart';
 
 const webScreenSize = 600;
 
