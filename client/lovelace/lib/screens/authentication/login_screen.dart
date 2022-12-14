@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lovelace/resources/auth_methods.dart';
+import 'package:lovelace/resources/user_state_methods.dart';
 import 'package:lovelace/responsive/mobile_screen_layout.dart';
 import 'package:lovelace/responsive/responsive_layout.dart';
 import 'package:lovelace/responsive/web_screen_layout.dart';
@@ -83,9 +84,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     hintText: "Enter your email",
                     textInputType: TextInputType.emailAddress,
                     textEditingController: _emailController,
-                    validator: (value) {
-                      return null;
-                    },
+                    validator: (value) {},
                   ),
                   const SizedBox(height: 16),
                   TextFieldInput(
@@ -94,9 +93,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     textInputType: TextInputType.text,
                     textEditingController: _passwordController,
                     isPass: true,
-                    validator: (value) {
-                      return null;
-                    },
+                    validator: (value) {},
                   ),
                   const SizedBox(height: 128),
                   Flexible(
@@ -134,14 +131,12 @@ class _LoginScreenState extends State<LoginScreen> {
                             color: whiteColor,
                             fontWeight: FontWeight.bold)),
                     onPressed: () async {
-                      // debugPrint("Test");
+                      UserStateMethods().loginState(context);                      
                       if (_formKey.currentState!.validate()) {
                         final String email = _emailController.text;
                         final String password = _passwordController.text;
                         List response = await AuthMethods()
                             .login(email: email, password: password);
-
-                        // TODO: READ DATA IN SECURE_STORAGE AND RETURN AS POP UP
                         // ignore: use_build_context_synchronously
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           content: Text(response[1]),
@@ -150,6 +145,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ));
 
                         if (response[2]) {
+                          debugPrint("Test2");
                           // ignore: use_build_context_synchronously
                           Navigator.push(
                               context,

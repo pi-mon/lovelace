@@ -62,7 +62,7 @@ def email_validation(email):
 def password_validation(password):
     if re.match(
         r"^(?=\S{8,20}$)(?=.*?\d)(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[^A-Za-z\s0-9])",
-        password
+        password,
     ):
         return True
     else:

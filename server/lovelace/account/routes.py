@@ -30,8 +30,8 @@ def create_account():
     account_json = request.get_json()
     new_email = account_json["email"]
     new_password = account_json["password"]
-    if (
-        not email_validation(new_email) or not password_validation(new_password)
+    if not email_validation(new_email) or not password_validation(
+        new_password
     ):  # check if empty input
         logger.info(
             "%s Did not succeed in creating an account due to failed input validation",
@@ -80,6 +80,7 @@ def login_account():
     account_json = request.get_json()
     email = account_json["email"]
     password = account_json["password"]
+<<<<<<< HEAD
     # if (
     #     not email_validation(email)
     #     or not password_validation(password)
@@ -92,6 +93,17 @@ def login_account():
     #     )
     #     return jsonify({"login": False, "response": "Invalid email or password"})
     account_collection = mongo_account_read.account
+=======
+    if not email or not password:  # check if empty input
+        account_collection = mongo.account
+        logger.info(
+            "%s Failed to login using email %s due to failed input validation",
+            request.remote_addr,
+            email,
+        )
+        return jsonify({"login": False, "response": "Invalid email or password"})
+    account_collection = mongo.account
+>>>>>>> c0dc72b47e8ca98d2895423eff8e5c948b9b0825
     try:
         valid_login = ph.verify(
             account_collection.user.find_one({"email": email}, {"password": 1})[
@@ -104,8 +116,9 @@ def login_account():
         if account_collection.user.find_one({"email": email}, {"password": 1}) == None:
             logger.info("%s Failed to login using email %s", request.remote_addr, email)
             return jsonify({"login": False, "response": "Invalid email or password"})
-            
+
     except argon2_exceptions.VerifyMismatchError:
+<<<<<<< HEAD
             logger.info(
                 "%s Did not succeed in creating an account due to argon2 exceptions mismatch",
                 request.remote_addr,
@@ -115,6 +128,13 @@ def login_account():
     except db_errors.OperationFailure:
         logger.info("%s Invalid database operation %s", request.remote_addr, email)
         return jsonify({"login": False, "response": "Disallowed database operation"})
+=======
+        logger.info(
+            "%s Did not succeed in creating an account due to argon2 exceptions mismatch",
+            request.remote_addr,
+        )
+        return jsonify({"login": False, "response": "Invalid email or password"})
+>>>>>>> c0dc72b47e8ca98d2895423eff8e5c948b9b0825
     if valid_login:
         token = jwt.encode(
             {"email": email,
