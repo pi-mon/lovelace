@@ -44,25 +44,6 @@ class _MyAppState extends State<MyApp> {
   final ScreenCaptureEvent screenCaptureEvent = ScreenCaptureEvent();
 
   @override
-  void initState() {
-    screenCaptureEvent.addScreenShotListener((filePath) {
-      debugPrint("Screenshot detected!");
-    });
-    screenCaptureEvent.preventAndroidScreenShot(true);
-    screenCaptureEvent.addScreenRecordListener((recorded) {
-      debugPrint(recorded ? "Start recording" : "Stop Recording");
-    });
-    screenCaptureEvent.watch();
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    screenCaptureEvent.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return MaterialApp(
         debugShowCheckedModeBanner: true,

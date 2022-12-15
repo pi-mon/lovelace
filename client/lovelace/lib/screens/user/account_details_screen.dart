@@ -30,10 +30,6 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: const Icon(Icons.token),
-      ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: SafeArea(

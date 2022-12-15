@@ -13,10 +13,10 @@ class UserStateMethods {
   void loginState(BuildContext context) async {
     final SharedPreferences preferences = await SharedPreferences.getInstance();
     await Future.delayed(const Duration(seconds: 2));
-    preferences.setBool('isLoggedIn', true);
+    preferences.setBool('isLoggedIn', true);    
     // ignore: use_build_context_synchronously
     Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: ((context) => _userPages)));
+        context, MaterialPageRoute(builder: (context) => _userPages));
   }
 
   void logoutState(BuildContext context) async {

@@ -1,5 +1,7 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_jailbreak_detection/flutter_jailbreak_detection.dart';
+import 'package:flutter_windowmanager/flutter_windowmanager.dart';
 import 'package:lovelace/resources/auth_methods.dart';
 import 'package:lovelace/resources/user_state_methods.dart';
 import 'package:lovelace/responsive/mobile_screen_layout.dart';
@@ -7,7 +9,6 @@ import 'package:lovelace/responsive/responsive_layout.dart';
 import 'package:lovelace/responsive/web_screen_layout.dart';
 import 'package:lovelace/screens/user/register_email_screen.dart';
 import 'package:lovelace/utils/colors.dart';
-import 'package:flutter_root_jailbreak/flutter_root_jailbreak.dart';
 import 'package:lovelace/widgets/text_field_input.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -24,40 +25,39 @@ class _LoginScreenState extends State<LoginScreen> {
       webScreenLayout: WebScreenLayout());
   final _formKey = GlobalKey<FormState>();
   final controllerToken = TextEditingController();
-  bool _result = true;
+  bool? _jailbroken;
+  bool? _developerMode;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  Future<void> initPlatformState() async {
+    bool jailbroken;
+    bool developerMode;
+
+    try {
+      jailbroken = await FlutterJailbreakDetection.jailbroken;
+      developerMode = await FlutterJailbreakDetection.developerMode;
+      debugPrint(jailbroken.toString());
+      debugPrint(developerMode.toString());
+    } on PlatformException {
+      jailbroken = true;
+      developerMode = true;
+    }
+    if (!mounted) return;
+    setState(() {
+      _jailbroken = jailbroken;
+      _developerMode = developerMode;
+    });
+  }
 
   @override
   void dispose() {
     super.dispose();
     _emailController.dispose();
     _passwordController.dispose();
-  }
-
-  Future isRootedJailBroken() async {
-    if (!mounted) return;
-    try {
-      bool result = Platform.isAndroid ? await FlutterRootJailbreak.isRooted : await FlutterRootJailbreak.isJailBroken;
-      _result = result;
-      debugPrint('$_result');
-      showDialog(context: context, builder: (context) {
-        return AlertDialog(
-          content: Row(
-            children: const <Widget>[
-              SizedBox(height: 20, width: 20, child: CircularProgressIndicator(color: primaryColor)),
-              SizedBox(width: 15),
-              Text('Logging in...')
-            ],
-          ),
-        );
-      });     
-    } catch (e) {      
-      debugPrint('$e');
-      showDialog(context: context, builder: (context) {
-        return const AlertDialog(
-          content: Text('ERROR: YOUR DEVICE IS JAILBROKEN !!'),
-        );
-      });
-    }
   }
 
   @override
@@ -180,20 +180,38 @@ class _LoginScreenState extends State<LoginScreen> {
                         ));
 
                         if (isSuccess) {
-                          // CHECK IF DEVICE HAS BEEN JAILBROKEN
-                          isRootedJailBroken();                          
+                          await FlutterWindowManager.addFlags(
+                              FlutterWindowManager
+                                  .FLAG_SECURE); // SECURE APP IN THE BACKGROUND
+                          initPlatformState();
+                          debugPrint('testing');
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                    content: Row(
+                                  children: const <Widget>[
+                                    SizedBox(
+                                        height: 20,
+                                        width: 20,
+                                        child: CircularProgressIndicator(
+                                            color: primaryColor)),
+                                    SizedBox(width: 15),
+                                    Text('Logging in...')
+                                  ],
+                                ));
+                              });
                           // ignore: use_build_context_synchronously
                           UserStateMethods().loginState(context);
                         }
-
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              content: Text(output),
-                            );
-                          },
-                        );
+                        // showDialog(
+                        //   context: context,
+                        //   builder: (context) {
+                        //     return AlertDialog(
+                        //       content: Text(output),
+                        //     );
+                        //   },
+                        // );
                       }
                     },
                   ),
