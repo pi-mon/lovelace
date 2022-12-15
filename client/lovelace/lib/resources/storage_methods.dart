@@ -1,6 +1,7 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:lovelace/models/storage_item.dart';
+import 'package:lovelace/resources/auth_methods.dart';
 
 class StorageMethods {
   final _secureStorage = const FlutterSecureStorage();
@@ -31,7 +32,7 @@ class StorageMethods {
     debugPrint("Reading all secured data");
     var allData = await _secureStorage.readAll(aOptions: _getAndroidOptions());
     List<StorageItem> list =
-        allData.entries.map((e) => StorageItem(e.key, e.value)).toList();    
+        allData.entries.map((e) => StorageItem(e.key, value: token)).toList();    
     debugPrint('${list.length}'); // testing
     debugPrint('$list'); // testing
     return list;

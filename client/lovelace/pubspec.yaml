@@ -45,10 +45,9 @@ dependencies:
   network_info_plus: ^3.0.1
   local_auth: ^2.1.2
   get: ^4.6.5
-  flutter_spinkit: ^5.1.0
   flutter_windowmanager: ^0.2.0
   screen_capture_event: ^1.1.1
-  safe_device: ^1.1.2
+  flutter_root_jailbreak: ^2.0.2
   
 dev_dependencies:
   flutter_test:

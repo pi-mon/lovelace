@@ -31,11 +31,7 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          _storageMethods.readAllSecureData().then((value) {
-            debugPrint('$value');
-          });
-        },
+        onPressed: () {},
         child: const Icon(Icons.token),
       ),
       body: Padding(
@@ -51,12 +47,18 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
                       showDialog(
                           context: context,
                           builder: (context) {
-                            return const AlertDialog(
-                                content: Text('Logging out...'));
+                            return AlertDialog(
+                                content: Row(
+                                  children: const <Widget>[
+                                    SizedBox(height: 20, width: 20, child: CircularProgressIndicator(color: primaryColor)),
+                                    SizedBox(width: 15),
+                                    Text('Logging out...')
+                                  ],
+                                ));
                           });
                       // TODO: DELETE TOKEN FROM SECURE_STORAGE
                       StorageMethods()
-                          .deleteSecureData(StorageItem('token', token));
+                          .deleteSecureData(StorageItem('token', value: token));
                       UserStateMethods().logoutState(context);
                       initList();
                     },

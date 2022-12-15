@@ -7,7 +7,7 @@ import 'package:lovelace/responsive/responsive_layout.dart';
 import 'package:lovelace/responsive/web_screen_layout.dart';
 import 'package:lovelace/screens/user/register_email_screen.dart';
 import 'package:lovelace/utils/colors.dart';
-import 'package:safe_device/safe_device.dart';
+import 'package:flutter_root_jailbreak/flutter_root_jailbreak.dart';
 import 'package:lovelace/widgets/text_field_input.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -24,27 +24,32 @@ class _LoginScreenState extends State<LoginScreen> {
       webScreenLayout: WebScreenLayout());
   final _formKey = GlobalKey<FormState>();
   final controllerToken = TextEditingController();
-  bool isJailbroken = false;
-  bool isSafeDevice = false;
+  bool _result = true;
 
   @override
-  void  initState() {
-    super.initState();
-    initPlatformState();
-  }
-
   void dispose() {
     super.dispose();
     _emailController.dispose();
     _passwordController.dispose();
   }
 
-  Future<void> initPlatformState() async {
+  Future isRootedJailBroken() async {
     if (!mounted) return;
     try {
-      debugPrint('Scanning device...');
-      isJailbroken = await SafeDevice.isJailBroken;
-      isSafeDevice = await SafeDevice.isSafeDevice;      
+      bool result = Platform.isAndroid ? await FlutterRootJailbreak.isRooted : await FlutterRootJailbreak.isJailBroken;
+      _result = result;
+      debugPrint('$_result');
+      showDialog(context: context, builder: (context) {
+        return AlertDialog(
+          content: Row(
+            children: const <Widget>[
+              SizedBox(height: 20, width: 20, child: CircularProgressIndicator(color: primaryColor)),
+              SizedBox(width: 15),
+              Text('Logging in...')
+            ],
+          ),
+        );
+      });     
     } catch (e) {      
       debugPrint('$e');
       showDialog(context: context, builder: (context) {
@@ -175,6 +180,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         ));
 
                         if (isSuccess) {
+                          // CHECK IF DEVICE HAS BEEN JAILBROKEN
+                          isRootedJailBroken();                          
                           // ignore: use_build_context_synchronously
                           UserStateMethods().loginState(context);
                         }
