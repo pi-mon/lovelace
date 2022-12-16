@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:ui';
 import 'package:logger/logger.dart';
 import 'package:lovelace/models/storage_item.dart';
 import 'package:lovelace/models/user.dart';
@@ -14,7 +15,7 @@ String token = "";
 Future submit(User user, String route) async {
   String baseUrl = checkDevice();
   String userJson = jsonEncode(user);
-  http.Response response = await http.post(Uri.https(baseUrl, route),
+  http.Response response = await http.post(Uri.http(baseUrl, route),
       headers: {
         HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8'
       },
@@ -27,13 +28,18 @@ class AuthMethods {
   Future<List> register({
     required String email,
     required String password,
+    required String location,
+    required String username,
+    required int id,
+    required int age,
+    Image? profilepic
   }) async {
     String output;
     String message = "An error occurred";
     bool isSuccess = false;
 
     if (email.isNotEmpty && password.isNotEmpty) {
-      User user = User(email: email, password: password);
+      User user = User(profilepic!, username: username, location: location, email: email, password: password, age: age);
       try {
         output = await submit(user, '/account/create');
         try {
@@ -62,13 +68,18 @@ class AuthMethods {
   Future<List> login({
     required String email,
     required String password,
+    required String username,
+    required String location,
+    required int id,
+    required int age,
+    Image? profilepic
   }) async {
     String output;
     String message = "An error occurred";
     bool isSuccess = false;
 
     if (email.isNotEmpty && password.isNotEmpty) {
-      User user = User(email: email, password: password);
+      User user = User(profilepic!, age: age, username: username, location: location, email: email, password: password);
       try {
         output = await submit(user, '/account/login');
         try {
@@ -80,7 +91,7 @@ class AuthMethods {
 
             token = outputJson['token'];
             debugPrint(token);
-            StorageMethods().writeSecureData(StorageItem('token', token));
+            StorageMethods().writeSecureData(StorageItem('token', value: token));
             debugPrint("Token written to SECURE_STORAGE");
           } else {
             message = outputJson['response'];

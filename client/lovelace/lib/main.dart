@@ -8,12 +8,9 @@ import 'package:lovelace/utils/colors.dart';
 import 'package:flutter/services.dart';
 import 'package:screen_capture_event/screen_capture_event.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter_windowmanager/flutter_windowmanager.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  FlutterWindowManager.addFlags(FlutterWindowManager
-      .FLAG_SECURE); // TODO: FIND OUT HOW TO TEST PREVENTION OF SCREENSHOTS
   final preferences = await SharedPreferences.getInstance();
   final isLoggedIn = preferences.getBool('isLoggedIn') ?? false;
 

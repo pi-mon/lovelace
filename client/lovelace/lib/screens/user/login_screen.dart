@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_jailbreak_detection/flutter_jailbreak_detection.dart';
-import 'package:flutter_windowmanager/flutter_windowmanager.dart';
 import 'package:lovelace/resources/auth_methods.dart';
 import 'package:lovelace/resources/user_state_methods.dart';
 import 'package:lovelace/responsive/mobile_screen_layout.dart';
@@ -166,7 +165,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         final String password = _passwordController.text;
 
                         List response = await AuthMethods()
-                            .login(email: email, password: password);
+                            .login(email: email, password: password, id: 0, location: '', username: '', age: 0);
 
                         String output = response[0];
                         String message = response[1];
@@ -180,9 +179,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         ));
 
                         if (isSuccess) {
-                          await FlutterWindowManager.addFlags(
-                              FlutterWindowManager
-                                  .FLAG_SECURE); // SECURE APP IN THE BACKGROUND
                           initPlatformState();
                           debugPrint('testing');
                           showDialog(

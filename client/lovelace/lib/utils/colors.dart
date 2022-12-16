@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 const selectedColor = Color.fromRGBO(255, 255, 255, 1);
-const unselectedColor = Color.fromRGBO(128, 128, 128, 1);
+const unselectedColor = Color.fromARGB(255, 162, 162, 162);
 const mobileBackgroundColor = Color.fromRGBO(0, 0, 0, 1);
 
 const primaryColor = Color.fromRGBO(143, 0, 255, 1);

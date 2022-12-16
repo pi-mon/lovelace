@@ -1,23 +1,30 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:lovelace/screens/user/register_particulars.dart';
+import 'package:lovelace/screens/user/register_password_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:lovelace/widgets/text_field_input.dart';
 
-class RegisterEmailScreen extends StatefulWidget {
-  const RegisterEmailScreen({super.key});
+class RegisterParticularsScreen extends StatefulWidget {
+  final String email;
+  const RegisterParticularsScreen({super.key, required this.email});
 
   @override
-  State<RegisterEmailScreen> createState() => _RegisterEmailScreenState();
+  State<RegisterParticularsScreen> createState() => _RegisterParticularsScreenState();
 }
 
-class _RegisterEmailScreenState extends State<RegisterEmailScreen> {
-  final TextEditingController _emailController = TextEditingController();
+class _RegisterParticularsScreenState extends State<RegisterParticularsScreen> {
+  final TextEditingController _ageController = TextEditingController();
+  final TextEditingController _locationController = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
+  List<num> ageList = [18, 19, 20, 21, 22];
+  int selectedAge = 18;
 
   @override
   void dispose() {
     super.dispose();
-    _emailController.dispose();
+    _ageController.dispose();
+    _locationController.dispose();
+    _usernameController.dispose();
   }
 
   // void iniState() {
@@ -81,12 +88,23 @@ class _RegisterEmailScreenState extends State<RegisterEmailScreen> {
                       child: Container(),
                     ),
                     TextFieldInput(
-                      label: "Email",
-                      hintText: "Enter your email",
-                      textInputType: TextInputType.emailAddress,
-                      textEditingController: _emailController,
+                      label: "Username",
+                      hintText: "Enter your username",
+                      textInputType: TextInputType.text,
+                      textEditingController: _usernameController,
                       validator: (value) {},
                     ),
+                    DropdownButton<int>(
+                      value: selectedAge, 
+                      items: ageList.map((age) => DropdownMenuItem<int>(
+                        value: age.toInt(), 
+                        child: Text('$age'))
+                      ).toList(),
+                      onChanged: (age) => setState(() {
+                        setState(() {
+                          selectedAge = age!;
+                        });
+                    })),
                     const SizedBox(height: 128),
                     Flexible(
                       flex: 1,
@@ -95,13 +113,13 @@ class _RegisterEmailScreenState extends State<RegisterEmailScreen> {
                     const SizedBox(height: 16),
                     ElevatedButton(
                         onPressed: () async {
-                          String email = _emailController.text;
+                          String email = _usernameController.text;
                           bool isValid = EmailValidator.validate(email);
 
                           if (!isValid) {
                             ScaffoldMessenger.of(context)
                                 .showSnackBar(const SnackBar(
-                              content: Text('Invalid email address'),
+                              content: Text('Username already taken!'),
                               backgroundColor: errorColor,
                             ));
                             return;
@@ -110,8 +128,8 @@ class _RegisterEmailScreenState extends State<RegisterEmailScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => RegisterParticularsScreen(
-                                      email: _emailController.text,
+                                builder: (context) => RegisterPasswordScreen(
+                                      username: _usernameController.text, location: _locationController.text, age: _ageController.hashCode,
                                     )),
                           );
                         },

@@ -1,19 +1,17 @@
+import 'dart:ui';
+
 class User {
-  // final int id;
-  // final String username;
+  final int age;
+  final String username;
   final String email;
   final String password;
-  // final String location;
-  // final Image profilepic;
+  final String location;
+  final Image profilepic;
 
-  User({required this.email, required this.password});
+  User(this.profilepic, {required this.age, required this.username, required this.location, required this.email, required this.password});
 
-  User.fromJson(Map<String, dynamic> json)
-      : email = json['email'],
-        password = json['password'];
-
-  Map<String, dynamic> toJson() => {
-        'email': email,
-        'password': password,
-      };
+  static List<User> generateUsers() {
+    return [
+    ];
+  }
 }

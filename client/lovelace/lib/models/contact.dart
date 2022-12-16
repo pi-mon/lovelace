@@ -1,7 +1,9 @@
+import 'package:lovelace/models/user.dart';
+
 class Contact {
-  final String name;
+  final User user;
+  String lastMessage;
+  String lastTime;
   
-  const Contact({
-    required this.name
-  });
+  Contact(this.user, this.lastMessage, this.lastTime);
 }

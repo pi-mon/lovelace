@@ -17,8 +17,8 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: SafeArea(
-      child:
-          Chat(messages: _messages, onSendPressed: _handleSendPressed, user: _user),
+      child: Chat(
+          messages: _messages, onSendPressed: _handleSendPressed, user: _user),
     ));
   }
 

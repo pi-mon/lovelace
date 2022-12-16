@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:lovelace/models/user.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:lovelace/widgets/contact_item.dart';
 import 'package:lovelace/widgets/text_field_input.dart';

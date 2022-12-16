@@ -6,13 +6,15 @@ import 'package:lovelace/widgets/text_field_input.dart';
 import 'package:lovelace/resources/auth_methods.dart';
 
 class RegisterPasswordScreen extends StatefulWidget {
-  final String email;
-  const RegisterPasswordScreen({super.key, required this.email});
+  final String username;
+  final String location;
+  final int age;
+  const RegisterPasswordScreen({super.key, required this.username, required this.location, required this.age});
 
   @override
   State<RegisterPasswordScreen> createState() =>
       // ignore: no_logic_in_create_state
-      _RegisterPasswordScreenState(email);
+      _RegisterPasswordScreenState(username);
 }
 
 class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
@@ -137,7 +139,7 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
                           }
 
                           List<dynamic> response = await AuthMethods()
-                              .register(email: email, password: password);
+                              .register(email: email, password: password, id: 0, location: '', username: '', age: 0);
 
                           String output = response[0];
                           String message = response[1];
