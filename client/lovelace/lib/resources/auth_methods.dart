@@ -39,7 +39,7 @@ class AuthMethods {
     bool isSuccess = false;
 
     if (email.isNotEmpty && password.isNotEmpty) {
-      User user = User(profilepic!, username: username, location: location, email: email, password: password, age: age);
+      User user = User(email: email, password: password);
       try {
         output = await submit(user, '/account/create');
         try {
@@ -68,18 +68,17 @@ class AuthMethods {
   Future<List> login({
     required String email,
     required String password,
-    required String username,
-    required String location,
-    required int id,
-    required int age,
-    Image? profilepic
+    // required String username,
+    // required String location,
+    // required int age,
+    // Image? profilepic
   }) async {
     String output;
     String message = "An error occurred";
     bool isSuccess = false;
 
     if (email.isNotEmpty && password.isNotEmpty) {
-      User user = User(profilepic!, age: age, username: username, location: location, email: email, password: password);
+      User user = User(email: email, password: password);
       try {
         output = await submit(user, '/account/login');
         try {

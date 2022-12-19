@@ -32,9 +32,9 @@ class StorageMethods {
     debugPrint("Reading all secured data");
     var allData = await _secureStorage.readAll(aOptions: _getAndroidOptions());
     List<StorageItem> list =
-        allData.entries.map((e) => StorageItem(e.key, value: token)).toList();    
+        allData.entries.map((e) => StorageItem(e.key, value: e.value)).toList();    
     debugPrint('${list.length}'); // testing
-    debugPrint('$list'); // testing
+    debugPrint(list.toString()); // testing
     return list;
   }
 
