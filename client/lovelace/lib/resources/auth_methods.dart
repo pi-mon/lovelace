@@ -90,7 +90,7 @@ class AuthMethods {
 
             token = outputJson['token'];
             debugPrint(token);
-            StorageMethods().writeSecureData(StorageItem('token', value: token));
+            StorageMethods().write(StorageItem('token', value: token));
             debugPrint("Token written to SECURE_STORAGE");
           } else {
             message = outputJson['response'];

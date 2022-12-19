@@ -174,7 +174,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
                         if (isSuccess) {
                           initPlatformState();
-                          debugPrint('testing');
                           showDialog(
                               context: context,
                               builder: (context) {
