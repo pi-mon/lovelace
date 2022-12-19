@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lovelace/screens/admin/account_screen.dart';
+import 'package:lovelace/screens/admin/admin_account_screen.dart';
 import 'package:lovelace/screens/user/account_details_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 

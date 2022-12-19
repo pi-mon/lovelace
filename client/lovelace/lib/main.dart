@@ -120,6 +120,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
             ),
             // home: widget.isLoggedIn ? widget._userPages : const LandingScreen()),
             home: Builder(builder: (context) {
+              var valueNotifier = SecureApplicationProvider.of(context);
               subLock ??= SecureApplicationProvider.of(context, listen: false)
                   ?.lockEvents
                   .listen((s) => stateHistoryList.add(

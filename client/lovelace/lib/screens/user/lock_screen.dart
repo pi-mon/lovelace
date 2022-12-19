@@ -36,7 +36,9 @@ class LockScreen extends StatelessWidget {
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(backgroundColor: primaryColor),
                             onPressed: () {
-                              AppLock.of(context)!.didUnlock(); 
+                              debugPrint('Attempting to unlock app');
+                              // TODO: NEED TO INCLUDE MFA FUNCTION
+                              AppLock.of(context)!.didUnlock(); // use this line to unlock the app
                               Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
