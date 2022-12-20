@@ -1,6 +1,11 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:local_auth/local_auth.dart';
+import 'package:lovelace/responsive/mobile_screen_layout.dart';
+import 'package:lovelace/responsive/responsive_layout.dart';
+import 'package:lovelace/responsive/web_screen_layout.dart';
 import 'package:lovelace/screens/user/login_screen.dart';
 import 'package:lovelace/screens/main/home_screen.dart';
 import 'package:lovelace/utils/colors.dart';
@@ -11,15 +16,18 @@ enum _SupportState {
   unsupported,
 }
 
-class LandingScreen extends StatefulWidget {
-  const LandingScreen({super.key});
+class AuthenticationScreen extends StatefulWidget {
+  const AuthenticationScreen({super.key});
 
   @override
-  State<LandingScreen> createState() => _LandingScreenState();
+  State<AuthenticationScreen> createState() => _AuthenticationScreenState();
 }
 
-class _LandingScreenState extends State<LandingScreen> {
+class _AuthenticationScreenState extends State<AuthenticationScreen> {
   final LocalAuthentication auth = LocalAuthentication();
+  final _userPages = const ResponsiveLayout(
+      mobileScreenLayout: MobileScreenLayout(),
+      webScreenLayout: WebScreenLayout());
   _SupportState _supportState = _SupportState.unknown;
   bool? _canCheckBiometrics;
   List<BiometricType>? _availableBiometrics;
@@ -148,61 +156,60 @@ class _LandingScreenState extends State<LandingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-          child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 32),
-              width: double.infinity,
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Flexible(
-                      flex: 1,
-                      child: Container(),
-                    ),
-                    Image.asset('assets/images/logo-dark.png',
-                        height: 200.0, width: 200.0),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) {
-                          return const LoginScreen();
-                        }));
-                      },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
-                          Text(
-                            "Sign In >",
-                            style: TextStyle(color: primaryColor, fontSize: 20),
+      body: Stack(
+        children: <Widget>[
+          ConstrainedBox(
+              constraints: const BoxConstraints.expand(), child: _userPages),
+          Center(
+            child: ClipRect(
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 15.0, sigmaY: 15.0),
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height,
+                  decoration: BoxDecoration(
+                      color: Colors.grey.shade200.withOpacity(0.5)),
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        MaterialButton(
+                          onPressed: () async {
+                            var message = _authenticateWithBiometrics();
+                            if (await message == 'Authorized') {
+                              Navigator.push(context,
+                                  MaterialPageRoute(builder: (context) {
+                                return _userPages;
+                              }));
+                            }
+                          },
+                          elevation: 1.0,
+                          color: whiteColor,
+                          padding: const EdgeInsets.all(15.0),
+                          shape: const CircleBorder(),
+                          child: const Icon(
+                            Icons.fingerprint_rounded,
+                            size: 50.0,
                           ),
-                        ],
-                      ),
+                        ),
+                        const SizedBox(height: 20),
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: primaryColor),
+                          onPressed: () {
+                            SystemNavigator.pop();
+                          },
+                          child: const Text('CANCEL'),
+                        )
+                      ],
                     ),
-                    const SizedBox(height: 128),
-                    MaterialButton(
-                      onPressed: () async {
-                        var message = _authenticateWithBiometrics();
-                        if (await message == 'Authorized') {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) {
-                            return const HomeScreen();
-                          }));
-                        }
-                      },
-                      elevation: 1.0,
-                      color: whiteColor,
-                      padding: const EdgeInsets.all(15.0),
-                      shape: const CircleBorder(),
-                      child: const Icon(
-                        Icons.fingerprint_rounded,
-                        size: 50.0,
-                      ),
-                    ),
-                    Flexible(
-                      flex: 1,
-                      child: Container(),
-                    ),
-                  ]))),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

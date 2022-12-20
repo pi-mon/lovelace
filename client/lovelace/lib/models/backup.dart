@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:lit_backup_service/model/models.dart';
 
 class Backup implements BackupModel {

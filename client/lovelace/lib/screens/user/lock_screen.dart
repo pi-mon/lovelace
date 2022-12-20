@@ -1,10 +1,10 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_app_lock/flutter_app_lock.dart';
 import 'package:lovelace/responsive/mobile_screen_layout.dart';
 import 'package:lovelace/responsive/responsive_layout.dart';
 import 'package:lovelace/responsive/web_screen_layout.dart';
+import 'package:lovelace/screens/user/authentication_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 
 class LockScreen extends StatelessWidget {
@@ -36,13 +36,10 @@ class LockScreen extends StatelessWidget {
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(backgroundColor: primaryColor),
                             onPressed: () {
-                              debugPrint('Attempting to unlock app');
-                              // TODO: NEED TO INCLUDE MFA FUNCTION
-                              AppLock.of(context)!.didUnlock(); // use this line to unlock the app
                               Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => _userPages));
+                                      builder: (context) => const AuthenticationScreen()));
                             },
                             child: const Text('UNLOCK')),
                         ElevatedButton(
