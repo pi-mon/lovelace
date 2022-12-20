@@ -51,6 +51,7 @@ dependencies:
   flutter_app_lock: ^3.0.0
   screen_capture_event: ^1.1.1
   flutter_windowmanager: ^0.2.0
+  lit_backup_service: ^1.0.3
   
 dev_dependencies:
   flutter_test:
