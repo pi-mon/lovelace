@@ -38,8 +38,10 @@ class LockScreen extends StatelessWidget {
                             onPressed: () {
                               Navigator.pushReplacement(
                                   context,
+                                  // MaterialPageRoute(
+                                  //     builder: (context) => const AuthenticationScreen()));
                                   MaterialPageRoute(
-                                      builder: (context) => const AuthenticationScreen()));
+                                      builder: (context) => _userPages));
                             },
                             child: const Text('UNLOCK')),
                         ElevatedButton(
