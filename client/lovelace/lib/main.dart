@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_lock/flutter_app_lock.dart';
-import 'package:flutter_windowmanager/flutter_windowmanager.dart';
+import 'package:flutter_root_jailbreak/flutter_root_jailbreak.dart';
 import 'package:lovelace/responsive/mobile_screen_layout.dart';
 import 'package:lovelace/responsive/responsive_layout.dart';
 import 'package:lovelace/responsive/web_screen_layout.dart';
@@ -57,16 +57,18 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   final ScreenCaptureEvent screenCaptureEvent = ScreenCaptureEvent();
   final Future<SharedPreferences> preferences = SharedPreferences.getInstance();
   bool failedAuth = false;
+  bool _isJailbroken = true;
   double blurr = 20;
   double opacity = 0.6;
   StreamSubscription<bool>? subLock;
-  List<String> stateHistoryList = [];
+  List<String> history = [];
 
   @override
   void initState() {
     screenCaptureEvent.watch();
     screenCaptureEvent.preventAndroidScreenShot(true);
     WidgetsBinding.instance.addObserver(this);
+    isRooted();
     super.initState();
   }
 
@@ -94,41 +96,48 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     }
   }
 
+  Future<void> isRooted() async {
+    try {
+      bool isJailBroken = Platform.isAndroid ? await FlutterRootJailbreak.isRooted : await FlutterRootJailbreak.isJailBroken;
+      _isJailbroken = isJailBroken;
+    } catch (e) {
+      debugPrint('======ERROR: isRooted======');
+    }
+
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
-    return SecureApplication(
-        onNeedUnlock: (secure) {
-          debugPrint('Need to unlock using biometrics to authenticate user');
-          return null;
-        },
-        nativeRemoveDelay: 500,
-        onAuthenticationFailed: () async {
-          setState(() {
-            failedAuth = true;
-          });
-          debugPrint('Auth failed!');
-        },
-        onAuthenticationSucceed: () async {
-          setState(() {
-            failedAuth = false;
-          });
-          debugPrint('Auth succeeded!');
-        },
-        child: MaterialApp(
-            debugShowCheckedModeBanner: true,
-            title: 'Lovelace',
-            theme: ThemeData(
-              fontFamily: 'Quicksand',
-              scaffoldBackgroundColor: whiteColor,
-              primaryColor: primaryColor,
-            ),
-            // home: widget.isLoggedIn ? widget._userPages : const LandingScreen()),
-            home: Builder(builder: (context) {
-              var valueNotifier = SecureApplicationProvider.of(context);
-              subLock ??= SecureApplicationProvider.of(context, listen: false)
-                  ?.lockEvents
-                  .listen((s) => stateHistoryList.add(
-                      '${DateTime.now().toIso8601String()} - ${s ? 'locked' : 'unlocked'}'));
+    return MaterialApp(
+        debugShowCheckedModeBanner: true,
+        title: 'Lovelace',
+        theme: ThemeData(
+          fontFamily: 'Quicksand',
+          scaffoldBackgroundColor: whiteColor,
+          primaryColor: primaryColor,
+        ),
+        // home: widget.isLoggedIn ? widget._userPages : const LandingScreen()),
+        home: SecureApplication(
+            onNeedUnlock: (secure) {
+              debugPrint(
+                  'Need to unlock using biometrics to authenticate user');
+              return null;
+            },
+            nativeRemoveDelay: 500,
+            onAuthenticationFailed: () async {
+              setState(() {
+                failedAuth = true;
+              });
+              debugPrint('Auth failed!');
+            },
+            onAuthenticationSucceed: () async {
+              setState(() {
+                failedAuth = false;
+              });
+              debugPrint('Auth succeeded!');
+            },
+            child: Builder(builder: (context) {
               return SecureGate(
                 blurr: blurr,
                 opacity: opacity,
@@ -163,6 +172,15 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
                     return widget.isLoggedIn
                         ? widget._userPages
                         : const LandingScreen();
+                    // return ListView(
+                    //   children: <Widget>[
+                    //     ElevatedButton(
+                    //       onPressed: () => valueNotifier.lock(),
+                    //       child: const Text('manually lock'),
+                    //     ),
+                    //     ...history.map((h) => Text(h)).toList()
+                    //   ],
+                    // );
                   }),
                 ),
               );

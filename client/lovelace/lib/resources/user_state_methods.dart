@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app_lock/flutter_app_lock.dart';
 import 'package:lovelace/responsive/mobile_screen_layout.dart';
 import 'package:lovelace/responsive/responsive_layout.dart';
 import 'package:lovelace/responsive/web_screen_layout.dart';
@@ -15,8 +14,6 @@ class UserStateMethods {
     final SharedPreferences preferences = await SharedPreferences.getInstance();
     await Future.delayed(const Duration(seconds: 2));
     preferences.setBool('isLoggedIn', true);    
-    // // ignore: use_build_context_synchronously
-    // AppLock.of(context)!.enable();
     // ignore: use_build_context_synchronously
     Navigator.pushReplacement(
         context, MaterialPageRoute(builder: (context) => _userPages));        

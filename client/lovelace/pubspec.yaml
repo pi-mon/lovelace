@@ -36,7 +36,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   shared_preferences: ^2.0.15
-  flutter_secure_storage: ^6.1.0
+  flutter_secure_storage: ^7.0.1
   http: ^0.13.5
   email_validator: ^2.1.17
   logging: ^1.1.0
@@ -44,7 +44,6 @@ dependencies:
   device_info_plus: ^8.0.0
   network_info_plus: ^3.0.1
   local_auth: ^2.1.2
-  flutter_jailbreak_detection: ^1.8.0
   flutter_chat_ui: ^1.6.6
   secure_application: ^3.8.0
   dash_chat_2: ^0.0.15
@@ -52,6 +51,7 @@ dependencies:
   screen_capture_event: ^1.1.1
   flutter_windowmanager: ^0.2.0
   lit_backup_service: ^1.0.3
+  flutter_root_jailbreak: ^2.0.2
   
 dev_dependencies:
   flutter_test:
