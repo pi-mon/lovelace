@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_lock/flutter_app_lock.dart';
 import 'package:flutter_root_jailbreak/flutter_root_jailbreak.dart';
+import 'package:flutter_windowmanager/flutter_windowmanager.dart';
 import 'package:lovelace/responsive/mobile_screen_layout.dart';
 import 'package:lovelace/responsive/responsive_layout.dart';
 import 'package:lovelace/responsive/web_screen_layout.dart';
@@ -68,7 +69,9 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     screenCaptureEvent.watch();
     screenCaptureEvent.preventAndroidScreenShot(true);
     WidgetsBinding.instance.addObserver(this);
+    FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
     isRooted();
+    screenShotRecord();
     super.initState();
   }
 
@@ -105,6 +108,18 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     }
 
     setState(() {});
+  }
+
+  Future<void> screenShotRecord() async {
+    bool isSecureMode = false;
+    setState(() {isSecureMode = !isSecureMode;});
+    // ignore: dead_code
+    if (isSecureMode) {
+      FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
+    } else {
+      FlutterWindowManager.clearFlags(FlutterWindowManager.FLAG_SECURE);
+    }
+    debugPrint('Secure Mode: $isSecureMode');
   }
 
   @override
