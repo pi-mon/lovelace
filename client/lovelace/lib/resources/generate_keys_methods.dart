@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:webcrypto/webcrypto.dart';
 
-Future<JsonWebKeyPair> generateKeys() async {
+Future<JsonWebKeyPair> generateKeys() async { // GENERATE PUBLIC PRIVATE KEY PAIR FOR USER
   final keyPair = await EcdhPrivateKey.generateKey(EllipticCurve.p256);
   final publicKeyJwk = await keyPair.publicKey.exportJsonWebKey();
   final privateKeyJwk = await keyPair.privateKey.exportJsonWebKey();
@@ -20,7 +20,7 @@ class JsonWebKeyPair {
 
 // SendersJwk -> sender.privateKey
 // ReceiverJwk -> receiver.publicKey
-Future<List<int>> deriveKey(String senderJwk, String receiverJwk) async {
+Future<List<int>> deriveKey(String senderJwk, String receiverJwk) async { // GENERATE MESSAGE ENCRYPTION KEY
   // Sender's key
   final senderPrivateKey = json.decode(senderJwk);
   final senderEcdhKey = await EcdhPrivateKey.importJsonWebKey(

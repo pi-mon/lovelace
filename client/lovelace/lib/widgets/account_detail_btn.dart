@@ -6,7 +6,7 @@ class CustomButton extends StatelessWidget {
   final String label;
   final Icon icon;
   final Color labelColor;
-  final Function function;
+  final VoidCallback? function;
   const CustomButton(
       {super.key,
       required this.icon,
@@ -21,9 +21,7 @@ class CustomButton extends StatelessWidget {
       child: SizedBox(
           height: 50,
           child: ElevatedButton(
-            onPressed: () async {
-              function;
-            },
+            onPressed: function,
             style: ElevatedButton.styleFrom(backgroundColor: whiteColor),
             child: Row(children: <Widget>[
               icon,

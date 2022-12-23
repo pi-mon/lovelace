@@ -58,27 +58,20 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
         child: SafeArea(
             child: Column(children: <Widget>[
           CustomButton(
-            icon: const Icon(Icons.email, color: placeholderColor),
-            label: "Update email",
-            labelColor: blackColor,
-            function: () {
-              emailDialog();
-            },
-          ),
+              icon: const Icon(Icons.email, color: placeholderColor),
+              label: "Update email",
+              labelColor: blackColor,
+              function: emailDialog),
           CustomButton(
               icon: const Icon(Icons.person, color: placeholderColor),
               label: "Update username",
               labelColor: blackColor,
-              function: () {
-                usernameDialog();
-              }),
+              function: usernameDialog),
           CustomButton(
               icon: const Icon(Icons.location_city, color: placeholderColor),
               label: "Update location",
               labelColor: blackColor,
-              function: () {
-                locationDialog();
-              }),
+              function: locationDialog),
           Padding(
             padding: const EdgeInsets.all(8),
             child: SizedBox(
@@ -151,7 +144,11 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
               controller: emailController,
             ),
             actions: [
-              TextButton(onPressed: submitUsername, child: const Text('UPDATE'))
+              TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(usernameController.text);
+                  },
+                  child: const Text('UPDATE'))
             ],
           ));
 
@@ -166,19 +163,11 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
               controller: locationController,
             ),
             actions: [
-              TextButton(onPressed: submitLocation, child: const Text('UPDATE'))
+              TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(locationController.text);
+                  },
+                  child: const Text('UPDATE'))
             ],
           ));
-
-  void submitEmail() {
-    Navigator.of(context).pop(emailController.text);
-  }
-
-  void submitUsername() {
-    Navigator.of(context).pop(usernameController.text);
-  }
-
-  void submitLocation() {
-    Navigator.of(context).pop(locationController.text);
-  }
 }
