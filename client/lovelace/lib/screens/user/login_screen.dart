@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_jailbreak_detection/flutter_jailbreak_detection.dart';
 import 'package:lovelace/resources/auth_methods.dart';
 import 'package:lovelace/resources/user_state_methods.dart';
 import 'package:lovelace/screens/user/register_email_screen.dart';
@@ -18,32 +17,10 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   final controllerToken = TextEditingController();
-  bool? _jailbroken;
-  bool? _developerMode;
 
   @override
   void initState() {
     super.initState();
-  }
-
-  Future<void> initPlatformState() async {
-    bool jailbroken;
-    bool developerMode;
-
-    try {
-      jailbroken = await FlutterJailbreakDetection.jailbroken;
-      developerMode = await FlutterJailbreakDetection.developerMode;
-      debugPrint(jailbroken.toString());
-      debugPrint(developerMode.toString());
-    } on PlatformException {
-      jailbroken = true;
-      developerMode = true;
-    }
-    if (!mounted) return;
-    setState(() {
-      _jailbroken = jailbroken;
-      _developerMode = developerMode;
-    });
   }
 
   @override
@@ -173,7 +150,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         ));
 
                         if (isSuccess) {
-                          initPlatformState();
                           showDialog(
                               context: context,
                               builder: (context) {

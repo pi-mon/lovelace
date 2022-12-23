@@ -72,44 +72,31 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
               label: "Update location",
               labelColor: blackColor,
               function: locationDialog),
-          Padding(
-            padding: const EdgeInsets.all(8),
-            child: SizedBox(
-                height: 50,
-                child: ElevatedButton(
-                  onPressed: () async {
-                    showDialog(
-                        context: context,
-                        builder: (context) {
-                          return AlertDialog(
-                              content: Row(
-                            children: const <Widget>[
-                              SizedBox(
-                                  height: 20,
-                                  width: 20,
-                                  child: CircularProgressIndicator(
-                                      color: primaryColor)),
-                              SizedBox(width: 15),
-                              Text('Logging out...')
-                            ],
-                          ));
-                        });
-                    StorageMethods().delete(StorageItem('token', value: token));
-                    UserStateMethods().logoutState(context);
-                    initList();
-                  },
-                  style: ElevatedButton.styleFrom(backgroundColor: whiteColor),
-                  child: Row(
-                    children: const <Widget>[
-                      Icon(Icons.exit_to_app, color: placeholderColor),
-                      SizedBox(width: 10),
-                      Text('Logout',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, color: errorColor)),
-                    ],
-                  ),
-                )),
-          ),
+          CustomButton(
+              icon: const Icon(Icons.exit_to_app, color: placeholderColor),
+              label: "Logout",
+              labelColor: errorColor,
+              function: () async {
+                showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                          content: Row(
+                        children: const <Widget>[
+                          SizedBox(
+                              height: 20,
+                              width: 20,
+                              child: CircularProgressIndicator(
+                                  color: primaryColor)),
+                          SizedBox(width: 15),
+                          Text('Logging out...')
+                        ],
+                      ));
+                    });
+                StorageMethods().delete(StorageItem('token', value: token));
+                UserStateMethods().logoutState(context);
+                initList();
+              })
         ])),
       ),
     );
