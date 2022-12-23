@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lovelace/screens/admin/view_logs_screen.dart';
-import 'package:lovelace/screens/user/account_details_screen.dart';
+import 'package:lovelace/screens/user/account_settings_screen.dart';
 import 'package:lovelace/screens/user/account_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 

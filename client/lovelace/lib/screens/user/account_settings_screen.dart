@@ -6,6 +6,7 @@ import 'package:lovelace/resources/user_state_methods.dart';
 import 'package:lovelace/responsive/mobile_screen_layout.dart';
 import 'package:lovelace/responsive/responsive_layout.dart';
 import 'package:lovelace/responsive/web_screen_layout.dart';
+import 'package:lovelace/screens/user/update_user_details_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:lovelace/widgets/account_settings_btn.dart';
 
@@ -61,7 +62,10 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
               icon: const Icon(Icons.edit, color: placeholderColor),
               label: "Update user details",
               labelColor: blackColor,
-              function: emailDialog),
+              function: () =>
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return const UpdateUserDetailsScreen();
+                  }))),
           CustomButton(
               icon: const Icon(Icons.exit_to_app, color: placeholderColor),
               label: "Logout",
@@ -91,60 +95,4 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
       ),
     );
   }
-
-  Future<String?> emailDialog() => showDialog<String>(
-      context: context,
-      builder: (context) => AlertDialog(
-            title: const Text('Update Email Address'),
-            content: TextField(
-              autofocus: true,
-              decoration:
-                  const InputDecoration(hintText: 'Enter your email address'),
-              controller: emailController,
-            ),
-            actions: [
-              TextButton(
-                  onPressed: () =>
-                      Navigator.of(context).pop(emailController.text),
-                  child: const Text('UPDATE'))
-            ],
-          ));
-
-  Future<String?> usernameDialog() => showDialog<String>(
-      context: context,
-      builder: (context) => AlertDialog(
-            title: const Text('Update Username'),
-            content: TextField(
-              autofocus: true,
-              decoration:
-                  const InputDecoration(hintText: 'Enter your username'),
-              controller: emailController,
-            ),
-            actions: [
-              TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop(usernameController.text);
-                  },
-                  child: const Text('UPDATE'))
-            ],
-          ));
-
-  Future<String?> locationDialog() => showDialog<String>(
-      context: context,
-      builder: (context) => AlertDialog(
-            title: const Text('Update location'),
-            content: TextField(
-              autofocus: true,
-              decoration:
-                  const InputDecoration(hintText: 'Enter your location'),
-              controller: locationController,
-            ),
-            actions: [
-              TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop(locationController.text);
-                  },
-                  child: const Text('UPDATE'))
-            ],
-          ));
 }

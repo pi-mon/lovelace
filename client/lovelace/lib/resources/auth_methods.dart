@@ -12,6 +12,7 @@ import 'package:http/http.dart' as http;
 
 var logger = Logger();
 String token = "";
+String updatedData = "";
 
 Future submit(User user, String route) async {
   String baseUrl = checkDevice();
@@ -23,6 +24,20 @@ Future submit(User user, String route) async {
       body: userJson);
 
   return response.body;
+}
+
+Future<List<User>> getData() async {
+  String route = "/account/test";
+  final response = await http.get(Uri.http(route));
+  var responseData = json.decode(response.body);
+
+  // Create a list to store the retrieved user data
+  List<User> users = [];
+  for (var userData in responseData) {
+    User user = User(email: userData["email"], password: userData["password"]);
+    users.add(user);
+  }
+  return users;
 }
 
 class AuthMethods {
@@ -104,5 +119,43 @@ class AuthMethods {
     }
     debugPrint(output, wrapWidth: 1024);
     return [output, message, isSuccess];
+  }
+
+  Future<List> updateUserDetails({
+    required String email,
+    required String password,
+    // required String username,
+    // required String location
+  }) async {
+    String output;
+    String message = "An error occurred";
+    bool isUpdated = false;
+
+    if (email.isNotEmpty && password.isNotEmpty
+        // location.isNotEmpty &&
+        // username.isNotEmpty
+        ) {
+      User user = User(email: email, password: password);
+      try {
+        output = await submit(user, "/account/test");
+        try {
+          dynamic outputJson = jsonDecode(output);
+          if (outputJson['update'] == true) {
+            isUpdated = true;
+            message = "Update successful";
+            updatedData = outputJson['updatedData'];
+          } else {
+            message = outputJson['response'];
+          }
+        } catch (e) {
+          message = "An error occured";
+        }
+      } catch (e) {
+        output = e.toString();
+      }
+    } else {
+      output = message = "Please enter all fields";
+    }
+    return [output, message, isUpdated];
   }
 }
