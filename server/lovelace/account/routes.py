@@ -1,5 +1,7 @@
 from flask import Blueprint, jsonify, request
-from lovelace import mongo,mongo_account_read,mongo_account_write
+from lovelace import mongo_account_read,mongo_account_write,mongo_account_details_write
+from flask import current_app as app
+from flask_mail import Message,Mail
 from pymongo import errors as db_errors
 from argon2 import PasswordHasher
 from lovelace.models import account
@@ -10,10 +12,12 @@ import dotenv
 from lovelace import account_logger as logger
 from lovelace.account.utils import (
     token_required,
+    encrypted_token_required,
     schema,
     email_validation,
     password_validation,
 )
+import jwcrypto
 from flask_expects_json import expects_json
 from argon2 import exceptions as argon2_exceptions
 
@@ -133,8 +137,31 @@ def login_account():
             {"login": True, "response": "User login successful", "token": token}
         )
 
-
-@account_page.route("/account/test")
+@account_page.route("/account/update_profile")
+@token_required #user is email registered
+def create_profile(user):
+    profile_information = request.get_json()
+    user_detail_collection = mongo_account_details_write.account_details
+    new_account_details = account.UserDetails(user,profile_information["username"],profile_information["age"],profile_information["location"])
+    if user_detail_collection.account_details.find_one({"email": user},{"email": 1}) == None: #check if need to update profile or create new profile
+        user_detail_collection.account_details.insert_one(new_account_details.__dict__)
+        return(jsonify({"create":True,"response":"User account details has been created"}))
+    else:
+        user_detail_collection.account_details.update_one({})
+        return(jsonify({"create":False,"response":"User details has already been created"}))
+    
+@account_page.route("/account/profile")
 @token_required
-def test(username):
-    return username
+def test(user):
+    user_detail_collection = mongo_account_details_write.account_details
+    account_details = user_detail_collection.account_details.find_one({"email": user})
+    account_details["_id"] = str(account_details["_id"])
+    return(jsonify(account_details))
+
+@account_page.route("/account/email")
+def test_email():
+    mail = Mail(app)
+    msg = Message('Hello from the other side!', sender =   'lovelace.dating@gmail.com', recipients = ['joel.lim04@gmail.com'])
+    msg.body = "Hey Paul, sending you this email from my Flask app, lmk if it works"
+    mail.send(msg)
+    return "Message sent!"
