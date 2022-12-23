@@ -7,7 +7,7 @@ import 'package:lovelace/responsive/mobile_screen_layout.dart';
 import 'package:lovelace/responsive/responsive_layout.dart';
 import 'package:lovelace/responsive/web_screen_layout.dart';
 import 'package:lovelace/utils/colors.dart';
-import 'package:lovelace/widgets/update_user_detail_btn.dart';
+import 'package:lovelace/widgets/account_settings_btn.dart';
 
 class AccountDetailsScreen extends StatefulWidget {
   const AccountDetailsScreen({super.key});
@@ -58,20 +58,10 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
         child: SafeArea(
             child: Column(children: <Widget>[
           CustomButton(
-              icon: const Icon(Icons.email, color: placeholderColor),
-              label: "Update email",
+              icon: const Icon(Icons.edit, color: placeholderColor),
+              label: "Update user details",
               labelColor: blackColor,
               function: emailDialog),
-          CustomButton(
-              icon: const Icon(Icons.person, color: placeholderColor),
-              label: "Update username",
-              labelColor: blackColor,
-              function: usernameDialog),
-          CustomButton(
-              icon: const Icon(Icons.location_city, color: placeholderColor),
-              label: "Update location",
-              labelColor: blackColor,
-              function: locationDialog),
           CustomButton(
               icon: const Icon(Icons.exit_to_app, color: placeholderColor),
               label: "Logout",
