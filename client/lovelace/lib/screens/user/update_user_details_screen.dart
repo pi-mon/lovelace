@@ -7,7 +7,7 @@ import 'package:lovelace/responsive/mobile_screen_layout.dart';
 import 'package:lovelace/responsive/responsive_layout.dart';
 import 'package:lovelace/responsive/web_screen_layout.dart';
 import 'package:lovelace/utils/colors.dart';
-import 'package:lovelace/widgets/account_detail_btn.dart';
+import 'package:lovelace/widgets/update_user_detail_btn.dart';
 
 class AccountDetailsScreen extends StatefulWidget {
   const AccountDetailsScreen({super.key});
