@@ -52,6 +52,7 @@ dependencies:
   flutter_windowmanager: ^0.2.0
   lit_backup_service: ^1.0.3
   flutter_root_jailbreak: ^2.0.2
+  webcrypto: ^0.5.3
   
 dev_dependencies:
   flutter_test:

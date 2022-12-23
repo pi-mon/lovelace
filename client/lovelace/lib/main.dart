@@ -62,7 +62,6 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   double blurr = 20;
   double opacity = 0.6;
   StreamSubscription<bool>? subLock;
-  List<String> history = [];
 
   @override
   void initState() {
@@ -187,15 +186,6 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
                     return widget.isLoggedIn
                         ? widget._userPages
                         : const LandingScreen();
-                    // return ListView(
-                    //   children: <Widget>[
-                    //     ElevatedButton(
-                    //       onPressed: () => valueNotifier.lock(),
-                    //       child: const Text('manually lock'),
-                    //     ),
-                    //     ...history.map((h) => Text(h)).toList()
-                    //   ],
-                    // );
                   }),
                 ),
               );

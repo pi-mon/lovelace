@@ -868,6 +868,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.3.3"
+  webcrypto:
+    dependency: "direct main"
+    description:
+      name: webcrypto
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.5.3"
   win32:
     dependency: transitive
     description:
