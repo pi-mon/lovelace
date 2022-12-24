@@ -5,6 +5,8 @@ import 'dart:math';
 import 'dart:convert';
 
 class SecureToken {
+  // TODO: Send AES key to server side for secure storage
+
   String aesEncryption(plaintext) {
     final key = encrypt.Key.fromSecureRandom(32);
     debugPrint('\nAES encryption key: ${key.base64}');

@@ -6,7 +6,7 @@ import 'package:logger/logger.dart';
 import 'package:lovelace/models/token_item.dart';
 import 'package:lovelace/models/user.dart';
 import 'package:flutter/foundation.dart';
-import 'package:lovelace/resources/encrypt_token_methods.dart';
+import 'package:lovelace/resources/secure_token_methods.dart';
 import 'package:lovelace/resources/storage_methods.dart';
 import 'package:lovelace/utils/global_variables.dart';
 import 'package:http/http.dart' as http;
