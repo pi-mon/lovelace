@@ -3,7 +3,7 @@ import 'dart:io';
 import 'dart:ui';
 import 'package:aes_crypt_null_safe/aes_crypt_null_safe.dart';
 import 'package:logger/logger.dart';
-import 'package:lovelace/models/storage_item.dart';
+import 'package:lovelace/models/token_item.dart';
 import 'package:lovelace/models/user.dart';
 import 'package:flutter/foundation.dart';
 import 'package:lovelace/resources/encrypt_token_methods.dart';
@@ -91,10 +91,9 @@ class AuthMethods {
             isSuccess = true;
             message = "Login successful";
             token = outputJson['token'];
-            debugPrint('JWT Token plaintext: $token');
-            // TODO: Encrypt the token with AES 256-bit encryption
+            debugPrint('\nJWT Token plaintext: $token');
             encryptedToken = SecureToken().aesEncryption(token);
-            StorageMethods().write(StorageItem('token', value: encryptedToken));
+            StorageMethods().write(TokenItem('token', value: encryptedToken));
           } else {
             message = outputJson['response'];
           }

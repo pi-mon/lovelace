@@ -7,10 +7,13 @@ import 'dart:convert';
 class SecureToken {
   String aesEncryption(plaintext) {
     final key = encrypt.Key.fromSecureRandom(32);
-    debugPrint('AES key: ${key.base64}');
+    debugPrint('\nAES encryption key: ${key.base64}');
     final iv = IV.fromSecureRandom(16);
     final encrypter = Encrypter(AES(key));
     final encrypted = encrypter.encrypt(plaintext, iv: iv);
+    final decrypted = encrypter.decrypt(encrypted, iv: iv);
+    debugPrint('\nEncrpted JWT Token: ${encrypted.base64}');
+    debugPrint('\nDecrypted JWT Token: $decrypted');
     return encrypted.base64;
   }
 }
