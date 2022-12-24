@@ -54,6 +54,8 @@ dependencies:
   flutter_root_jailbreak: ^2.0.2
   webcrypto: ^0.5.3
   aes_crypt_null_safe: ^2.0.2  
+  crypto: ^3.0.2
+  encrypt: ^5.0.1
 
 dev_dependencies:
   flutter_test:

@@ -1,5 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:lovelace/models/user.dart';
+import 'package:lovelace/resources/auth_methods.dart';
+import 'package:lovelace/resources/storage_methods.dart';
 import 'package:lovelace/utils/colors.dart';
+import 'package:http/http.dart' as http;
 import 'package:lovelace/widgets/text_field_input.dart';
 
 class UpdateUserDetailsScreen extends StatefulWidget {
@@ -11,14 +17,31 @@ class UpdateUserDetailsScreen extends StatefulWidget {
 }
 
 class _UpdateUserDetailsScreenState extends State<UpdateUserDetailsScreen> {
-  final TextEditingController _updateEmailController = TextEditingController();
-  final TextEditingController _updatePasswordController =
+  final TextEditingController _newEmailController = TextEditingController();
+  final TextEditingController _newPasswordController =
       TextEditingController();
-  final TextEditingController _updateLocationController =
+  final TextEditingController _newLocationController =
       TextEditingController();
-  final TextEditingController _updateUsernameController =
+  final TextEditingController _newUsernameController =
       TextEditingController();
   final _formKey = GlobalKey<FormState>();
+
+  // Future<List<User>> getData() async {
+  //   String route = "/account/test";
+  //   final response = await http.get(Uri.http(route));
+  //   var responseData = json.decode(response.body);
+  //   debugPrint('Response from get method: $responseData');
+
+  //   // Create a list to store the retrieved user data
+  //   List<User> users = [];
+  //   for (var userData in responseData) {
+  //     User user =
+  //         User(email: userData["email"], password: userData["password"]);
+  //     users.add(user);
+  //   }
+  //   debugPrint('$users');
+  //   return users;
+  // }
 
   @override
   void initState() {
@@ -27,10 +50,10 @@ class _UpdateUserDetailsScreenState extends State<UpdateUserDetailsScreen> {
 
   @override
   void dispose() {
-    _updateEmailController.dispose();
-    _updateUsernameController.dispose();
-    _updateLocationController.dispose();
-    _updatePasswordController.dispose();
+    _newEmailController.dispose();
+    _newUsernameController.dispose();
+    _newLocationController.dispose();
+    _newPasswordController.dispose();
     super.dispose();
   }
 
@@ -58,31 +81,31 @@ class _UpdateUserDetailsScreenState extends State<UpdateUserDetailsScreen> {
                 label: "Email",
                 hintText: "Enter your email",
                 textInputType: TextInputType.emailAddress,
-                textEditingController: _updateEmailController,
+                textEditingController: _newEmailController,
                 validator: (value) {},
               ),
               const SizedBox(height: 16),
               TextFieldInput(
                 label: "Password",
                 hintText: "Enter your password",
-                textInputType: TextInputType.emailAddress,
-                textEditingController: _updatePasswordController,
-                validator: (value) {},
+                textInputType: TextInputType.text,
+                textEditingController: _newPasswordController,
+                validator: (value) {},              
               ),
               const SizedBox(height: 16),
               TextFieldInput(
                 label: "Username",
                 hintText: "Enter your username",
-                textInputType: TextInputType.emailAddress,
-                textEditingController: _updateUsernameController,
+                textInputType: TextInputType.text,
+                textEditingController: _newUsernameController,
                 validator: (value) {},
               ),
               const SizedBox(height: 16),
               TextFieldInput(
                 label: "Location",
                 hintText: "Enter your location",
-                textInputType: TextInputType.emailAddress,
-                textEditingController: _updateLocationController,
+                textInputType: TextInputType.text,
+                textEditingController: _newLocationController,
                 validator: (value) {},
               ),
               const SizedBox(height: 16),
@@ -97,13 +120,28 @@ class _UpdateUserDetailsScreenState extends State<UpdateUserDetailsScreen> {
                       fontWeight: FontWeight.bold,
                       color: whiteColor),
                 ),
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    String email = _updateEmailController.text;
-                    String password = _updatePasswordController.text;
-                    String username = _updateUsernameController.text;
-                    String location = _updateLocationController.text;
-                  }
+                onPressed: () async {
+                  // if (_formKey.currentState!.validate()) {
+                  //   String email = _newEmailController.text;
+                  //   String password = _newPasswordController.text;
+                  //   String username = _newUsernameController.text;
+                  //   String location = _newLocationController.text;
+
+                  //   // call update function to send request to server side to update user details
+                  //   List response = await AuthMethods().updateUserDetails(
+                  //       email: _newEmailController.text,
+                  //       password: _newPasswordController.text);
+
+                  //   String output = response[0];
+                  //   String message = response[1];
+                  //   bool isUpdated = response[2];
+
+                  //   // ignore: use_build_context_synchronously
+                  //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  //     content: Text(message),
+                  //     backgroundColor: isUpdated ? successColor : errorColor,
+                  //   ));
+                  // }
                 },
               )
             ],

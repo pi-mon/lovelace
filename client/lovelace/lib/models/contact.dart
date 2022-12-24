@@ -5,5 +5,5 @@ class Contact {
   String lastMessage;
   String lastTime;
   
-  Contact(this.user, this.lastMessage, this.lastTime);
+  Contact({required this.user, required this.lastMessage, required this.lastTime});
 }

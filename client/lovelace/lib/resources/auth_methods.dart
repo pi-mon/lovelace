@@ -6,12 +6,14 @@ import 'package:logger/logger.dart';
 import 'package:lovelace/models/storage_item.dart';
 import 'package:lovelace/models/user.dart';
 import 'package:flutter/foundation.dart';
+import 'package:lovelace/resources/encrypt_token_methods.dart';
 import 'package:lovelace/resources/storage_methods.dart';
 import 'package:lovelace/utils/global_variables.dart';
 import 'package:http/http.dart' as http;
 
 var logger = Logger();
 String token = "";
+String encryptedToken = "";
 String updatedData = "";
 
 Future submit(User user, String route) async {
@@ -24,20 +26,6 @@ Future submit(User user, String route) async {
       body: userJson);
 
   return response.body;
-}
-
-Future<List<User>> getData() async {
-  String route = "/account/test";
-  final response = await http.get(Uri.http(route));
-  var responseData = json.decode(response.body);
-
-  // Create a list to store the retrieved user data
-  List<User> users = [];
-  for (var userData in responseData) {
-    User user = User(email: userData["email"], password: userData["password"]);
-    users.add(user);
-  }
-  return users;
 }
 
 class AuthMethods {
@@ -104,7 +92,9 @@ class AuthMethods {
             message = "Login successful";
             token = outputJson['token'];
             debugPrint('JWT Token plaintext: $token');
-            StorageMethods().write(StorageItem('token', value: token));
+            // TODO: Encrypt the token with AES 256-bit encryption
+            encryptedToken = SecureToken().aesEncryption(token);
+            StorageMethods().write(StorageItem('token', value: encryptedToken));
           } else {
             message = outputJson['response'];
           }
@@ -142,7 +132,7 @@ class AuthMethods {
           dynamic outputJson = jsonDecode(output);
           if (outputJson['update'] == true) {
             isUpdated = true;
-            message = "Update successful";
+            message = "Update successful!";
             updatedData = outputJson['updatedData'];
           } else {
             message = outputJson['response'];
