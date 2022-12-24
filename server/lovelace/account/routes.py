@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from lovelace import mongo_account_read,mongo_account_write,mongo_account_details_write
+from lovelace import mongo_account_read,mongo_account_write,mongo_account_details_write,mongo_temp_write
 from flask import current_app as app
 from flask_mail import Message,Mail
 from pymongo import errors as db_errors
@@ -9,15 +9,14 @@ import jwt
 from datetime import datetime, timedelta
 from os import environ
 import dotenv
+from pyotp import TOTP
 from lovelace import account_logger as logger
 from lovelace.account.utils import (
     token_required,
-    encrypted_token_required,
     schema,
     email_validation,
     password_validation,
 )
-import jwcrypto
 from flask_expects_json import expects_json
 from argon2 import exceptions as argon2_exceptions
 
@@ -28,12 +27,18 @@ account_page = Blueprint("account", __name__, template_folder="templates")
 @account_page.route("/account/create", methods=["POST"])
 @expects_json(schema)
 def create_account():
-    ph = PasswordHasher()
-    account_collection = mongo_account_write.account
+    try:
+      ph = PasswordHasher()
+      account_collection = mongo_account_read.account
+      temp_collection = mongo_temp_write.account
     # new_username = request.form.get("username")
-    account_json = request.get_json()
-    new_email = account_json["email"]
-    new_password = account_json["password"]
+      account_json = request.get_json()
+      new_email = account_json["email"]
+      new_password = account_json["password"]
+    except KeyError:
+       return jsonify(
+            {"login": False, "response": "User login failed due to invalid input"}
+        )
     if (
         not email_validation(new_email) or not password_validation(new_password)
     ):  # check if empty input
@@ -44,46 +49,85 @@ def create_account():
         return jsonify({"creation": False, "response": "Invalid email or password"})
     else:
         try:
+            if account_collection.user.find_one({"email":new_email}) != None:
+                logger.info(
+                 "%s Did not succeed in creating an account due to duplicated email %s",
+                 request.remote_addr,
+                 new_email,
+               )
+                return jsonify({"creation": False, "response": "Email already exist"})
             new_password_hash = ph.hash(new_password)
             new_user = account.User(new_email, new_password_hash)
             new_user_json = new_user.__dict__
-            account_collection.user.create_index("email", unique=True)
-            account_collection.user.insert_one(new_user_json)
+            new_user_json["createdAt"] = datetime.utcnow()
+            #temp_collection.temp_user.create_index("email", unique=True) #makes enail unique
+            #temp_collection.temp_user.create_index("createdAt",expireAfterSeconds=5*60) #adds to database for 5 minutes before deleting
+            token = jwt.encode(
+            {"email": new_email,
+            "request ip":request.remote_addr,
+            "authenticated":False,
+            "exp": datetime.utcnow() + timedelta(minutes=5)
+            },
+            environ.get("APPLICATION_SIGNATURE_KEY"),
+            algorithm="HS256",
+        )
+            mail = Mail(app)
+            msg = Message('OTP for lovelace', sender =   'lovelace.dating@gmail.com', recipients = ['joel.lim04@gmail.com']) #include email later
+            totp = TOTP('base32secret3232')
+            otp = totp.now()
+            otp_expiry = datetime.utcnow() + timedelta(minutes=5)
+            new_user_json["otp"] = otp
+            new_user_json["otp_expiry"] = otp_expiry
+            try:
+                temp_collection.temp_user.insert_one(new_user_json)
+            except db_errors.DuplicateKeyError:
+                del(new_user_json["email"])
+                del(new_user_json["_id"])
+                new_values = { "$set": new_user_json }
+                temp_collection.temp_user.update_one({"email": new_email},update=new_values)
+            except db_errors.OperationFailure:
+                logger.info("%s Failed database operation %s", request.remote_addr)
+                return jsonify({"login": False, "response": "Failed database operation"})
+            msg.body = f"Your otp is {otp}. This otp will expire within 5 minutes. Please do not share this otp"
+            mail.send(msg)
             logger.info(
-                "%s Succeed in creating an account using email %s",
+                "%s Succeed in creating a Temp account using email %s",
                 request.remote_addr,
                 new_email,
             )
             return jsonify(
-                {"creation": True, "response": "Account was created successfully"}
+                {"creation": True, "response": "Temp account was created successfully","token":token}
             )
-        except db_errors.DuplicateKeyError:
-            logger.info(
-                "%s Did not succeed in creating an account due to duplicated email %s",
-                request.remote_addr,
-                new_email,
-            )
-            return jsonify({"creation": False, "response": "Email already exist"})
-
-        except argon2_exceptions.VerifyMismatchError:
-            logger.info(
-                "%s Did not succeed in creating an account due to argon2 exceptions mismatch",
-                request.remote_addr,
-            )
-            return jsonify({"login": False, "response": "Invalid email or password"})
+        # except db_errors.DuplicateKeyError:
+        #     logger.info(
+        #         "%s Did not succeed in creating an account due to duplicated email %s",
+        #         request.remote_addr,
+        #         new_email,
+        #     )
+        #     return jsonify({"creation": False, "response": "Email already exist"})
 
         except db_errors.OperationFailure:
             logger.info("%s Failed database operation %s", request.remote_addr)
             return jsonify({"login": False, "response": "Failed database operation"})
 
+@account_page.route("/account/create/verify",methods=["POST"])
+@token_required(need_authenticated=False,database=mongo_temp_write.account.temp_user)
+def create_verify(user):
+    temp_collection = mongo_temp_write
+    return(user)
 
 @account_page.route("/account/login", methods=["POST", "GET"])
 @expects_json(schema)
 def login_account():
-    ph = PasswordHasher()
-    account_json = request.get_json()
-    email = account_json["email"]
-    password = account_json["password"]
+    try:
+      ph = PasswordHasher()
+      account_json = request.get_json()
+      email = account_json["email"]
+      password = account_json["password"]
+    except KeyError:
+       return jsonify(
+            {"login": False, "response": "User login failed due to invalid input"}
+        )
     # if (
     #     not email_validation(email)
     #     or not password_validation(password)
@@ -123,22 +167,63 @@ def login_account():
         token = jwt.encode(
             {"email": email,
             "request ip":request.remote_addr,
-            "exp": datetime.utcnow() + timedelta(minutes=30)
+            "authenticated":False,
+            "exp": datetime.utcnow() + timedelta(minutes=5)
             },
             environ.get("APPLICATION_SIGNATURE_KEY"),
             algorithm="HS256",
         )
+        mail = Mail(app)
+        msg = Message('OTP for lovelace', sender =   'lovelace.dating@gmail.com', recipients = ['joel.lim04@gmail.com'])
+        totp = TOTP('base32secret3232')
+        otp = totp.now()
+        otp_expiry = datetime.utcnow() + timedelta(minutes=5)
+        account_collection_write = mongo_account_write.account
+        new_values = { "$set": { 'otp': otp,"otp_expiry": otp_expiry} }
+        account_collection_write.user.update_one({"email": email},update=new_values)
+        msg.body = f"Your otp is {otp}. This otp will expire within 5 minutes. Please do not share this otp"
+        mail.send(msg)
         # resp = make_response(jsonify({"login":True,"response":"User login successful"}))
         # resp.set_cookie("token", token)
         logger.info(
-            "%s Logged in successfully using email %s", request.remote_addr, email
+            "%s Logged in successfully using email, otp required to login %s", request.remote_addr, email
         )
         return jsonify(
             {"login": True, "response": "User login successful", "token": token}
         )
 
+
+@account_page.route("/account/login/verify", methods=["POST", "GET"])
+@token_required(need_authenticated=False)
+def login_verify(user):
+     try:
+       account_collection = mongo_account_read.account
+       otp_details = account_collection.user.find_one({"email": user}, {"otp": 1,"otp_expiry":1})
+       otp_expiry = otp_details["otp_expiry"] 
+       otp = str(request.get_json()["otp"])
+     except:
+       return jsonify(
+            {"login": False, "response": "User login failed due to invalid input"}
+        )
+     if otp_expiry > datetime.utcnow() and otp_details["otp"] == otp: #checks if otp has expired
+         token = jwt.encode(
+            {"email": user,
+            "request ip":request.remote_addr,
+            "authenticated":True,
+            "exp": datetime.utcnow() + timedelta(minutes=30)
+            },
+            environ.get("APPLICATION_SIGNATURE_KEY"),
+            algorithm="HS256",)
+         logger.info(
+            "%s Logged in successfully with 2fa using email %s", request.remote_addr, user
+        )
+         return jsonify(
+            {"login": True, "response": "User login successful", "token": token}
+        )
+     return jsonify(
+            {"login": False, "response": "Invalid or expired otp"})
 @account_page.route("/account/update_profile")
-@token_required #user is email registered
+@token_required() #user is email registered
 def create_profile(user):
     profile_information = request.get_json()
     user_detail_collection = mongo_account_details_write.account_details
@@ -151,7 +236,7 @@ def create_profile(user):
         return(jsonify({"create":False,"response":"User details has already been created"}))
     
 @account_page.route("/account/profile")
-@token_required
+@token_required()
 def test(user):
     user_detail_collection = mongo_account_details_write.account_details
     account_details = user_detail_collection.account_details.find_one({"email": user})

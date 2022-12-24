@@ -4,16 +4,16 @@ from flask_limiter.util import get_remote_address
 import pymongo
 import certifi
 import os
-
 from lovelace.logger import setup_logger
 import dotenv
 dotenv.load_dotenv()
-
 ca = certifi.where()
 mongo = pymongo.MongoClient(host=os.environ.get("MONGO_URI"), tlsCAFile=ca)
 mongo_account_read = pymongo.MongoClient(host=os.environ.get("MONGO_URI_ACCOUNT_READ"), tlsCAFile=ca)
 mongo_account_write = pymongo.MongoClient(host=os.environ.get("MONGO_URI_ACCOUNT_WRITE"), tlsCAFile=ca)
 mongo_admin_read = pymongo.MongoClient(host=os.environ.get("MONGO_URI_ADMIN_READ"), tlsCAFile=ca)
+mongo_account_details_write = pymongo.MongoClient(host=os.environ.get("MONGO_URI_ACCOUNT_DETAILS_WRITE"), tlsCAFile=ca)
+mongo_temp_write = pymongo.MongoClient(host=os.environ.get("MONGO_URI_TEMP_USER_WRITE"), tlsCAFile=ca)
 
 root_logger = setup_logger("")
 account_logger = setup_logger("account")
@@ -24,6 +24,7 @@ recommendation_logger = setup_logger("recommendation")
 
 def create_app():
     app = Flask(__name__)
+    app.config.from_pyfile('config.py')
     limiter = Limiter(
     app,
     key_func=get_remote_address,
