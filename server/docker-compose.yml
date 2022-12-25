@@ -1,0 +1,10 @@
+version: '3.9'
+services:
+    lovelace-server:
+        build: .
+        ports:
+            - "3000:3000"
+        environment:
+            - IN_DOCKER=1
+        env_file:
+            - .env
