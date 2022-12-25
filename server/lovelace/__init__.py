@@ -14,6 +14,7 @@ mongo_account_write = pymongo.MongoClient(host=os.environ.get("MONGO_URI_ACCOUNT
 mongo_admin_read = pymongo.MongoClient(host=os.environ.get("MONGO_URI_ADMIN_READ"), tlsCAFile=ca)
 mongo_account_details_write = pymongo.MongoClient(host=os.environ.get("MONGO_URI_ACCOUNT_DETAILS_WRITE"), tlsCAFile=ca)
 mongo_temp_write = pymongo.MongoClient(host=os.environ.get("MONGO_URI_TEMP_USER_WRITE"), tlsCAFile=ca)
+mongo_temp_read = pymongo.MongoClient(host=os.environ.get("MONGO_URI_TEMP_USER_READ"), tlsCAFile=ca)
 
 root_logger = setup_logger("")
 account_logger = setup_logger("account")
