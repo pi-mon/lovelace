@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from lovelace import mongo_account_read,mongo_account_write,mongo_account_details_write,mongo_temp_write
+from lovelace import mongo_account_read,mongo_account_write,mongo_account_details_write,mongo_temp_write,mongo_temp_read
 from flask import current_app as app
 from flask_mail import Message,Mail
 from pymongo import errors as db_errors
@@ -113,8 +113,34 @@ def create_account():
 @account_page.route("/account/create/verify",methods=["POST"])
 @token_required(need_authenticated=False,database=mongo_temp_write.account.temp_user)
 def create_verify(user):
-    temp_collection = mongo_temp_write
-    return(user)
+    try:
+       temp_collection = mongo_temp_read.account
+       user_details = temp_collection.temp_user.find_one({"email": user})
+       otp_expiry = user_details["otp_expiry"] 
+       otp = str(request.get_json()["otp"])
+    except db_errors.OperationFailure:
+         return jsonify(
+            {"create": False, "response": "Invalid database operation"}
+        )
+    except:
+       return jsonify(
+            {"create": False, "response": "User login failed due to invalid input"}
+        )
+    try:
+      if otp_expiry > datetime.utcnow() and user_details["otp"] == otp:
+          account_collection = mongo_account_write.account
+          new_user = account.User(user_details["email"],user_details["password"])
+          new_user_json = new_user.__dict__
+          account_collection.user.insert_one(new_user_json)
+    except db_errors.OperationFailure:
+         return jsonify(
+            {"create": False, "response": "Invalid database operation"}
+        )
+    except:
+        return jsonify(
+            {"create": False, "response": "Account creation has an error"}
+        )
+    return(jsonify({"create":True,"response":"Account was created successfully"}))
 
 @account_page.route("/account/login", methods=["POST", "GET"])
 @expects_json(schema)
@@ -224,7 +250,7 @@ def login_verify(user):
             {"login": False, "response": "Invalid or expired otp"})
 @account_page.route("/account/update_profile")
 @token_required() #user is email registered
-def create_profile(user):
+def update_profile(user):
     profile_information = request.get_json()
     user_detail_collection = mongo_account_details_write.account_details
     new_account_details = account.UserDetails(user,profile_information["username"],profile_information["age"],profile_information["location"])
@@ -237,16 +263,16 @@ def create_profile(user):
     
 @account_page.route("/account/profile")
 @token_required()
-def test(user):
+def profile(user):
     user_detail_collection = mongo_account_details_write.account_details
     account_details = user_detail_collection.account_details.find_one({"email": user})
     account_details["_id"] = str(account_details["_id"])
     return(jsonify(account_details))
 
-@account_page.route("/account/email")
-def test_email():
-    mail = Mail(app)
-    msg = Message('Hello from the other side!', sender =   'lovelace.dating@gmail.com', recipients = ['joel.lim04@gmail.com'])
-    msg.body = "Hey Paul, sending you this email from my Flask app, lmk if it works"
-    mail.send(msg)
-    return "Message sent!"
+# @account_page.route("/account/email")
+# def test_email():
+#     mail = Mail(app)
+#     msg = Message('Hello from the other side!', sender =   'lovelace.dating@gmail.com', recipients = ['joel.lim04@gmail.com'])
+#     msg.body = "Hey Paul, sending you this email from my Flask app, lmk if it works"
+#     mail.send(msg)
+#     return "Message sent!"
