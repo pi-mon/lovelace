@@ -1,5 +1,7 @@
 from flask import Blueprint, request, jsonify
 from lovelace.logger.utils import get_paginated_list
+from lovelace.account.utils import token_required
+from lovelace.admin.utils import admin_required
 from lovelace import logs_logger as logger
 from pathlib import Path
 import os, json
@@ -9,6 +11,8 @@ LOG_DIR = os.path.join(Path(__file__).parent.parent.parent, "logs")
 
 
 @logs.route("/logs/root", methods=["GET"])
+# @token_required()
+# @admin_required()
 def root_logs():
     logger.info("%s Accessed root logs", request.remote_addr)
     log_dir = os.path.join(LOG_DIR, "root.log")
@@ -35,6 +39,8 @@ def root_logs():
 
 
 @logs.route("/logs/account")
+# @token_required()
+# @admin_required()
 def account_logs():
     logger.info("%s Accessed account logs", request.remote_addr)
     log_dir = os.path.join(LOG_DIR, "account.log")
@@ -61,6 +67,8 @@ def account_logs():
 
 
 @logs.route("/logs/chat")
+# @token_required()
+# @admin_required()
 def chat_logs():
     logger.info("%s Accessed chat logs", request.remote_addr)
     log_dir = os.path.join(LOG_DIR, "chat.log")
@@ -87,6 +95,8 @@ def chat_logs():
 
 
 @logs.route("/logs/recommendation")
+# @token_required()
+# @admin_required()
 def recommendation_logs():
     logger.info("%s Accessed recommendation logs", request.remote_addr)
     log_dir = os.path.join(LOG_DIR, "recommendation.log")
@@ -112,6 +122,8 @@ def recommendation_logs():
     return jsonify(log_dict)
 
 @logs.route("/logs/log")
+# @token_required()
+# @admin_required()
 def log_logs():
     logger.info("%s Accessed log logs", request.remote_addr)
     log_dir = os.path.join(LOG_DIR, "log.log")
