@@ -60,7 +60,7 @@ def create_account():
             new_user = account.User(new_email, new_password_hash)
             new_user_json = new_user.__dict__
             new_user_json["createdAt"] = datetime.utcnow()
-            #temp_collection.temp_user.create_index("email", unique=True) #makes enail unique
+            #temp_collection.temp_user.create_index("email", unique=True) #makes email unique
             #temp_collection.temp_user.create_index("createdAt",expireAfterSeconds=5*60) #adds to database for 5 minutes before deleting
             token = jwt.encode(
             {"email": new_email,
@@ -72,7 +72,7 @@ def create_account():
             algorithm="HS256",
         )
             mail = Mail(app)
-            msg = Message('OTP for lovelace', sender =   'lovelace.dating@gmail.com', recipients = ['joel.lim04@gmail.com']) #include email later
+            msg = Message('OTP for lovelace', sender =   'lovelace.dating@gmail.com', recipients = [new_email]) #include email later
             totp = TOTP('base32secret3232')
             otp = totp.now()
             otp_expiry = datetime.utcnow() + timedelta(minutes=5)
@@ -200,7 +200,7 @@ def login_account():
             algorithm="HS256",
         )
         mail = Mail(app)
-        msg = Message('OTP for lovelace', sender =   'lovelace.dating@gmail.com', recipients = ['joel.lim04@gmail.com'])
+        msg = Message('OTP for lovelace', sender =   'lovelace.dating@gmail.com', recipients = [email])
         totp = TOTP('base32secret3232')
         otp = totp.now()
         otp_expiry = datetime.utcnow() + timedelta(minutes=5)
