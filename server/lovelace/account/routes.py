@@ -258,8 +258,9 @@ def update_profile(user):
         user_detail_collection.account_details.insert_one(new_account_details.__dict__)
         return(jsonify({"create":True,"response":"User account details has been created"}))
     else:
-        user_detail_collection.account_details.update_one({})
-        return(jsonify({"create":False,"response":"User details has already been created"}))
+        new_values = { "$set": {"username":new_account_details["username"],"age":new_account_details["age"],"location":new_account_details["location"]} }
+        user_detail_collection.account_details.update_one({"email": user},update=new_values)
+        return(jsonify({"create":True,"response":"User details has been updated"}))
     
 @account_page.route("/account/profile")
 @token_required()
