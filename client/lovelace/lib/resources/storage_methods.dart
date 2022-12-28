@@ -12,9 +12,9 @@ Future<String> get _localPath async {
   return directory.path;
 }
 
-Future getData(String route) {
-  await 
-}
+// Future getData(String route) {
+//   await 
+// }
 
 class StorageMethods {
   final _secureStorage = const FlutterSecureStorage();
