@@ -253,12 +253,12 @@ def login_verify(user):
 def update_profile(user):
     profile_information = request.get_json()
     user_detail_collection = mongo_account_details_write.account_details
-    new_account_details = account.UserDetails(user,profile_information["username"],profile_information["age"],profile_information["location"])
-    if user_detail_collection.account_details.find_one({"email": user},{"email": 1}) == None: #check if need to update profile or create new profile
+    new_account_details = account.UserDetails(user,profile_information["display_name"],profile_information["age"],profile_information["location"])
+    if user_detail_collection.account_details.find_one({"email": user},{"email": 1}) == None: #check if need to update profilwwwwwe or create new profile
         user_detail_collection.account_details.insert_one(new_account_details.__dict__)
         return(jsonify({"create":True,"response":"User account details has been created"}))
     else:
-        new_values = { "$set": {"username":new_account_details["username"],"age":new_account_details["age"],"location":new_account_details["location"]} }
+        new_values = { "$set": {"username":profile_information["display_name"],"age":profile_information["age"],"location":profile_information["location"]} }
         user_detail_collection.account_details.update_one({"email": user},update=new_values)
         return(jsonify({"create":True,"response":"User details has been updated"}))
     
