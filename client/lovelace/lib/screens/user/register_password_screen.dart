@@ -1,21 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:lovelace/screens/user/login_screen.dart';
+import 'package:lovelace/screens/user/register_verify_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:lovelace/widgets/text_field_input.dart';
 import 'package:lovelace/resources/auth_methods.dart';
 
 class RegisterPasswordScreen extends StatefulWidget {
+  final String displayName;
   final String email;
-  const RegisterPasswordScreen({super.key, required this.email});
+  const RegisterPasswordScreen(
+      {super.key, required this.displayName, required this.email});
 
   @override
   State<RegisterPasswordScreen> createState() =>
       // ignore: no_logic_in_create_state
-      _RegisterPasswordScreenState(email);
+      _RegisterPasswordScreenState(displayName, email);
 }
 
 class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
-  _RegisterPasswordScreenState(this.email);
+  _RegisterPasswordScreenState(this.displayName, this.email);
+  final String displayName;
   final String email;
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _password2Controller = TextEditingController();
@@ -107,6 +110,7 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
                               r"^(?=\S{8,20}$)(?=.*?\d)(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[^A-Za-z\s0-9])";
                           final String password = _passwordController.text;
                           final String password2 = _password2Controller.text;
+
                           final bool passwordMatch = password == password2;
                           final bool passwordValid =
                               RegExp(passwordRegex).hasMatch(password);
@@ -139,8 +143,10 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
                             return;
                           }
 
-                          List<dynamic> response = await AuthMethods()
-                              .register(email: email, password: password);
+                          List<dynamic> response = await AuthMethods().register(
+                              email: email,
+                              password: password,
+                              displayName: displayName);
 
                           String output = response[0];
                           String message = response[1];
@@ -150,7 +156,7 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             content: Text(message),
                             backgroundColor:
-                                isSuccess ? successColor : errorColor,
+                                isSuccess ? borderColor : errorColor,
                           ));
 
                           if (isSuccess) {
@@ -158,7 +164,11 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const LoginScreen()),
+                                  builder: (context) => RegisterVerifyScreen(
+                                        displayName: displayName,
+                                        email: email,
+                                        password: password,
+                                      )),
                             );
                           } else if (message != "Please enter all the fields") {
                             // ignore: use_build_context_synchronously

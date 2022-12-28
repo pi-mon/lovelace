@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lovelace/resources/auth_methods.dart';
 import 'package:lovelace/resources/user_state_methods.dart';
-import 'package:lovelace/screens/user/register_email_screen.dart';
+import 'package:lovelace/screens/user/register_details_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:lovelace/widgets/text_field_input.dart';
 
@@ -12,6 +12,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  bool _isLoading = false;
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
@@ -104,7 +105,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ?.unfocus(); // closes keyboard on login
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) {
-                        return const RegisterEmailScreen();
+                        return const RegisterDetailsScreen();
                       }));
                     },
                     child: Row(
@@ -123,18 +124,23 @@ class _LoginScreenState extends State<LoginScreen> {
                       minimumSize: const Size(150, 50),
                       backgroundColor: primaryColor,
                     ),
-                    child: const Text("Login",
-                        style: TextStyle(
-                            fontSize: 18,
-                            color: whiteColor,
-                            fontWeight: FontWeight.bold)),
                     onPressed: () async {
+                      setState(() {
+                        _isLoading = true;
+                      });
+
                       if (_formKey.currentState!.validate()) {
                         final String email = _emailController.text;
                         final String password = _passwordController.text;
 
-                        List response = await AuthMethods()
-                            .login(email: email, password: password);
+                        List response = await AuthMethods().login(
+                          email: email,
+                          password: password,
+                        );
+
+                        setState(() {
+                          _isLoading = false;
+                        });
 
                         String output = response[0];
                         String message = response[1];
@@ -162,6 +168,13 @@ class _LoginScreenState extends State<LoginScreen> {
                         );
                       }
                     },
+                    child: !_isLoading
+                        ? const Text("Login",
+                            style: TextStyle(
+                                fontSize: 18,
+                                color: whiteColor,
+                                fontWeight: FontWeight.bold))
+                        : const CircularProgressIndicator(color: whiteColor),
                   ),
                 ])),
       )),

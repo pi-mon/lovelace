@@ -1,23 +1,38 @@
-import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:lovelace/resources/auth_methods.dart';
+import 'package:lovelace/screens/user/login_screen.dart';
 import 'package:lovelace/screens/user/register_password_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:lovelace/widgets/text_field_input.dart';
 
-class RegisterEmailScreen extends StatefulWidget {
-  const RegisterEmailScreen({super.key});
+class RegisterVerifyScreen extends StatefulWidget {
+  final String displayName;
+  final String email;
+  final String password;
+  const RegisterVerifyScreen(
+      {super.key,
+      required this.displayName,
+      required this.email,
+      required this.password});
 
   @override
-  State<RegisterEmailScreen> createState() => _RegisterEmailScreenState();
+  State<RegisterVerifyScreen> createState() =>
+      // ignore: no_logic_in_create_state
+      _RegisterVerifyScreenState(displayName, email, password);
 }
 
-class _RegisterEmailScreenState extends State<RegisterEmailScreen> {
-  final TextEditingController _emailController = TextEditingController();
+class _RegisterVerifyScreenState extends State<RegisterVerifyScreen> {
+  _RegisterVerifyScreenState(this.displayName, this.email, this.password);
+  final String displayName;
+  final String email;
+  final String password;
+
+  final TextEditingController _otpController = TextEditingController();
 
   @override
   void dispose() {
     super.dispose();
-    _emailController.dispose();
+    _otpController.dispose();
   }
 
   // void iniState() {
@@ -26,10 +41,10 @@ class _RegisterEmailScreenState extends State<RegisterEmailScreen> {
   // }
 
   // Future init() async {
-  //   final email = await SecureStorage().getEmail() ?? '';
+  //   final otp = await SecureStorage().getotp() ?? '';
 
   //   setState(() {
-  //     this._emailController.text = email;
+  //     this._otpController.text = otp;
   //   });
   // }
 
@@ -60,7 +75,7 @@ class _RegisterEmailScreenState extends State<RegisterEmailScreen> {
                             child: Padding(
                                 padding: EdgeInsets.only(right: 32.0),
                                 child: Text(
-                                  'Register',
+                                  'Verify your email',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       color: primaryColor, fontSize: 20),
@@ -69,7 +84,7 @@ class _RegisterEmailScreenState extends State<RegisterEmailScreen> {
                     ),
                     const SizedBox(height: 16),
                     const Text(
-                      'Welcome!\nHow are you?',
+                      'Check your email for OTP',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           color: primaryColor,
@@ -81,10 +96,10 @@ class _RegisterEmailScreenState extends State<RegisterEmailScreen> {
                       child: Container(),
                     ),
                     TextFieldInput(
-                      label: "Email",
-                      hintText: "Enter your email",
-                      textInputType: TextInputType.emailAddress,
-                      textEditingController: _emailController,
+                      label: "OTP",
+                      hintText: "Enter your OTP",
+                      textInputType: TextInputType.number,
+                      textEditingController: _otpController,
                       validator: (value) {
                         return null;
                       },
@@ -97,31 +112,62 @@ class _RegisterEmailScreenState extends State<RegisterEmailScreen> {
                     const SizedBox(height: 16),
                     ElevatedButton(
                         onPressed: () async {
-                          String email = _emailController.text;
-                          bool isValid = EmailValidator.validate(email);
+                          String otp = _otpController.text;
 
-                          if (!isValid) {
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(const SnackBar(
-                              content: Text('Invalid email address'),
+                          bool otpIsValid = otp.isNotEmpty && otp.length == 6;
+
+                          if (!otpIsValid) {
+                            String message = "Invalid OTP";
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text(message),
                               backgroundColor: errorColor,
                             ));
                             return;
                           }
+
+                          List<dynamic> response = await AuthMethods().verify(
+                              email: email,
+                              password: password,
+                              displayName: displayName,
+                              otp: int.parse(otp));
+
+                          String output = response[0];
+                          String message = response[1];
+                          bool isSuccess = response[2];
+
                           // ignore: use_build_context_synchronously
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => RegisterPasswordScreen(
-                                      email: _emailController.text,
-                                    )),
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text(message),
+                            backgroundColor:
+                                isSuccess ? successColor : errorColor,
+                          ));
+
+                          if (isSuccess) {
+                            // ignore: use_build_context_synchronously
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const LoginScreen()),
+                            );
+                          } else if (message != "Please enter all the fields") {
+                            // ignore: use_build_context_synchronously
+                            Navigator.pop(context);
+                          }
+
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                content: Text(output),
+                              );
+                            },
                           );
                         },
                         style: ElevatedButton.styleFrom(
                           minimumSize: const Size(150, 50),
                           backgroundColor: primaryColor,
                         ),
-                        child: const Text("Next",
+                        child: const Text("Verify",
                             style: TextStyle(
                                 fontSize: 18,
                                 color: whiteColor,
