@@ -25,6 +25,7 @@ void main() async {
     DeviceOrientation.portraitDown,
   ]).then((value) => runApp(MyApp(isLoggedIn: isLoggedIn)));
 
+  // * Enable communication through HTTPS
   ByteData data = await PlatformAssetBundle().load('assets/ca/cert.pem');
   SecurityContext.defaultContext
       .setTrustedCertificatesBytes(data.buffer.asUint8List());
@@ -48,7 +49,6 @@ class MyApp extends StatefulWidget {
       webScreenLayout: WebScreenLayout());
   const MyApp({Key? key, required this.isLoggedIn, Object? data})
       : super(key: key);
-
   @override
   State<MyApp> createState() => _MyAppState();
 }

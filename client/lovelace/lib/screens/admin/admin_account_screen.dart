@@ -57,8 +57,13 @@ class _AdminAccountScreenState extends State<AdminAccountScreen> {
                         onPressed: () {
                           Navigator.push(
                               context,
-                              MaterialPageRoute(
-                                  builder: (context) => const AccountScreen()));
+                              PageRouteBuilder(
+                                pageBuilder:
+                                    (context, animation1, animation2) =>
+                                        const AccountScreen(),
+                                transitionDuration: Duration.zero,
+                                reverseTransitionDuration: Duration.zero,
+                              ));
                         },
                         style: ElevatedButton.styleFrom(
                             backgroundColor: primaryColor),
