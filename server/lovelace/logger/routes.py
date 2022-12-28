@@ -86,10 +86,10 @@ def chat_logs():
     with open(log_dir) as f:
         for i, line in enumerate(f):
             decoded = json.loads(line)
-            log_dict[counter] = decoded
+            log_list[counter] = decoded
             counter += 1
 
-    return log_dict
+    return log_list
 
 
 @logs.route("/logs/recommendation")
@@ -109,5 +109,5 @@ def recommendation_logs():
 
     return log_dict
 
-    log_dict = {"result": log_list}
-    return jsonify(log_dict)
+    # log_dict = {"result": log_list}
+    # return jsonify(log_dict)
