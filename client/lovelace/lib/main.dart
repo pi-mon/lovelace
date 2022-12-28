@@ -13,7 +13,6 @@ import 'package:lovelace/utils/colors.dart';
 import 'package:flutter/services.dart';
 import 'package:screen_capture_event/screen_capture_event.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:secure_application/secure_application.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -34,7 +33,7 @@ void main() async {
       builder: (arg) => MyApp(
             data: arg,
             key: const Key('MyApp'),
-            isLoggedIn: isLoggedIn,
+            isLoggedIn: isLoggedIn,            
           ),
       lockScreen: const LockScreen(key: Key('LockScreen')),
       backgroundLockLatency: const Duration(seconds: 3),
@@ -57,7 +56,6 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   final ScreenCaptureEvent screenCaptureEvent = ScreenCaptureEvent();
   final Future<SharedPreferences> preferences = SharedPreferences.getInstance();
-  bool failedAuth = false;
   bool _isJailbroken = true;
   double blurr = 20;
   double opacity = 0.6;
@@ -100,7 +98,9 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
   Future<void> isRooted() async {
     try {
-      bool isJailBroken = Platform.isAndroid ? await FlutterRootJailbreak.isRooted : await FlutterRootJailbreak.isJailBroken;
+      bool isJailBroken = Platform.isAndroid
+          ? await FlutterRootJailbreak.isRooted
+          : await FlutterRootJailbreak.isJailBroken;
       _isJailbroken = isJailBroken;
     } catch (e) {
       debugPrint('======ERROR: isRooted======');
@@ -111,7 +111,9 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
   Future<void> screenShotRecord() async {
     bool isSecureMode = false;
-    setState(() {isSecureMode = !isSecureMode;});
+    setState(() {
+      isSecureMode = !isSecureMode;
+    });
     // ignore: dead_code
     if (isSecureMode) {
       FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
@@ -131,64 +133,6 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
           scaffoldBackgroundColor: whiteColor,
           primaryColor: primaryColor,
         ),
-        // home: widget.isLoggedIn ? widget._userPages : const LandingScreen()),
-        home: SecureApplication(
-            onNeedUnlock: (secure) {
-              debugPrint(
-                  'Need to unlock using biometrics to authenticate user');
-              return null;
-            },
-            nativeRemoveDelay: 500,
-            onAuthenticationFailed: () async {
-              setState(() {
-                failedAuth = true;
-              });
-              debugPrint('Auth failed!');
-            },
-            onAuthenticationSucceed: () async {
-              setState(() {
-                failedAuth = false;
-              });
-              debugPrint('Auth succeeded!');
-            },
-            child: Builder(builder: (context) {
-              return SecureGate(
-                blurr: blurr,
-                opacity: opacity,
-                lockedBuilder: (context, secureApplicationController) => Center(
-                    child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: primaryColor),
-                      child: const Text('Unlock'),
-                      onPressed: () => secureApplicationController?.authSuccess(
-                          unlock: true),
-                    ),
-                    ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: primaryColor),
-                        child: const Text('Cancel'),
-                        onPressed: () {
-                          secureApplicationController?.authFailed(unlock: true);
-                          SystemNavigator.pop(); // LEAVE THE APP
-                        }),
-                  ],
-                )),
-                child: Scaffold(
-                  body: Builder(builder: (context) {
-                    var valueNotifier = SecureApplicationProvider.of(context);
-                    if (valueNotifier == null) {
-                      throw Exception(
-                          'Unable to find secure application context');
-                    }
-                    return widget.isLoggedIn
-                        ? widget._userPages
-                        : const LandingScreen();
-                  }),
-                ),
-              );
-            })));
+        home: widget.isLoggedIn ? widget._userPages : const LandingScreen());
   }
 }

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:lovelace/screens/chat/chat_room.dart';
+import 'package:lovelace/screens/chat/chat_room_v2.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:lovelace/widgets/contact_item.dart';
 import 'package:lovelace/widgets/text_field_input.dart';
@@ -45,30 +47,32 @@ class _ChatScreenState extends State<ChatScreen> {
                   Flexible(
                     child: Column(
                       children: const <Widget>[
-                        ContactItem(
-                          time: "12:00 PM",
-                          contact: "Sarah",
-                          lastText: "Hello there!",
+                        SizedBox(
+                          height: 50,
+                            child: ContactItem(
+                              time: "12:00 PM",
+                              contact: "Sarah",
+                              lastText: "Hello there!",
+                            ),                        
                         ),
                         SizedBox(height: 15),
-                        ContactItem(
-                          time: "12:00 PM",
-                          contact: "John",
-                          lastText: "Hello there!",
+                        SizedBox(
+                          height: 50,
+                            child: ContactItem(
+                              time: "12:00 PM",
+                              contact: "John",
+                              lastText: "Hello there!",
+                            ),                          
                         ),
                         SizedBox(height: 15),
-                        ContactItem(
-                          time: "12:00 PM",
-                          contact: "Dylan",
-                          lastText: "Hello there!",
+                        SizedBox(
+                          height: 50,
+                            child: ContactItem(
+                              time: "12:00 PM",
+                              contact: "Dylan",
+                              lastText: "Hello there!",
+                            ),                          
                         ),
-                        SizedBox(height: 15),
-                        ContactItem(
-                          time: "12:00 PM",
-                          contact: "Tom",
-                          lastText: "Hello there!",
-                        ),
-                        SizedBox(height: 15),
                       ],
                     ),
                   )

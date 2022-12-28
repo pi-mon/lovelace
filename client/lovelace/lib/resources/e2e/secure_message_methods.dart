@@ -21,7 +21,7 @@ class SecureMessageMethods {
   }
 
   Future<String> decryptMessage(
-      String encryptedMessage, List<int> deriveKey) async {
+    String encryptedMessage, List<int> deriveKey) async {
     // import the generated secret key
     final aesGcmSecretKey = await AesGcmSecretKey.importRawKey(deriveKey);
 
@@ -36,4 +36,7 @@ class SecureMessageMethods {
     final decryptedMessage = String.fromCharCodes(decryptedMessageBytes);
     return decryptedMessage;
   }
+
+  // TODO: Send encrypted message to server side with signed digital sigature
+  
 }

@@ -3,7 +3,6 @@ import 'dart:io';
 import 'dart:ui';
 import 'package:aes_crypt_null_safe/aes_crypt_null_safe.dart';
 import 'package:logger/logger.dart';
-import 'package:lovelace/models/token_item.dart';
 import 'package:lovelace/models/user.dart';
 import 'package:flutter/foundation.dart';
 import 'package:lovelace/resources/secure_token_methods.dart';
@@ -13,7 +12,6 @@ import 'package:http/http.dart' as http;
 
 var logger = Logger();
 String token = "";
-String encryptedToken = "";
 String updatedData = "";
 
 Future submit(User user, String route) async {
@@ -92,8 +90,7 @@ class AuthMethods {
             message = "Login successful";
             token = outputJson['token'];
             debugPrint('\nJWT Token plaintext: $token');
-            encryptedToken = SecureToken().aesEncryption(token);
-            StorageMethods().write(TokenItem('token', value: encryptedToken));
+            StorageMethods().writeToken(token);
           } else {
             message = outputJson['response'];
           }

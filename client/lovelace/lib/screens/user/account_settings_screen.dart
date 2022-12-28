@@ -39,7 +39,7 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
   }
 
   void initList() async {
-    await _storageMethods.readAll();
+    await _storageMethods.readAllTokens();
     setState(() {});
   }
 
@@ -87,7 +87,7 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
                         ],
                       ));
                     });
-                StorageMethods().delete(TokenItem('token', value: token));
+                StorageMethods().deleteToken();
                 UserStateMethods().logoutState(context);
                 initList();
               })

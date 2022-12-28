@@ -46,6 +46,18 @@ class _UpdateUserDetailsScreenState extends State<UpdateUserDetailsScreen> {
   @override
   void initState() {
     super.initState();
+    init();
+  }
+
+  Future init() async {
+    // TODO: Get the user data from server side
+
+    // setState(() {
+    //   this._newEmailController.text = 
+    //   this._newPasswordController.text = 
+    //   this._newLocationController.text = 
+    //   this._newUsernameController.text = 
+    // });
   }
 
   @override

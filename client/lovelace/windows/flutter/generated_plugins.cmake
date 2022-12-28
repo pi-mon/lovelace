@@ -3,11 +3,15 @@
 #
 
 list(APPEND FLUTTER_PLUGIN_LIST
+  connectivity_plus
+  dart_vlc
+  desktop_drop
+  file_selector_windows
   flutter_secure_storage_windows
   local_auth_windows
   network_info_plus
   permission_handler_windows
-  secure_application
+  thumblr_windows
   url_launcher_windows
 )
 

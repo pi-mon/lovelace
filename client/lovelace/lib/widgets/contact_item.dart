@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lovelace/screens/chat/chat_room.dart';
+import 'package:lovelace/screens/chat/chat_room_v2.dart';
 import 'package:lovelace/utils/colors.dart';
 
 class ContactItem extends StatelessWidget {
@@ -14,12 +15,13 @@ class ContactItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
+    return ElevatedButton(
+      onPressed: () {
         // TODO: REDIRECT TO CHAT ROOM PAGE
-        Navigator.push(context, MaterialPageRoute(builder: (context) => const ChatRoomScreen()));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => const ChatRoomScreenV2()));
       },
-      child: Row(
+      style: ElevatedButton.styleFrom(backgroundColor: whiteColor),
+      child: Row(      
         children: <Widget>[
           Container(
               padding: const EdgeInsets.all(2),
@@ -35,7 +37,7 @@ class ContactItem extends StatelessWidget {
                   ]),
               child: const Icon(Icons.person, size: 40)),
           Container(
-            width: MediaQuery.of(context).size.width * 0.8,
+            width: MediaQuery.of(context).size.width * 0.75,
             padding: const EdgeInsets.only(left: 20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
