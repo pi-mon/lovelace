@@ -23,6 +23,8 @@ class RegisterVerifyScreen extends StatefulWidget {
 
 class _RegisterVerifyScreenState extends State<RegisterVerifyScreen> {
   _RegisterVerifyScreenState(this.displayName, this.email, this.password);
+  bool _isLoading = false;
+
   final String displayName;
   final String email;
   final String password;
@@ -112,6 +114,10 @@ class _RegisterVerifyScreenState extends State<RegisterVerifyScreen> {
                     const SizedBox(height: 16),
                     ElevatedButton(
                         onPressed: () async {
+                          setState(() {
+                            _isLoading = true;
+                          });
+
                           String otp = _otpController.text;
 
                           bool otpIsValid = otp.isNotEmpty && otp.length == 6;
@@ -130,6 +136,10 @@ class _RegisterVerifyScreenState extends State<RegisterVerifyScreen> {
                               password: password,
                               displayName: displayName,
                               otp: int.parse(otp));
+
+                          setState(() {
+                            _isLoading = false;
+                          });
 
                           String output = response[0];
                           String message = response[1];
@@ -167,11 +177,15 @@ class _RegisterVerifyScreenState extends State<RegisterVerifyScreen> {
                           minimumSize: const Size(150, 50),
                           backgroundColor: primaryColor,
                         ),
-                        child: const Text("Verify",
-                            style: TextStyle(
-                                fontSize: 18,
+                        child: !_isLoading
+                            ? const Text("Verify",
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    color: whiteColor,
+                                    fontWeight: FontWeight.bold))
+                            : const CircularProgressIndicator(
                                 color: whiteColor,
-                                fontWeight: FontWeight.bold))),
+                              )),
                   ]))),
     );
   }

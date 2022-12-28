@@ -18,6 +18,7 @@ class RegisterPasswordScreen extends StatefulWidget {
 
 class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
   _RegisterPasswordScreenState(this.displayName, this.email);
+  bool _isLoading = false;
   final String displayName;
   final String email;
   final TextEditingController _passwordController = TextEditingController();
@@ -106,6 +107,10 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
                     const SizedBox(height: 16),
                     ElevatedButton(
                         onPressed: () async {
+                          setState(() {
+                            _isLoading = true;
+                          });
+
                           const String passwordRegex =
                               r"^(?=\S{8,20}$)(?=.*?\d)(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[^A-Za-z\s0-9])";
                           final String password = _passwordController.text;
@@ -148,6 +153,10 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
                               password: password,
                               displayName: displayName);
 
+                          setState(() {
+                            _isLoading = false;
+                          });
+
                           String output = response[0];
                           String message = response[1];
                           bool isSuccess = response[2];
@@ -188,11 +197,15 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
                           minimumSize: const Size(150, 50),
                           backgroundColor: primaryColor,
                         ),
-                        child: const Text("Sign Up",
-                            style: TextStyle(
-                                fontSize: 18,
+                        child: !_isLoading
+                            ? const Text("Sign Up",
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    color: whiteColor,
+                                    fontWeight: FontWeight.bold))
+                            : const CircularProgressIndicator(
                                 color: whiteColor,
-                                fontWeight: FontWeight.bold))),
+                              )),
                   ]))),
     );
   }
