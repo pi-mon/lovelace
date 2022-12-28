@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 const selectedColor = Color.fromRGBO(255, 255, 255, 1);
 const unselectedColor = Color.fromRGBO(223, 173, 218, 1);
 const mobileBackgroundColor = Color.fromRGBO(0, 0, 0, 1);
-
 const primaryColor = Color.fromRGBO(143, 0, 255, 1);
 const borderColor = Color.fromRGBO(176, 75, 255, 1);
 const whiteColor = Color.fromRGBO(240, 242, 246, 1);
