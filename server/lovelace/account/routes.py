@@ -132,6 +132,7 @@ def create_verify(user):
           new_user = account.User(user_details["email"],user_details["password"])
           new_user_json = new_user.__dict__
           account_collection.user.insert_one(new_user_json)
+          return(jsonify({"create":True,"response":"Account was created successfully"}))
     except db_errors.OperationFailure:
          return jsonify(
             {"create": False, "response": "Invalid database operation"}
@@ -140,7 +141,7 @@ def create_verify(user):
         return jsonify(
             {"create": False, "response": "Account creation has an error"}
         )
-    return(jsonify({"create":True,"response":"Account was created successfully"}))
+    return(jsonify({"create":False,"response":"Expired or Invalid OTP was entered"}))
 
 @account_page.route("/account/login", methods=["POST", "GET"])
 @expects_json(schema)
