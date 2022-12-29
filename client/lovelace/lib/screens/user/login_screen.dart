@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lovelace/resources/auth_methods.dart';
 import 'package:lovelace/resources/user_state_methods.dart';
+import 'package:lovelace/screens/user/login_verify_screen.dart';
 import 'package:lovelace/screens/user/register_details_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:lovelace/widgets/text_field_input.dart';
@@ -151,41 +152,42 @@ class _LoginScreenState extends State<LoginScreen> {
                         String message = response[1];
                         bool isSuccess = response[2];
 
+                        debugPrint(output);
+
                         // ignore: use_build_context_synchronously
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           content: Text(message),
-                          backgroundColor:
-                              isSuccess ? successColor : errorColor,
+                          backgroundColor: isSuccess ? borderColor : errorColor,
                         ));
 
                         if (isSuccess) {
-                          showDialog(
-                              context: context,
-                              builder: (context) {
-                                return AlertDialog(
-                                    content: Row(
-                                  children: const <Widget>[
-                                    SizedBox(
-                                        height: 20,
-                                        width: 20,
-                                        child: CircularProgressIndicator(
-                                            color: primaryColor)),
-                                    SizedBox(width: 15),
-                                    Text('Logging in...')
-                                  ],
-                                ));
-                              });
+                          // showDialog(
+                          //     context: context,
+                          //     builder: (context) {
+                          //       return AlertDialog(
+                          //           content: Row(
+                          //         children: const <Widget>[
+                          //           SizedBox(
+                          //               height: 20,
+                          //               width: 20,
+                          //               child: CircularProgressIndicator(
+                          //                   color: primaryColor)),
+                          //           SizedBox(width: 15),
+                          //           Text('Logging in...')
+                          //         ],
+                          //       ));
+                          //     });
+
                           // ignore: use_build_context_synchronously
-                          UserStateMethods().loginState(context);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => LoginVerifyScreen(
+                                      email: email,
+                                      password: password,
+                                    )),
+                          );
                         }
-                        // showDialog(
-                        //   context: context,
-                        //   builder: (context) {
-                        //     return AlertDialog(
-                        //       content: Text(output),
-                        //     );
-                        //   },
-                        // );
                       }
                     },
                     child: !_isLoading

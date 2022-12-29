@@ -115,13 +115,14 @@ def create_account():
                 request.remote_addr,
                 new_email,
             )
-            return jsonify(
+            output = jsonify(
                 {
                     "creation": True,
                     "response": "Temp account was created successfully, please check mailbox for email verification.",
-                    "token": token,
                 }
             )
+            output.set_cookie("token", token)
+            return output
         # except db_errors.DuplicateKeyError:
         #     logger.info(
         #         "%s Did not succeed in creating an account due to duplicated email %s",
@@ -245,9 +246,14 @@ def login_account():
             request.remote_addr,
             email,
         )
-        return jsonify(
-            {"login": True, "response": "User login successful", "token": token}
+        output = jsonify(
+            {
+                "login": True,
+                "response": "User login successful, otp required to login",
+            }
         )
+        output.set_cookie("token", token)
+        return output
 
 
 @account_page.route("/account/login/verify", methods=["POST", "GET"])
@@ -282,13 +288,13 @@ def login_verify(user):
             request.remote_addr,
             user,
         )
-        return jsonify(
-            {"login": True, "response": "User login successful", "token": token}
-        )
+        output = jsonify({"login": True, "response": "User login successful"})
+        output.set_cookie("token", token)
+        return output
     return jsonify({"login": False, "response": "Invalid or expired otp"})
 
 
-@account_page.route("/account/update_profile")
+@account_page.route("/account/profile/update")
 @token_required()  # user is email registered
 def update_profile(user):
     profile_information = request.get_json()

@@ -4,55 +4,58 @@ import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:lovelace/models/message.dart';
-import 'package:lovelace/models/token_item.dart';
+import 'package:lovelace/models/storage_item.dart';
 import 'package:path_provider/path_provider.dart';
 
 class StorageMethods {
   final _secureStorage = const FlutterSecureStorage();
   // TODO: Get user email from server side to use as key for local storage of each user
-  static const _keyToken = "token";
   static const _keyMessage = "message";
   static const _keyDisplayName = "display_name";
   static const _keyAge = "age";
   static const _keyLocation = "location";
   static const _keyEmail = "email";
 
-  AndroidOptions _getAndroidOptions() => const AndroidOptions(
-        encryptedSharedPreferences: true,
-      );
+  // AndroidOptions _getAndroidOptions() => const AndroidOptions(
+  //       encryptedSharedPreferences: true,
+  //     );
 
   // TODO: CHECK IF JSON OBJECT OF USER DISPLAYNAME EXISTS
 
-  Future<void> writeToken(TokenItem tokenItem) async {
-    debugPrint("Writing new data to secure_storage");
-    await _secureStorage.write(
-        key: _keyToken,
-        value: tokenItem.toString(),
-        aOptions: _getAndroidOptions());
-    debugPrint('Data written to secure_storage');
+  Future<bool> write(String key, dynamic value) async {
+    await _secureStorage.write(key: key, value: value);
+    debugPrint('$key written to secure_storage');
+    return true;
   }
 
-  Future<String?> readToken() async {
-    debugPrint("Reading data from secure_storage");
-    var readData = await Future.sync(() =>
-        _secureStorage.read(key: _keyToken, aOptions: _getAndroidOptions()));
-    return readData;
+  Future<dynamic> read(String key) async {
+    dynamic value = await _secureStorage.read(key: key);
+    debugPrint('$key read from secure_storage');
+    return value;
   }
 
-  Future<void> deleteToken() async {
-    debugPrint("Deleting data in secure_storage");
-    await _secureStorage.delete(key: _keyToken, aOptions: _getAndroidOptions());
-  }
-
-  Future<List<TokenItem>> readAllData() async {
-    debugPrint("Reading all secured data");
-    var allData = await _secureStorage.readAll(aOptions: _getAndroidOptions());
-    List<TokenItem> list = allData.entries
-        .map((e) => TokenItem(key: e.key, value: e.value))
+  Future<List<StorageItem>> readAll() async {
+    Map<String, String> items = await _secureStorage.readAll();
+    List<StorageItem> itemList = items.entries
+        .map((e) => StorageItem(key: e.key, value: e.value))
         .toList();
-    debugPrint('${list.length}'); // testing
-    debugPrint(list.toString()); // testing
-    return list;
+    debugPrint('${items.length} items in secure_storage');
+    for (StorageItem item in itemList) {
+      debugPrint('${item.key} : ${item.value}');
+    }
+    return itemList;
+  }
+
+  Future<bool> delete(String key) async {
+    await _secureStorage.delete(key: key);
+    debugPrint('$key deleted from secure_storage');
+    return true;
+  }
+
+  Future<bool> deleteAll() async {
+    await _secureStorage.deleteAll();
+    debugPrint('All items deleted from secure_storage');
+    return true;
   }
 
   Future writeMessages(List<Message> messages) async {

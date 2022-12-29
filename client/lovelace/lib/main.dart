@@ -16,8 +16,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final preferences = await SharedPreferences.getInstance();
-  final isLoggedIn = preferences.getBool('isLoggedIn') ?? false;
+  final sharedPreferences = await SharedPreferences.getInstance();
+  final isLoggedIn = sharedPreferences.getBool('isLoggedIn') ?? false;
 
   // * Set the device orientation to portrait
   SystemChrome.setPreferredOrientations([
@@ -34,7 +34,7 @@ void main() async {
       builder: (arg) => MyApp(
             data: arg,
             key: const Key('MyApp'),
-            isLoggedIn: isLoggedIn,            
+            isLoggedIn: isLoggedIn,
           ),
       lockScreen: const LockScreen(key: Key('LockScreen')),
       backgroundLockLatency: const Duration(seconds: 3),
@@ -55,7 +55,8 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   final ScreenCaptureEvent screenCaptureEvent = ScreenCaptureEvent();
-  final Future<SharedPreferences> preferences = SharedPreferences.getInstance();
+  final Future<SharedPreferences> sharedPreferences =
+      SharedPreferences.getInstance();
   bool _isJailbroken = true;
   double blurr = 20;
   double opacity = 0.6;

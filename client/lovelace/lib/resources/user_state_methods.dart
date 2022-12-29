@@ -11,18 +11,23 @@ const _userPages = ResponsiveLayout(
 
 class UserStateMethods {
   void loginState(BuildContext context) async {
-    final SharedPreferences preferences = await SharedPreferences.getInstance();
-    await Future.delayed(const Duration(seconds: 2));
-    preferences.setBool('isLoggedIn', true);    
-    // ignore: use_build_context_synchronously
-    Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => _userPages));        
+    final SharedPreferences sharedPreferences =
+        await SharedPreferences.getInstance();
+    // await Future.delayed(const Duration(seconds: 2));
+    sharedPreferences.setBool('isLoggedIn', true);
+
+    if (true) {
+      // ignore: use_build_context_synchronously
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => _userPages));
+    }
   }
 
   void logoutState(BuildContext context) async {
-    final SharedPreferences preferences = await SharedPreferences.getInstance();
-    await Future.delayed(const Duration(seconds: 2));
-    preferences.setBool('isLoggedIn', false);
+    final SharedPreferences sharedPreferences =
+        await SharedPreferences.getInstance();
+    // await Future.delayed(const Duration(seconds: 2));
+    sharedPreferences.setBool('isLoggedIn', false);
 
     // ignore: use_build_context_synchronously
     Navigator.of(context).pushAndRemoveUntil(

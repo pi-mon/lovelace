@@ -13,9 +13,14 @@ final userScreens = [
 ];
 
 String checkDevice() {
-  String baseUrl = "10.0.2.2";
-  if (defaultTargetPlatform == TargetPlatform.iOS) {
-    baseUrl == "127.0.0.1";
+  String baseUrl;
+  int port = 3000;
+  if (defaultTargetPlatform == TargetPlatform.android) {
+    baseUrl = "10.0.2.2";
+  } else {
+    baseUrl = "127.0.0.1";
   }
-  return "$baseUrl:3000";
+  String url = "$baseUrl:$port";
+  debugPrint(url);
+  return url;
 }

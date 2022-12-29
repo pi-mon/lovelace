@@ -1,30 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:lovelace/resources/auth_methods.dart';
+import 'package:lovelace/resources/user_state_methods.dart';
 import 'package:lovelace/screens/user/login_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:lovelace/widgets/text_field_input.dart';
 
-class RegisterVerifyScreen extends StatefulWidget {
-  final String displayName;
+class LoginVerifyScreen extends StatefulWidget {
   final String email;
   final String password;
-  const RegisterVerifyScreen(
-      {super.key,
-      required this.displayName,
-      required this.email,
-      required this.password});
+  const LoginVerifyScreen(
+      {super.key, required this.email, required this.password});
 
   @override
-  State<RegisterVerifyScreen> createState() =>
+  State<LoginVerifyScreen> createState() =>
       // ignore: no_logic_in_create_state
-      _RegisterVerifyScreenState(displayName, email, password);
+      _LoginVerifyScreenState(email, password);
 }
 
-class _RegisterVerifyScreenState extends State<RegisterVerifyScreen> {
-  _RegisterVerifyScreenState(this.displayName, this.email, this.password);
+class _LoginVerifyScreenState extends State<LoginVerifyScreen> {
+  _LoginVerifyScreenState(this.email, this.password);
   bool _isLoading = false;
 
-  final String displayName;
   final String email;
   final String password;
 
@@ -131,10 +127,9 @@ class _RegisterVerifyScreenState extends State<RegisterVerifyScreen> {
                           }
 
                           List<dynamic> response = await AuthMethods().verify(
-                              method: "create",
+                              method: "login",
                               email: email,
                               password: password,
-                              displayName: displayName,
                               otp: int.parse(otp));
 
                           setState(() {
@@ -154,11 +149,7 @@ class _RegisterVerifyScreenState extends State<RegisterVerifyScreen> {
 
                           if (isSuccess) {
                             // ignore: use_build_context_synchronously
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const LoginScreen()),
-                            );
+                            UserStateMethods().loginState(context);
                           }
 
                           showDialog(

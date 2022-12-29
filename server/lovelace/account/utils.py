@@ -23,8 +23,8 @@ def token_required(need_authenticated=True, database=mongo_account_read.account.
         def decorated(*args, **kwargs):
             token = None
             # jwt is passed in the form of a cookie
-            if request.get_json().get("token") != False:
-                token = request.get_json().get("token")
+            if request.cookies.get("token") != False:
+                token = request.cookies.get("token")
             # return 401 if token is not passed
             if not token:
                 return jsonify({"message": "Token is missing !!"}), 401

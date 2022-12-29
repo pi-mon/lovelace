@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lovelace/models/token_item.dart';
+import 'package:lovelace/models/storage_item.dart';
 import 'package:lovelace/resources/auth_methods.dart';
 import 'package:lovelace/resources/storage_methods.dart';
 import 'package:lovelace/resources/user_state_methods.dart';
@@ -23,7 +23,7 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
   late TextEditingController emailController;
   late TextEditingController usernameController;
   late TextEditingController locationController;
-  late final List<TokenItem> _tokens = [];
+  late final List<StorageItem> _tokens = [];
   final StorageMethods _storageMethods = StorageMethods();
   final _userPages = const ResponsiveLayout(
       mobileScreenLayout: MobileScreenLayout(),
@@ -39,7 +39,7 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
   }
 
   void initList() async {
-    await _storageMethods.readAllData();
+    await _storageMethods.readAll();
     setState(() {});
   }
 
@@ -87,7 +87,7 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
                         ],
                       ));
                     });
-                StorageMethods().deleteToken();
+                StorageMethods().delete("cookie");
                 UserStateMethods().logoutState(context);
                 initList();
               })
