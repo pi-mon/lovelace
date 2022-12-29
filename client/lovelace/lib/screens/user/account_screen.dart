@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:lovelace/screens/admin/admin_account_screen.dart';
+import 'package:lovelace/screens/user/account_details_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 
 class AccountScreen extends StatefulWidget {
@@ -51,15 +53,26 @@ class _AccountScreenState extends State<AccountScreen> {
                 Column(
                   children: <Widget>[
                     ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              PageRouteBuilder(
+                                pageBuilder:
+                                    (context, animation1, animation2) =>
+                                        const AdminAccountScreen(),
+                                transitionDuration: Duration.zero,
+                                reverseTransitionDuration: Duration.zero,
+                              ));
+                        },
                         style: ElevatedButton.styleFrom(
                             backgroundColor: primaryColor),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: const <Widget>[
-                            Icon(Icons.person),
+                            Icon(Icons.admin_panel_settings),
                             SizedBox(width: 10),
-                            Text('Token', style: TextStyle(fontSize: 17))
+                            Text('Turn On Admin',
+                                style: TextStyle(fontSize: 17))
                           ],
                         )),
                     const SizedBox(height: 5),
@@ -92,30 +105,58 @@ class _AccountScreenState extends State<AccountScreen> {
                 ),
                 SizedBox(
                     height: 50,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const <Widget>[
-                        Text('My Profile'),
-                        Icon(Icons.arrow_right, color: placeholderColor)
-                      ],
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      style:
+                          ElevatedButton.styleFrom(backgroundColor: whiteColor),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: const <Widget>[
+                          Text('My Profile',
+                              style:
+                                  TextStyle(fontSize: 17, color: blackColor)),
+                          Icon(Icons.arrow_right, color: placeholderColor)
+                        ],
+                      ),
                     )),
                 SizedBox(
                     height: 50,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const <Widget>[
-                        Text('My Ideal Person'),
-                        Icon(Icons.arrow_right, color: placeholderColor)
-                      ],
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      style:
+                          ElevatedButton.styleFrom(backgroundColor: whiteColor),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: const <Widget>[
+                          Text('My Ideal Person',
+                              style:
+                                  TextStyle(fontSize: 17, color: blackColor)),
+                          Icon(Icons.arrow_right, color: placeholderColor)
+                        ],
+                      ),
                     )),
                 SizedBox(
                     height: 50,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const <Widget>[
-                        Text('Account Settings'),
-                        Icon(Icons.arrow_right, color: placeholderColor)
-                      ],
+                    child: ElevatedButton(
+                      onPressed: () {
+                        // TODO: DISPLAY TOKEN IN POP UP
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const AccountDetailsScreen()));
+                      },
+                      style:
+                          ElevatedButton.styleFrom(backgroundColor: whiteColor),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: const <Widget>[
+                          Text('Account Settings',
+                              style:
+                                  TextStyle(fontSize: 17, color: blackColor)),
+                          Icon(Icons.arrow_right, color: placeholderColor)
+                        ],
+                      ),
                     )),
               ]),
         )));

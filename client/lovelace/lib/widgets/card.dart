@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lovelace/models/storage_item.dart';
+import 'package:lovelace/resources/storage_methods.dart';
 
 // ignore: must_be_immutable
 class VaultCard extends StatefulWidget {
@@ -8,11 +9,12 @@ class VaultCard extends StatefulWidget {
   VaultCard({required this.item, Key? key}) : super(key: key);
 
   @override
-  State<VaultCard> createState() => _VaultCardState();
+  State<VaultCard> createState() => _CardState();
 }
 
-class _VaultCardState extends State<VaultCard> {
+class _CardState extends State<VaultCard> {
   bool _visibility = false;
+  final StorageMethods _storageService = StorageMethods();
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +53,15 @@ class _VaultCardState extends State<VaultCard> {
             trailing: IconButton(
               icon: const Icon(Icons.edit),
               onPressed: () async {
-                // TODO: READ THE DATA AND DISPLAY IT
+                // DISPLAY THE TOKEN VALUER
+                showDialog(
+                    context: context,
+                    builder: (context) {
+                      final readToken =
+                          _storageService.readAllSecureData().toString();
+                      debugPrint(readToken);
+                      return const AlertDialog(content: Text('test'));
+                    });
               },
             ),
           )),

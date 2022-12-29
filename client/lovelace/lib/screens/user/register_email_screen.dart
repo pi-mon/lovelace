@@ -1,5 +1,6 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:lovelace/screens/authentication/register_password_screen.dart';
+import 'package:lovelace/screens/user/register_password_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:lovelace/widgets/text_field_input.dart';
 
@@ -96,7 +97,17 @@ class _RegisterEmailScreenState extends State<RegisterEmailScreen> {
                     const SizedBox(height: 16),
                     ElevatedButton(
                         onPressed: () async {
-                          // await SecureStorage().setEmail(_emailController.text); // set the registered emailin local DB
+                          String email = _emailController.text;
+                          bool isValid = EmailValidator.validate(email);
+
+                          if (!isValid) {
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(const SnackBar(
+                              content: Text('Invalid email address'),
+                              backgroundColor: errorColor,
+                            ));
+                            return;
+                          }
                           // ignore: use_build_context_synchronously
                           Navigator.push(
                             context,
