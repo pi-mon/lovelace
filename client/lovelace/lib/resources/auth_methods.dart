@@ -1,11 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
-import 'dart:ui';
-import 'package:aes_crypt_null_safe/aes_crypt_null_safe.dart';
 import 'package:logger/logger.dart';
+import 'package:lovelace/models/token_item.dart';
 import 'package:lovelace/models/user.dart';
 import 'package:flutter/foundation.dart';
-import 'package:lovelace/resources/secure_token_methods.dart';
 import 'package:lovelace/resources/storage_methods.dart';
 import 'package:lovelace/utils/global_variables.dart';
 import 'package:http/http.dart' as http;
@@ -138,7 +136,7 @@ class AuthMethods {
             token = outputJson['token'];
             debugPrint(output);
             debugPrint(token);
-            StorageMethods().writeToken(token);
+            StorageMethods().writeToken(TokenItem(key: "token", value: token));
             debugPrint("Token written to SECURE_STORAGE");
           } else {
             message = outputJson['response'];
@@ -156,41 +154,43 @@ class AuthMethods {
     return [output, message, isSuccess];
   }
 
-  Future<List> updateUserDetails({
-    required String email,
-    required String password,
-    // required String username,
-    // required String location
-  }) async {
-    String output;
-    String message = "An error occurred";
-    bool isUpdated = false;
+  // Future<List> updateUserDetails({ 
+  //   // !! Should allow user to change displayName, email, password, age, location
+  //   // !! OR are we not allowing users to change their password? (cos password not in UserDetails class)
+  //   required String email,
+  //   required String password,
+  //   required String displayName,
+  //   required String location
+  // }) async {
+  //   String output;
+  //   String message = "An error occurred";
+  //   bool isUpdated = false;
 
-    if (email.isNotEmpty && password.isNotEmpty
-        // location.isNotEmpty &&
-        // username.isNotEmpty
-        ) {
-      User user = User(email: email, password: password);
-      try {
-        output = await submit(user, "/account/test");
-        try {
-          dynamic outputJson = jsonDecode(output);
-          if (outputJson['update'] == true) {
-            isUpdated = true;
-            message = "Update successful!";
-            updatedData = outputJson['updatedData'];
-          } else {
-            message = outputJson['response'];
-          }
-        } catch (e) {
-          message = "An error occured";
-        }
-      } catch (e) {
-        output = e.toString();
-      }
-    } else {
-      output = message = "Please enter all fields";
-    }
-    return [output, message, isUpdated];
-  }
+  //   if (email.isNotEmpty && password.isNotEmpty &&
+  //       location.isNotEmpty &&
+  //       displayName.isNotEmpty
+  //       ) {
+  //     User user = User(email: email, password: password);
+  //     try {
+  //       output = await submit(user, "/account/test");
+  //       try {
+  //         dynamic outputJson = jsonDecode(output);
+  //         if (outputJson['update'] == true) {
+  //           isUpdated = true;
+  //           message = "Update successful!";
+  //           updatedData = outputJson['updatedData'];
+  //         } else {
+  //           message = outputJson['response'];
+  //         }
+  //       } catch (e) {
+  //         message = "An error occured";
+  //       }
+  //     } catch (e) {
+  //       output = e.toString();
+  //     }
+  //   } else {
+  //     output = message = "Please enter all fields";
+  //   }
+  //   return [output, message, isUpdated];
+  // }
 }

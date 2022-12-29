@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:intl/intl.dart';
@@ -7,8 +9,8 @@ import 'package:lovelace/resources/storage_methods.dart';
 import 'package:lovelace/responsive/mobile_screen_layout.dart';
 import 'package:lovelace/responsive/responsive_layout.dart';
 import 'package:lovelace/responsive/web_screen_layout.dart';
-import 'package:lovelace/screens/chat/chat_screen.dart';
 import 'package:lovelace/utils/colors.dart';
+import 'package:path_provider/path_provider.dart';
 
 class ChatRoomScreenV2 extends StatefulWidget {
   const ChatRoomScreenV2({super.key});
@@ -24,10 +26,13 @@ class _ChatRoomScreenV2State extends State<ChatRoomScreenV2> {
   final _userPages = const ResponsiveLayout(
       mobileScreenLayout: MobileScreenLayout(),
       webScreenLayout: WebScreenLayout());
+  String filePath = "";
 
   @override
   void initState() {
     super.initState();
+    // getFilePath;
+    // readCounter();
     init();
   }
 
@@ -74,8 +79,7 @@ class _ChatRoomScreenV2State extends State<ChatRoomScreenV2> {
                     child: Padding(
                       padding: const EdgeInsets.all(8),
                       child: Text(
-
-                     DateFormat.yMMMMd().format(DateTime.now()),
+                        DateFormat.yMMMMd().format(DateTime.now()),
                         style: const TextStyle(color: whiteColor),
                       ),
                     ),
@@ -108,14 +112,18 @@ class _ChatRoomScreenV2State extends State<ChatRoomScreenV2> {
                         hintText: "Type your message here..."),
                     onFieldSubmitted: (text) async {
                       final timeSent = DateTime.now();
-                      String formattedDate = DateFormat('yyyy-MM-dd - kk:mm').format(timeSent);
+                      String formattedDate =
+                          DateFormat('yyyy-MM-dd - kk:mm').format(timeSent);
                       final message = Message(
-                          text: text, date: formattedDate, isSentByMe: true);                      
+                          text: text, date: formattedDate, isSentByMe: true);
+                      // debugPrint('$message'); // prints out as ('text', 'date')
                       setState(() {
                         messagesList.add(message);
-                      });                     
+                      });
                       _storageMethods.writeMessages(messagesList);
                       _storageMethods.readMessages();
+                      // writeToFile(1);
+                      // readCounter();
                     },
                   ),
                 ),
