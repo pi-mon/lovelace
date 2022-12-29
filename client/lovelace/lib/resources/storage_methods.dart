@@ -41,7 +41,7 @@ class StorageMethods {
         .toList();
     debugPrint('${items.length} items in secure_storage');
     for (StorageItem item in itemList) {
-      debugPrint('${item.key} : ${item.value}');
+      debugPrint('"${item.key}" : "${item.value}"');
     }
     return itemList;
   }
