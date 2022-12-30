@@ -18,12 +18,7 @@ class AccountDetailsScreen extends StatefulWidget {
 }
 
 class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
-  String email = '';
-  String username = '';
-  late TextEditingController emailController;
-  late TextEditingController usernameController;
-  late TextEditingController locationController;
-  late final List<TokenItem> _tokens = [];
+  bool _isLoading = false;
   final StorageMethods _storageMethods = StorageMethods();
   final _userPages = const ResponsiveLayout(
       mobileScreenLayout: MobileScreenLayout(),
@@ -33,21 +28,17 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
   void initState() {
     super.initState();
     initList();
-    emailController = TextEditingController();
-    usernameController = TextEditingController();
-    locationController = TextEditingController();
   }
 
   void initList() async {
-    await _storageMethods.readAllData();
-    setState(() {});
+    // await _storageMethods.readAllData();
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   @override
   void dispose() {
-    emailController.dispose();
-    usernameController.dispose();
-    locationController.dispose();
     super.dispose();
   }
 
@@ -71,19 +62,26 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
               label: "Logout",
               labelColor: errorColor,
               function: () async {
+                setState(() {
+                  _isLoading = true;
+                });
                 showDialog(
                     context: context,
-                    builder: (context) {
+                    builder: (context) {                      
                       return AlertDialog(
                           content: Row(
                         children: const <Widget>[
                           SizedBox(
-                              height: 20,
-                              width: 20,
+                              height: 14,
+                              width: 14,
                               child: CircularProgressIndicator(
-                                  color: primaryColor)),
+                                color: primaryColor,
+                                strokeWidth: 4,
+                              )),
                           SizedBox(width: 15),
-                          Text('Logging out...')
+                          Text('Logging out...',
+                              style: TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.bold))
                         ],
                       ));
                     });

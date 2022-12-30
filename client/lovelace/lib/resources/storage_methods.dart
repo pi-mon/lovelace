@@ -25,18 +25,18 @@ class StorageMethods {
   // Future getUserData() async {}
 
   // FUNCTIONS TO SET & GET USER JSON OBJECTS
-  Future<void> setUserObject(UserDetails user) async {
+  Future<void> setUserObject(Map<String, dynamic> user) async {
     debugPrint('Creating new user object');
-    await _secureStorage.write(key: _keyUser, value: user.toJson().toString());
+    await _secureStorage.write(key: _keyUser, value: user.toString());
     debugPrint('New user object created');
   }
 
-  // Future<UserDetails> getUserObject() async {
-  //   // ignore: await_only_futures
-  //   UserDetails user = UserDetails.fromJson(await _secureStorage.read(key: _keyUser) ?? '{}');
-  //   debugPrint('user object: $user');
-  //   return user;
-  // }
+  Future<UserDetails> getUserObject(Map<String, dynamic> user) async {
+    debugPrint('inside get function');
+    final userObject = UserDetails.fromJson(user);
+    debugPrint('get object: $userObject');
+    return userObject;
+  }
 
 
   // STORAGE METHODS FOR JWT TOKEN
@@ -66,16 +66,17 @@ class StorageMethods {
     await _secureStorage.deleteAll(aOptions: _getAndroidOptions());
   }
 
-  Future<List<TokenItem>> readAllData() async {
-    debugPrint("Reading all secured data");
-    var allData = await _secureStorage.readAll(aOptions: _getAndroidOptions());
-    List<TokenItem> list = allData.entries
-        .map((e) => TokenItem(key: e.key, value: e.value))
-        .toList();
-    debugPrint('${list.length}'); // testing
-    debugPrint(list.toString()); // testing
-    return list;
-  }
+  // !! FIX DISPLAY FORMAT OF DATA (MUST DISPLAY KEY & VALUE)
+  // Future<List<Map<String, dynamic>>> readAllData() async {
+  //   debugPrint("Reading all secured data");
+    // var allData = await _secureStorage.readAll(aOptions: _getAndroidOptions());
+    // List<Map<String, dynamic>> list = allData.entries
+    //     .map((e) => dynamic(e.key, e.value));
+    //     .toList();
+    // debugPrint('${list.length}'); // testing
+    // debugPrint(list.toString()); // testing
+    // return list;
+  // }
 
   Future writeMessages(List<Message> messages) async {
     debugPrint('Writing text messages into secure_storage');
