@@ -8,7 +8,6 @@ from lovelace.models import account
 import jwt
 from datetime import datetime, timedelta
 from os import environ
-import dotenv
 from pyotp import TOTP
 from lovelace import account_logger as logger
 from lovelace.account.utils import (
@@ -20,7 +19,6 @@ from lovelace.account.utils import (
 from flask_expects_json import expects_json
 from argon2 import exceptions as argon2_exceptions
 
-dotenv.load_dotenv()
 account_page = Blueprint("account", __name__, template_folder="templates")
 
 
@@ -252,14 +250,17 @@ def login_verify(user):
 @account_page.route("/account/update_profile")
 @token_required() #user is email registered
 def update_profile(user):
-    profile_information = request.get_json()
-    user_detail_collection = mongo_account_details_write.account_details
-    new_account_details = account.UserDetails(user,profile_information["display_name"],profile_information["age"],profile_information["location"])
+    try:
+      profile_information = request.get_json()
+      user_detail_collection = mongo_account_details_write.account_details
+      new_account_details = account.UserDetails(user,profile_information["display_name"],profile_information["age"],profile_information["gender"],profile_information["location"])
+    except:
+      return jsonify({"create":False,"response":"Invalid user input"})
     if user_detail_collection.account_details.find_one({"email": user},{"email": 1}) == None: #check if need to update profilwwwwwe or create new profile
         user_detail_collection.account_details.insert_one(new_account_details.__dict__)
         return(jsonify({"create":True,"response":"User account details has been created"}))
     else:
-        new_values = { "$set": {"username":profile_information["display_name"],"age":profile_information["age"],"location":profile_information["location"]} }
+        new_values = { "$set": {"username":profile_information["display_name"],"gender":profile_information["gender"],"age":profile_information["age"],"location":profile_information["location"]} }
         user_detail_collection.account_details.update_one({"email": user},update=new_values)
         return(jsonify({"create":True,"response":"User details has been updated"}))
     
