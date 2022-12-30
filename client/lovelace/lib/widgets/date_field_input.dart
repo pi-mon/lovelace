@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:lovelace/utils/colors.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
-class TextFieldInput extends StatelessWidget {
-  final dynamic onTap;
+class DateFieldInput extends StatelessWidget {
   final TextEditingController textEditingController;
   final bool isPass;
   final String label;
   final String hintText;
   final String error;
   final TextInputType textInputType;
-  const TextFieldInput(
+  const DateFieldInput(
       {super.key,
-      this.onTap,
       required this.textEditingController,
       this.isPass = false,
       required this.label,
@@ -41,7 +40,15 @@ class TextFieldInput extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         TextFormField(
-          onTap: onTap,
+          onTap: () {
+            DatePicker.showDatePicker(context,
+                showTitleActions: true,
+                maxTime: DateTime.now(), onChanged: (date) {
+              textEditingController.text = date.toString().split(" ")[0];
+            }, onConfirm: (date) {
+              textEditingController.text = date.toString().split(" ")[0];
+            }, currentTime: DateTime.now());
+          },
           controller: textEditingController,
           decoration: InputDecoration(
             hintText: hintText,

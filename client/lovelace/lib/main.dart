@@ -8,6 +8,8 @@ import 'package:lovelace/responsive/mobile_screen_layout.dart';
 import 'package:lovelace/responsive/responsive_layout.dart';
 import 'package:lovelace/responsive/web_screen_layout.dart';
 import 'package:lovelace/screens/main/landing_screen.dart';
+import 'package:lovelace/screens/user/initialise/init_birthday_screen.dart';
+import 'package:lovelace/screens/user/initialise/init_location_screen.dart';
 import 'package:lovelace/screens/user/lock_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:flutter/services.dart';
@@ -134,6 +136,9 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
           scaffoldBackgroundColor: whiteColor,
           primaryColor: primaryColor,
         ),
+        // home: widget.isLoggedIn
+        //     ? const InitBirthayScreen()
+        //     : const LandingScreen());
         home: widget.isLoggedIn ? widget._userPages : const LandingScreen());
   }
 }

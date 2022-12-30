@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:lovelace/resources/auth_methods.dart';
+import 'package:lovelace/resources/authenticate_methods.dart';
 import 'package:lovelace/resources/user_state_methods.dart';
-import 'package:lovelace/screens/user/login_verify_screen.dart';
-import 'package:lovelace/screens/user/register_details_screen.dart';
+import 'package:lovelace/screens/user/login/login_verify_screen.dart';
+import 'package:lovelace/screens/user/register/register_details_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:lovelace/widgets/text_field_input.dart';
 
@@ -139,7 +139,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         final String email = _emailController.text;
                         final String password = _passwordController.text;
 
-                        List response = await AuthMethods().login(
+                        List response = await AuthenticateMethods().login(
                           email: email,
                           password: password,
                         );

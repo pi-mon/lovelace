@@ -1,39 +1,18 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:logger/logger.dart';
 
 import 'package:lovelace/models/user.dart';
 import 'package:flutter/foundation.dart';
 import 'package:lovelace/resources/storage_methods.dart';
-import 'package:lovelace/utils/global_variables.dart';
-import 'package:http/http.dart' as http;
 import 'package:lovelace/widgets/session.dart';
 
 var logger = Logger();
-String token = "";
+
 String updatedData = "";
+StorageMethods storageMethods = StorageMethods();
+Session session = Session();
 
-// Future submit(User user, String route, {token}) async {
-//   String baseUrl = checkDevice();
-//   String userJson = jsonEncode(user);
-//   String contentJson = userJson.substring(0, userJson.length - 1);
-//   if (token != null) {
-//     contentJson += ",\"token\":\"$token\"";
-//   }
-//   contentJson += "}";
-//   debugPrint(contentJson, wrapWidth: 1024);
-//   http.Response response = await http.post(
-//     Uri.http(baseUrl, route),
-//     headers: {
-//       HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
-//     },
-//     body: contentJson,
-//   );
-
-//   return response.body;
-// }
-
-class AuthMethods {
+class AuthenticateMethods {
   Future<List> register({
     required String email,
     required String password,
@@ -47,8 +26,8 @@ class AuthMethods {
       User user =
           User(email: email, password: password, displayName: displayName);
       try {
-        output = await Session().post('/account/create', user);
-        // output = await submit(user, '/account/create');
+        output = await session.post('/account/create', user);
+
         try {
           dynamic outputJson = jsonDecode(output);
 
@@ -76,10 +55,6 @@ class AuthMethods {
   Future<List> login({
     required String email,
     required String password,
-    // required String username,
-    // required String location,
-    // required int age,
-    // Image? profilepic
   }) async {
     String output;
     String message = "An error occurred";
@@ -88,8 +63,8 @@ class AuthMethods {
     if (email.isNotEmpty && password.isNotEmpty) {
       User user = User(email: email, password: password);
       try {
-        output = await Session().post('/account/login', user);
-        // output = await submit(user, '/account/login');
+        output = await session.post('/account/login', user);
+
         try {
           dynamic outputJson = jsonDecode(output);
           print("outputjson : $outputJson");
@@ -128,13 +103,14 @@ class AuthMethods {
       User user = User(
           email: email, password: password, displayName: displayName, otp: otp);
       try {
-        output = await Session().post('/account/$method/verify', user);
-        // output = await submit(user, '/account/create/verify', token: token);
+        output = await session.post('/account/$method/verify', user);
+
         try {
           dynamic outputJson = jsonDecode(output);
           if (outputJson[method] == true) {
             isSuccess = true;
             message = "Verification successful";
+            storageMethods.write("email", email);
           } else {
             message = outputJson['response'];
           }

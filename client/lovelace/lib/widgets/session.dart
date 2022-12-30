@@ -12,6 +12,11 @@ class Session {
   Map<String, String> headers = {};
 
   Future<String> get(String route) async {
+    dynamic cookie = await StorageMethods().read("cookie");
+
+    if (cookie != null) {
+      headers[HttpHeaders.cookieHeader] = cookie;
+    }
     http.Response response =
         await http.get(Uri.http(baseUrl, route), headers: headers);
     updateCookie(response);

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:lovelace/resources/auth_methods.dart';
-import 'package:lovelace/screens/user/login_screen.dart';
+import 'package:lovelace/resources/authenticate_methods.dart';
+import 'package:lovelace/screens/user/login/login_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:lovelace/widgets/text_field_input.dart';
 
@@ -130,12 +130,13 @@ class _RegisterVerifyScreenState extends State<RegisterVerifyScreen> {
                             return;
                           }
 
-                          List<dynamic> response = await AuthMethods().verify(
-                              method: "create",
-                              email: email,
-                              password: password,
-                              displayName: displayName,
-                              otp: int.parse(otp));
+                          List<dynamic> response = await AuthenticateMethods()
+                              .verify(
+                                  method: "create",
+                                  email: email,
+                                  password: password,
+                                  displayName: displayName,
+                                  otp: int.parse(otp));
 
                           setState(() {
                             _isLoading = false;

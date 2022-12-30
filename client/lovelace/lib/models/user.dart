@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:typed_data';
 import 'dart:ui';
 
 class User {
@@ -33,15 +34,15 @@ class User {
 
 class UserDetails {
   final String email;
-  final int age;
+  final DateTime birthday;
   final String location;
-  final String profilePic;
-  final String cardPic;
+  final Uint8List profilePic;
+  final Uint8List cardPic;
   // List chatMessages = List.empty(growable: true);
 
   UserDetails({
     required this.email,
-    required this.age,
+    required this.birthday,
     required this.location,
     required this.profilePic,
     required this.cardPic,
@@ -49,21 +50,21 @@ class UserDetails {
 
   UserDetails.fromJson(Map<String, dynamic> json)
       : email = json['email'],
-        age = json['age'],
+        birthday = json['birthday'],
         location = json['location'],
         profilePic = json['profilePic'],
         cardPic = json['cardPic'];
-        // chatMessages = json['chatMessages'];
+  // chatMessages = json['chatMessages'];
 
   Map<String, dynamic> toJson() => {
         'email': email,
-        'age': age,
+        'birthday': birthday,
         'location': location,
         'profilePic': profilePic,
         'cardPic': cardPic,
         // 'chatMessages': chatMessages
       };
-  
+
   // Map<String, dynamic> toMap(UserDetails model) => <String, dynamic> {
   //   'email': model.email,
   //   'age': model.age,

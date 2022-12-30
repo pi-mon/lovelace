@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lovelace/screens/admin/admin_account_screen.dart';
-import 'package:lovelace/screens/user/account_settings_screen.dart';
+import 'package:lovelace/screens/user/account/account_settings_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 
 class AccountScreen extends StatefulWidget {

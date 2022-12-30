@@ -6,7 +6,7 @@ import 'package:local_auth/local_auth.dart';
 import 'package:lovelace/responsive/mobile_screen_layout.dart';
 import 'package:lovelace/responsive/responsive_layout.dart';
 import 'package:lovelace/responsive/web_screen_layout.dart';
-import 'package:lovelace/screens/user/login_screen.dart';
+import 'package:lovelace/screens/user/login/login_screen.dart';
 import 'package:lovelace/screens/main/home_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 

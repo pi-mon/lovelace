@@ -1,49 +1,35 @@
 import 'package:flutter/material.dart';
-import 'package:lovelace/resources/auth_methods.dart';
-import 'package:lovelace/resources/user_state_methods.dart';
-import 'package:lovelace/screens/user/login_screen.dart';
+import 'package:lovelace/screens/user/register/register_verify_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:lovelace/widgets/text_field_input.dart';
+import 'package:lovelace/resources/authenticate_methods.dart';
 
-class LoginVerifyScreen extends StatefulWidget {
+class RegisterPasswordScreen extends StatefulWidget {
+  final String displayName;
   final String email;
-  final String password;
-  const LoginVerifyScreen(
-      {super.key, required this.email, required this.password});
+  const RegisterPasswordScreen(
+      {super.key, required this.displayName, required this.email});
 
   @override
-  State<LoginVerifyScreen> createState() =>
+  State<RegisterPasswordScreen> createState() =>
       // ignore: no_logic_in_create_state
-      _LoginVerifyScreenState(email, password);
+      _RegisterPasswordScreenState(displayName, email);
 }
 
-class _LoginVerifyScreenState extends State<LoginVerifyScreen> {
-  _LoginVerifyScreenState(this.email, this.password);
+class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
+  _RegisterPasswordScreenState(this.displayName, this.email);
   bool _isLoading = false;
-
+  final String displayName;
   final String email;
-  final String password;
-
-  final TextEditingController _otpController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _password2Controller = TextEditingController();
 
   @override
   void dispose() {
     super.dispose();
-    _otpController.dispose();
+    _passwordController.dispose();
+    _password2Controller.dispose();
   }
-
-  // void iniState() {
-  //   super.initState();
-  //   init();
-  // }
-
-  // Future init() async {
-  //   final otp = await SecureStorage().getotp() ?? '';
-
-  //   setState(() {
-  //     this._otpController.text = otp;
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +58,7 @@ class _LoginVerifyScreenState extends State<LoginVerifyScreen> {
                             child: Padding(
                                 padding: EdgeInsets.only(right: 32.0),
                                 child: Text(
-                                  'Verify your email',
+                                  'Register',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       color: primaryColor, fontSize: 20),
@@ -81,7 +67,7 @@ class _LoginVerifyScreenState extends State<LoginVerifyScreen> {
                     ),
                     const SizedBox(height: 16),
                     const Text(
-                      'Check your email for OTP',
+                      'Create a password',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           color: primaryColor,
@@ -93,10 +79,22 @@ class _LoginVerifyScreenState extends State<LoginVerifyScreen> {
                       child: Container(),
                     ),
                     TextFieldInput(
-                      label: "OTP",
-                      hintText: "Enter your OTP",
-                      textInputType: TextInputType.number,
-                      textEditingController: _otpController,
+                      isPass: true,
+                      label: "Password",
+                      hintText: "6 characters minimum",
+                      textInputType: TextInputType.text,
+                      textEditingController: _passwordController,
+                      validator: (value) {
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 16),
+                    TextFieldInput(
+                      isPass: true,
+                      label: "Confirm Password",
+                      hintText: "Re-enter your password",
+                      textInputType: TextInputType.text,
+                      textEditingController: _password2Controller,
                       validator: (value) {
                         return null;
                       },
@@ -113,24 +111,48 @@ class _LoginVerifyScreenState extends State<LoginVerifyScreen> {
                             _isLoading = true;
                           });
 
-                          String otp = _otpController.text;
+                          const String passwordRegex =
+                              r"^(?=\S{8,20}$)(?=.*?\d)(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[^A-Za-z\s0-9])";
+                          final String password = _passwordController.text;
+                          final String password2 = _password2Controller.text;
 
-                          bool otpIsValid = otp.isNotEmpty && otp.length == 6;
+                          final bool passwordMatch = password == password2;
+                          final bool passwordValid =
+                              RegExp(passwordRegex).hasMatch(password);
 
-                          if (!otpIsValid) {
-                            String message = "Invalid OTP";
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Text(message),
+                          if (!passwordMatch) {
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(const SnackBar(
+                              content: Text('Passwords do not match'),
                               backgroundColor: errorColor,
                             ));
                             return;
                           }
 
-                          List<dynamic> response = await AuthMethods().verify(
-                              method: "login",
-                              email: email,
-                              password: password,
-                              otp: int.parse(otp));
+                          if (!passwordValid) {
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(const SnackBar(
+                              content: Text(
+                                  'Password does not meet the requirements'),
+                              backgroundColor: errorColor,
+                            ));
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return const AlertDialog(
+                                  content: Text(
+                                      "Password Requirements:\n\t- Minimum 6 letters\n\t- Maximum 20 letters\n\t- At least 1 number\n\t- At least 1 lowercase alphabet\n\t- At least 1 uppercase alphabet\n\t- At least 1 special character"),
+                                );
+                              },
+                            );
+                            return;
+                          }
+
+                          List<dynamic> response = await AuthenticateMethods()
+                              .register(
+                                  email: email,
+                                  password: password,
+                                  displayName: displayName);
 
                           setState(() {
                             _isLoading = false;
@@ -144,12 +166,23 @@ class _LoginVerifyScreenState extends State<LoginVerifyScreen> {
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             content: Text(message),
                             backgroundColor:
-                                isSuccess ? successColor : errorColor,
+                                isSuccess ? borderColor : errorColor,
                           ));
 
                           if (isSuccess) {
                             // ignore: use_build_context_synchronously
-                            UserStateMethods().loginState(context);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => RegisterVerifyScreen(
+                                        displayName: displayName,
+                                        email: email,
+                                        password: password,
+                                      )),
+                            );
+                          } else if (message != "Please enter all the fields") {
+                            // ignore: use_build_context_synchronously
+                            Navigator.pop(context);
                           }
 
                           showDialog(
@@ -166,7 +199,7 @@ class _LoginVerifyScreenState extends State<LoginVerifyScreen> {
                           backgroundColor: primaryColor,
                         ),
                         child: !_isLoading
-                            ? const Text("Verify",
+                            ? const Text("Sign Up",
                                 style: TextStyle(
                                     fontSize: 18,
                                     color: whiteColor,
