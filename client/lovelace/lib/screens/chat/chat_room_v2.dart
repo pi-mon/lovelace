@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:intl/intl.dart';
@@ -10,7 +9,6 @@ import 'package:lovelace/responsive/mobile_screen_layout.dart';
 import 'package:lovelace/responsive/responsive_layout.dart';
 import 'package:lovelace/responsive/web_screen_layout.dart';
 import 'package:lovelace/utils/colors.dart';
-import 'package:path_provider/path_provider.dart';
 
 class ChatRoomScreenV2 extends StatefulWidget {
   const ChatRoomScreenV2({super.key});

@@ -12,7 +12,6 @@ const _userPages = ResponsiveLayout(
 class UserStateMethods {
   void loginState(BuildContext context) async {
     final SharedPreferences preferences = await SharedPreferences.getInstance();
-    await Future.delayed(const Duration(seconds: 2));
     preferences.setBool('isLoggedIn', true);    
     // ignore: use_build_context_synchronously
     Navigator.pushReplacement(

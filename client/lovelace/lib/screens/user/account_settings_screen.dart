@@ -87,7 +87,8 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
                         ],
                       ));
                     });
-                StorageMethods().deleteToken();
+                StorageMethods().deleteAllData();
+                // StorageMethods().deleteToken();
                 UserStateMethods().logoutState(context);
                 initList();
               })

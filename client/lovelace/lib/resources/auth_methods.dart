@@ -4,6 +4,7 @@ import 'package:logger/logger.dart';
 import 'package:lovelace/models/token_item.dart';
 import 'package:lovelace/models/user.dart';
 import 'package:flutter/foundation.dart';
+import 'package:lovelace/models/user_detail.dart';
 import 'package:lovelace/resources/storage_methods.dart';
 import 'package:lovelace/utils/global_variables.dart';
 import 'package:http/http.dart' as http;
@@ -114,10 +115,6 @@ class AuthMethods {
   Future<List> login({
     required String email,
     required String password,
-    // required String username,
-    // required String location,
-    // required int age,
-    // Image? profilepic
   }) async {
     String output;
     String message = "An error occurred";
@@ -134,9 +131,18 @@ class AuthMethods {
             isSuccess = true;
             message = "Login successful";
             token = outputJson['token'];
-            debugPrint(output);
-            debugPrint(token);
-            StorageMethods().writeToken(TokenItem(key: "token", value: token));
+            final userDetails = UserDetails(
+                email: email,
+                age: 0,
+                location: '',
+                profilePic: '',
+                cardPic: '',
+                messages: []);
+            final jsonObject = userDetails.toJson();
+            debugPrint('$jsonObject');
+            StorageMethods().setUserObject(jsonObject); // Stores JSON
+            StorageMethods().getUserObject(jsonObject); // Converts JSON to object
+            StorageMethods().writeToken(TokenItem(value: token));
             debugPrint("Token written to SECURE_STORAGE");
           } else {
             message = outputJson['response'];
@@ -154,7 +160,7 @@ class AuthMethods {
     return [output, message, isSuccess];
   }
 
-  // Future<List> updateUserDetails({ 
+  // Future<List> updateUserDetails({
   //   // !! Should allow user to change displayName, email, password, age, location
   //   // !! OR are we not allowing users to change their password? (cos password not in UserDetails class)
   //   required String email,

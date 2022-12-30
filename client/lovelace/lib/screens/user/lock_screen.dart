@@ -34,18 +34,21 @@ class LockScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         ElevatedButton(
-                          style: ElevatedButton.styleFrom(backgroundColor: primaryColor),
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: primaryColor),
                             onPressed: () {
                               Navigator.pushReplacement(
                                   context,
                                   // MaterialPageRoute(
                                   //     builder: (context) => const AuthenticationScreen()));
                                   MaterialPageRoute(
+                                      // TODO: CHECK IF USER IS LOGGED IN AND RETURN PAGE
                                       builder: (context) => _userPages));
                             },
                             child: const Text('UNLOCK')),
                         ElevatedButton(
-                          style: ElevatedButton.styleFrom(backgroundColor: primaryColor),
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: primaryColor),
                           onPressed: () {
                             SystemNavigator.pop();
                           },

@@ -129,11 +129,37 @@ class _LoginScreenState extends State<LoginScreen> {
                       minimumSize: const Size(150, 50),
                       backgroundColor: primaryColor,
                     ),
+                    child: _isLoading
+                        ? Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: const <Widget>[
+                              SizedBox(
+                                  height: 14,
+                                  width: 14,
+                                  child: CircularProgressIndicator(
+                                    color: whiteColor,
+                                    strokeWidth: 4,
+                                  )),
+                              SizedBox(
+                                width: 15,
+                              ),
+                              Text(
+                                'Logging in...',
+                                style: TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.bold),
+                              )
+                            ],
+                          )
+                        : const Text(
+                            'Login',
+                            style: TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.bold),
+                          ),
                     onPressed: () async {
+                      if (_isLoading) return;
                       setState(() {
                         _isLoading = true;
                       });
-
                       if (_formKey.currentState!.validate()) {
                         final String email = _emailController.text;
                         final String password = _passwordController.text;
@@ -142,10 +168,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           email: email,
                           password: password,
                         );
-
-                        setState(() {
-                          _isLoading = false;
-                        });
 
                         String output = response[0];
                         String message = response[1];
@@ -159,42 +181,18 @@ class _LoginScreenState extends State<LoginScreen> {
                         ));
 
                         if (isSuccess) {
-                          showDialog(
-                              context: context,
-                              builder: (context) {
-                                return AlertDialog(
-                                    content: Row(
-                                  children: const <Widget>[
-                                    SizedBox(
-                                        height: 20,
-                                        width: 20,
-                                        child: CircularProgressIndicator(
-                                            color: primaryColor)),
-                                    SizedBox(width: 15),
-                                    Text('Logging in...')
-                                  ],
-                                ));
-                              });
                           // ignore: use_build_context_synchronously
                           UserStateMethods().loginState(context);
+                          // setState(() {
+                          //   _isLoading = false;
+                          // });
                         }
-                        // showDialog(
-                        //   context: context,
-                        //   builder: (context) {
-                        //     return AlertDialog(
-                        //       content: Text(output),
-                        //     );
-                        //   },
-                        // );
+                      } else {
+                        setState(() {
+                          _isLoading = false;
+                        });
                       }
                     },
-                    child: !_isLoading
-                        ? const Text("Login",
-                            style: TextStyle(
-                                fontSize: 18,
-                                color: whiteColor,
-                                fontWeight: FontWeight.bold))
-                        : const CircularProgressIndicator(color: whiteColor),
                   ),
                 ])),
       )),

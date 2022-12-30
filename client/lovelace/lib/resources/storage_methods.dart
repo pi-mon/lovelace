@@ -5,26 +5,43 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:lovelace/models/message.dart';
 import 'package:lovelace/models/token_item.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:lovelace/models/user_detail.dart';
 
 class StorageMethods {
   final _secureStorage = const FlutterSecureStorage();
-  // TODO: Get user email from server side to use as key for local storage of each user
   static const _keyToken = "token";
   static const _keyMessage = "message";
   static const _keyDisplayName = "display_name";
   static const _keyAge = "age";
   static const _keyLocation = "location";
   static const _keyEmail = "email";
+  static const _keyUser = "user";
 
   AndroidOptions _getAndroidOptions() => const AndroidOptions(
         encryptedSharedPreferences: true,
       );
 
-  // TODO: CHECK IF JSON OBJECT OF USER DISPLAYNAME EXISTS
+  // // TODO: Get user display name from server side to use as storage key
+  // Future getUserData() async {}
 
+  // FUNCTIONS TO SET & GET USER JSON OBJECTS
+  Future<void> setUserObject(UserDetails user) async {
+    debugPrint('Creating new user object');
+    await _secureStorage.write(key: _keyUser, value: user.toJson().toString());
+    debugPrint('New user object created');
+  }
+
+  // Future<UserDetails> getUserObject() async {
+  //   // ignore: await_only_futures
+  //   UserDetails user = UserDetails.fromJson(await _secureStorage.read(key: _keyUser) ?? '{}');
+  //   debugPrint('user object: $user');
+  //   return user;
+  // }
+
+
+  // STORAGE METHODS FOR JWT TOKEN
   Future<void> writeToken(TokenItem tokenItem) async {
-    debugPrint("Writing new data to secure_storage");
+    debugPrint("Writing new data to secure_storage");    
     await _secureStorage.write(
         key: _keyToken,
         value: tokenItem.toString(),
@@ -44,6 +61,11 @@ class StorageMethods {
     await _secureStorage.delete(key: _keyToken, aOptions: _getAndroidOptions());
   }
 
+  Future<void> deleteAllData() async {
+    debugPrint('Deleting all data in seucre_storage');
+    await _secureStorage.deleteAll(aOptions: _getAndroidOptions());
+  }
+
   Future<List<TokenItem>> readAllData() async {
     debugPrint("Reading all secured data");
     var allData = await _secureStorage.readAll(aOptions: _getAndroidOptions());
@@ -61,7 +83,6 @@ class StorageMethods {
     String json =
         jsonEncode(messages.map((i) => i.toJson()).toList()).toString();
     debugPrint(json);
-    // TODO: Write chat messages to json file
     await _secureStorage.write(key: _keyMessage, value: json);
   }
 
