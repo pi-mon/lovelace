@@ -40,7 +40,7 @@ recommendation_logger = setup_logger("recommendation")
 app = Flask(__name__)
 app.config.from_pyfile("config.py")
 limiter = Limiter(app, key_func=get_remote_address, default_limits=["50 per minute"])
-socketio = SocketIO(app, cors_allowed_origins="*")
+socketio = SocketIO(app, cors_allowed_origins=["127.0.0.1", "10.0.2.2"])
 
 from lovelace.account.routes import account_page
 from lovelace.recommendation.routes import recommendation

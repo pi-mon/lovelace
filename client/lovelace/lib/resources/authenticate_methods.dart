@@ -1,39 +1,17 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:logger/logger.dart';
-import 'package:lovelace/models/token_item.dart';
 import 'package:lovelace/models/user.dart';
 import 'package:flutter/foundation.dart';
-import 'package:lovelace/models/user_detail.dart';
 import 'package:lovelace/resources/storage_methods.dart';
-import 'package:lovelace/utils/global_variables.dart';
-import 'package:http/http.dart' as http;
+import 'package:lovelace/widgets/session.dart';
 
 var logger = Logger();
-String token = "";
+
 String updatedData = "";
+StorageMethods storageMethods = StorageMethods();
+Session session = Session();
 
-Future submit(User user, String route, {token}) async {
-  String baseUrl = checkDevice();
-  String userJson = jsonEncode(user);
-  String contentJson = userJson.substring(0, userJson.length - 1);
-  if (token != null) {
-    contentJson += ",\"token\":\"$token\"";
-  }
-  contentJson += "}";
-  debugPrint(contentJson, wrapWidth: 1024);
-  http.Response response = await http.post(
-    Uri.http(baseUrl, route),
-    headers: {
-      HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
-    },
-    body: contentJson,
-  );
-
-  return response.body;
-}
-
-class AuthMethods {
+class AuthenticateMethods {
   Future<List> register({
     required String email,
     required String password,
@@ -47,54 +25,15 @@ class AuthMethods {
       User user =
           User(email: email, password: password, displayName: displayName);
       try {
-        output = await submit(user, '/account/create');
+        output = await session.post('/account/create', user);
+
         try {
           dynamic outputJson = jsonDecode(output);
 
           if (outputJson['creation'] == true) {
             isSuccess = true;
             message = "Enter OTP to verify your account";
-            token = outputJson['token'];
             debugPrint(output);
-            debugPrint(token);
-          } else {
-            message = outputJson['response'];
-          }
-        } catch (e) {
-          message = "An error occurred";
-        }
-      } catch (e) {
-        output = e.toString();
-      }
-    } else {
-      output = message = "Please enter all the fields";
-    }
-    debugPrint(output, wrapWidth: 1024);
-
-    return [output, message, isSuccess];
-  }
-
-  Future<List> verify({
-    required String email,
-    required String password,
-    required String displayName,
-    required int otp,
-  }) async {
-    String output;
-    String message = "An error occurred";
-    bool isSuccess = false;
-
-    if (email.isNotEmpty && password.isNotEmpty) {
-      User user = User(
-          email: email, password: password, displayName: displayName, otp: otp);
-      try {
-        output = await submit(user, '/account/create/verify', token: token);
-        try {
-          dynamic outputJson = jsonDecode(output);
-
-          if (outputJson['create'] == true) {
-            isSuccess = true;
-            message = "Register successful";
           } else {
             message = outputJson['response'];
           }
@@ -123,27 +62,15 @@ class AuthMethods {
     if (email.isNotEmpty && password.isNotEmpty) {
       User user = User(email: email, password: password);
       try {
-        output = await submit(user, '/account/login');
+        output = await session.post('/account/login', user);
+
         try {
           dynamic outputJson = jsonDecode(output);
-
+          debugPrint("outputjson : $outputJson");
           if (outputJson['login'] == true) {
             isSuccess = true;
-            message = "Login successful";
-            token = outputJson['token'];
-            final userDetails = UserDetails(
-                email: email,
-                age: 0,
-                location: '',
-                profilePic: '',
-                cardPic: '',
-                messages: []);
-            final jsonObject = userDetails.toJson();
-            debugPrint('$jsonObject');
-            StorageMethods().setUserObject(jsonObject); // Stores JSON
-            StorageMethods().getUserObject(jsonObject); // Converts JSON to object
-            StorageMethods().writeToken(TokenItem(value: token));
-            debugPrint("Token written to SECURE_STORAGE");
+            message = "Login successful, enter OTP to continue";
+            debugPrint(output);
           } else {
             message = outputJson['response'];
           }
@@ -157,6 +84,46 @@ class AuthMethods {
       output = message = "Please enter all the fields";
     }
     debugPrint(output, wrapWidth: 1024);
+    return [output, message, isSuccess];
+  }
+
+  Future<List> verify({
+    required String method,
+    required String email,
+    required String password,
+    String displayName = "",
+    required int otp,
+  }) async {
+    String output;
+    String message = "An error occurred";
+    bool isSuccess = false;
+
+    if (email.isNotEmpty && password.isNotEmpty) {
+      User user = User(
+          email: email, password: password, displayName: displayName, otp: otp);
+      try {
+        output = await session.post('/account/$method/verify', user);
+
+        try {
+          dynamic outputJson = jsonDecode(output);
+          if (outputJson[method] == true) {
+            isSuccess = true;
+            message = "Verification successful";
+            storageMethods.write("email", email);
+          } else {
+            message = outputJson['response'];
+          }
+        } catch (e) {
+          message = "An error occurred";
+        }
+      } catch (e) {
+        output = e.toString();
+      }
+    } else {
+      output = message = "Please enter all the fields";
+    }
+    debugPrint(output, wrapWidth: 1024);
+
     return [output, message, isSuccess];
   }
 

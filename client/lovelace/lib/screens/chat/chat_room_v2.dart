@@ -29,13 +29,11 @@ class _ChatRoomScreenV2State extends State<ChatRoomScreenV2> {
   @override
   void initState() {
     super.initState();
-    // getFilePath;
-    // readCounter();
     init();
   }
 
   Future init() async {
-    final List<dynamic> messages = await _storageMethods.readMessages();
+    final List<dynamic> messages = await _storageMethods.read("message");
     debugPrint('$messages');
     setState(() {
       messagesList = messages.map((e) => Message.fromJson(e)).toList();
@@ -118,10 +116,9 @@ class _ChatRoomScreenV2State extends State<ChatRoomScreenV2> {
                       setState(() {
                         messagesList.add(message);
                       });
-                      _storageMethods.writeMessages(messagesList);
-                      _storageMethods.readMessages();
-                      // writeToFile(1);
-                      // readCounter();
+                      // TODO: WRITE MESSAGE TO LOCAL STORAGE & GET IT
+                      _storageMethods.write("message", messagesList);
+                      _storageMethods.read("message");
                     },
                   ),
                 ),

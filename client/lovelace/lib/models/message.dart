@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 class Message {
   final String text;
   final String date;

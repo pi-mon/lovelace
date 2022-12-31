@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:lovelace/screens/chat/chat_room.dart';
 import 'package:lovelace/screens/chat/chat_room_v2.dart';
 import 'package:lovelace/utils/colors.dart';
 

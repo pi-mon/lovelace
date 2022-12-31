@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:lovelace/resources/user_state_methods.dart';
-import 'package:lovelace/screens/user/login_screen.dart';
+import 'package:lovelace/screens/user/login/login_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -141,15 +141,15 @@ class _LandingScreenState extends State<LandingScreen> {
     if (_supportState == _SupportState.supported) {
       return MaterialButton(
         onPressed: () async {
-          final SharedPreferences preferences =
+          final SharedPreferences sharedPreferences =
               await SharedPreferences.getInstance();
-          bool? isLoggedIn = preferences.getBool('isLoggedIn');
+          bool? isLoggedIn = sharedPreferences.getBool('isLoggedIn');
 
           if (isLoggedIn == null || !isLoggedIn) {
             // ignore: use_build_context_synchronously
             ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
               content: Text("Login once to enable biometrics"),
-              backgroundColor: primaryColor,
+              backgroundColor: borderColor,
             ));
           } else {
             final String message = await _authenticateWithBiometrics();

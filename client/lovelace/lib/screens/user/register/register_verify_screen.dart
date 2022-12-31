@@ -1,35 +1,53 @@
 import 'package:flutter/material.dart';
-import 'package:lovelace/screens/user/register_verify_screen.dart';
+import 'package:lovelace/resources/authenticate_methods.dart';
+import 'package:lovelace/screens/user/login/login_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:lovelace/widgets/text_field_input.dart';
-import 'package:lovelace/resources/auth_methods.dart';
 
-class RegisterPasswordScreen extends StatefulWidget {
+class RegisterVerifyScreen extends StatefulWidget {
   final String displayName;
   final String email;
-  const RegisterPasswordScreen(
-      {super.key, required this.displayName, required this.email});
+  final String password;
+  const RegisterVerifyScreen(
+      {super.key,
+      required this.displayName,
+      required this.email,
+      required this.password});
 
   @override
-  State<RegisterPasswordScreen> createState() =>
+  State<RegisterVerifyScreen> createState() =>
       // ignore: no_logic_in_create_state
-      _RegisterPasswordScreenState(displayName, email);
+      _RegisterVerifyScreenState(displayName, email, password);
 }
 
-class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
-  _RegisterPasswordScreenState(this.displayName, this.email);
+class _RegisterVerifyScreenState extends State<RegisterVerifyScreen> {
+  _RegisterVerifyScreenState(this.displayName, this.email, this.password);
   bool _isLoading = false;
+
   final String displayName;
   final String email;
-  final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _password2Controller = TextEditingController();
+  final String password;
+
+  final TextEditingController _otpController = TextEditingController();
 
   @override
   void dispose() {
     super.dispose();
-    _passwordController.dispose();
-    _password2Controller.dispose();
+    _otpController.dispose();
   }
+
+  // void iniState() {
+  //   super.initState();
+  //   init();
+  // }
+
+  // Future init() async {
+  //   final otp = await SecureStorage().getotp() ?? '';
+
+  //   setState(() {
+  //     this._otpController.text = otp;
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +76,7 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
                             child: Padding(
                                 padding: EdgeInsets.only(right: 32.0),
                                 child: Text(
-                                  'Register',
+                                  'Verify your email',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       color: primaryColor, fontSize: 20),
@@ -67,7 +85,7 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
                     ),
                     const SizedBox(height: 16),
                     const Text(
-                      'Create a password',
+                      'Check your email for OTP',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           color: primaryColor,
@@ -79,22 +97,10 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
                       child: Container(),
                     ),
                     TextFieldInput(
-                      isPass: true,
-                      label: "Password",
-                      hintText: "6 characters minimum",
-                      textInputType: TextInputType.text,
-                      textEditingController: _passwordController,
-                      validator: (value) {
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: 16),
-                    TextFieldInput(
-                      isPass: true,
-                      label: "Confirm Password",
-                      hintText: "Re-enter your password",
-                      textInputType: TextInputType.text,
-                      textEditingController: _password2Controller,
+                      label: "OTP",
+                      hintText: "Enter your OTP",
+                      textInputType: TextInputType.number,
+                      textEditingController: _otpController,
                       validator: (value) {
                         return null;
                       },
@@ -111,47 +117,26 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
                             _isLoading = true;
                           });
 
-                          const String passwordRegex =
-                              r"^(?=\S{8,20}$)(?=.*?\d)(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[^A-Za-z\s0-9])";
-                          final String password = _passwordController.text;
-                          final String password2 = _password2Controller.text;
+                          String otp = _otpController.text;
 
-                          final bool passwordMatch = password == password2;
-                          final bool passwordValid =
-                              RegExp(passwordRegex).hasMatch(password);
+                          bool otpIsValid = otp.isNotEmpty && otp.length == 6;
 
-                          if (!passwordMatch) {
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(const SnackBar(
-                              content: Text('Passwords do not match'),
+                          if (!otpIsValid) {
+                            String message = "Invalid OTP";
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text(message),
                               backgroundColor: errorColor,
                             ));
                             return;
                           }
 
-                          if (!passwordValid) {
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(const SnackBar(
-                              content: Text(
-                                  'Password does not meet the requirements'),
-                              backgroundColor: errorColor,
-                            ));
-                            showDialog(
-                              context: context,
-                              builder: (context) {
-                                return const AlertDialog(
-                                  content: Text(
-                                      "Password Requirements:\n\t- Minimum 6 letters\n\t- Maximum 20 letters\n\t- At least 1 number\n\t- At least 1 lowercase alphabet\n\t- At least 1 uppercase alphabet\n\t- At least 1 special character"),
-                                );
-                              },
-                            );
-                            return;
-                          }
-
-                          List<dynamic> response = await AuthMethods().register(
-                              email: email,
-                              password: password,
-                              displayName: displayName);
+                          List<dynamic> response = await AuthenticateMethods()
+                              .verify(
+                                  method: "create",
+                                  email: email,
+                                  password: password,
+                                  displayName: displayName,
+                                  otp: int.parse(otp));
 
                           setState(() {
                             _isLoading = false;
@@ -165,7 +150,7 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             content: Text(message),
                             backgroundColor:
-                                isSuccess ? borderColor : errorColor,
+                                isSuccess ? successColor : errorColor,
                           ));
 
                           if (isSuccess) {
@@ -173,15 +158,8 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => RegisterVerifyScreen(
-                                        displayName: displayName,
-                                        email: email,
-                                        password: password,
-                                      )),
+                                  builder: (context) => const LoginScreen()),
                             );
-                          } else if (message != "Please enter all the fields") {
-                            // ignore: use_build_context_synchronously
-                            Navigator.pop(context);
                           }
 
                           showDialog(
@@ -198,7 +176,7 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
                           backgroundColor: primaryColor,
                         ),
                         child: !_isLoading
-                            ? const Text("Sign Up",
+                            ? const Text("Verify",
                                 style: TextStyle(
                                     fontSize: 18,
                                     color: whiteColor,

@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:lovelace/models/token_item.dart';
-import 'package:lovelace/resources/auth_methods.dart';
 import 'package:lovelace/resources/storage_methods.dart';
 import 'package:lovelace/resources/user_state_methods.dart';
 import 'package:lovelace/responsive/mobile_screen_layout.dart';
@@ -85,8 +83,8 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
                         ],
                       ));
                     });
-                StorageMethods().deleteAllData();
-                // StorageMethods().deleteToken();
+                // StorageMethods().deleteAll();
+                StorageMethods().delete("cookie");
                 UserStateMethods().logoutState(context);
                 initList();
               })

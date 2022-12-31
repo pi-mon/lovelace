@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:lovelace/resources/auth_methods.dart';
-import 'package:lovelace/resources/user_state_methods.dart';
-import 'package:lovelace/screens/user/register_details_screen.dart';
+import 'package:lovelace/resources/authenticate_methods.dart';
+import 'package:lovelace/screens/user/login/login_verify_screen.dart';
+import 'package:lovelace/screens/user/register/register_details_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:lovelace/widgets/text_field_input.dart';
 
@@ -130,31 +130,17 @@ class _LoginScreenState extends State<LoginScreen> {
                       backgroundColor: primaryColor,
                     ),
                     child: _isLoading
-                        ? Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: const <Widget>[
-                              SizedBox(
-                                  height: 14,
-                                  width: 14,
-                                  child: CircularProgressIndicator(
-                                    color: whiteColor,
-                                    strokeWidth: 4,
-                                  )),
-                              SizedBox(
-                                width: 15,
-                              ),
-                              Text(
-                                'Logging in...',
-                                style: TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.bold),
-                              )
-                            ],
-                          )
-                        : const Text(
-                            'Login',
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.bold),
-                          ),
+                    ? const CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation<Color>(whiteColor),
+                      )
+                    : const Text(
+                        'Login',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),            
                     onPressed: () async {
                       if (_isLoading) return;
                       setState(() {
@@ -164,7 +150,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         final String email = _emailController.text;
                         final String password = _passwordController.text;
 
-                        List response = await AuthMethods().login(
+                        List response = await AuthenticateMethods().login(
                           email: email,
                           password: password,
                         );
@@ -173,19 +159,31 @@ class _LoginScreenState extends State<LoginScreen> {
                         String message = response[1];
                         bool isSuccess = response[2];
 
+                        debugPrint(output);
+
                         // ignore: use_build_context_synchronously
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           content: Text(message),
-                          backgroundColor:
-                              isSuccess ? successColor : errorColor,
+                          backgroundColor: isSuccess ? borderColor : errorColor,
                         ));
 
                         if (isSuccess) {
                           // ignore: use_build_context_synchronously
-                          UserStateMethods().loginState(context);
-                          // setState(() {
-                          //   _isLoading = false;
-                          // });
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => LoginVerifyScreen(
+                                      email: email,
+                                      password: password,
+                                    )),
+                          );
+                          setState(() {
+                            _isLoading = false;
+                          });
+                        } else {
+                          setState(() {
+                            _isLoading = false;
+                          });
                         }
                       } else {
                         setState(() {

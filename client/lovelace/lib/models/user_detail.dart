@@ -1,53 +1,41 @@
-import 'package:json_annotation/json_annotation.dart';
-import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:lovelace/models/message.dart';
-// must be same name as this file (AKA user_detail)
-// g stands for generated
-part 'user_detail.g.dart';
 
-@JsonSerializable(explicitToJson: true) // needed for nested classes
 class UserDetails {
   final String email;
-  final int age;
+  final DateTime birthday;
   final String location;
-  final String profilePic;
-  final String cardPic;
+  final Uint8List displayPic;
+  final Uint8List cardPic;
   List<Message> messages;
-
+  
   UserDetails(
       {required this.email,
-      required this.age,
+      required this.birthday,
       required this.location,
-      required this.profilePic,
+      required this.displayPic,
       required this.cardPic,
       required this.messages});
+
+  UserDetails.fromJson(Map<String, dynamic> json)
+      : email = json['email'],
+        birthday = json['birthday'],
+        location = json['location'],
+        displayPic = json['displayPic'],
+        cardPic = json['cardPic'],
+        messages = json['messages'];
+
+  Map<String, dynamic> toJson() => {
+        'email': email,
+        'birthday': birthday,
+        'location': location,
+        'displayPic': displayPic,
+        'cardPic': cardPic,
+        'messages': messages
+      };
   
-  factory UserDetails.fromJson(Map<String, dynamic> json) => _$UserDetailsFromJson(json);
-  Map<String, dynamic> toJson() => _$UserDetailsToJson(this);
-
-  // UserDetails.fromJson(Map<String, dynamic> json)
-  //     : email = json['email'],
-  //       age = json['age'],
-  //       location = json['location'],
-  //       profilePic = json['profilePic'],
-  //       cardPic = json['cardPic'],
-  //       messages = json['cardPic'];
-
-  // static Map<String, dynamic> toMap(UserDetails userDetails) =>
-  //     <String, dynamic>{
-  //       'email': userDetails.email,
-  //       'age': userDetails.age,
-  //       'location': userDetails.location,
-  //       'profilePic': userDetails.profilePic,
-  //       'cardPic': userDetails.cardPic,
-  //       'messages': userDetails.messages
-  //     };
-
-  // static String serialize(UserDetails userDetails) =>
-  //     jsonEncode(UserDetails.toMap(userDetails));
-  // static UserDetails deserialize(String json) =>
-  //     UserDetails.fromJson(jsonDecode(json));
 
   @override
-  String toString() => 'UserDetails{email: $email, age: $age, location: $location, profilePic: $profilePic, messages: $messages}';
+  String toString() =>
+      'UserDetails{email: $email, birthday: $birthday, location: $location, displayPic: $displayPic, messages: $messages}';
 }

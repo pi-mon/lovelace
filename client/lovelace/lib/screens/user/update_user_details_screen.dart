@@ -1,8 +1,6 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:lovelace/models/user.dart';
-import 'package:lovelace/resources/auth_methods.dart';
+import 'package:lovelace/resources/authenticate_methods.dart';
 import 'package:lovelace/resources/storage_methods.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:http/http.dart' as http;
@@ -18,12 +16,9 @@ class UpdateUserDetailsScreen extends StatefulWidget {
 
 class _UpdateUserDetailsScreenState extends State<UpdateUserDetailsScreen> {
   final TextEditingController _newEmailController = TextEditingController();
-  final TextEditingController _newPasswordController =
-      TextEditingController();
-  final TextEditingController _newLocationController =
-      TextEditingController();
-  final TextEditingController _newUsernameController =
-      TextEditingController();
+  final TextEditingController _newPasswordController = TextEditingController();
+  final TextEditingController _newLocationController = TextEditingController();
+  final TextEditingController _newUsernameController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
   // Future<List<User>> getData() async {
@@ -53,10 +48,10 @@ class _UpdateUserDetailsScreenState extends State<UpdateUserDetailsScreen> {
     // TODO: Get the user data from server side
 
     // setState(() {
-    //   this._newEmailController.text = 
-    //   this._newPasswordController.text = 
-    //   this._newLocationController.text = 
-    //   this._newUsernameController.text = 
+    //   this._newEmailController.text =
+    //   this._newPasswordController.text =
+    //   this._newLocationController.text =
+    //   this._newUsernameController.text =
     // });
   }
 
@@ -102,7 +97,7 @@ class _UpdateUserDetailsScreenState extends State<UpdateUserDetailsScreen> {
                 hintText: "Enter your password",
                 textInputType: TextInputType.text,
                 textEditingController: _newPasswordController,
-                validator: (value) {},              
+                validator: (value) {},
               ),
               const SizedBox(height: 16),
               TextFieldInput(
@@ -140,7 +135,7 @@ class _UpdateUserDetailsScreenState extends State<UpdateUserDetailsScreen> {
                   //   String location = _newLocationController.text;
 
                   //   // call update function to send request to server side to update user details
-                  //   List response = await AuthMethods().updateUserDetails(
+                  //   List response = await AuthenticateMethods().updateUserDetails(
                   //       email: _newEmailController.text,
                   //       password: _newPasswordController.text);
 

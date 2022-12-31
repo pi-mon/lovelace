@@ -1,21 +1,32 @@
 import 'package:flutter/foundation.dart';
+import 'package:lovelace/responsive/mobile_screen_layout.dart';
+import 'package:lovelace/responsive/responsive_layout.dart';
+import 'package:lovelace/responsive/web_screen_layout.dart';
 import 'package:lovelace/screens/chat/chat_screen.dart';
-import 'package:lovelace/screens/user/account_screen.dart';
+import 'package:lovelace/screens/user/account/account_screen.dart';
 import 'package:lovelace/screens/main/home_screen.dart';
 
 const webScreenSize = 600;
 
-final userScreens = [
-  // * List of pages only logged in users will see
-  const HomeScreen(),
-  const ChatScreen(),
-  const AccountScreen(),
+const userScreens = [
+  HomeScreen(),
+  ChatScreen(),
+  AccountScreen(),
 ];
 
+const userPages = ResponsiveLayout(
+    mobileScreenLayout: MobileScreenLayout(),
+    webScreenLayout: WebScreenLayout());
+
 String checkDevice() {
-  String baseUrl = "10.0.2.2";
-  if (defaultTargetPlatform == TargetPlatform.iOS) {
-    baseUrl == "127.0.0.1";
+  String baseUrl;
+  int port = 3000;
+  if (defaultTargetPlatform == TargetPlatform.android) {
+    baseUrl = "10.0.2.2";
+  } else {
+    baseUrl = "127.0.0.1";
   }
-  return "$baseUrl:3000";
+  String url = "$baseUrl:$port";
+  debugPrint(url);
+  return url;
 }

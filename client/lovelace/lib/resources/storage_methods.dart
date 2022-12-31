@@ -1,102 +1,53 @@
 import 'dart:convert';
-import 'dart:io';
-import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:lovelace/models/message.dart';
-import 'package:lovelace/models/token_item.dart';
-import 'package:lovelace/models/user_detail.dart';
 
 class StorageMethods {
   final _secureStorage = const FlutterSecureStorage();
-  static const _keyToken = "token";
-  static const _keyMessage = "message";
   static const _keyDisplayName = "display_name";
   static const _keyAge = "age";
   static const _keyLocation = "location";
   static const _keyEmail = "email";
-  static const _keyUser = "user";
 
-  AndroidOptions _getAndroidOptions() => const AndroidOptions(
-        encryptedSharedPreferences: true,
-      );
-
-  // // TODO: Get user display name from server side to use as storage key
-  // Future getUserData() async {}
-
-  // FUNCTIONS TO SET & GET USER JSON OBJECTS
-  Future<void> setUserObject(Map<String, dynamic> user) async {
-    debugPrint('Creating new user object');
-    await _secureStorage.write(key: _keyUser, value: user.toString());
-    debugPrint('New user object created');
+  Future<bool> write(String key, dynamic value) async {
+    await _secureStorage.write(key: key, value: value);
+    debugPrint('$key written to secure_storage');
+    return true;
   }
 
-  Future<UserDetails> getUserObject(Map<String, dynamic> user) async {
-    debugPrint('inside get function');
-    final userObject = UserDetails.fromJson(user);
-    debugPrint('get object: $userObject');
-    return userObject;
+  Future read<T>(String key) async {
+    // "T" is a generic type parameter used to specify the variable type when the exact type is still unknown
+    dynamic value = await _secureStorage.read(key: key);
+    // if (value != null) {
+    //   return (jsonDecode(value) as List).map((item) => item as T).toList();
+    // }
+    debugPrint('$key read from secure_storage');
+    return value;
   }
 
-
-  // STORAGE METHODS FOR JWT TOKEN
-  Future<void> writeToken(TokenItem tokenItem) async {
-    debugPrint("Writing new data to secure_storage");    
-    await _secureStorage.write(
-        key: _keyToken,
-        value: tokenItem.toString(),
-        aOptions: _getAndroidOptions());
-    debugPrint('Data written to secure_storage');
-  }
-
-  Future<String?> readToken() async {
-    debugPrint("Reading data from secure_storage");
-    var readData = await Future.sync(() =>
-        _secureStorage.read(key: _keyToken, aOptions: _getAndroidOptions()));
-    return readData;
-  }
-
-  Future<void> deleteToken() async {
-    debugPrint("Deleting data in secure_storage");
-    await _secureStorage.delete(key: _keyToken, aOptions: _getAndroidOptions());
-  }
-
-  Future<void> deleteAllData() async {
-    debugPrint('Deleting all data in seucre_storage');
-    await _secureStorage.deleteAll(aOptions: _getAndroidOptions());
-  }
-
-  // !! FIX DISPLAY FORMAT OF DATA (MUST DISPLAY KEY & VALUE)
-  // Future<List<Map<String, dynamic>>> readAllData() async {
-  //   debugPrint("Reading all secured data");
-    // var allData = await _secureStorage.readAll(aOptions: _getAndroidOptions());
-    // List<Map<String, dynamic>> list = allData.entries
-    //     .map((e) => dynamic(e.key, e.value));
-    //     .toList();
-    // debugPrint('${list.length}'); // testing
-    // debugPrint(list.toString()); // testing
-    // return list;
+  // Future<> getMessage(UserDetails userDetails, String key) async {
+  //   String? messageString = await _secureStorage.read(key: key);
+  //   if (messageString != null) {
+  //     userDetails.messages =
+  //         jsonDecode(messageString).map((m) => Message.fromJson(m)).toList();
+  //   }
   // }
 
-  Future writeMessages(List<Message> messages) async {
-    debugPrint('Writing text messages into secure_storage');
-    debugPrint('Written message:$messages');
-    String json =
-        jsonEncode(messages.map((i) => i.toJson()).toList()).toString();
-    debugPrint(json);
-    await _secureStorage.write(key: _keyMessage, value: json);
+  Future<List> readAllJson() async {
+    Map<String, dynamic> data = await _secureStorage.readAll();
+    return data.values.map((jsonString) => jsonDecode(jsonString)).toList();
   }
 
-  Future readMessages() async {
-    debugPrint('Reading text messages from secure_storage');
-    final String? value = await _secureStorage.read(key: _keyMessage);
-    debugPrint('value: $value'); // String
-    dynamic map = jsonDecode(value!);
-    debugPrint('map: $map');
-    debugPrint(map[0]["text"]);
-    return map;
-    // ignore: unnecessary_null_comparison
-    // return value == null ? null : List<Message>.from(messageList);
+  Future<bool> delete(String key) async {
+    await _secureStorage.delete(key: key);
+    debugPrint('$key deleted from secure_storage');
+    return true;
+  }
+
+  Future<bool> deleteAll() async {
+    await _secureStorage.deleteAll();
+    debugPrint('All items deleted from secure_storage');
+    return true;
   }
 
   // READ/WRITE DISPLAYNAME

@@ -8,9 +8,9 @@ class User:
 
 
 class UserDetails:
-    def __init__(self, email, age, location):
+    def __init__(self, email, birthday, location):
         self.email = email
-        self.age = age
+        self.birthday = birthday
         self.location = location
         self.profile_pic = ""
         self.card_pic = ""

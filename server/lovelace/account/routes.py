@@ -115,13 +115,14 @@ def create_account():
                 request.remote_addr,
                 new_email,
             )
-            return jsonify(
+            output = jsonify(
                 {
                     "creation": True,
                     "response": "Temp account was created successfully, please check mailbox for email verification.",
-                    "token": token,
                 }
             )
+            output.set_cookie("token", token)
+            return output
         # except db_errors.DuplicateKeyError:
         #     logger.info(
         #         "%s Did not succeed in creating an account due to duplicated email %s",
@@ -245,9 +246,14 @@ def login_account():
             request.remote_addr,
             email,
         )
-        return jsonify(
-            {"login": True, "response": "User login successful", "token": token}
+        output = jsonify(
+            {
+                "login": True,
+                "response": "User login successful, otp required to login",
+            }
         )
+        output.set_cookie("token", token)
+        return output
 
 
 @account_page.route("/account/login/verify", methods=["POST", "GET"])
@@ -282,25 +288,27 @@ def login_verify(user):
             request.remote_addr,
             user,
         )
-        return jsonify(
-            {"login": True, "response": "User login successful", "token": token}
-        )
+        output = jsonify({"login": True, "response": "User login successful"})
+        output.set_cookie("token", token)
+        return output
     return jsonify({"login": False, "response": "Invalid or expired otp"})
 
 
-@account_page.route("/account/update_profile")
+@account_page.route("/account/profile/update")
 @token_required()  # user is email registered
-def update_profile(user):
+def update_profile(user_email):
     profile_information = request.get_json()
     user_detail_collection = mongo_account_details_write.account_details
     new_account_details = account.UserDetails(
-        user,
-        profile_information["username"],
-        profile_information["age"],
+        user_email,
+        # profile_information["username"],
+        profile_information["birthday"],
         profile_information["location"],
     )
     if (
-        user_detail_collection.account_details.find_one({"email": user}, {"email": 1})
+        user_detail_collection.account_details.find_one(
+            {"email": user_email}, {"email": 1}
+        )
         == None
     ):  # check if need to update profile or create new profile
         user_detail_collection.account_details.insert_one(new_account_details.__dict__)
@@ -319,8 +327,11 @@ def update_profile(user):
 def profile(user):
     user_detail_collection = mongo_account_details_write.account_details
     account_details = user_detail_collection.account_details.find_one({"email": user})
-    account_details["_id"] = str(account_details["_id"])
-    return jsonify(account_details)
+    if account_details == None:
+        return jsonify({"response": "User details has not been created yet"})
+    else:
+        account_details["_id"] = str(account_details["_id"])
+        return jsonify(account_details)
 
 
 # @account_page.route("/account/email")

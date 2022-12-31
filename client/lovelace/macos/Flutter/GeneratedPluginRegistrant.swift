@@ -10,6 +10,7 @@ import desktop_drop
 import device_info_plus
 import file_selector_macos
 import flutter_secure_storage_macos
+import geolocator_apple
 import network_info_plus
 import path_provider_macos
 import photo_manager
@@ -27,6 +28,7 @@ func RegisterGeneratedPlugins(registry: FlutterPluginRegistry) {
   DeviceInfoPlusMacosPlugin.register(with: registry.registrar(forPlugin: "DeviceInfoPlusMacosPlugin"))
   FileSelectorPlugin.register(with: registry.registrar(forPlugin: "FileSelectorPlugin"))
   FlutterSecureStorageMacosPlugin.register(with: registry.registrar(forPlugin: "FlutterSecureStorageMacosPlugin"))
+  GeolocatorPlugin.register(with: registry.registrar(forPlugin: "GeolocatorPlugin"))
   NetworkInfoPlusPlugin.register(with: registry.registrar(forPlugin: "NetworkInfoPlusPlugin"))
   PathProviderPlugin.register(with: registry.registrar(forPlugin: "PathProviderPlugin"))
   PhotoManagerPlugin.register(with: registry.registrar(forPlugin: "PhotoManagerPlugin"))
