@@ -13,7 +13,6 @@ class LoginVerifyScreen extends StatefulWidget {
 
   @override
   State<LoginVerifyScreen> createState() =>
-      // ignore: no_logic_in_create_state
       _LoginVerifyScreenState(email, password);
 }
 
@@ -141,7 +140,6 @@ class _LoginVerifyScreenState extends State<LoginVerifyScreen> {
                           String message = response[1];
                           bool isSuccess = response[2];
 
-                          // ignore: use_build_context_synchronously
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             content: Text(message),
                             backgroundColor:
@@ -149,7 +147,6 @@ class _LoginVerifyScreenState extends State<LoginVerifyScreen> {
                           ));
 
                           if (isSuccess) {
-                            // ignore: use_build_context_synchronously
                             UserStateMethods().loginState(context);
                           }
 

@@ -132,7 +132,7 @@ class _RegisterDetailsScreenState extends State<RegisterDetailsScreen> {
                             ));
                             return;
                           }
-                          // ignore: use_build_context_synchronously
+
                           Navigator.push(
                             context,
                             MaterialPageRoute(

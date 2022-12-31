@@ -8,8 +8,6 @@ import 'package:lovelace/responsive/mobile_screen_layout.dart';
 import 'package:lovelace/responsive/responsive_layout.dart';
 import 'package:lovelace/responsive/web_screen_layout.dart';
 import 'package:lovelace/screens/main/landing_screen.dart';
-import 'package:lovelace/screens/user/initialise/init_birthday_screen.dart';
-import 'package:lovelace/screens/user/initialise/init_location_screen.dart';
 import 'package:lovelace/screens/user/lock_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:flutter/services.dart';
@@ -43,7 +41,6 @@ void main() async {
       enabled: false));
 }
 
-// ignore: must_be_immutable
 class MyApp extends StatefulWidget {
   final bool isLoggedIn;
   final _userPages = const ResponsiveLayout(
@@ -92,7 +89,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
     if (inBackground) {
       debugPrint('App in background - $state');
-      // ignore: use_build_context_synchronously
+
       AppLock.of(context)!.showLockScreen();
     } else {
       debugPrint('App in foreground - $state');
@@ -117,7 +114,6 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     setState(() {
       isSecureMode = !isSecureMode;
     });
-    // ignore: dead_code
     if (isSecureMode) {
       FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
     } else {

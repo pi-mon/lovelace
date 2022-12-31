@@ -62,7 +62,6 @@ class InitLocationScreen extends StatefulWidget {
   const InitLocationScreen({super.key, required this.birthday});
 
   @override
-  // ignore: no_logic_in_create_state
   State<InitLocationScreen> createState() => _InitLocationScreenState(birthday);
 }
 
@@ -160,7 +159,7 @@ class _InitLocationScreenState extends State<InitLocationScreen> {
                             ));
                             return;
                           }
-                          // ignore: use_build_context_synchronously
+
                           Navigator.push(
                             context,
                             MaterialPageRoute(

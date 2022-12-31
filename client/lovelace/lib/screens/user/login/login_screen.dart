@@ -154,7 +154,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
                         debugPrint(output);
 
-                        // ignore: use_build_context_synchronously
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           content: Text(message),
                           backgroundColor: isSuccess ? borderColor : errorColor,
@@ -178,7 +177,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           //       ));
                           //     });
 
-                          // ignore: use_build_context_synchronously
                           Navigator.push(
                             context,
                             MaterialPageRoute(

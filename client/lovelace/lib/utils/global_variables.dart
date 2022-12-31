@@ -9,9 +9,9 @@ import 'package:lovelace/screens/main/home_screen.dart';
 const webScreenSize = 600;
 
 const userScreens = [
-  const HomeScreen(),
-  const ChatScreen(),
-  const AccountScreen(),
+  HomeScreen(),
+  ChatScreen(),
+  AccountScreen(),
 ];
 
 const userPages = ResponsiveLayout(

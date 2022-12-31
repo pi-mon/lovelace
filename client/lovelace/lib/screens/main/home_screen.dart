@@ -56,9 +56,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: Container(
                         padding: const EdgeInsets.only(left: 42, bottom: 26),
                         child: Column(
-                          // ignore: prefer_const_literals_to_create_immutables
-                          children: <Widget>[
-                            const Align(
+                          children: const <Widget>[
+                            Align(
                               alignment: Alignment.centerLeft,
                               child: Text(
                                 "Shin",
@@ -71,7 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               ),
                             ),
-                            const Align(
+                            Align(
                               alignment: Alignment.centerLeft,
                               child: Text(
                                 "18 • Sembawang",

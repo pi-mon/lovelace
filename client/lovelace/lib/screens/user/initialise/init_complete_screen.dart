@@ -19,7 +19,6 @@ class InitCompleteScreen extends StatefulWidget {
 
   @override
   State<InitCompleteScreen> createState() =>
-      // ignore: no_logic_in_create_state
       _InitDisplayPicScreenState(birthday, location, profilePic, displayPic);
 }
 

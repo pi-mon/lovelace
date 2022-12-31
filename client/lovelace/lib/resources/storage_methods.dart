@@ -76,7 +76,6 @@ class StorageMethods {
     debugPrint('map: $map');
     debugPrint(map[0]["text"]);
     return map;
-    // ignore: unnecessary_null_comparison
     // return value == null ? null : List<Message>.from(messageList);
   }
 

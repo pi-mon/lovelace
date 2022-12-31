@@ -41,7 +41,6 @@ class UserStateMethods {
     // await Future.delayed(const Duration(seconds: 2));
     sharedPreferences.setBool('isLoggedIn', false);
 
-    // ignore: use_build_context_synchronously
     Navigator.of(context).pushAndRemoveUntil(
       MaterialPageRoute(
           builder: (BuildContext context) => const LandingScreen()),

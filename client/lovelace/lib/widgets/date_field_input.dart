@@ -30,8 +30,7 @@ class DateFieldInput extends StatelessWidget {
           children: <Widget>[
             Text(
               label,
-              // ignore: prefer_const_constructors
-              style: TextStyle(
+              style: const TextStyle(
                 color: primaryColor,
                 fontSize: 18,
               ),

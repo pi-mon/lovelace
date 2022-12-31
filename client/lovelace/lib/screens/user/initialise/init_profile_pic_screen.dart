@@ -12,7 +12,6 @@ class InitProfilePicScreen extends StatefulWidget {
 
   @override
   State<InitProfilePicScreen> createState() =>
-      // ignore: no_logic_in_create_state
       _InitProfilePicScreenState(birthday, location);
 }
 
@@ -128,7 +127,7 @@ class _InitProfilePicScreenState extends State<InitProfilePicScreen> {
                             ));
                             return;
                           }
-                          // ignore: use_build_context_synchronously
+
                           Navigator.push(
                             context,
                             MaterialPageRoute(

@@ -20,7 +20,6 @@ class InitDisplayPicScreen extends StatefulWidget {
 
   @override
   State<InitDisplayPicScreen> createState() =>
-      // ignore: no_logic_in_create_state
       _InitDisplayPicScreenState(birthday, location, profilePic);
 }
 
@@ -143,7 +142,6 @@ class _InitDisplayPicScreenState extends State<InitDisplayPicScreen> {
                                 padding:
                                     const EdgeInsets.only(left: 18, bottom: 24),
                                 child: Column(
-                                  // ignore: prefer_const_literals_to_create_immutables
                                   children: <Widget>[
                                     const Align(
                                       alignment: Alignment.centerLeft,
@@ -209,7 +207,6 @@ class _InitDisplayPicScreenState extends State<InitDisplayPicScreen> {
                               profilePic: profilePicData,
                               displayPic: displayPicData);
 
-                          // ignore: use_build_context_synchronously
                           Navigator.push(
                             context,
                             MaterialPageRoute(
