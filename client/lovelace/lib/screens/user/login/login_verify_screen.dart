@@ -12,7 +12,6 @@ class LoginVerifyScreen extends StatefulWidget {
 
   @override
   State<LoginVerifyScreen> createState() =>
-      // ignore: no_logic_in_create_state
       _LoginVerifyScreenState(email, password);
 }
 
@@ -117,15 +116,14 @@ class _LoginVerifyScreenState extends State<LoginVerifyScreen> {
 
                         bool otpIsValid = otp.isNotEmpty && otp.length == 6;
 
-                        if (!otpIsValid) {
-                          String message = "Invalid OTP";
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text(message),
-                            backgroundColor: errorColor,
-                          ));
-                          return;
-                        }
-
+                          if (!otpIsValid) {
+                            String message = "Invalid OTP";
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text(message),
+                              backgroundColor: errorColor,
+                            ));
+                            return;
+                          }
                         List<dynamic> response = await AuthenticateMethods()
                             .verify(
                                 method: "login",

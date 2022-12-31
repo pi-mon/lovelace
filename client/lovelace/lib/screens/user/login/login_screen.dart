@@ -161,14 +161,29 @@ class _LoginScreenState extends State<LoginScreen> {
 
                         debugPrint(output);
 
-                        // ignore: use_build_context_synchronously
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           content: Text(message),
                           backgroundColor: isSuccess ? borderColor : errorColor,
                         ));
 
                         if (isSuccess) {
-                          // ignore: use_build_context_synchronously
+                          // showDialog(
+                          //     context: context,
+                          //     builder: (context) {
+                          //       return AlertDialog(
+                          //           content: Row(
+                          //         children: const <Widget>[
+                          //           SizedBox(
+                          //               height: 20,
+                          //               width: 20,
+                          //               child: CircularProgressIndicator(
+                          //                   color: primaryColor)),
+                          //           SizedBox(width: 15),
+                          //           Text('Logging in...')
+                          //         ],
+                          //       ));
+                          //     });
+
                           Navigator.push(
                             context,
                             MaterialPageRoute(

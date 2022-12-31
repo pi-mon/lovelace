@@ -16,7 +16,6 @@ class RegisterVerifyScreen extends StatefulWidget {
 
   @override
   State<RegisterVerifyScreen> createState() =>
-      // ignore: no_logic_in_create_state
       _RegisterVerifyScreenState(displayName, email, password);
 }
 
@@ -146,7 +145,6 @@ class _RegisterVerifyScreenState extends State<RegisterVerifyScreen> {
                           String message = response[1];
                           bool isSuccess = response[2];
 
-                          // ignore: use_build_context_synchronously
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             content: Text(message),
                             backgroundColor:
@@ -154,7 +152,6 @@ class _RegisterVerifyScreenState extends State<RegisterVerifyScreen> {
                           ));
 
                           if (isSuccess) {
-                            // ignore: use_build_context_synchronously
                             Navigator.push(
                               context,
                               MaterialPageRoute(

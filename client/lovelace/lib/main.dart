@@ -8,6 +8,8 @@ import 'package:lovelace/responsive/mobile_screen_layout.dart';
 import 'package:lovelace/responsive/responsive_layout.dart';
 import 'package:lovelace/responsive/web_screen_layout.dart';
 import 'package:lovelace/screens/main/landing_screen.dart';
+import 'package:lovelace/screens/user/initialise/init_birthday_screen.dart';
+// import 'package:lovelace/screens/user/lock_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:flutter/services.dart';
 import 'package:screen_capture_event/screen_capture_event.dart';
@@ -41,7 +43,6 @@ void main() async {
 //       enabled: false)  
 }
 
-// ignore: must_be_immutable
 class MyApp extends StatefulWidget {
   final bool isLoggedIn;
   final _userPages = const ResponsiveLayout(
@@ -115,7 +116,6 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     setState(() {
       isSecureMode = !isSecureMode;
     });
-    // ignore: dead_code
     if (isSecureMode) {
       FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
     } else {
@@ -134,9 +134,9 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
           scaffoldBackgroundColor: whiteColor,
           primaryColor: primaryColor,
         ),
-        // home: widget.isLoggedIn
-        //     ? const InitBirthayScreen()
-        //     : const LandingScreen());
-        home: widget.isLoggedIn ? widget._userPages : const LandingScreen());
+        home: widget.isLoggedIn
+            ? const InitBirthayScreen()
+            : const LandingScreen());
+    // home: widget.isLoggedIn ? widget._userPages : const LandingScreen());
   }
 }

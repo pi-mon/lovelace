@@ -146,7 +146,6 @@ class _LandingScreenState extends State<LandingScreen> {
           bool? isLoggedIn = sharedPreferences.getBool('isLoggedIn');
 
           if (isLoggedIn == null || !isLoggedIn) {
-            // ignore: use_build_context_synchronously
             ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
               content: Text("Login once to enable biometrics"),
               backgroundColor: borderColor,
@@ -155,14 +154,12 @@ class _LandingScreenState extends State<LandingScreen> {
             final String message = await _authenticateWithBiometrics();
             final bool isSuccess = message == 'Login Success!';
 
-            // ignore: use_build_context_synchronously
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               content: Text(message),
               backgroundColor: isSuccess ? successColor : errorColor,
             ));
 
             if (isSuccess) {
-              // ignore: use_build_context_synchronously
               UserStateMethods().loginState(context);
             }
           }

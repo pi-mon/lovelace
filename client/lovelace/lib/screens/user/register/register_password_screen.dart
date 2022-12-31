@@ -12,7 +12,6 @@ class RegisterPasswordScreen extends StatefulWidget {
 
   @override
   State<RegisterPasswordScreen> createState() =>
-      // ignore: no_logic_in_create_state
       _RegisterPasswordScreenState(displayName, email);
 }
 
@@ -162,7 +161,6 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
                           String message = response[1];
                           bool isSuccess = response[2];
 
-                          // ignore: use_build_context_synchronously
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             content: Text(message),
                             backgroundColor:
@@ -170,7 +168,6 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
                           ));
 
                           if (isSuccess) {
-                            // ignore: use_build_context_synchronously
                             Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -181,7 +178,6 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
                                       )),
                             );
                           } else if (message != "Please enter all the fields") {
-                            // ignore: use_build_context_synchronously
                             Navigator.pop(context);
                           }
 

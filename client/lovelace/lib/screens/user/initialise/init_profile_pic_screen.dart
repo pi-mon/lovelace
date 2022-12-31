@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lovelace/screens/user/initialise/init_display_pic_screen.dart';
@@ -12,7 +14,6 @@ class InitProfilePicScreen extends StatefulWidget {
 
   @override
   State<InitProfilePicScreen> createState() =>
-      // ignore: no_logic_in_create_state
       _InitProfilePicScreenState(birthday, location);
 }
 
@@ -21,7 +22,7 @@ class _InitProfilePicScreenState extends State<InitProfilePicScreen> {
   final String birthday;
   final String location;
   final ImagePicker _picker = ImagePicker();
-  XFile? _image;
+  File? _image;
   bool _isDefault = true;
 
   @override
@@ -85,7 +86,7 @@ class _InitProfilePicScreenState extends State<InitProfilePicScreen> {
                               source: ImageSource.gallery);
                           if (image != null) {
                             setState(() {
-                              _image = image;
+                              _image = File(image.path);
                               _isDefault = false;
                             });
                           }
@@ -100,8 +101,8 @@ class _InitProfilePicScreenState extends State<InitProfilePicScreen> {
                               fit: BoxFit.cover,
                               image: _isDefault
                                   ? const AssetImage(
-                                      'assets/images/default-profile-picture.png')
-                                  : AssetImage(_image!.path),
+                                      'assets/images/landing_user.jpeg')
+                                  : Image.file(_image!).image,
                             ),
                           ),
                         ),
@@ -128,7 +129,7 @@ class _InitProfilePicScreenState extends State<InitProfilePicScreen> {
                             ));
                             return;
                           }
-                          // ignore: use_build_context_synchronously
+
                           Navigator.push(
                             context,
                             MaterialPageRoute(

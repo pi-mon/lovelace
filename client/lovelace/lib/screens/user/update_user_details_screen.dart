@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lovelace/models/user.dart';
-import 'package:lovelace/resources/authenticate_methods.dart';
-import 'package:lovelace/resources/storage_methods.dart';
 import 'package:lovelace/utils/colors.dart';
-import 'package:http/http.dart' as http;
 import 'package:lovelace/widgets/text_field_input.dart';
 
 class UpdateUserDetailsScreen extends StatefulWidget {
@@ -143,7 +139,7 @@ class _UpdateUserDetailsScreenState extends State<UpdateUserDetailsScreen> {
                   //   String message = response[1];
                   //   bool isUpdated = response[2];
 
-                  //   // ignore: use_build_context_synchronously
+                  //
                   //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                   //     content: Text(message),
                   //     backgroundColor: isUpdated ? successColor : errorColor,
