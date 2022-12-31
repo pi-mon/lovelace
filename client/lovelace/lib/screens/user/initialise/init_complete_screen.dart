@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lovelace/screens/main/home_screen.dart';
@@ -7,8 +9,8 @@ import 'package:lovelace/utils/global_variables.dart';
 class InitCompleteScreen extends StatefulWidget {
   final String birthday;
   final String location;
-  final XFile? profilePic;
-  final XFile? displayPic;
+  final File? profilePic;
+  final File? displayPic;
 
   const InitCompleteScreen(
       {super.key,
@@ -27,8 +29,8 @@ class _InitDisplayPicScreenState extends State<InitCompleteScreen> {
       this.birthday, this.location, this.profilePic, this.displayPic);
   final String birthday;
   final String location;
-  final XFile? profilePic;
-  final XFile? displayPic;
+  final File? profilePic;
+  final File? displayPic;
 
   @override
   void dispose() {

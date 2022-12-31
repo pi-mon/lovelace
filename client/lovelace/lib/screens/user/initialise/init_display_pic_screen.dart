@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
@@ -10,7 +11,7 @@ import 'package:age_calculator/age_calculator.dart';
 class InitDisplayPicScreen extends StatefulWidget {
   final String birthday;
   final String location;
-  final XFile? profilePic;
+  final File? profilePic;
 
   const InitDisplayPicScreen(
       {super.key,
@@ -27,9 +28,9 @@ class _InitDisplayPicScreenState extends State<InitDisplayPicScreen> {
   _InitDisplayPicScreenState(this.birthday, this.location, this.profilePic);
   final String birthday;
   final String location;
-  final XFile? profilePic;
+  final File? profilePic;
   final ImagePicker _picker = ImagePicker();
-  XFile? _image;
+  File? _image;
   bool _isLoading = false;
   final AccountMethods _accountMethods = AccountMethods();
 
@@ -101,7 +102,7 @@ class _InitDisplayPicScreenState extends State<InitDisplayPicScreen> {
                               source: ImageSource.gallery);
                           if (image != null) {
                             setState(() {
-                              _image = image;
+                              _image = File(image.path);
                             });
                           }
                         },
@@ -111,14 +112,15 @@ class _InitDisplayPicScreenState extends State<InitDisplayPicScreen> {
                             Container(
                               alignment: Alignment.center,
                               child: ClipRRect(
-                                borderRadius: BorderRadius.circular(25),
-                                child: Image.asset(
-                                  _image!.path,
-                                  height: 400,
-                                  width: 400 / 3 * 2,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
+                                  borderRadius: BorderRadius.circular(25),
+                                  child: Image.file(_image!)
+                                  // Image.asset(
+                                  //   _image!.path,
+                                  //   height: 400,
+                                  //   width: 400 / 3 * 2,
+                                  //   fit: BoxFit.cover,
+                                  // ),
+                                  ),
                             ),
                             Container(
                               height: 400,

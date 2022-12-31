@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lovelace/screens/user/initialise/init_display_pic_screen.dart';
@@ -20,7 +22,7 @@ class _InitProfilePicScreenState extends State<InitProfilePicScreen> {
   final String birthday;
   final String location;
   final ImagePicker _picker = ImagePicker();
-  XFile? _image;
+  File? _image;
   bool _isDefault = true;
 
   @override
@@ -84,7 +86,7 @@ class _InitProfilePicScreenState extends State<InitProfilePicScreen> {
                               source: ImageSource.gallery);
                           if (image != null) {
                             setState(() {
-                              _image = image;
+                              _image = File(image.path);
                               _isDefault = false;
                             });
                           }
@@ -100,7 +102,7 @@ class _InitProfilePicScreenState extends State<InitProfilePicScreen> {
                               image: _isDefault
                                   ? const AssetImage(
                                       'assets/images/landing_user.jpeg')
-                                  : AssetImage(_image!.path),
+                                  : Image.file(_image!).image,
                             ),
                           ),
                         ),
