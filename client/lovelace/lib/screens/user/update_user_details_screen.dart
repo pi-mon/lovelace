@@ -85,7 +85,9 @@ class _UpdateUserDetailsScreenState extends State<UpdateUserDetailsScreen> {
                 hintText: "Enter your email",
                 textInputType: TextInputType.emailAddress,
                 textEditingController: _newEmailController,
-                validator: (value) {},
+                validator: (value) {
+                  return null;
+                },
               ),
               const SizedBox(height: 16),
               TextFieldInput(
@@ -93,7 +95,9 @@ class _UpdateUserDetailsScreenState extends State<UpdateUserDetailsScreen> {
                 hintText: "Enter your password",
                 textInputType: TextInputType.text,
                 textEditingController: _newPasswordController,
-                validator: (value) {},
+                validator: (value) {
+                  return null;
+                },
               ),
               const SizedBox(height: 16),
               TextFieldInput(
@@ -101,7 +105,9 @@ class _UpdateUserDetailsScreenState extends State<UpdateUserDetailsScreen> {
                 hintText: "Enter your username",
                 textInputType: TextInputType.text,
                 textEditingController: _newUsernameController,
-                validator: (value) {},
+                validator: (value) {
+                  return null;
+                },
               ),
               const SizedBox(height: 16),
               TextFieldInput(
@@ -109,7 +115,9 @@ class _UpdateUserDetailsScreenState extends State<UpdateUserDetailsScreen> {
                 hintText: "Enter your location",
                 textInputType: TextInputType.text,
                 textEditingController: _newLocationController,
-                validator: (value) {},
+                validator: (value) {
+                  return null;
+                },
               ),
               const SizedBox(height: 16),
               ElevatedButton(

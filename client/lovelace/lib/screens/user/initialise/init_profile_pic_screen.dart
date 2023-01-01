@@ -101,7 +101,7 @@ class _InitProfilePicScreenState extends State<InitProfilePicScreen> {
                               fit: BoxFit.cover,
                               image: _isDefault
                                   ? const AssetImage(
-                                      'assets/images/landing_user.jpeg')
+                                      'assets/images/default-profile-picture.png')
                                   : Image.file(_image!).image,
                             ),
                           ),

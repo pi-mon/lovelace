@@ -41,8 +41,6 @@ dependencies:
   email_validator: ^2.1.17
   logging: ^1.1.0
   logger: ^1.1.0
-  device_info_plus: ^8.0.0
-  network_info_plus: ^3.0.1
   local_auth: ^2.1.2
   flutter_app_lock: ^3.0.0
   screen_capture_event: ^1.1.1
@@ -51,13 +49,11 @@ dependencies:
   json_annotation: ^4.7.0
   flutter_root_jailbreak: ^2.0.2
   webcrypto: ^0.5.3
-  aes_crypt_null_safe: ^2.0.2  
   crypto: ^3.0.2
   encrypt: ^5.0.1
   stream_chat_flutter: ^5.2.0
   grouped_list: ^5.1.2
   intl: ^0.17.0
-  path_provider: ^2.0.11
   path: ^1.8.2
   flutter_datetime_picker: ^1.5.1
   geolocator: ^9.0.2

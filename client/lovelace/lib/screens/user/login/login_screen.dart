@@ -130,17 +130,18 @@ class _LoginScreenState extends State<LoginScreen> {
                       backgroundColor: primaryColor,
                     ),
                     child: _isLoading
-                    ? const CircularProgressIndicator(
-                        valueColor: AlwaysStoppedAnimation<Color>(whiteColor),
-                      )
-                    : const Text(
-                        'Login',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),            
+                        ? const CircularProgressIndicator(
+                            valueColor:
+                                AlwaysStoppedAnimation<Color>(whiteColor),
+                          )
+                        : const Text(
+                            'Login',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                     onPressed: () async {
                       if (_isLoading) return;
                       setState(() {
@@ -154,6 +155,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           email: email,
                           password: password,
                         );
+                        debugPrint('success');
 
                         String output = response[0];
                         String message = response[1];
@@ -183,7 +185,10 @@ class _LoginScreenState extends State<LoginScreen> {
                           //         ],
                           //       ));
                           //     });
-
+                          debugPrint('success');
+                          setState(() {
+                            _isLoading = true;
+                          });
                           Navigator.push(
                             context,
                             MaterialPageRoute(

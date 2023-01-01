@@ -9,7 +9,6 @@ import 'package:lovelace/responsive/responsive_layout.dart';
 import 'package:lovelace/responsive/web_screen_layout.dart';
 import 'package:lovelace/screens/main/landing_screen.dart';
 import 'package:lovelace/screens/user/initialise/init_birthday_screen.dart';
-// import 'package:lovelace/screens/user/lock_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:flutter/services.dart';
 import 'package:screen_capture_event/screen_capture_event.dart';
@@ -40,7 +39,7 @@ void main() async {
 //           ),
 //       lockScreen: const LockScreen(key: Key('LockScreen')),
 //       backgroundLockLatency: const Duration(seconds: 3),
-//       enabled: false)  
+//       enabled: false)
 }
 
 class MyApp extends StatefulWidget {
@@ -69,7 +68,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     screenCaptureEvent.preventAndroidScreenShot(true);
     WidgetsBinding.instance.addObserver(this);
     FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
-    isRooted();
+    // isRooted();
     screenShotRecord();
     super.initState();
   }
@@ -91,25 +90,24 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
   //   if (inBackground) {
   //     debugPrint('App in background - $state');
-  //     // ignore: use_build_context_synchronously
   //     // AppLock.of(context)!.showLockScreen();
   //   } else {
   //     debugPrint('App in foreground - $state');
   //   }
   // }
 
-  Future<void> isRooted() async {
-    try {
-      bool isJailBroken = Platform.isAndroid
-          ? await FlutterRootJailbreak.isRooted
-          : await FlutterRootJailbreak.isJailBroken;
-      _isJailbroken = isJailBroken;
-    } catch (e) {
-      debugPrint('======ERROR: isRooted======');
-    }
+  // Future<void> isRooted() async {
+  //   try {
+  //     bool isJailBroken = Platform.isAndroid
+  //         ? await FlutterRootJailbreak.isRooted
+  //         : await FlutterRootJailbreak.isJailBroken;
+  //     _isJailbroken = isJailBroken;
+  //   } catch (e) {
+  //     debugPrint('======ERROR: isRooted======');
+  //   }
 
-    setState(() {});
-  }
+  //   setState(() {});
+  // }
 
   Future<void> screenShotRecord() async {
     bool isSecureMode = false;
@@ -121,7 +119,6 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     } else {
       FlutterWindowManager.clearFlags(FlutterWindowManager.FLAG_SECURE);
     }
-    debugPrint('Secure Mode: $isSecureMode');
   }
 
   @override
@@ -134,9 +131,9 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
           scaffoldBackgroundColor: whiteColor,
           primaryColor: primaryColor,
         ),
-        home: widget.isLoggedIn
-            ? const InitBirthayScreen()
-            : const LandingScreen());
-    // home: widget.isLoggedIn ? widget._userPages : const LandingScreen());
+        // home: widget.isLoggedIn
+        //     ? const InitBirthayScreen()
+        //     : const LandingScreen());
+        home: widget.isLoggedIn ? widget._userPages : const LandingScreen());
   }
 }
