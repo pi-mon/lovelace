@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
 // import 'package:flutter_app_lock/flutter_app_lock.dart';
-import 'package:flutter_root_jailbreak/flutter_root_jailbreak.dart';
+// import 'package:flutter_root_jailbreak/flutter_root_jailbreak.dart';
 import 'package:flutter_windowmanager/flutter_windowmanager.dart';
 import 'package:lovelace/responsive/mobile_screen_layout.dart';
 import 'package:lovelace/responsive/responsive_layout.dart';

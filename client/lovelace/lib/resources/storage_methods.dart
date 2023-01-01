@@ -18,24 +18,16 @@ class StorageMethods {
   Future read<T>(String key) async {
     // "T" is a generic type parameter used to specify the variable type when the exact type is still unknown
     dynamic value = await _secureStorage.read(key: key);
-    // if (value != null) {
-    //   return (jsonDecode(value) as List).map((item) => item as T).toList();
-    // }
     debugPrint('$key read from secure_storage');
     return value;
   }
 
-  // Future<> getMessage(UserDetails userDetails, String key) async {
-  //   String? messageString = await _secureStorage.read(key: key);
-  //   if (messageString != null) {
-  //     userDetails.messages =
-  //         jsonDecode(messageString).map((m) => Message.fromJson(m)).toList();
-  //   }
-  // }
-
-  Future<List> readAllJson() async {
+  Future<Map<String, dynamic>> readAllJson() async {
     Map<String, dynamic> data = await _secureStorage.readAll();
-    return data.values.map((jsonString) => jsonDecode(jsonString)).toList();
+    debugPrint('$data');
+    return data;
+    // print(data.values.map((jsonString) => jsonDecode(jsonString)).toList());
+    // return data.values.map((jsonString) => jsonDecode(jsonString)).toList();
   }
 
   Future<bool> delete(String key) async {

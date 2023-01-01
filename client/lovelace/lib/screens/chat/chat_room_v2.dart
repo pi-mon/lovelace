@@ -20,6 +20,8 @@ class ChatRoomScreenV2 extends StatefulWidget {
 class _ChatRoomScreenV2State extends State<ChatRoomScreenV2> {
   List<Message> messagesList = [];
   TextEditingController messageController = TextEditingController();
+  // final timeSent = DateTime.now();
+  DateFormat dateFormat = DateFormat('yyyy-MM-dd - kk:mm');
   final StorageMethods _storageMethods = StorageMethods();
   final _userPages = const ResponsiveLayout(
       mobileScreenLayout: MobileScreenLayout(),
@@ -33,7 +35,8 @@ class _ChatRoomScreenV2State extends State<ChatRoomScreenV2> {
   }
 
   Future init() async {
-    final List<dynamic> messages = await _storageMethods.read("message");
+    final String messageString = await _storageMethods.read("message");
+    final List<dynamic> messages = jsonDecode(messageString);
     debugPrint('$messages');
     setState(() {
       messagesList = messages.map((e) => Message.fromJson(e)).toList();
@@ -66,7 +69,7 @@ class _ChatRoomScreenV2State extends State<ChatRoomScreenV2> {
               useStickyGroupSeparators: true,
               floatingHeader: true,
               elements: messagesList,
-              groupBy: (message) => DateTime.parse(message.date),
+              groupBy: (message) => dateFormat.parse(message.date),
               groupHeaderBuilder: (Message message) => SizedBox(
                 height: 40,
                 child: Center(
@@ -107,17 +110,16 @@ class _ChatRoomScreenV2State extends State<ChatRoomScreenV2> {
                         contentPadding: EdgeInsets.all(12),
                         hintText: "Type your message here..."),
                     onFieldSubmitted: (text) async {
-                      final timeSent = DateTime.now();
-                      String formattedDate =
-                          DateFormat('yyyy-MM-dd - kk:mm').format(timeSent);
                       final message = Message(
-                          text: text, date: formattedDate, isSentByMe: true);
+                          text: text,
+                          date: dateFormat.format(DateTime.now()),
+                          isSentByMe: true);
                       // debugPrint('$message'); // prints out as ('text', 'date')
                       setState(() {
                         messagesList.add(message);
                       });
-                      // TODO: WRITE MESSAGE TO LOCAL STORAGE & GET IT
-                      _storageMethods.write("message", messagesList);
+                      String messageString = jsonEncode(messagesList);
+                      _storageMethods.write("message", messageString);
                       _storageMethods.read("message");
                     },
                   ),

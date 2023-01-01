@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:lovelace/resources/account_methods.dart';
 import 'package:lovelace/resources/storage_methods.dart';
@@ -18,17 +20,17 @@ class UserStateMethods {
     String cookie = await _storageMethods.read("cookie");
     debugPrint(cookie);
     List response = await _accountMethods.read();
-    String output = response[0]; // The JSON object from server side
+    String output = response[0]; // return user details as string
     String message = response[1];
     bool isSuccess = response[2];
-    debugPrint("$output\n$message\n$isSuccess");
+    debugPrint("\n$output\n$message\n$isSuccess");    
 
     if (isSuccess) {
-      // ignore: use_build_context_synchronously
+      // var userString = jsonEncode(output);
+      // _storageMethods.write("user", userString);
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => userPages));
     } else {
-      // ignore: use_build_context_synchronously
       Navigator.push(context,
           MaterialPageRoute(builder: (context) => const InitBirthayScreen()));
     }

@@ -29,7 +29,7 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
   }
 
   void initList() async {
-    // await _storageMethods.readAllData();
+    await _storageMethods.readAllJson();
     setState(() {
       _isLoading = false;
     });
