@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter/material.dart';
 
@@ -24,7 +23,7 @@ class StorageMethods {
 
   Future<Map<String, dynamic>> readAllJson() async {
     Map<String, dynamic> data = await _secureStorage.readAll();
-    // debugPrint('$data');
+    debugPrint('$data');
     return data;
   }
 

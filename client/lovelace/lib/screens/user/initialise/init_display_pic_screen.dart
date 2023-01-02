@@ -31,7 +31,6 @@ class _InitDisplayPicScreenState extends State<InitDisplayPicScreen> {
   final File? profilePic;
   final ImagePicker _picker = ImagePicker();
   File? _image;
-  bool _isLoading = false;
   final AccountMethods _accountMethods = AccountMethods();
 
   @override
@@ -209,16 +208,16 @@ class _InitDisplayPicScreenState extends State<InitDisplayPicScreen> {
                               profilePic: profilePicData,
                               displayPic: displayPicData);
 
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => InitCompleteScreen(
-                                      birthday: birthday,
-                                      location: location,
-                                      profilePic: profilePic,
-                                      displayPic: _image,
-                                    )),
-                          );
+                          void goToInitCompleteScreen() {
+                            Navigator.push(context, 
+                                MaterialPageRoute(
+                                    builder: (context) => InitCompleteScreen(
+                                        birthday: birthday,
+                                        location: location,
+                                        profilePic: profilePic,
+                                        displayPic: _image)));
+                          }
+                          goToInitCompleteScreen();
                         },
                         style: ElevatedButton.styleFrom(
                           minimumSize: const Size(150, 50),

@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lovelace/resources/storage_methods.dart';
 import 'package:lovelace/resources/user_state_methods.dart';
-import 'package:lovelace/responsive/mobile_screen_layout.dart';
-import 'package:lovelace/responsive/responsive_layout.dart';
-import 'package:lovelace/responsive/web_screen_layout.dart';
 import 'package:lovelace/screens/user/account/update_user_details_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:lovelace/widgets/account_settings_btn.dart';
@@ -18,9 +15,6 @@ class AccountDetailsScreen extends StatefulWidget {
 class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
   bool _isLoading = false;
   final StorageMethods _storageMethods = StorageMethods();
-  final _userPages = const ResponsiveLayout(
-      mobileScreenLayout: MobileScreenLayout(),
-      webScreenLayout: WebScreenLayout());
 
   @override
   void initState() {

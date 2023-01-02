@@ -160,7 +160,8 @@ class _LandingScreenState extends State<LandingScreen> {
             ));
 
             if (isSuccess) {
-              UserStateMethods().loginState(context);
+              void goToLogin() {UserStateMethods().loginState(context);}
+              goToLogin();
             }
           }
         },

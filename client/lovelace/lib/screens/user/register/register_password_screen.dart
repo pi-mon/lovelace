@@ -168,15 +168,18 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
                           ));
 
                           if (isSuccess) {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => RegisterVerifyScreen(
-                                        displayName: displayName,
-                                        email: email,
-                                        password: password,
-                                      )),
-                            );
+                            void goToRegisterVerifyScreen() {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => RegisterVerifyScreen(
+                                          displayName: displayName,
+                                          email: email,
+                                          password: password,
+                                        )),
+                              );
+                            }
+                            goToRegisterVerifyScreen();
                           } else if (message != "Please enter all the fields") {
                             Navigator.pop(context);
                           }

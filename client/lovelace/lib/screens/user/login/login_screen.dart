@@ -169,34 +169,22 @@ class _LoginScreenState extends State<LoginScreen> {
                         ));
 
                         if (isSuccess) {
-                          // showDialog(
-                          //     context: context,
-                          //     builder: (context) {
-                          //       return AlertDialog(
-                          //           content: Row(
-                          //         children: const <Widget>[
-                          //           SizedBox(
-                          //               height: 20,
-                          //               width: 20,
-                          //               child: CircularProgressIndicator(
-                          //                   color: primaryColor)),
-                          //           SizedBox(width: 15),
-                          //           Text('Logging in...')
-                          //         ],
-                          //       ));
-                          //     });
                           debugPrint('success');
                           setState(() {
                             _isLoading = true;
                           });
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => LoginVerifyScreen(
-                                      email: email,
-                                      password: password,
-                                    )),
-                          );
+                          void goToLoginVerifyScreen() {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => LoginVerifyScreen(
+                                        email: email,
+                                        password: password,
+                                      )),
+                            );
+                          }
+
+                          goToLoginVerifyScreen();
                           setState(() {
                             _isLoading = false;
                           });

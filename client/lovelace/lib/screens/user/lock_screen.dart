@@ -41,7 +41,6 @@ class LockScreen extends StatelessWidget {
                                   // MaterialPageRoute(
                                   //     builder: (context) => const AuthenticationScreen()));
                                   MaterialPageRoute(
-                                      // TODO: CHECK IF USER IS LOGGED IN AND RETURN PAGE
                                       builder: (context) => _userPages));
                             },
                             child: const Text('UNLOCK')),
