@@ -5,22 +5,21 @@ import 'package:lovelace/utils/colors.dart';
 class ContactItem extends StatelessWidget {
   final String time;
   final String contact;
-  final String lastText;
-  const ContactItem(
-      {super.key,
-      required this.time,
-      required this.contact,
-      required this.lastText});
+  const ContactItem({
+    super.key,
+    required this.time,
+    required this.contact,
+  });
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
-        // TODO: REDIRECT TO CHAT ROOM PAGE
-        Navigator.push(context, MaterialPageRoute(builder: (context) => const ChatRoomScreenV2()));
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const ChatRoomScreenV2()));
       },
       style: ElevatedButton.styleFrom(backgroundColor: whiteColor),
-      child: Row(      
+      child: Row(
         children: <Widget>[
           Container(
               padding: const EdgeInsets.all(2),
@@ -38,22 +37,12 @@ class ContactItem extends StatelessWidget {
           Container(
             width: MediaQuery.of(context).size.width * 0.75,
             padding: const EdgeInsets.only(left: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text(contact, style: const TextStyle(color: blackColor)),
-                    Text(time.toString(),
-                        style: const TextStyle(color: blackColor))
-                  ],
-                ),
-                const SizedBox(height: 5),
-                Text(
-                  lastText,
-                  style: const TextStyle(color: blackColor),
-                )
+                Text(contact, style: const TextStyle(color: blackColor)),
+                Text(time.toString(),
+                    style: const TextStyle(color: blackColor))
               ],
             ),
           )

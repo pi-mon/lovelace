@@ -11,6 +11,12 @@ class AccountScreen extends StatefulWidget {
 }
 
 class _AccountScreenState extends State<AccountScreen> {
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   StorageMethods _storageMethods = StorageMethods();
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -123,7 +129,6 @@ class _AccountScreenState extends State<AccountScreen> {
                     height: 50,
                     child: ElevatedButton(
                       onPressed: () {
-                        // TODO: DISPLAY TOKEN IN POP UP
                         Navigator.push(
                             context,
                             MaterialPageRoute(

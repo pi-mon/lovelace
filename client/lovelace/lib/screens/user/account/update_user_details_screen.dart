@@ -64,6 +64,17 @@ class _UpdateUserDetailsScreenState extends State<UpdateUserDetailsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
+      appBar: AppBar(
+          backgroundColor: primaryColor,
+          leading: IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: const Icon(Icons.arrow_back)),
+          title: const Text(
+            "Update User Details",
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          )),
       body: SafeArea(
           child: Form(
         key: _formKey,
@@ -72,14 +83,6 @@ class _UpdateUserDetailsScreenState extends State<UpdateUserDetailsScreen> {
           width: double.infinity,
           child: Column(
             children: <Widget>[
-              const Text(
-                'Update User Details',
-                style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: primaryColor),
-              ),
-              const SizedBox(height: 20),
               TextFieldInput(
                 label: "Email",
                 hintText: "Enter your email",

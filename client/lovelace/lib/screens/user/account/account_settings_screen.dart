@@ -4,7 +4,7 @@ import 'package:lovelace/resources/user_state_methods.dart';
 import 'package:lovelace/responsive/mobile_screen_layout.dart';
 import 'package:lovelace/responsive/responsive_layout.dart';
 import 'package:lovelace/responsive/web_screen_layout.dart';
-import 'package:lovelace/screens/user/update_user_details_screen.dart';
+import 'package:lovelace/screens/user/account/update_user_details_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:lovelace/widgets/account_settings_btn.dart';
 
@@ -43,6 +43,16 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+          backgroundColor: primaryColor,
+          leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(Icons.arrow_back),
+          ),
+          title: const Text("Account Settings",
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold))),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: SafeArea(
@@ -56,6 +66,11 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
                     return const UpdateUserDetailsScreen();
                   }))),
           CustomButton(
+              icon: const Icon(Icons.backup, color: placeholderColor),
+              label: "Backup my data",
+              labelColor: blackColor,
+              function: () {}),
+          CustomButton(
               icon: const Icon(Icons.exit_to_app, color: placeholderColor),
               label: "Logout",
               labelColor: errorColor,
@@ -65,7 +80,7 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
                 });
                 showDialog(
                     context: context,
-                    builder: (context) {                      
+                    builder: (context) {
                       return AlertDialog(
                           content: Row(
                         children: const <Widget>[

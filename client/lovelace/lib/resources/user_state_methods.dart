@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:lovelace/resources/account_methods.dart';
 import 'package:lovelace/resources/storage_methods.dart';
@@ -23,7 +21,7 @@ class UserStateMethods {
     String output = response[0]; // return user details as string
     String message = response[1];
     bool isSuccess = response[2];
-    debugPrint("\n$output\n$message\n$isSuccess");    
+    debugPrint("output: \n$output\n$message\n$isSuccess");
 
     if (isSuccess) {
       // var userString = jsonEncode(output);
@@ -39,7 +37,6 @@ class UserStateMethods {
   void logoutState(BuildContext context) async {
     final SharedPreferences sharedPreferences =
         await SharedPreferences.getInstance();
-    // await Future.delayed(const Duration(seconds: 2));
     sharedPreferences.setBool('isLoggedIn', false);
 
     Navigator.of(context).pushAndRemoveUntil(

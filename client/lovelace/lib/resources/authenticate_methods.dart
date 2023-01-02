@@ -128,8 +128,6 @@ class AuthenticateMethods {
   }
 
   // Future<List> updateUserDetails({
-  //   // !! Should allow user to change displayName, email, password, age, location
-  //   // !! OR are we not allowing users to change their password? (cos password not in UserDetails class)
   //   required String email,
   //   required String password,
   //   required String displayName,
@@ -145,7 +143,7 @@ class AuthenticateMethods {
   //       ) {
   //     User user = User(email: email, password: password);
   //     try {
-  //       output = await submit(user, "/account/test");
+  //       output = await session(user, "/account/test");
   //       try {
   //         dynamic outputJson = jsonDecode(output);
   //         if (outputJson['update'] == true) {

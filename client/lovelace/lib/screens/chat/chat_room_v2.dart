@@ -1,13 +1,9 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:intl/intl.dart';
 import 'package:lovelace/models/message.dart';
 import 'package:lovelace/resources/storage_methods.dart';
-import 'package:lovelace/responsive/mobile_screen_layout.dart';
-import 'package:lovelace/responsive/responsive_layout.dart';
-import 'package:lovelace/responsive/web_screen_layout.dart';
 import 'package:lovelace/utils/colors.dart';
 
 class ChatRoomScreenV2 extends StatefulWidget {
@@ -23,10 +19,6 @@ class _ChatRoomScreenV2State extends State<ChatRoomScreenV2> {
   // final timeSent = DateTime.now();
   DateFormat dateFormat = DateFormat('yyyy-MM-dd - kk:mm');
   final StorageMethods _storageMethods = StorageMethods();
-  final _userPages = const ResponsiveLayout(
-      mobileScreenLayout: MobileScreenLayout(),
-      webScreenLayout: WebScreenLayout());
-  String filePath = "";
 
   @override
   void initState() {
@@ -38,6 +30,7 @@ class _ChatRoomScreenV2State extends State<ChatRoomScreenV2> {
     final String messageString = await _storageMethods.read("message");
     final List<dynamic> messages = jsonDecode(messageString);
     debugPrint('$messages');
+    // debugPrint('${messages.last["text"]}');
     setState(() {
       messagesList = messages.map((e) => Message.fromJson(e)).toList();
     });

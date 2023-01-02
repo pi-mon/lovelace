@@ -16,6 +16,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
   final sharedPreferences = await SharedPreferences.getInstance();
   final isLoggedIn = sharedPreferences.getBool('isLoggedIn') ?? false;
 
@@ -66,11 +67,11 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   void initState() {
     screenCaptureEvent.watch();
     screenCaptureEvent.preventAndroidScreenShot(true);
-    WidgetsBinding.instance.addObserver(this);
     FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
     // isRooted();
     screenShotRecord();
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
   }
 
   @override
@@ -81,20 +82,18 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     super.dispose();
   }
 
-  // @override
-  // void didChangeAppLifecycleState(AppLifecycleState state) {
-  //   super.didChangeAppLifecycleState(state);
-  //   if (state == AppLifecycleState.detached ||
-  //       state == AppLifecycleState.inactive) return;
-  //   final inBackground = state == AppLifecycleState.paused;
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    if (state == AppLifecycleState.detached) return;
 
-  //   if (inBackground) {
-  //     debugPrint('App in background - $state');
-  //     // AppLock.of(context)!.showLockScreen();
-  //   } else {
-  //     debugPrint('App in foreground - $state');
-  //   }
-  // }
+    if (state == AppLifecycleState.inactive) {
+      debugPrint('App in background - $state');
+      // AppLock.of(context)!.showLockScreen();
+    } else {
+      debugPrint('App in foreground - $state');
+    }
+  }
 
   // Future<void> isRooted() async {
   //   try {

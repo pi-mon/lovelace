@@ -24,10 +24,8 @@ class StorageMethods {
 
   Future<Map<String, dynamic>> readAllJson() async {
     Map<String, dynamic> data = await _secureStorage.readAll();
-    debugPrint('$data');
+    // debugPrint('$data');
     return data;
-    // print(data.values.map((jsonString) => jsonDecode(jsonString)).toList());
-    // return data.values.map((jsonString) => jsonDecode(jsonString)).toList();
   }
 
   Future<bool> delete(String key) async {

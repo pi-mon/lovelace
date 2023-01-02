@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
-import 'package:lovelace/models/user.dart';
 import 'package:lovelace/models/user_detail.dart';
 import 'package:lovelace/resources/storage_methods.dart';
 import 'package:lovelace/widgets/session.dart';
@@ -18,7 +17,8 @@ class AccountMethods {
       output = await session.get('/account/profile');
       try {
         dynamic outputJson = jsonDecode(output);
-
+        print(outputJson);
+        
         if (outputJson['response'] != "User details has not been created yet") {
           isSuccess = true;
           message = "Read successful";
