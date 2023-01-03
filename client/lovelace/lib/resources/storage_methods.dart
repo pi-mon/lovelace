@@ -9,6 +9,10 @@ class StorageMethods {
   static const _keyEmail = "email";
 
   Future<bool> write(String key, dynamic value) async {
+    // if value is not string then convert it to string
+    if (value is! String) {
+      value = jsonEncode(value);
+    }
     await _secureStorage.write(key: key, value: value);
     debugPrint('$key written to secure_storage');
     return true;

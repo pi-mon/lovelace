@@ -119,7 +119,7 @@ class _InitProfilePicScreenState extends State<InitProfilePicScreen> {
                           bool imageIsValid = _image != null;
 
                           if (!imageIsValid) {
-                            String message = "Invalid ";
+                            String message = "Enpty ";
                             if (!imageIsValid) {
                               message += "image";
                             }
