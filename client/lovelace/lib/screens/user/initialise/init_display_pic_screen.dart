@@ -7,6 +7,7 @@ import 'package:lovelace/resources/account_methods.dart';
 import 'package:lovelace/screens/user/initialise/init_complete_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:age_calculator/age_calculator.dart';
+import 'package:lovelace/widgets/display_card.dart';
 
 class InitDisplayPicScreen extends StatefulWidget {
   final String birthday;
@@ -106,77 +107,77 @@ class _InitDisplayPicScreenState extends State<InitDisplayPicScreen> {
                             });
                           }
                         },
-                        child: Stack(
-                          alignment: Alignment.bottomCenter,
-                          children: <Widget>[
-                            Container(
-                              alignment: Alignment.center,
-                              child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(25),
-                                  child: Image.file(_image!)
-                                  // Image.asset(
-                                  //   _image!.path,
-                                  //   height: 400,
-                                  //   width: 400 / 3 * 2,
-                                  //   fit: BoxFit.cover,
-                                  // ),
-                                  ),
-                            ),
-                            Container(
-                              height: 400,
-                              width: 400 / 3 * 2,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(25),
-                                gradient: const LinearGradient(
-                                    colors: [
-                                      Colors.transparent,
-                                      Color.fromRGBO(26, 26, 26, .2),
-                                    ],
-                                    begin: FractionalOffset(0, 0),
-                                    end: FractionalOffset(0, 1),
-                                    stops: [0.0, 1.0],
-                                    tileMode: TileMode.clamp),
-                              ),
-                            ),
-                            Align(
-                              alignment: Alignment.bottomCenter,
-                              child: Container(
-                                padding:
-                                    const EdgeInsets.only(left: 18, bottom: 24),
-                                child: Column(
-                                  children: <Widget>[
-                                    const Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Text(
-                                        "Your Name",
-                                        overflow: TextOverflow.ellipsis,
-                                        textAlign: TextAlign.left,
-                                        style: TextStyle(
-                                          color: whiteColor,
-                                          fontSize: 32,
-                                          fontWeight: FontWeight.w700,
-                                        ),
-                                      ),
-                                    ),
-                                    Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Text(
-                                        "$age • $location",
-                                        overflow: TextOverflow.ellipsis,
-                                        textAlign: TextAlign.left,
-                                        style: const TextStyle(
-                                          color: whiteColor,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w700,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
+                        child: DisplayCard(
+                            name: "Your name", age: age, location: location),
+                        // Stack(
+                        //   alignment: Alignment.bottomCenter,
+                        //   children: <Widget>[
+                        //     Container(
+                        //       alignment: Alignment.center,
+                        //       child: ClipRRect(
+                        //           borderRadius: BorderRadius.circular(25),
+                        //           child: Image.file(
+                        //             _image!,
+                        //             height: 400,
+                        //             width: 400 / 3 * 2,
+                        //             fit: BoxFit.cover,
+                        //           )),
+                        //     ),
+                        //     Container(
+                        //       height: 400,
+                        //       width: 400 / 3 * 2,
+                        //       decoration: BoxDecoration(
+                        //         borderRadius: BorderRadius.circular(25),
+                        //         gradient: const LinearGradient(
+                        //             colors: [
+                        //               Colors.transparent,
+                        //               Color.fromRGBO(26, 26, 26, .2),
+                        //             ],
+                        //             begin: FractionalOffset(0, 0),
+                        //             end: FractionalOffset(0, 1),
+                        //             stops: [0.0, 1.0],
+                        //             tileMode: TileMode.clamp),
+                        //       ),
+                        //     ),
+                        //     Align(
+                        //       alignment: Alignment.bottomCenter,
+                        //       child: Container(
+                        //         padding:
+                        //             const EdgeInsets.only(left: 18, bottom: 24),
+                        //         child: Column(
+                        //           children: <Widget>[
+                        //             const Align(
+                        //               alignment: Alignment.centerLeft,
+                        //               child: Text(
+                        //                 "Your Name",
+                        //                 overflow: TextOverflow.ellipsis,
+                        //                 textAlign: TextAlign.left,
+                        //                 style: TextStyle(
+                        //                   color: whiteColor,
+                        //                   fontSize: 32,
+                        //                   fontWeight: FontWeight.w700,
+                        //                 ),
+                        //               ),
+                        //             ),
+                        //             Align(
+                        //               alignment: Alignment.centerLeft,
+                        //               child: Text(
+                        //                 "$age • $location",
+                        //                 overflow: TextOverflow.ellipsis,
+                        //                 textAlign: TextAlign.left,
+                        //                 style: const TextStyle(
+                        //                   color: whiteColor,
+                        //                   fontSize: 16,
+                        //                   fontWeight: FontWeight.w700,
+                        //                 ),
+                        //               ),
+                        //             ),
+                        //           ],
+                        //         ),
+                        //       ),
+                        //     ),
+                        //   ],
+                        // ),
                       ),
                     ),
                     Flexible(
@@ -188,7 +189,7 @@ class _InitDisplayPicScreenState extends State<InitDisplayPicScreen> {
                           bool imageIsValid = _image != null;
 
                           if (!imageIsValid) {
-                            String message = "Invalid ";
+                            String message = "Empty ";
                             if (!imageIsValid) {
                               message += "image";
                             }

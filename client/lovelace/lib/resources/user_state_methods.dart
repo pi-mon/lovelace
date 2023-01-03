@@ -11,17 +11,19 @@ class UserStateMethods {
   final StorageMethods _storageMethods = StorageMethods();
 
   void loginState(BuildContext context) async {
-    final SharedPreferences sharedPreferences =
-        await SharedPreferences.getInstance();
-    sharedPreferences.setBool('isLoggedIn', true);
+    // final SharedPreferences sharedPreferences =
+    //     await SharedPreferences.getInstance();
 
-    String cookie = await _storageMethods.read("cookie");
-    debugPrint(cookie);
+    _storageMethods.write("isLoggedIn", true);
+    // sharedPreferences.setBool('isLoggedIn', true);
+
+    // String cookie = await _storageMethods.read("cookie");
+    // debugPrint(cookie);
     List response = await _accountMethods.read();
-    String output = response[0]; // The JSON object from server side
-    String message = response[1];
+    // String output = response[0]; // The JSON object from server side
+    // String message = response[1];
     bool isSuccess = response[2];
-    debugPrint("$output\n$message\n$isSuccess");
+    // debugPrint("$output\n$message\n$isSuccess");
 
     if (isSuccess) {
       // ignore: use_build_context_synchronously
@@ -29,8 +31,9 @@ class UserStateMethods {
           context, MaterialPageRoute(builder: (context) => userPages));
     } else {
       // ignore: use_build_context_synchronously
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => const InitBirthayScreen()));
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => const InitBirthayScreen()),
+          (route) => false);
     }
   }
 

@@ -16,7 +16,8 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  final controllerToken = TextEditingController();
+  // final controllerToken = TextEditingController();
+  final _authenticateMethods = AuthenticateMethods();
 
   @override
   void initState() {
@@ -130,17 +131,18 @@ class _LoginScreenState extends State<LoginScreen> {
                       backgroundColor: primaryColor,
                     ),
                     child: _isLoading
-                    ? const CircularProgressIndicator(
-                        valueColor: AlwaysStoppedAnimation<Color>(whiteColor),
-                      )
-                    : const Text(
-                        'Login',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),            
+                        ? const CircularProgressIndicator(
+                            valueColor:
+                                AlwaysStoppedAnimation<Color>(whiteColor),
+                          )
+                        : const Text(
+                            'Login',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                     onPressed: () async {
                       if (_isLoading) return;
                       setState(() {
@@ -150,7 +152,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         final String email = _emailController.text;
                         final String password = _passwordController.text;
 
-                        List response = await AuthenticateMethods().login(
+                        List response = await _authenticateMethods.login(
                           email: email,
                           password: password,
                         );
@@ -158,8 +160,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         String output = response[0];
                         String message = response[1];
                         bool isSuccess = response[2];
-
-                        debugPrint(output);
 
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           content: Text(message),
