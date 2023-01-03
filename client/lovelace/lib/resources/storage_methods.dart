@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter/material.dart';
 
@@ -11,7 +13,7 @@ class StorageMethods {
   Future<bool> write(String key, dynamic value) async {
     // if value is not string then convert it to string
     if (value is! String) {
-      value = jsonEncode(value);
+      value = json.encode(value);
     }
     await _secureStorage.write(key: key, value: value);
     debugPrint('$key written to secure_storage');
