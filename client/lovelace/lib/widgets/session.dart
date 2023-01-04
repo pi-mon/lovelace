@@ -33,9 +33,9 @@ class Session {
       headers[HttpHeaders.cookieHeader] = cookie;
     }    
     debugPrint('${data.runtimeType}');
-    if (data.runtimeType == UserDetails) {
-      // TODO: Store the user object in local storage
-    }
+    // if (data.runtimeType == UserDetails) { // JSON encode data before storing object
+    //   // TODO: Store the user object in local storage
+    // }
     http.Response response = await http.post(Uri.http(_baseUrl, route),
         body: jsonEncode(data), headers: headers);
     updateCookie(response);
