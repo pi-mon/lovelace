@@ -1,11 +1,16 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_windowmanager/flutter_windowmanager.dart';
+import 'package:flutter_root_jailbreak/flutter_root_jailbreak.dart';
+import 'package:lovelace/resources/storage_methods.dart';
+// import 'package:flutter_windowmanager/flutter_windowmanager.dart';
 import 'package:lovelace/responsive/mobile_screen_layout.dart';
 import 'package:lovelace/responsive/responsive_layout.dart';
 import 'package:lovelace/responsive/web_screen_layout.dart';
 import 'package:lovelace/screens/main/landing_screen.dart';
+// import 'package:lovelace/screens/user/initialise/init_birthday_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:flutter/services.dart';
 import 'package:screen_capture_event/screen_capture_event.dart';
@@ -13,9 +18,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
-  final sharedPreferences = await SharedPreferences.getInstance();
-  final isLoggedIn = sharedPreferences.getBool('isLoggedIn') ?? false;
+  final StorageMethods storageMethods = StorageMethods();
+  // final sharedPreferences = await SharedPreferences.getInstance();
+  final isLoggedIn = json.decode(await storageMethods.read('isLoggedIn'));
 
   // * Set the device orientation to portrait
   SystemChrome.setPreferredOrientations([
@@ -64,7 +69,8 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   void initState() {
     screenCaptureEvent.watch();
     screenCaptureEvent.preventAndroidScreenShot(true);
-    FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
+    WidgetsBinding.instance.addObserver(this);
+    // FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
     // isRooted();
     screenShotRecord();
     super.initState();
@@ -110,11 +116,12 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     setState(() {
       isSecureMode = !isSecureMode;
     });
-    if (isSecureMode) {
-      FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
-    } else {
-      FlutterWindowManager.clearFlags(FlutterWindowManager.FLAG_SECURE);
-    }
+    // if (isSecureMode) {
+    //   FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
+    // } else {
+    //   FlutterWindowManager.clearFlags(FlutterWindowManager.FLAG_SECURE);
+    // }
+    debugPrint('secure mode: $isSecureMode');
   }
 
   @override

@@ -66,11 +66,9 @@ class AuthenticateMethods {
         // debugPrint('inside login function');
         try {
           dynamic outputJson = jsonDecode(output);
-          debugPrint("outputjson : $outputJson");
           if (outputJson['login'] == true) {
             isSuccess = true;
             message = "Login successful, enter OTP to continue";
-            debugPrint(output);
           } else {
             message = outputJson['response'];
           }
@@ -83,7 +81,7 @@ class AuthenticateMethods {
     } else {
       output = message = "Please enter all the fields";
     }
-    debugPrint(output, wrapWidth: 1024);
+    print(output);
     return [output, message, isSuccess];
   }
 
@@ -122,8 +120,7 @@ class AuthenticateMethods {
     } else {
       output = message = "Please enter all the fields";
     }
-    debugPrint(output, wrapWidth: 1024);
-
+    print(output);
     return [output, message, isSuccess];
   }
 
