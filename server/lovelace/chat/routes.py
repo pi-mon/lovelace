@@ -26,7 +26,6 @@ def swipe_right():
 @chat.route("/chat")
 @token_required()
 def get_chat():
-    global user_json
     user_json = request.get_json()
     email = user_json["email"]
     target_user = user_json["target_email"]
@@ -36,7 +35,7 @@ def get_chat():
 @socketio.on('join', namespace='/chat')
 def join(message):
     room = message['room'] # temporary
-    username = user_json["email"] # temporary
+    username = message["email"] # temporary
     # join room 
     join_room(room)
     # Emit message or notifier to other user of same room 
@@ -46,7 +45,7 @@ def join(message):
 @socketio.on('text', namespace='/chat')
 def text(message):
     room = message['room']
-    username = user_json["email"]
+    username = message["email"]
     msg = message['msg']
     emit('message', {"msg": {str(username) + ' : ' + str(msg)}}, room=room)
 
@@ -54,7 +53,7 @@ def text(message):
 @socketio.on('left', namespace='/chat')
 def left(message):
     room = message['room']
-    username = user_json["email"]
+    username = message["email"]
     # leaving the room
     leave_room(room=room)
     emit('message', {"msg": {str(username) + 'has left the room.'}}, room=room)
