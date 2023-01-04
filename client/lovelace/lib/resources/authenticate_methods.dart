@@ -63,7 +63,7 @@ class AuthenticateMethods {
       User user = User(email: email, password: password);
       try {
         output = await session.post('/account/login', user);
-
+        // debugPrint('inside login function');
         try {
           dynamic outputJson = jsonDecode(output);
           debugPrint("outputjson : $outputJson");
@@ -129,21 +129,22 @@ class AuthenticateMethods {
 
   // Future<List> updateUserDetails({
   //   required String email,
-  //   required String password,
-  //   required String displayName,
+  //   required String birthday,
+  //   required File? displayPic,
+  //   required File? cardPic,
   //   required String location
   // }) async {
   //   String output;
   //   String message = "An error occurred";
   //   bool isUpdated = false;
 
-  //   if (email.isNotEmpty && password.isNotEmpty &&
-  //       location.isNotEmpty &&
-  //       displayName.isNotEmpty
+  //   if (email.isNotEmpty && birthday.isNotEmpty &&
+  //       location.isNotEmpty &&  displayPic.
   //       ) {
-  //     User user = User(email: email, password: password);
+  //     // User user = User(email: email, password: password);
+  //     UserDetails userDetails = UserDetails(email: email, birthday: , displayPic: displayPic, cardPic: displayPic, location: location, messages: );
   //     try {
-  //       output = await session(user, "/account/test");
+  //       output = await session.post(userDetails, "/account/test");
   //       try {
   //         dynamic outputJson = jsonDecode(output);
   //         if (outputJson['update'] == true) {

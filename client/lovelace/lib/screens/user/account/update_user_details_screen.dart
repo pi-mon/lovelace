@@ -1,4 +1,10 @@
+import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
+import 'package:lovelace/resources/authenticate_methods.dart';
+import 'package:lovelace/resources/storage_methods.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:lovelace/widgets/text_field_input.dart';
 
@@ -11,28 +17,17 @@ class UpdateUserDetailsScreen extends StatefulWidget {
 }
 
 class _UpdateUserDetailsScreenState extends State<UpdateUserDetailsScreen> {
+  DateTime dateNow = DateTime(2022);
+  final StorageMethods storage = StorageMethods();
   final TextEditingController _newEmailController = TextEditingController();
-  final TextEditingController _newPasswordController = TextEditingController();
+  final TextEditingController _newBirthdayController = TextEditingController();
   final TextEditingController _newLocationController = TextEditingController();
-  final TextEditingController _newUsernameController = TextEditingController();
+  final TextEditingController _newDisplayNameController =
+      TextEditingController();
   final _formKey = GlobalKey<FormState>();
-
-  // Future<List<User>> getData() async {
-  //   String route = "/account/test";
-  //   final response = await http.get(Uri.http(route));
-  //   var responseData = json.decode(response.body);
-  //   debugPrint('Response from get method: $responseData');
-
-  //   // Create a list to store the retrieved user data
-  //   List<User> users = [];
-  //   for (var userData in responseData) {
-  //     User user =
-  //         User(email: userData["email"], password: userData["password"]);
-  //     users.add(user);
-  //   }
-  //   debugPrint('$users');
-  //   return users;
-  // }
+  final ImagePicker _picker = ImagePicker();
+  File? _image;
+  bool _isDefault = true;
 
   @override
   void initState() {
@@ -41,22 +36,19 @@ class _UpdateUserDetailsScreenState extends State<UpdateUserDetailsScreen> {
   }
 
   Future init() async {
-    // TODO: Get the user data from server side
+    // TODO: Get the user data
 
-    // setState(() {
-    //   this._newEmailController.text =
-    //   this._newPasswordController.text =
-    //   this._newLocationController.text =
-    //   this._newUsernameController.text =
-    // });
+    setState(() {
+      
+    });
   }
 
   @override
   void dispose() {
     _newEmailController.dispose();
-    _newUsernameController.dispose();
+    _newDisplayNameController.dispose();
     _newLocationController.dispose();
-    _newPasswordController.dispose();
+    _newBirthdayController.dispose();
     super.dispose();
   }
 
@@ -75,93 +67,159 @@ class _UpdateUserDetailsScreenState extends State<UpdateUserDetailsScreen> {
             "Update User Details",
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           )),
-      body: SafeArea(
-          child: Form(
-        key: _formKey,
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 32),
-          width: double.infinity,
-          child: Column(
-            children: <Widget>[
-              TextFieldInput(
-                label: "Email",
-                hintText: "Enter your email",
-                textInputType: TextInputType.emailAddress,
-                textEditingController: _newEmailController,
-                validator: (value) {
-                  return null;
-                },
-              ),
-              const SizedBox(height: 16),
-              TextFieldInput(
-                label: "Password",
-                hintText: "Enter your password",
-                textInputType: TextInputType.text,
-                textEditingController: _newPasswordController,
-                validator: (value) {
-                  return null;
-                },
-              ),
-              const SizedBox(height: 16),
-              TextFieldInput(
-                label: "Username",
-                hintText: "Enter your username",
-                textInputType: TextInputType.text,
-                textEditingController: _newUsernameController,
-                validator: (value) {
-                  return null;
-                },
-              ),
-              const SizedBox(height: 16),
-              TextFieldInput(
-                label: "Location",
-                hintText: "Enter your location",
-                textInputType: TextInputType.text,
-                textEditingController: _newLocationController,
-                validator: (value) {
-                  return null;
-                },
-              ),
-              const SizedBox(height: 16),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    minimumSize: const Size(150, 50),
-                    backgroundColor: primaryColor),
-                child: const Text(
-                  "Update",
-                  style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: whiteColor),
+      body: SingleChildScrollView(
+        child: SafeArea(
+            child: Form(
+          key: _formKey,
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 32),
+            width: double.infinity,
+            child: Column(
+              children: <Widget>[
+                Stack(
+                  children: <Widget>[
+                    CircleAvatar(
+                      radius: 50,
+                      backgroundColor: Colors.grey,
+                      child: GestureDetector(
+                        onTap: () async {
+                          XFile? image = await _picker.pickImage(
+                              source: ImageSource.gallery);
+                          if (image != null) {
+                            setState(() {
+                              _image = File(image.path);
+                              _isDefault = false;
+                            });
+                          }
+                        },
+                        child: Container(
+                          width: 100,
+                          height: 100,
+                          decoration: BoxDecoration(
+                            border: Border.all(color: borderColor),
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                              fit: BoxFit.cover,
+                              image: _isDefault
+                                  ? const AssetImage(
+                                      'assets/images/default-profile-picture.png')
+                                  : Image.file(_image!).image,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                        top: 70,
+                        right: 5,
+                        child: Container(
+                          padding: const EdgeInsets.all(1),
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: whiteColor,
+                              border:
+                                  Border.all(color: primaryColor, width: 1)),
+                          child: const Icon(Icons.edit,
+                              color: placeholderColor, size: 20),
+                        ))
+                  ],
                 ),
-                onPressed: () async {
-                  // if (_formKey.currentState!.validate()) {
-                  //   String email = _newEmailController.text;
-                  //   String password = _newPasswordController.text;
-                  //   String username = _newUsernameController.text;
-                  //   String location = _newLocationController.text;
+                TextFieldInput(
+                  label: "Email",
+                  hintText: "Enter your email",
+                  textInputType: TextInputType.emailAddress,
+                  textEditingController: _newEmailController,
+                  validator: (value) {
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 16),
+                TextFieldInput(
+                  onTap: () async {
+                    DateTime? newDate = await showDatePicker(
+                        context: context,
+                        initialDate: dateNow,
+                        firstDate: DateTime(1990),
+                        lastDate: DateTime(2023));
+                    // if CANCEL is pressed
+                    if (newDate == null) return;
 
-                  //   // call update function to send request to server side to update user details
-                  //   List response = await AuthenticateMethods().updateUserDetails(
-                  //       email: _newEmailController.text,
-                  //       password: _newPasswordController.text);
+                    // if OK is pressed
+                    setState(() => _newBirthdayController.text =
+                        DateFormat('dd-MM-yyyy').format(newDate));
+                  },
+                  label: "Birthday",
+                  hintText: "Enter your birthday",
+                  textInputType: TextInputType.text,
+                  textEditingController: _newBirthdayController,
+                  validator: (value) {
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 16),
+                TextFieldInput(
+                  label: "Display name",
+                  hintText: "Enter your display name",
+                  textInputType: TextInputType.text,
+                  textEditingController: _newDisplayNameController,
+                  validator: (value) {
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 16),
+                TextFieldInput(
+                  label: "Location",
+                  hintText: "Enter your location",
+                  textInputType: TextInputType.text,
+                  textEditingController: _newLocationController,
+                  validator: (value) {
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 16),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      minimumSize: const Size(150, 50),
+                      backgroundColor: primaryColor),
+                  child: const Text(
+                    "Update",
+                    style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: whiteColor),
+                  ),
+                  onPressed: () async {
+                    // if (_formKey.currentState!.validate()) {
+                    //   String email = _newEmailController.text;
+                    //   String birthday = _newBirthdayController.text;
+                    //   String location = _newLocationController.text;
+                    //   File? displayPic = _image;
+                    //   File? cardPic = _image;
 
-                  //   String output = response[0];
-                  //   String message = response[1];
-                  //   bool isUpdated = response[2];
+                    //   // call update function to send request to server side to update user details
+                    //   List response = await AuthenticateMethods().updateUserDetails(
+                    //       email: _newEmailController.text,
+                    //       birthday: birthday,
+                    //       location: location,
+                    //       displayPic: displayPic,
+                    //       cardPic: cardPic);
 
-                  //
-                  //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  //     content: Text(message),
-                  //     backgroundColor: isUpdated ? successColor : errorColor,
-                  //   ));
-                  // }
-                },
-              )
-            ],
+                    //   String output = response[0];
+                    //   String message = response[1];
+                    //   bool isUpdated = response[2];
+
+                    //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    //     content: Text(message),
+                    //     backgroundColor: isUpdated ? successColor : errorColor,
+                    //   ));
+                    // }
+                  },
+                )
+              ],
+            ),
           ),
-        ),
-      )),
+        )),
+      ),
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
+import 'package:intl/intl.dart';
 import 'package:lovelace/models/user_detail.dart';
 import 'package:lovelace/resources/storage_methods.dart';
 import 'package:lovelace/widgets/session.dart';
@@ -17,13 +18,16 @@ class AccountMethods {
       output = await session.get('/account/profile');
       try {
         dynamic outputJson = jsonDecode(output);
-        print(outputJson);
         
         if (outputJson['response'] != "User details has not been created yet") {
+          // User Details already exist    
+          debugPrint("user details object already exist");
           isSuccess = true;
           message = "Read successful";
           debugPrint(output);
         } else {
+          // User Details don't exist. Direct user to init pages and store object locally
+          debugPrint("user details don't exist");
           message = outputJson['response'];
         }
       } catch (e) {
@@ -48,15 +52,18 @@ class AccountMethods {
     bool isSuccess = false;
 
     try {
+      // DateFormat dateFormat = DateFormat('MMMM yyyy');
       UserDetails userDetails = UserDetails(
         email: await storageMethods.read("email"),
-        birthday: DateTime.parse(birthday),
+        birthday: birthday,
         location: location,        
         displayPic: displayPic,
         cardPic: displayPic,
         messages: [],
       );
-      output = await session.post('/account/profile/update', userDetails);
+      debugPrint("ERROR HERE!!");
+      output = await session.post('/account/profile/update', userDetails.toString()); // will get conversion error if not in String format
+      debugPrint("AFTER THE ERROR");
       try {
         dynamic outputJson = jsonDecode(output);
 

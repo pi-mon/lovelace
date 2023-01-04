@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
+import 'package:lovelace/models/user_detail.dart';
 import 'package:lovelace/resources/storage_methods.dart';
 import 'package:lovelace/utils/global_variables.dart';
 
@@ -30,10 +31,13 @@ class Session {
     if (cookie != null) {
       headers[HttpHeaders.cookieHeader] = cookie;
     }    
-    debugPrint('user details object: $data');
+    debugPrint('${data.runtimeType}');
+    if (data.runtimeType == UserDetails) {
+      // TODO: Store the user object in local storage
+    }
+
     http.Response response = await http.post(Uri.http(baseUrl, route),
         body: jsonEncode(data), headers: headers);
-    debugPrint('response: ${response.toString()}');
     updateCookie(response);
     return response.body;
   }
