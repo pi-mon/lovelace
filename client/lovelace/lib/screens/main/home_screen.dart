@@ -12,31 +12,31 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Scaffold(
           body: Column(
             children: <Widget>[
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 32),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 32, vertical: 32),
                 child: Stack(
-                  alignment: Alignment.bottomLeft,
+                  alignment: Alignment.bottomCenter,
                   children: <Widget>[
                     Container(
-                      alignment: Alignment.centerLeft,
+                      alignment: Alignment.center,
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(25),
                         child: Image.asset(
                           'assets/images/landing_user.jpeg',
-                          height: 525,
-                          width: 350,
+                          height: 400,
+                          width: 400 / 3 * 2,
                           fit: BoxFit.cover,
                         ),
                       ),
                     ),
                     Container(
-                      height: 525,
-                      width: 350,
+                      height: 400,
+                      width: 400 / 3 * 2,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(25),
                         gradient: const LinearGradient(
@@ -51,9 +51,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                     Align(
-                      alignment: Alignment.bottomLeft,
+                      alignment: Alignment.bottomCenter,
                       child: Container(
-                        padding: const EdgeInsets.only(left: 18, bottom: 26),
+                        padding: const EdgeInsets.only(left: 42, bottom: 26),
                         child: Column(
                           // ignore: prefer_const_literals_to_create_immutables
                           children: <Widget>[

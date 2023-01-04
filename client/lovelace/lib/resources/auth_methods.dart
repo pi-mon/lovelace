@@ -1,27 +1,20 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
 import 'package:lovelace/models/storage_item.dart';
 import 'package:lovelace/models/user.dart';
 import 'package:flutter/foundation.dart';
 import 'package:lovelace/resources/storage_methods.dart';
+import 'package:lovelace/utils/global_variables.dart';
+import 'package:http/http.dart' as http;
 
 var logger = Logger();
 String token = "";
 
-String checkDevice() {
-  String baseUrl = "127.0.0.1";
-  if (defaultTargetPlatform == TargetPlatform.android) {
-    baseUrl == "10.0.2.2";
-  }
-  return "$baseUrl:3000";
-}
-
 Future submit(User user, String route) async {
   String baseUrl = checkDevice();
   String userJson = jsonEncode(user);
-  http.Response response = await http.post(Uri.http(baseUrl, route),
+  http.Response response = await http.post(Uri.https(baseUrl, route),
       headers: {
         HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8'
       },
@@ -37,9 +30,8 @@ class AuthMethods {
   }) async {
     String output;
     String message = "An error occurred";
-    bool success = false;
+    bool isSuccess = false;
 
-    String _baseUrl = checkDevice();
     if (email.isNotEmpty && password.isNotEmpty) {
       User user = User(email: email, password: password);
       try {
@@ -48,7 +40,7 @@ class AuthMethods {
           dynamic outputJson = jsonDecode(output);
 
           if (outputJson['creation'] == true) {
-            success = true;
+            isSuccess = true;
             message = "Registration successful";
           } else {
             message = outputJson['response'];
@@ -64,7 +56,7 @@ class AuthMethods {
     }
     debugPrint(output, wrapWidth: 1024);
 
-    return [output, message, success];
+    return [output, message, isSuccess];
   }
 
   Future<List> login({
@@ -73,9 +65,8 @@ class AuthMethods {
   }) async {
     String output;
     String message = "An error occurred";
-    bool success = false;
+    bool isSuccess = false;
 
-    String _baseUrl = checkDevice();
     if (email.isNotEmpty && password.isNotEmpty) {
       User user = User(email: email, password: password);
       try {
@@ -84,7 +75,7 @@ class AuthMethods {
           dynamic outputJson = jsonDecode(output);
 
           if (outputJson['login'] == true) {
-            success = true;
+            isSuccess = true;
             message = "Login successful";
 
             token = outputJson['token'];
@@ -105,6 +96,6 @@ class AuthMethods {
       output = message = "Please enter all the fields";
     }
     debugPrint(output, wrapWidth: 1024);
-    return [output, message, success];
+    return [output, message, isSuccess];
   }
 }

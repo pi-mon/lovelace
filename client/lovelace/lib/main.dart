@@ -1,10 +1,6 @@
 import 'dart:io';
-import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:lovelace/responsive/mobile_screen_layout.dart';
-import 'package:lovelace/responsive/responsive_layout.dart';
-import 'package:lovelace/responsive/web_screen_layout.dart';
-import 'package:lovelace/screens/landing/guest_landing_screen.dart';
+import 'package:lovelace/screens/main/landing_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -12,7 +8,8 @@ import 'package:flutter_windowmanager/flutter_windowmanager.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE); // TODO: FIND OUT HOW TO TEST
+  FlutterWindowManager.addFlags(
+      FlutterWindowManager.FLAG_SECURE); // TODO: FIND OUT HOW TO TEST
   final preferences = await SharedPreferences.getInstance();
   final isLoggedIn = preferences.getBool('isLoggedIn') ?? false;
 
@@ -22,6 +19,7 @@ void main() async {
     DeviceOrientation.portraitDown,
   ]).then((value) => runApp(MyApp(isLoggedIn: isLoggedIn)));
 
+  // * Enable communication through HTTPS
   ByteData data = await PlatformAssetBundle().load('assets/ca/cert.pem');
   SecurityContext.defaultContext
       .setTrustedCertificatesBytes(data.buffer.asUint8List());
@@ -32,9 +30,6 @@ void main() async {
 // ignore: must_be_immutable
 class MyApp extends StatefulWidget {
   final bool isLoggedIn;
-  final _userPages = const ResponsiveLayout(
-      mobileScreenLayout: MobileScreenLayout(),
-      webScreenLayout: WebScreenLayout());
 
   const MyApp({Key? key, required this.isLoggedIn}) : super(key: key);
 
@@ -44,7 +39,6 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   @override
-  
   Widget build(BuildContext context) {
     return MaterialApp(
         debugShowCheckedModeBanner: true,
@@ -54,6 +48,7 @@ class _MyAppState extends State<MyApp> {
           scaffoldBackgroundColor: whiteColor,
           primaryColor: primaryColor,
         ),
-        home: widget.isLoggedIn ? widget._userPages : const GuestLandingScreen());
+        // home: widget.isLoggedIn ? widget._userPages : const LandingScreen());
+        home: const LandingScreen());
   }
 }

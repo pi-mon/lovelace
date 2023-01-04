@@ -90,18 +90,11 @@ def encrypted_token_required(f):
 
     return decorated
 def email_validation(email):
-    if len(email) <= 320:
-        validate_email(email)
-        return True
-    else:
-        return False
+    return len(email) <= 320 and validate_email(email)
 
 
 def password_validation(password):
-    if re.match(
+    return re.match(
         r"^(?=\S{8,20}$)(?=.*?\d)(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[^A-Za-z\s0-9])",
         password,
-    ):
-        return True
-    else:
-        return False
+    )
