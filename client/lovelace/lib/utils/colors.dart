@@ -11,3 +11,4 @@ const errorColor = Color.fromRGBO(181, 28, 27, 1);
 const placeholderColor = Color.fromRGBO(112, 112, 112, 1);
 const linkColor = Color.fromRGBO(0, 0, 191, 1);
 const successColor = Color.fromRGBO(60, 179, 113, 1);
+const messageBarColor = Color.fromARGB(255, 180, 179, 179);

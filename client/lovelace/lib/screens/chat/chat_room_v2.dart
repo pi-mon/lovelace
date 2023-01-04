@@ -15,113 +15,118 @@ class ChatRoomScreenV2 extends StatefulWidget {
 }
 
 class _ChatRoomScreenV2State extends State<ChatRoomScreenV2> {
-  List<Message> messagesList = [];
   TextEditingController messageController = TextEditingController();
   DateFormat dateFormat = DateFormat('yyyy-MM-dd - kk:mm');
-  final StorageMethods _storageMethods = StorageMethods();
 
-  @override
-  void initState() {
-    super.initState();
-    init();
-  }
-
-  Future init() async {
-    final String messageString = await _storageMethods.read("message");
-    final List<dynamic> messages = jsonDecode(messageString);
-    debugPrint('$messages');
-    // debugPrint('${messages.last["text"]}');
-    setState(() {
-      messagesList = messages.map((e) => Message.fromJson(e)).toList();
-    });
-  }
+  List<Message> messages = [
+    Message(
+        text: 'heelo',
+        date: DateTime.now().subtract(
+          const Duration(minutes: 1),
+        ),
+        isSentByMe: false),
+    Message(
+        text: 'Lorem ipsum dolor sit amet',
+        date: DateTime.now().subtract(
+          const Duration(minutes: 1),
+        ),
+        isSentByMe: true),
+    Message(
+        text:
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent neque lectus, vehicula Integer suscipit velit ac euismod dignissim.',
+        date: DateTime.now().subtract(
+          const Duration(minutes: 1),
+        ),
+        isSentByMe: true),
+    Message(
+        text:
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent neque lectus, vehicula tempus mauris ac, imperdiet egestas felis. Morbi ultricies massa scelerisque tortor lacinia, iaculis posuere ante elementum. Proin a ultricies nisi. Aenean commodo semper metus at hendrerit. Vivamus tincidunt ex sapien, a tempus ligula fermentum pharetra. Phasellus id eros sit amet risus ultrices gravida. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Donec ut rutrum ligula. Integer suscipit velit ac euismod dignissim.',
+        date: DateTime.now().subtract(
+          const Duration(days: 2, minutes: 1),
+        ),
+        isSentByMe: false),
+    Message(
+        text:
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent neque lectus, vehicula tempus mauris ac, imperdiet egestas felis. Morbi ultricies massa scelerisque tortor lacinia, iaculis posuere ante elementum. Proin a ultricies nisi. Aenean commodo semper metus at hendrerit. Vivamus tincidunt ex sapien, a tempus ligula fermentum pharetra. Phasellus id eros sit amet risus ultrices gravida. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Donec ut rutrum ligula. Integer suscipit velit ac euismod dignissim.',
+        date: DateTime.now().subtract(
+          const Duration(minutes: 1),
+        ),
+        isSentByMe: true),
+    Message(
+        text:
+            'Lorem ipsum dolor sit amet, rerit. Vivamus titrices gravida. Vestibulum ante ipsum primis in faucibus orci luctus et ultrissim.',
+        date: DateTime.now().subtract(
+          const Duration(days: 3, minutes: 1),
+        ),
+        isSentByMe: false),
+  ].reversed.toList();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          widget.displayName,
-          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        appBar: AppBar(
+          title: Text(
+            widget.displayName,
+            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
+          backgroundColor: primaryColor,
+          leading: IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: const Icon(Icons.arrow_back)),
         ),
-        backgroundColor: primaryColor,
-        leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: const Icon(Icons.arrow_back)),
-      ),
-      body: SafeArea(
-        child: Column(
+        body: Column(
           children: <Widget>[
             Expanded(
-                child: GroupedListView(
+                child: GroupedListView<Message, DateTime>(
               padding: const EdgeInsets.all(8),
+              elements: messages,
               reverse: true,
               order: GroupedListOrder.DESC,
               useStickyGroupSeparators: true,
               floatingHeader: true,
-              elements: messagesList,
-              groupBy: (message) => dateFormat.parse(message.date),
+              groupBy: (message) => DateTime(
+                  message.date.year, message.date.month, message.date.day),
               groupHeaderBuilder: (Message message) => SizedBox(
-                height: 40,
-                child: Center(
-                  child: Card(
-                    color: primaryColor,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: Text(
-                        DateFormat.yMMMMd().format(DateTime.now()),
-                        style: const TextStyle(color: whiteColor),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+                  height: 40,
+                  child: Center(
+                    child: Card(
+                        color: primaryColor,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: Text(DateFormat.yMMMd().format(message.date),
+                              style: const TextStyle(color: whiteColor)),
+                        )),
+                  )),
               itemBuilder: (context, Message message) => Align(
                 alignment: message.isSentByMe
                     ? Alignment.centerRight
                     : Alignment.centerLeft,
                 child: Card(
-                  elevation: 8,
-                  child: Padding(
-                    padding: const EdgeInsets.all(12),
-                    child: Text(message.text),
-                  ),
-                ),
+                    elevation: 8,
+                    child: Padding(
+                      padding: const EdgeInsets.all(12),
+                      child: Text(message.text),
+                    )),
               ),
             )),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Card(
-                elevation: 8,
-                child: Container(
-                  decoration:
-                      BoxDecoration(borderRadius: BorderRadius.circular(30)),
-                  child: TextFormField(
-                    decoration: const InputDecoration(
-                        contentPadding: EdgeInsets.all(12),
-                        hintText: "Type your message here..."),
-                    onFieldSubmitted: (text) async {
-                      final message = Message(
-                          text: text,
-                          date: dateFormat.format(DateTime.now()),
-                          isSentByMe: true);
-                      // debugPrint('$message'); // prints out as ('text', 'date')
-                      setState(() {
-                        messagesList.add(message);
-                      });
-                      String messageString = jsonEncode(messagesList);
-                      _storageMethods.write("message", messageString);
-                      _storageMethods.read("message");
-                    },
-                  ),
-                ),
+            Container(
+              color: messageBarColor,
+              child: TextField(
+                decoration: const InputDecoration(
+                    contentPadding: EdgeInsets.all(12),
+                    hintText: 'Enter a message'),
+                onSubmitted: (text) {
+                  final message = Message(
+                      text: text, date: DateTime.now(), isSentByMe: true);
+                  setState(() {
+                    messages.add(message);
+                  });
+                },
               ),
-            )
+            ),
           ],
-        ),
-      ),
-    );
+        ));
   }
 }

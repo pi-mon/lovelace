@@ -23,14 +23,17 @@ class Session {
   }
 
   Future<String> post(String route, dynamic data) async {
+    debugPrint('inside post function');
     dynamic cookie = await StorageMethods().read("cookie");
 
     headers[HttpHeaders.contentTypeHeader] = 'application/json; charset=UTF-8';
     if (cookie != null) {
       headers[HttpHeaders.cookieHeader] = cookie;
-    }
+    }    
+    debugPrint('user details object: $data');
     http.Response response = await http.post(Uri.http(baseUrl, route),
         body: jsonEncode(data), headers: headers);
+    debugPrint('response: ${response.toString()}');
     updateCookie(response);
     return response.body;
   }

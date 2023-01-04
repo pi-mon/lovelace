@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lovelace/resources/search_methods.dart';
+import 'package:lovelace/resources/search_chat_methods.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:lovelace/widgets/contact_item.dart';
 

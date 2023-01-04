@@ -3,7 +3,7 @@ import 'package:lovelace/models/message.dart';
 
 class UserDetails {
   final String email;
-  final DateTime birthday;
+  final String birthday;
   final String location;
   final Uint8List displayPic;
   final Uint8List cardPic;
