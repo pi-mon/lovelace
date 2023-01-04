@@ -7,7 +7,8 @@ import 'package:lovelace/resources/storage_methods.dart';
 import 'package:lovelace/utils/colors.dart';
 
 class ChatRoomScreenV2 extends StatefulWidget {
-  const ChatRoomScreenV2({super.key});
+  const ChatRoomScreenV2({super.key, required this.displayName});
+  final String displayName;
 
   @override
   State<ChatRoomScreenV2> createState() => _ChatRoomScreenV2State();
@@ -16,7 +17,6 @@ class ChatRoomScreenV2 extends StatefulWidget {
 class _ChatRoomScreenV2State extends State<ChatRoomScreenV2> {
   List<Message> messagesList = [];
   TextEditingController messageController = TextEditingController();
-  // final timeSent = DateTime.now();
   DateFormat dateFormat = DateFormat('yyyy-MM-dd - kk:mm');
   final StorageMethods _storageMethods = StorageMethods();
 
@@ -40,9 +40,9 @@ class _ChatRoomScreenV2State extends State<ChatRoomScreenV2> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          "Sarah",
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        title: Text(
+          widget.displayName,
+          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
         backgroundColor: primaryColor,
         leading: IconButton(

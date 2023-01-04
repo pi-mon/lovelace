@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:lovelace/resources/search_methods.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:lovelace/widgets/contact_item.dart';
-import 'package:lovelace/widgets/text_field_input.dart';
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({super.key});
@@ -29,19 +29,33 @@ class _ChatScreenState extends State<ChatScreen> {
             child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  const Text('Chats',
-                      style: TextStyle(
-                          fontSize: 60,
-                          fontWeight: FontWeight.bold,
-                          color: primaryColor)),
-                  TextFieldInput(
-                      textEditingController: _searchController,
-                      label: "",
-                      hintText: "Search",
-                      textInputType: TextInputType.text,
-                      validator: (value) {
-                        return null;
-                      }),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      const Text('Chats',
+                          style: TextStyle(
+                              fontSize: 60,
+                              fontWeight: FontWeight.bold,
+                              color: primaryColor)),
+                      IconButton(
+                          onPressed: () {
+                            showSearch(
+                                context: context, delegate: MySearchDelegate());
+                          },
+                          icon: const Icon(
+                            Icons.search,
+                            color: primaryColor,
+                            size: 30,
+                          ))
+                    ],
+                  ),
+                  const Divider(
+                    color: placeholderColor,
+                    height: 25,
+                    thickness: 2,
+                    indent: 5,
+                    endIndent: 5,
+                  ),
                   Flexible(
                     child: Column(
                       children: const <Widget>[
@@ -50,6 +64,14 @@ class _ChatScreenState extends State<ChatScreen> {
                           child: ContactItem(
                             time: "12:00 PM",
                             contact: "Sarah",
+                          ),
+                        ),
+                        SizedBox(height: 20),
+                        SizedBox(
+                          height: 50,
+                          child: ContactItem(
+                            time: "12:00 PM",
+                            contact: "John",
                           ),
                         ),
                       ],

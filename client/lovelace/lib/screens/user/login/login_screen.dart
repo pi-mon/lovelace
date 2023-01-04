@@ -155,7 +155,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           email: email,
                           password: password,
                         );
-                        debugPrint('success');
 
                         String output = response[0];
                         String message = response[1];
@@ -173,18 +172,14 @@ class _LoginScreenState extends State<LoginScreen> {
                           setState(() {
                             _isLoading = true;
                           });
-                          void goToLoginVerifyScreen() {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => LoginVerifyScreen(
-                                        email: email,
-                                        password: password,
-                                      )),
-                            );
-                          }
-
-                          goToLoginVerifyScreen();
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => LoginVerifyScreen(
+                                      email: email,
+                                      password: password,
+                                    )),
+                          );
                           setState(() {
                             _isLoading = false;
                           });

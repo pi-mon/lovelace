@@ -122,6 +122,9 @@ class _LoginVerifyScreenState extends State<LoginVerifyScreen> {
                               content: Text(message),
                               backgroundColor: errorColor,
                             ));
+                            setState(() {
+                              _isLoading = false;
+                            });
                             return;
                           }
                         List<dynamic> response = await AuthenticateMethods()

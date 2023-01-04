@@ -42,7 +42,7 @@ class TextFieldInput extends StatelessWidget {
         TextFormField(
           onTap: onTap,
           controller: textEditingController,
-          decoration: InputDecoration(
+          decoration: InputDecoration(            
             hintText: hintText,
             border: inputBorder,
             focusedBorder: inputBorder,

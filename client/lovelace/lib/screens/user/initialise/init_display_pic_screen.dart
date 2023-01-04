@@ -201,23 +201,21 @@ class _InitDisplayPicScreenState extends State<InitDisplayPicScreen> {
                               await profilePic!.readAsBytes();
                           Uint8List displayPicData =
                               await _image!.readAsBytes();
-
+                          debugPrint('before update function');
                           _accountMethods.update(
                               birthday: birthday,
                               location: location,
                               profilePic: profilePicData,
                               displayPic: displayPicData);
 
-                          void goToInitCompleteScreen() {
-                            Navigator.push(context, 
-                                MaterialPageRoute(
-                                    builder: (context) => InitCompleteScreen(
-                                        birthday: birthday,
-                                        location: location,
-                                        profilePic: profilePic,
-                                        displayPic: _image)));
-                          }
-                          goToInitCompleteScreen();
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => InitCompleteScreen(
+                                      birthday: birthday,
+                                      location: location,
+                                      profilePic: profilePic,
+                                      displayPic: _image)));
                         },
                         style: ElevatedButton.styleFrom(
                           minimumSize: const Size(150, 50),

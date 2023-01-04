@@ -22,7 +22,7 @@ class RegisterVerifyScreen extends StatefulWidget {
 class _RegisterVerifyScreenState extends State<RegisterVerifyScreen> {
   _RegisterVerifyScreenState(this.displayName, this.email, this.password);
   bool _isLoading = false;
-  
+
   final String displayName;
   final String email;
   final String password;
@@ -152,12 +152,11 @@ class _RegisterVerifyScreenState extends State<RegisterVerifyScreen> {
                           ));
 
                           if (isSuccess) {
-                            void goToLoginScreen() {Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const LoginScreen()),
-                            );}
-                            goToLoginScreen();
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const LoginScreen()),
+                              );
                           }
 
                           showDialog(

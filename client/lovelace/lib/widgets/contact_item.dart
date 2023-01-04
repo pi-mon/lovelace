@@ -15,8 +15,12 @@ class ContactItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const ChatRoomScreenV2()));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => ChatRoomScreenV2(
+                      displayName: contact,
+                    )));
       },
       style: ElevatedButton.styleFrom(backgroundColor: whiteColor),
       child: Row(
@@ -41,8 +45,7 @@ class ContactItem extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text(contact, style: const TextStyle(color: blackColor)),
-                Text(time.toString(),
-                    style: const TextStyle(color: blackColor))
+                Text(time.toString(), style: const TextStyle(color: blackColor))
               ],
             ),
           )
