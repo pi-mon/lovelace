@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:lovelace/utils/colors.dart';
 import 'package:lovelace/widgets/display_card.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -13,6 +12,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Scaffold(
           body: Column(

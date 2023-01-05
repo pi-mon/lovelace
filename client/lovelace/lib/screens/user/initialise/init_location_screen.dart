@@ -57,17 +57,19 @@ Future<String> _getLocation() async {
 }
 
 class InitLocationScreen extends StatefulWidget {
+  final String gender;
   final String birthday;
 
-  const InitLocationScreen({super.key, required this.birthday});
+  const InitLocationScreen({super.key, required this.gender, required this.birthday});
 
   @override
-  State<InitLocationScreen> createState() => _InitLocationScreenState(birthday);
+  State<InitLocationScreen> createState() => _InitLocationScreenState(gender, birthday);
 }
 
 class _InitLocationScreenState extends State<InitLocationScreen> {
-  _InitLocationScreenState(this.birthday);
+  _InitLocationScreenState(this.birthday, this.gender);
   final String birthday;
+  final String gender;
   final TextEditingController _locationController = TextEditingController();
 
   @override
@@ -165,7 +167,8 @@ class _InitLocationScreenState extends State<InitLocationScreen> {
                             MaterialPageRoute(
                                 builder: (context) => InitProfilePicScreen(
                                     birthday: birthday,
-                                    location: _locationController.text)),
+                                    location: _locationController.text,
+                                    gender: gender)),
                           );
                         },
                         style: ElevatedButton.styleFrom(

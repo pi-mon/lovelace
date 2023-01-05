@@ -2,8 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter_windowmanager/flutter_windowmanager.dart';
-import 'package:flutter_root_jailbreak/flutter_root_jailbreak.dart';
 import 'package:lovelace/resources/storage_methods.dart';
 // import 'package:flutter_windowmanager/flutter_windowmanager.dart';
 import 'package:lovelace/responsive/mobile_screen_layout.dart';
@@ -19,8 +17,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final StorageMethods storageMethods = StorageMethods();
-  // final sharedPreferences = await SharedPreferences.getInstance();
-  final isLoggedIn = json.decode(await storageMethods.read('isLoggedIn'));
+  final sharedPreferences = await SharedPreferences.getInstance();
+  final isLoggedIn = sharedPreferences.getBool('isLoggedIn') ?? false;  
+  // final isLoggedIn = json.decode(await storageMethods.read('isLoggedIn'));
 
   // * Set the device orientation to portrait
   SystemChrome.setPreferredOrientations([

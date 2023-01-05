@@ -1,35 +1,24 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:lovelace/screens/user/initialise/init_display_pic_screen.dart';
+import 'package:lovelace/screens/user/initialise/init_location_screen.dart';
 import 'package:lovelace/utils/colors.dart';
+import 'package:lovelace/widgets/date_field_input.dart';
 
-class InitProfilePicScreen extends StatefulWidget {
+class InitGenderScreen extends StatefulWidget {
   final String birthday;
-  final String location;
-  final String gender;
-
-  const InitProfilePicScreen(
-      {super.key, required this.birthday, required this.location, required this.gender});
+  const InitGenderScreen({super.key, required this.birthday});
 
   @override
-  State<InitProfilePicScreen> createState() =>
-      _InitProfilePicScreenState(birthday, location, gender);
+  State<InitGenderScreen> createState() => _InitGenderScreenState();
 }
 
-class _InitProfilePicScreenState extends State<InitProfilePicScreen> {
-  _InitProfilePicScreenState(this.birthday, this.location, this.gender);
-  final String birthday;
-  final String location;
-  final String gender;
-  final ImagePicker _picker = ImagePicker();
-  File? _image;
-  bool _isDefault = true;
+class _InitGenderScreenState extends State<InitGenderScreen> {
+  final TextEditingController _birthdayController = TextEditingController();
+  String dropDownValue = 'Male';
 
   @override
   void dispose() {
     super.dispose();
+    _birthdayController.dispose();
   }
 
   @override
@@ -47,14 +36,15 @@ class _InitProfilePicScreenState extends State<InitProfilePicScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         GestureDetector(
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                          child: const Icon(
-                            Icons.arrow_back_ios,
-                            color: primaryColor,
-                          ),
-                        ),
+                            onTap: () {
+                              // Navigator.pop(context);
+                            },
+                            child: Container()
+                            // const Icon(
+                            //   Icons.arrow_back_ios,
+                            //   color: primaryColor,
+                            // ),
+                            ),
                         const Expanded(
                             child: Padding(
                                 padding: EdgeInsets.only(right: 32.0),
@@ -68,7 +58,7 @@ class _InitProfilePicScreenState extends State<InitProfilePicScreen> {
                     ),
                     const SizedBox(height: 16),
                     const Text(
-                      'What is your profile picture?',
+                      'What is your gender?',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           color: primaryColor,
@@ -79,38 +69,25 @@ class _InitProfilePicScreenState extends State<InitProfilePicScreen> {
                       flex: 1,
                       child: Container(),
                     ),
-                    CircleAvatar(
-                      radius: 125,
-                      backgroundColor: Colors.grey,
-                      child: GestureDetector(
-                        onTap: () async {
-                          XFile? image = await _picker.pickImage(
-                              source: ImageSource.gallery);
-                          if (image != null) {
-                            setState(() {
-                              _image = File(image.path);
-                              _isDefault = false;
-                            });
-                          }
-                        },
-                        child: Container(
-                          width: 250,
-                          height: 250,
-                          decoration: BoxDecoration(
-                            border: Border.all(color: borderColor),
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                              fit: BoxFit.cover,
-                              image: _isDefault
-                                  ? const AssetImage(
-                                      'assets/images/default-profile-picture.png')
-                                  : Image.file(_image!).image,
-                            ),
+                    DropdownButton<String>(
+                      value: dropDownValue,
+                      items: <String>['Male, Female']
+                          .map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(
+                            value,
+                            style: const TextStyle(fontSize: 16),
                           ),
-                        ),
-                      ),
+                        );
+                      }).toList(),
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          dropDownValue = newValue!;
+                        });
+                      },
                     ),
-                    const SizedBox(height: 32),
+                    const SizedBox(height: 128),
                     Flexible(
                       flex: 1,
                       child: Container(),
@@ -118,12 +95,14 @@ class _InitProfilePicScreenState extends State<InitProfilePicScreen> {
                     const SizedBox(height: 32),
                     ElevatedButton(
                         onPressed: () async {
-                          bool imageIsValid = _image != null;
+                          String birthday = _birthdayController.text;
 
-                          if (!imageIsValid) {
-                            String message = "Enpty ";
-                            if (!imageIsValid) {
-                              message += "image";
+                          bool genderIsValid = birthday.isNotEmpty;
+
+                          if (!genderIsValid) {
+                            String message = "Invalid ";
+                            if (!genderIsValid) {
+                              message += "birthday";
                             }
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                               content: Text(message),
@@ -131,15 +110,12 @@ class _InitProfilePicScreenState extends State<InitProfilePicScreen> {
                             ));
                             return;
                           }
-
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => InitDisplayPicScreen(
+                                builder: (context) => InitLocationScreen(
+                                      gender: dropDownValue,
                                       birthday: birthday,
-                                      location: location,
-                                      gender: gender,
-                                      profilePic: _image,
                                     )),
                           );
                         },

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lovelace/screens/user/initialise/init_location_screen.dart';
+import 'package:lovelace/screens/user/initialise/init_gender.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:lovelace/widgets/date_field_input.dart';
 
@@ -102,7 +102,7 @@ class _InitBirthayScreenState extends State<InitBirthayScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => InitLocationScreen(
+                                builder: (context) => InitGenderScreen(
                                       birthday: _birthdayController.text,
                                     )),
                           );

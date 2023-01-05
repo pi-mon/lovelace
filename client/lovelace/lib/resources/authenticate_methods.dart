@@ -1,7 +1,9 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:logger/logger.dart';
 import 'package:lovelace/models/user.dart';
 import 'package:flutter/foundation.dart';
+import 'package:lovelace/models/user_detail.dart';
 import 'package:lovelace/resources/storage_methods.dart';
 import 'package:lovelace/widgets/session.dart';
 
@@ -124,42 +126,50 @@ class AuthenticateMethods {
     return [output, message, isSuccess];
   }
 
-  // Future<List> updateUserDetails({
-  //   required String email,
-  //   required String birthday,
-  //   required File? displayPic,
-  //   required File? cardPic,
-  //   required String location
-  // }) async {
-  //   String output;
-  //   String message = "An error occurred";
-  //   bool isUpdated = false;
+  Future<List> updateUserDetails(
+      {required String email,
+      required String birthday,
+      required Uint8List displayPic,
+      required String gender,
+      required String location}) async {
+    String output;
+    String message = "An error occurred";
+    bool isUpdated = false;
 
-  //   if (email.isNotEmpty && birthday.isNotEmpty &&
-  //       location.isNotEmpty &&  displayPic.
-  //       ) {
-  //     // User user = User(email: email, password: password);
-  //     UserDetails userDetails = UserDetails(email: email, birthday: , displayPic: displayPic, cardPic: displayPic, location: location, messages: );
-  //     try {
-  //       output = await session.post(userDetails, "/account/test");
-  //       try {
-  //         dynamic outputJson = jsonDecode(output);
-  //         if (outputJson['update'] == true) {
-  //           isUpdated = true;
-  //           message = "Update successful!";
-  //           updatedData = outputJson['updatedData'];
-  //         } else {
-  //           message = outputJson['response'];
-  //         }
-  //       } catch (e) {
-  //         message = "An error occured";
-  //       }
-  //     } catch (e) {
-  //       output = e.toString();
-  //     }
-  //   } else {
-  //     output = message = "Please enter all fields";
-  //   }
-  //   return [output, message, isUpdated];
-  // }
+    if (email.isNotEmpty &&
+        birthday.isNotEmpty &&
+        location.isNotEmpty &&
+        gender.isNotEmpty) {
+      // User user = User(email: email, password: password);
+      UserDetails userDetails = UserDetails(
+        email: email,
+        birthday: birthday,
+        location: location,
+        gender: gender,
+        displayPic: displayPic,
+        cardPic: displayPic,
+        messages: [],
+      );
+      try {
+        output = await session.post("/account/update_profile", userDetails);
+        try {
+          dynamic outputJson = jsonDecode(output);
+          if (outputJson['update'] == true) {
+            isUpdated = true;
+            message = "Update successful!";
+            updatedData = outputJson['updatedData'];
+          } else {
+            message = outputJson['response'];
+          }
+        } catch (e) {
+          message = "An error occured";
+        }
+      } catch (e) {
+        output = e.toString();
+      }
+    } else {
+      output = message = "Please enter all fields";
+    }
+    return [output, message, isUpdated];
+  }
 }

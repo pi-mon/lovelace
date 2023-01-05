@@ -18,9 +18,9 @@ class AccountMethods {
       output = await session.get('/account/profile');
       try {
         dynamic outputJson = jsonDecode(output);
-        
+
         if (outputJson['response'] != "User details has not been created yet") {
-          // User Details already exist    
+          // User Details already exist
           debugPrint("user details object already exist");
           isSuccess = true;
           message = "Read successful";
@@ -41,12 +41,12 @@ class AccountMethods {
     return [output, message, isSuccess];
   }
 
-  Future<List> update({
-    required String birthday,
-    required String location,
-    required Uint8List profilePic,
-    required Uint8List displayPic,
-  }) async {
+  Future<List> update(
+      {required String birthday,
+      required String location,
+      required Uint8List profilePic,
+      required Uint8List displayPic,
+      required String gender}) async {
     String output;
     String message = "An error occurred";
     bool isSuccess = false;
@@ -54,15 +54,18 @@ class AccountMethods {
     try {
       // DateFormat dateFormat = DateFormat('MMMM yyyy');
       UserDetails userDetails = UserDetails(
-        email: await storageMethods.read("email"),
-        birthday: birthday,
-        location: location,        
-        displayPic: displayPic,
-        cardPic: displayPic,
-        messages: [],
-      );
+          email: await storageMethods.read("email"),
+          birthday: birthday,
+          location: location,
+          gender: gender,
+          displayPic: displayPic,
+          cardPic: displayPic,
+          messages: []);
       debugPrint("ERROR HERE!!");
-      output = await session.post('/account/profile/update', userDetails.toString()); // will get conversion error if not in String format
+      output = await session.post(
+          '/account/profile/update',
+          userDetails
+              .toString()); // will get conversion error if not in String format
       debugPrint("AFTER THE ERROR");
       try {
         dynamic outputJson = jsonDecode(output);

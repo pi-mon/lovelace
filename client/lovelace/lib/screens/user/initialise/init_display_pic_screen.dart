@@ -13,23 +13,25 @@ class InitDisplayPicScreen extends StatefulWidget {
   final String birthday;
   final String location;
   final File? profilePic;
+  final String gender;
 
   const InitDisplayPicScreen(
       {super.key,
       required this.birthday,
       required this.location,
-      required this.profilePic});
+      required this.profilePic, required this.gender});
 
   @override
   State<InitDisplayPicScreen> createState() =>
-      _InitDisplayPicScreenState(birthday, location, profilePic);
+      _InitDisplayPicScreenState(birthday, location, profilePic, gender);
 }
 
 class _InitDisplayPicScreenState extends State<InitDisplayPicScreen> {
-  _InitDisplayPicScreenState(this.birthday, this.location, this.profilePic);
+  _InitDisplayPicScreenState(this.birthday, this.location, this.profilePic, this.gender);
   final String birthday;
   final String location;
   final File? profilePic;
+  final String gender;
   final ImagePicker _picker = ImagePicker();
   File? _image;
   final AccountMethods _accountMethods = AccountMethods();
@@ -207,7 +209,7 @@ class _InitDisplayPicScreenState extends State<InitDisplayPicScreen> {
                               birthday: birthday,
                               location: location,
                               profilePic: profilePicData,
-                              displayPic: displayPicData);
+                              displayPic: displayPicData, gender: gender);
 
                           Navigator.push(
                               context,
@@ -215,6 +217,7 @@ class _InitDisplayPicScreenState extends State<InitDisplayPicScreen> {
                                   builder: (context) => InitCompleteScreen(
                                       birthday: birthday,
                                       location: location,
+                                      gender: gender,
                                       profilePic: profilePic,
                                       displayPic: _image)));
                         },

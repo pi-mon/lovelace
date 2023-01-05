@@ -8,23 +8,25 @@ class InitCompleteScreen extends StatefulWidget {
   final String location;
   final File? profilePic;
   final File? displayPic;
+  final String gender;
 
   const InitCompleteScreen(
       {super.key,
       required this.birthday,
       required this.location,
       required this.profilePic,
-      required this.displayPic});
+      required this.displayPic, required this.gender});
 
   @override
   State<InitCompleteScreen> createState() =>
-      _InitDisplayPicScreenState(birthday, location, profilePic, displayPic);
+      _InitDisplayPicScreenState(birthday, location, profilePic, displayPic, gender);
 }
 
 class _InitDisplayPicScreenState extends State<InitCompleteScreen> {
   _InitDisplayPicScreenState(
-      this.birthday, this.location, this.profilePic, this.displayPic);
+      this.birthday, this.location, this.profilePic, this.displayPic, this.gender);
   final String birthday;
+  final String gender;
   final String location;
   final File? profilePic;
   final File? displayPic;
