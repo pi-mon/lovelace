@@ -1,32 +1,24 @@
-import 'package:flutter/foundation.dart';
+import 'package:dating_app/widgets/cards_stack_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
-import 'core/app_export.dart';
-
-void main() {
-  WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp,
-  ]).then((value) {
-    Logger.init(kReleaseMode ? LogMode.live : LogMode.debug);
-    runApp(MyApp());
-  });
-}
+void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      debugShowCheckedModeBanner: false,
-      translations: AppLocalization(),
-      locale: Get.deviceLocale, //for setting localization strings
-      fallbackLocale: Locale('en', 'US'),
-      title: 'lovelace',
-      initialBinding: InitialBindings(),
-      initialRoute: AppRoutes.initialRoute,
-      getPages: AppRoutes.pages,
+    return MaterialApp(
+      home: Scaffold(
+        backgroundColor: Colors.white,
+        body: Stack(
+          children: const [
+            CardsStackWidget(),
+          ],
+        ),
+      ),
     );
   }
 }
+
+enum Swipe { left, right, none }

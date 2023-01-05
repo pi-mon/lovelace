@@ -1,1 +1,1 @@
-[{"family":"MaterialIcons","fonts":[{"asset":"fonts/MaterialIcons-Regular.otf"}]},{"family":"Inter","fonts":[{"weight":600,"asset":"assets/fonts/InterSemiBold.ttf"}]}]
+[{"family":"MaterialIcons","fonts":[{"asset":"fonts/MaterialIcons-Regular.otf"}]},{"family":"Nunito","fonts":[{"asset":"assets/fonts/Nunito-Regular.ttf"},{"style":"italic","asset":"assets/fonts/Nunito-ExtraBold.ttf"}]},{"family":"packages/cupertino_icons/CupertinoIcons","fonts":[{"asset":"packages/cupertino_icons/assets/CupertinoIcons.ttf"}]}]
