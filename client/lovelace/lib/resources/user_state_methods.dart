@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lovelace/responsive/mobile_screen_layout.dart';
 import 'package:lovelace/responsive/responsive_layout.dart';
 import 'package:lovelace/responsive/web_screen_layout.dart';
-import 'package:lovelace/screens/landing/guest_landing_screen.dart';
+import 'package:lovelace/screens/main/landing_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 const _userPages = ResponsiveLayout(
@@ -26,7 +26,7 @@ class UserStateMethods {
     // ignore: use_build_context_synchronously
     Navigator.of(context).pushAndRemoveUntil(
       MaterialPageRoute(
-          builder: (BuildContext context) => const GuestLandingScreen()),
+          builder: (BuildContext context) => const LandingScreen()),
       (Route route) => false,
     );
   }

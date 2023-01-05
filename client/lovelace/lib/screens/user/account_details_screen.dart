@@ -17,6 +17,7 @@ class AccountDetailsScreen extends StatefulWidget {
 class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
   late List<StorageItem> _tokens = [];
   final StorageMethods _storageService = StorageMethods();
+  bool _jailbroken = false;
 
   @override
   void initState() {
@@ -32,7 +33,6 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
 
   Future<bool?> _checkJailBreak() async {
     bool jailBroken = false;
-    bool _jailbroken = false;
 
     try {
       jailBroken = await FlutterJailbreakDetection.jailbroken;
@@ -44,6 +44,7 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
     setState(() {
       _jailbroken = jailBroken;
     });
+    return null;
   }
 
   @override
@@ -105,7 +106,7 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
                   child: ElevatedButton(
                     onPressed: () async {
                       // CHECK IF DEVICE IS JAILBROKEN
-                    var jailBreakStatus = _checkJailBreak();
+                      var jailBreakStatus = _checkJailBreak();
                       // ignore: unrelated_type_equality_checks
                       if (jailBreakStatus == true) {
                         showDialog(

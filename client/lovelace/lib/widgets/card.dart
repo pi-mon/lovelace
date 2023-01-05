@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lovelace/models/storage_item.dart';
 import 'package:lovelace/resources/storage_methods.dart';
 
+// ignore: must_be_immutable
 class VaultCard extends StatefulWidget {
   StorageItem item;
 
@@ -54,19 +55,16 @@ class _CardState extends State<VaultCard> {
               onPressed: () async {
                 // DISPLAY THE TOKEN VALUER
                 showDialog(
-                  context: context,
-                  builder: (context) {   
-                    final readToken = _storageService.readAllSecureData().toString();          
-                    debugPrint(readToken);
-                    return const AlertDialog(
-                      content: Text('test')
-                    );
-                  }
-                );
+                    context: context,
+                    builder: (context) {
+                      final readToken =
+                          _storageService.readAllSecureData().toString();
+                      debugPrint(readToken);
+                      return const AlertDialog(content: Text('test'));
+                    });
               },
             ),
-          )
-        ),
+          )),
     );
   }
 }
