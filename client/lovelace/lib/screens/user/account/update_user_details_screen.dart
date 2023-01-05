@@ -18,10 +18,12 @@ class UpdateUserDetailsScreen extends StatefulWidget {
 
 class _UpdateUserDetailsScreenState extends State<UpdateUserDetailsScreen> {
   DateTime dateNow = DateTime(2022);
+  String dropDownValue = 'Male';
   final StorageMethods storage = StorageMethods();
   final TextEditingController _newEmailController = TextEditingController();
   final TextEditingController _newBirthdayController = TextEditingController();
   final TextEditingController _newLocationController = TextEditingController();
+  final TextEditingController _newGenderController = TextEditingController();
   final TextEditingController _newDisplayNameController =
       TextEditingController();
   final _formKey = GlobalKey<FormState>();
@@ -38,9 +40,7 @@ class _UpdateUserDetailsScreenState extends State<UpdateUserDetailsScreen> {
   Future init() async {
     // TODO: Get the user data
 
-    setState(() {
-      
-    });
+    setState(() {});
   }
 
   @override
@@ -157,14 +157,35 @@ class _UpdateUserDetailsScreenState extends State<UpdateUserDetailsScreen> {
                   },
                 ),
                 const SizedBox(height: 16),
-                TextFieldInput(
-                  label: "Display name",
-                  hintText: "Enter your display name",
-                  textInputType: TextInputType.text,
-                  textEditingController: _newDisplayNameController,
-                  validator: (value) {
-                    return null;
-                  },
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    const Text("Gender",
+                        style: TextStyle(color: primaryColor, fontSize: 18)),
+                    DropdownButton<String>(
+                      value: dropDownValue,
+                      icon: const Icon(Icons.arrow_drop_down_sharp),
+                      iconSize: 24,
+                      elevation: 16,
+                      style: const TextStyle(color: Colors.deepPurple),
+                      underline: Container(
+                        height: 2,
+                        color: Colors.deepPurpleAccent,
+                      ),
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          dropDownValue = newValue!;
+                        });
+                      },
+                      items: <String>['Male', 'Female']
+                          .map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                    ),
+                  ],
                 ),
                 const SizedBox(height: 16),
                 TextFieldInput(
@@ -189,20 +210,28 @@ class _UpdateUserDetailsScreenState extends State<UpdateUserDetailsScreen> {
                         color: whiteColor),
                   ),
                   onPressed: () async {
+                    String email = _newEmailController.text;
+                    String birthday = _newBirthdayController.text;
+                    String location = _newLocationController.text;
+                    String gender = dropDownValue;
+
+                    debugPrint('$email, $birthday, $location, $gender');
+
                     // if (_formKey.currentState!.validate()) {
                     //   String email = _newEmailController.text;
                     //   String birthday = _newBirthdayController.text;
+                    //   String gender = dropDownValue;
                     //   String location = _newLocationController.text;
                     //   File? displayPic = _image;
-                    //   File? cardPic = _image;
 
                     //   // call update function to send request to server side to update user details
-                    //   List response = await AuthenticateMethods().updateUserDetails(
-                    //       email: _newEmailController.text,
-                    //       birthday: birthday,
-                    //       location: location,
-                    //       displayPic: displayPic,
-                    //       cardPic: cardPic);
+                    //   List response = await AuthenticateMethods()
+                    //       .updateUserDetails(
+                    //           email: email,
+                    //           birthday: birthday,
+                    //           location: location,
+                    //           gender: gender,
+                    //           displayPic: displayPic);
 
                     //   String output = response[0];
                     //   String message = response[1];

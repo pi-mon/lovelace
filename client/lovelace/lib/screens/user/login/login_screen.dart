@@ -167,7 +167,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         ));
 
                         if (isSuccess) {
-                          debugPrint('success');
                           setState(() {
                             _isLoading = true;
                           });

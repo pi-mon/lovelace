@@ -130,6 +130,7 @@ class AuthenticateMethods {
       {required String email,
       required String birthday,
       required Uint8List displayPic,
+      required Uint8List cardPic,
       required String gender,
       required String location}) async {
     String output;
