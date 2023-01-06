@@ -8,18 +8,19 @@ import 'package:lovelace/responsive/mobile_screen_layout.dart';
 import 'package:lovelace/responsive/responsive_layout.dart';
 import 'package:lovelace/responsive/web_screen_layout.dart';
 import 'package:lovelace/screens/main/landing_screen.dart';
-// import 'package:lovelace/screens/user/initialise/init_birthday_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:flutter/services.dart';
 import 'package:screen_capture_event/screen_capture_event.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final StorageMethods storageMethods = StorageMethods();
-  final sharedPreferences = await SharedPreferences.getInstance();
-  final isLoggedIn = sharedPreferences.getBool('isLoggedIn') ?? false;  
-  // final isLoggedIn = json.decode(await storageMethods.read('isLoggedIn'));
+  final bool isLoggedIn = json.decode(await storageMethods.read('isLoggedIn'));
+
+  // * Enable communication through HTTPS
+  ByteData data = await PlatformAssetBundle().load('assets/ca/cert.pem');
+  SecurityContext.defaultContext
+      .setTrustedCertificatesBytes(data.buffer.asUint8List());
 
   // * Set the device orientation to portrait
   SystemChrome.setPreferredOrientations([
@@ -27,12 +28,6 @@ void main() async {
     DeviceOrientation.portraitDown,
   ]).then((value) => runApp(MyApp(isLoggedIn: isLoggedIn)));
 
-  // * Enable communication through HTTPS
-  ByteData data = await PlatformAssetBundle().load('assets/ca/cert.pem');
-  SecurityContext.defaultContext
-      .setTrustedCertificatesBytes(data.buffer.asUint8List());
-
-  runApp(MyApp(isLoggedIn: isLoggedIn));
 // AppLock(
 //       builder: (arg) => MyApp(
 //             data: arg,
@@ -46,7 +41,7 @@ void main() async {
 
 class MyApp extends StatefulWidget {
   final bool isLoggedIn;
-  final _userPages = const ResponsiveLayout(
+  final ResponsiveLayout _userPages = const ResponsiveLayout(
       mobileScreenLayout: MobileScreenLayout(),
       webScreenLayout: WebScreenLayout());
   const MyApp({Key? key, required this.isLoggedIn, Object? data})
@@ -57,8 +52,6 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   final ScreenCaptureEvent screenCaptureEvent = ScreenCaptureEvent();
-  final Future<SharedPreferences> sharedPreferences =
-      SharedPreferences.getInstance();
   // final bool _isJailbroken = true;
   double blurr = 20;
   double opacity = 0.6;

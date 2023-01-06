@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:lovelace/responsive/mobile_screen_layout.dart';
 import 'package:lovelace/responsive/responsive_layout.dart';
 import 'package:lovelace/responsive/web_screen_layout.dart';
-import 'package:lovelace/screens/chat/chat_screen.dart';
+import 'package:lovelace/screens/chat/chat_list_screen.dart';
 import 'package:lovelace/screens/user/account/account_screen.dart';
 import 'package:lovelace/screens/main/home_screen.dart';
 
@@ -10,7 +10,7 @@ const webScreenSize = 600;
 
 const userScreens = [
   HomeScreen(),
-  ChatScreen(),
+  ChatListScreen(),
   AccountScreen(),
 ];
 

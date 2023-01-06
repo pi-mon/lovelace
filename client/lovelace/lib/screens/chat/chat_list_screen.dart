@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:lovelace/resources/search_chat_methods.dart';
 import 'package:lovelace/utils/colors.dart';
-import 'package:lovelace/widgets/contact_item.dart';
+import 'package:lovelace/widgets/chat_person.dart';
 
-class ChatScreen extends StatefulWidget {
-  const ChatScreen({super.key});
+class ChatListScreen extends StatefulWidget {
+  const ChatListScreen({super.key});
 
   @override
-  State<ChatScreen> createState() => _ChatScreenState();
+  State<ChatListScreen> createState() => _ChatScreenState();
 }
 
-class _ChatScreenState extends State<ChatScreen> {
+class _ChatScreenState extends State<ChatListScreen> {
   final TextEditingController _searchController = TextEditingController();
 
   @override
@@ -32,9 +32,9 @@ class _ChatScreenState extends State<ChatScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      const Text('Chats',
+                      const Text('Chat List',
                           style: TextStyle(
-                              fontSize: 60,
+                              fontSize: 24,
                               fontWeight: FontWeight.bold,
                               color: primaryColor)),
                       IconButton(
@@ -49,31 +49,22 @@ class _ChatScreenState extends State<ChatScreen> {
                           ))
                     ],
                   ),
-                  const Divider(
-                    color: placeholderColor,
-                    height: 25,
-                    thickness: 2,
-                    indent: 5,
-                    endIndent: 5,
-                  ),
+                  const SizedBox(height: 20),
                   Flexible(
-                    child: Column(
-                      children: const <Widget>[
-                        SizedBox(
-                          height: 50,
-                          child: ContactItem(
-                            time: "12:00 PM",
-                            contact: "Sarah",
-                          ),
-                        ),
-                        SizedBox(height: 20),
-                        SizedBox(
-                          height: 50,
-                          child: ContactItem(
-                            time: "12:00 PM",
-                            contact: "John",
-                          ),
-                        ),
+                    child: ListView(
+                      children: <Widget>[
+                        ChatPerson(time: DateTime.now(), name: "Sarah"),
+                        ChatPerson(time: DateTime.now(), name: "John"),
+                        ChatPerson(time: DateTime.now(), name: "Sarah"),
+                        ChatPerson(time: DateTime.now(), name: "John"),
+                        ChatPerson(time: DateTime.now(), name: "Sarah"),
+                        ChatPerson(time: DateTime.now(), name: "John"),
+                        ChatPerson(time: DateTime.now(), name: "Sarah"),
+                        ChatPerson(time: DateTime.now(), name: "John"),
+                        ChatPerson(time: DateTime.now(), name: "Sarah"),
+                        ChatPerson(time: DateTime.now(), name: "John"),
+                        ChatPerson(time: DateTime.now(), name: "Sarah"),
+                        ChatPerson(time: DateTime.now(), name: "John"),
                       ],
                     ),
                   )

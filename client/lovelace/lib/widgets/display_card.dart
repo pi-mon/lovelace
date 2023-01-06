@@ -32,7 +32,6 @@ class _DisplayCardState extends State<DisplayCard> {
     final double screenWidth = queryData.size.width;
     final double screenHeight = queryData.size.height;
     final double cardWidth = screenWidth / 1.23;
-    print(screenHeight / 24);
 
     return Stack(
       alignment: Alignment.bottomCenter,
