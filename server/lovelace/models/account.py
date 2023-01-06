@@ -1,5 +1,6 @@
 class User:
-    def __init__(self, email, password):
+    def __init__(self, display_name, email, password):
+        self.display_name = display_name
         self.email = email
         self.password = password
         self.otp = 0
@@ -7,10 +8,10 @@ class User:
 
 
 class UserDetails:
-    def __init__(self,email ,display_name, age, gender,location):
+    def __init__(self, email, display_name, birthday, gender, location):
         self.email = email
         self.display_name = display_name
-        self.age = age
+        self.birthday = birthday
         self.location = location
         self.gender = gender
         self.profile_pic = ""

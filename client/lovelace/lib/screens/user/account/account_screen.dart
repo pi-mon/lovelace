@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lovelace/screens/admin/admin_account_screen.dart';
-import 'package:lovelace/screens/user/account_details_screen.dart';
+import 'package:lovelace/screens/user/account/account_settings_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 
 class AccountScreen extends StatefulWidget {
@@ -11,6 +11,12 @@ class AccountScreen extends StatefulWidget {
 }
 
 class _AccountScreenState extends State<AccountScreen> {
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   StorageMethods _storageMethods = StorageMethods();
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -112,22 +118,6 @@ class _AccountScreenState extends State<AccountScreen> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: const <Widget>[
-                          Text('My Profile',
-                              style:
-                                  TextStyle(fontSize: 17, color: blackColor)),
-                          Icon(Icons.arrow_right, color: placeholderColor)
-                        ],
-                      ),
-                    )),
-                SizedBox(
-                    height: 50,
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      style:
-                          ElevatedButton.styleFrom(backgroundColor: whiteColor),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: const <Widget>[
                           Text('My Ideal Person',
                               style:
                                   TextStyle(fontSize: 17, color: blackColor)),
@@ -139,7 +129,6 @@ class _AccountScreenState extends State<AccountScreen> {
                     height: 50,
                     child: ElevatedButton(
                       onPressed: () {
-                        // TODO: DISPLAY TOKEN IN POP UP
                         Navigator.push(
                             context,
                             MaterialPageRoute(

@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:lovelace/utils/global_variables.dart';
@@ -26,9 +25,12 @@ class _ViewLogsDetailScreenState extends State<ViewLogsDetailScreen> {
     Future snapshot = getLogs("/logs/${widget.name}");
     return Scaffold(
         appBar: AppBar(
+          leading: IconButton(
+              onPressed: () => Navigator.pop(context),
+              icon: const Icon(Icons.arrow_back)),
           backgroundColor: primaryColor,
           automaticallyImplyLeading: false, // hides the back arrow
-          title: Text("View ${widget.name} logs"),
+          title: Text("View ${widget.name} logs", style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
           toolbarHeight: 64,
         ),
         body: SafeArea(

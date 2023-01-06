@@ -1,17 +1,25 @@
+import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:lovelace/resources/storage_methods.dart';
+// import 'package:flutter_windowmanager/flutter_windowmanager.dart';
+import 'package:lovelace/responsive/mobile_screen_layout.dart';
+import 'package:lovelace/responsive/responsive_layout.dart';
+import 'package:lovelace/responsive/web_screen_layout.dart';
 import 'package:lovelace/screens/main/landing_screen.dart';
+// import 'package:lovelace/screens/user/initialise/init_birthday_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:flutter/services.dart';
+import 'package:screen_capture_event/screen_capture_event.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter_windowmanager/flutter_windowmanager.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  FlutterWindowManager.addFlags(
-      FlutterWindowManager.FLAG_SECURE); // TODO: FIND OUT HOW TO TEST
-  final preferences = await SharedPreferences.getInstance();
-  final isLoggedIn = preferences.getBool('isLoggedIn') ?? false;
+  final StorageMethods storageMethods = StorageMethods();
+  final sharedPreferences = await SharedPreferences.getInstance();
+  final isLoggedIn = sharedPreferences.getBool('isLoggedIn') ?? false;  
+  // final isLoggedIn = json.decode(await storageMethods.read('isLoggedIn'));
 
   // * Set the device orientation to portrait
   SystemChrome.setPreferredOrientations([
@@ -25,19 +33,96 @@ void main() async {
       .setTrustedCertificatesBytes(data.buffer.asUint8List());
 
   runApp(MyApp(isLoggedIn: isLoggedIn));
+// AppLock(
+//       builder: (arg) => MyApp(
+//             data: arg,
+//             key: const Key('MyApp'),
+//             isLoggedIn: isLoggedIn,
+//           ),
+//       lockScreen: const LockScreen(key: Key('LockScreen')),
+//       backgroundLockLatency: const Duration(seconds: 3),
+//       enabled: false)
 }
 
-// ignore: must_be_immutable
 class MyApp extends StatefulWidget {
   final bool isLoggedIn;
-
-  const MyApp({Key? key, required this.isLoggedIn}) : super(key: key);
-
+  final _userPages = const ResponsiveLayout(
+      mobileScreenLayout: MobileScreenLayout(),
+      webScreenLayout: WebScreenLayout());
+  const MyApp({Key? key, required this.isLoggedIn, Object? data})
+      : super(key: key);
   @override
   State<MyApp> createState() => _MyAppState();
 }
 
-class _MyAppState extends State<MyApp> {
+class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
+  final ScreenCaptureEvent screenCaptureEvent = ScreenCaptureEvent();
+  final Future<SharedPreferences> sharedPreferences =
+      SharedPreferences.getInstance();
+  // final bool _isJailbroken = true;
+  double blurr = 20;
+  double opacity = 0.6;
+  StreamSubscription<bool>? subLock;
+
+  @override
+  void initState() {
+    screenCaptureEvent.watch();
+    screenCaptureEvent.preventAndroidScreenShot(true);
+    WidgetsBinding.instance.addObserver(this);
+    // FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
+    // isRooted();
+    screenShotRecord();
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    subLock?.cancel();
+    screenCaptureEvent.dispose();
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    if (state == AppLifecycleState.detached) return;
+
+    if (state == AppLifecycleState.inactive) {
+      debugPrint('App in background - $state');
+      // AppLock.of(context)!.showLockScreen();
+    } else {
+      debugPrint('App in foreground - $state');
+    }
+  }
+
+  // Future<void> isRooted() async {
+  //   try {
+  //     bool isJailBroken = Platform.isAndroid
+  //         ? await FlutterRootJailbreak.isRooted
+  //         : await FlutterRootJailbreak.isJailBroken;
+  //     _isJailbroken = isJailBroken;
+  //   } catch (e) {
+  //     debugPrint('======ERROR: isRooted======');
+  //   }
+
+  //   setState(() {});
+  // }
+
+  Future<void> screenShotRecord() async {
+    bool isSecureMode = false;
+    setState(() {
+      isSecureMode = !isSecureMode;
+    });
+    // if (isSecureMode) {
+    //   FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
+    // } else {
+    //   FlutterWindowManager.clearFlags(FlutterWindowManager.FLAG_SECURE);
+    // }
+    debugPrint('secure mode: $isSecureMode');
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -48,7 +133,9 @@ class _MyAppState extends State<MyApp> {
           scaffoldBackgroundColor: whiteColor,
           primaryColor: primaryColor,
         ),
-        // home: widget.isLoggedIn ? widget._userPages : const LandingScreen());
-        home: const LandingScreen());
+        // home: widget.isLoggedIn
+        //     ? const InitBirthayScreen()
+        //     : const LandingScreen());
+        home: widget.isLoggedIn ? widget._userPages : const LandingScreen());
   }
 }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lovelace/screens/admin/view_logs_screen.dart';
-import 'package:lovelace/screens/user/account_details_screen.dart';
-import 'package:lovelace/screens/user/account_screen.dart';
+import 'package:lovelace/screens/user/account/account_settings_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 
 class AdminAccountScreen extends StatefulWidget {
@@ -55,15 +54,7 @@ class _AdminAccountScreenState extends State<AdminAccountScreen> {
                   children: <Widget>[
                     ElevatedButton(
                         onPressed: () {
-                          Navigator.push(
-                              context,
-                              PageRouteBuilder(
-                                pageBuilder:
-                                    (context, animation1, animation2) =>
-                                        const AccountScreen(),
-                                transitionDuration: Duration.zero,
-                                reverseTransitionDuration: Duration.zero,
-                              ));
+                          Navigator.pop(context);
                         },
                         style: ElevatedButton.styleFrom(
                             backgroundColor: primaryColor),
@@ -119,22 +110,6 @@ class _AdminAccountScreenState extends State<AdminAccountScreen> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: const <Widget>[
-                          Text('My Profile',
-                              style:
-                                  TextStyle(fontSize: 17, color: blackColor)),
-                          Icon(Icons.arrow_right, color: placeholderColor)
-                        ],
-                      ),
-                    )),
-                SizedBox(
-                    height: 50,
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      style:
-                          ElevatedButton.styleFrom(backgroundColor: whiteColor),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: const <Widget>[
                           Text('My Ideal Person',
                               style:
                                   TextStyle(fontSize: 17, color: blackColor)),
@@ -146,7 +121,6 @@ class _AdminAccountScreenState extends State<AdminAccountScreen> {
                     height: 50,
                     child: ElevatedButton(
                       onPressed: () {
-                        // TODO: DISPLAY TOKEN IN POP UP
                         Navigator.push(
                             context,
                             MaterialPageRoute(

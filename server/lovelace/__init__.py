@@ -7,15 +7,28 @@ import certifi
 import os
 from lovelace.logger import setup_logger
 import dotenv
+
 dotenv.load_dotenv()
 ca = certifi.where()
 mongo = pymongo.MongoClient(host=os.environ.get("MONGO_URI"), tlsCAFile=ca)
-mongo_account_read = pymongo.MongoClient(host=os.environ.get("MONGO_URI_ACCOUNT_READ"), tlsCAFile=ca)
-mongo_account_write = pymongo.MongoClient(host=os.environ.get("MONGO_URI_ACCOUNT_WRITE"), tlsCAFile=ca)
-mongo_admin_read = pymongo.MongoClient(host=os.environ.get("MONGO_URI_ADMIN_READ"), tlsCAFile=ca)
-mongo_account_details_write = pymongo.MongoClient(host=os.environ.get("MONGO_URI_ACCOUNT_DETAILS_WRITE"), tlsCAFile=ca)
-mongo_temp_write = pymongo.MongoClient(host=os.environ.get("MONGO_URI_TEMP_USER_WRITE"), tlsCAFile=ca)
-mongo_temp_read = pymongo.MongoClient(host=os.environ.get("MONGO_URI_TEMP_USER_READ"), tlsCAFile=ca)
+mongo_account_read = pymongo.MongoClient(
+    host=os.environ.get("MONGO_URI_ACCOUNT_READ"), tlsCAFile=ca
+)
+mongo_account_write = pymongo.MongoClient(
+    host=os.environ.get("MONGO_URI_ACCOUNT_WRITE"), tlsCAFile=ca
+)
+mongo_admin_read = pymongo.MongoClient(
+    host=os.environ.get("MONGO_URI_ADMIN_READ"), tlsCAFile=ca
+)
+mongo_account_details_write = pymongo.MongoClient(
+    host=os.environ.get("MONGO_URI_ACCOUNT_DETAILS_WRITE"), tlsCAFile=ca
+)
+mongo_temp_write = pymongo.MongoClient(
+    host=os.environ.get("MONGO_URI_TEMP_USER_WRITE"), tlsCAFile=ca
+)
+mongo_temp_read = pymongo.MongoClient(
+    host=os.environ.get("MONGO_URI_TEMP_USER_READ"), tlsCAFile=ca
+)
 
 root_logger = setup_logger("")
 account_logger = setup_logger("account")
@@ -25,13 +38,9 @@ recommendation_logger = setup_logger("recommendation")
 
 
 app = Flask(__name__)
-app.config.from_pyfile('config.py')
-limiter = Limiter(
-app,
-key_func=get_remote_address,
-default_limits=["50 per minute"]
-)
-socketio = SocketIO(app, cors_allowed_origins='*')
+app.config.from_pyfile("config.py")
+limiter = Limiter(app, key_func=get_remote_address, default_limits=["50 per minute"])
+socketio = SocketIO(app, cors_allowed_origins=["127.0.0.1", "10.0.2.2"])
 
 from lovelace.account.routes import account_page
 from lovelace.recommendation.routes import recommendation

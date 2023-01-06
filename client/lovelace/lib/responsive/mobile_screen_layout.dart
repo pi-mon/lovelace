@@ -12,44 +12,45 @@ class MobileScreenLayout extends StatefulWidget {
 class _MobileScreenLayoutState extends State<MobileScreenLayout> {
   int _selectedPage = 0;
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: primaryColor,
-          automaticallyImplyLeading: false, // hides the back arrow
-          title: Image.asset('assets/images/logo-square.png',
-              height: 45.0, width: 45.0),
-          toolbarHeight: 64,
+      appBar: AppBar(
+        backgroundColor: primaryColor,
+        automaticallyImplyLeading: false, // hides the back arrow
+        toolbarHeight: 64,
+        title: Row(
+          children: const <Widget>[
+            Image(image: AssetImage("assets/images/logo.png"), height: 40)
+          ],
         ),
-        body: userScreens[_selectedPage],
-        bottomNavigationBar: BottomNavigationBar(
-            currentIndex: _selectedPage,
-            type: BottomNavigationBarType.fixed,
-            backgroundColor: primaryColor,
-            items: const [
-              // * The number of BottomNavigationBarItems must be equal to the number of Widgets in the screens list
-              BottomNavigationBarItem(
-                icon: Icon(Icons.home),
-                label: 'Home',
-              ),
-              BottomNavigationBarItem(icon: Icon(Icons.chat), label: 'Chat'),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.person), label: 'Account'),
-              // BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Settings')
-            ],
-            elevation: 5.0,
-            selectedFontSize: 16.0,
-            unselectedFontSize: 12.0,
-            selectedItemColor: selectedColor,
-            unselectedItemColor: unselectedColor,          
-            onTap: (index) {
-              setState(() {
-                _selectedPage = index;
-              });
-            },            
+      ),
+      body: userScreens[_selectedPage],
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedPage,
+        type: BottomNavigationBarType.fixed,
+        backgroundColor: primaryColor,
+        items: const [
+          // * The number of BottomNavigationBarItems must be equal to the number of Widgets in the screens list
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
           ),
-        );
+          BottomNavigationBarItem(icon: Icon(Icons.chat), label: 'Chat'),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Account'),
+          // BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Settings')
+        ],
+        elevation: 5.0,
+        selectedFontSize: 16.0,
+        unselectedFontSize: 12.0,
+        selectedItemColor: selectedColor,
+        unselectedItemColor: unselectedColor,
+        onTap: (index) {
+          setState(() {
+            _selectedPage = index;
+          });
+        },
+      ),
+    );
   }
 }

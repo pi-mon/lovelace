@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lovelace/utils/colors.dart';
 
 class TextFieldInput extends StatelessWidget {
+  final dynamic onTap;
   final TextEditingController textEditingController;
   final bool isPass;
   final String label;
@@ -10,12 +11,14 @@ class TextFieldInput extends StatelessWidget {
   final TextInputType textInputType;
   const TextFieldInput(
       {super.key,
+      this.onTap,
       required this.textEditingController,
       this.isPass = false,
       required this.label,
       required this.hintText,
       this.error = "",
-      required this.textInputType, required String? Function(dynamic value) validator});
+      required this.textInputType,
+      required String? Function(dynamic value) validator});
 
   @override
   Widget build(BuildContext context) {
@@ -24,11 +27,11 @@ class TextFieldInput extends StatelessWidget {
     );
     return Column(
       children: <Widget>[
-        Row(children: <Widget>[
+        Row(
+          children: <Widget>[
             Text(
               label,
-              // ignore: prefer_const_constructors
-              style: TextStyle(
+              style: const TextStyle(
                 color: primaryColor,
                 fontSize: 18,
               ),
@@ -37,8 +40,9 @@ class TextFieldInput extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         TextFormField(
+          onTap: onTap,
           controller: textEditingController,
-          decoration: InputDecoration(
+          decoration: InputDecoration(            
             hintText: hintText,
             border: inputBorder,
             focusedBorder: inputBorder,
@@ -48,15 +52,17 @@ class TextFieldInput extends StatelessWidget {
           ),
           keyboardType: textInputType,
           obscureText: isPass,
-          validator: (value) { // validate user input          
+          validator: (value) {
+            // validate user input
             if (value == null || value.isEmpty) {
               return "Invalid Input!"; // return error message
-            }             
-            return null; 
+            }
+            return null;
           },
         ),
         const SizedBox(height: 8),
-        Row(children: <Widget>[
+        Row(
+          children: <Widget>[
             Text(
               error,
               style: TextStyle(
