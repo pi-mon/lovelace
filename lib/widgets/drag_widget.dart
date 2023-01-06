@@ -100,10 +100,7 @@ class _DragWidgetState extends State<DragWidget> {
                               left: 20,
                               child: Transform.rotate(
                                 angle: 12,
-                                child: TagWidget(
-                                  text: 'LIKE',
-                                  color: Colors.green[400]!,
-                                ),
+                                
                               ),
                             )
                           : Positioned(
@@ -111,10 +108,7 @@ class _DragWidgetState extends State<DragWidget> {
                               right: 24,
                               child: Transform.rotate(
                                 angle: -12,
-                                child: TagWidget(
-                                  text: 'DISLIKE',
-                                  color: Colors.red[400]!,
-                                ),
+                            
                               ),
                             )
                       : const SizedBox.shrink(),
