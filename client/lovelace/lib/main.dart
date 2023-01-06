@@ -25,6 +25,7 @@ class MyAppSettings {
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final StorageMethods storageMethods = StorageMethods();
+  final sharedPreferences = await StreamingSharedPreferences.instance;
   final bool isLoggedIn = json.decode(await storageMethods.read('isLoggedIn'));
 
   // * Enable communication through HTTPS
@@ -142,3 +143,5 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         home: widget.isLoggedIn ? widget._userPages : const LandingScreen());
   }
 }
+
+enum Swipe { left, right, none }

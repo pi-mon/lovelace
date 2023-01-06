@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lovelace/widgets/display_card.dart';
+import 'package:lovelace/widgets/cards_stack_widget.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -20,11 +21,9 @@ class _HomeScreenState extends State<HomeScreen> {
               Container(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 32, vertical: 32),
-                child: const DisplayCard(
-                  name: 'John Doe',
-                  age: 21,
-                  location: 'London',
-                ),
+                child: const [
+                  CardsStackWidget(),
+                ],
               ),
             ],
           ),
