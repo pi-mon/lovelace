@@ -11,6 +11,16 @@ import 'package:lovelace/screens/main/landing_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:flutter/services.dart';
 import 'package:screen_capture_event/screen_capture_event.dart';
+import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
+
+class MyAppSettings {
+  MyAppSettings(StreamingSharedPreferences preferences)
+      : content = preferences.getCustomValue('content',
+            defaultValue: 0,
+            adapter: JsonAdapter(serializer: (value) => value));
+
+  final Preference<dynamic> content;
+}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

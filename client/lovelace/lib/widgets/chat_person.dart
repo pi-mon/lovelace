@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:lovelace/screens/chat/chat_room_v2.dart';
+import 'package:lovelace/screens/chat/chat_room_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 
 class ChatPerson extends StatelessWidget {
   final DateTime time;
-  final String name;
+  final String displayName;
   const ChatPerson({
     super.key,
     required this.time,
-    required this.name,
+    required this.displayName,
   });
 
   @override
@@ -23,8 +23,8 @@ class ChatPerson extends StatelessWidget {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => ChatRoomScreenV2(
-                          displayName: name,
+                    builder: (context) => ChatRoomScreen(
+                          receiverName: displayName,
                         )));
           },
           style: ElevatedButton.styleFrom(backgroundColor: whiteColor),
@@ -51,7 +51,8 @@ class ChatPerson extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Text(name, style: const TextStyle(color: blackColor)),
+                      Text(displayName,
+                          style: const TextStyle(color: blackColor)),
                       Text(timeString,
                           style: const TextStyle(color: blackColor))
                     ],

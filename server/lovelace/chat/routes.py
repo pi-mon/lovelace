@@ -18,7 +18,7 @@ chat = Blueprint("chat", __name__, template_folder="templates")
 # @token_required()
 def swipe():
     account = mongo_account_read.account
-    pipeline= [{ '$sample': { 'size': 5 } }]
+    pipeline = [{"$sample": {"size": 5}}]
     profiles = account.user.aggregate(pipeline=pipeline)
     profile_list = list(profiles)
     for profile in profile_list:
@@ -39,26 +39,26 @@ def get_chat():
 
 @socketio.on("join", namespace="/chat")
 def join(message):
-    room = message['room']
+    room = message["room"]
     username = message["email"]
-    # join room 
+    # join room
     join_room(room)
     # Emit message or notifier to other user of same room
-    emit("message", {"msg": {str(username) + "has entered the room."}}, room=room)
+    emit("message", {"response": f"{username}has entered the room."}, room=room)
 
 
 @socketio.on("text", namespace="/chat")
 def text(message):
-    room = message['room']
+    room = message["room"]
     username = message["email"]
-    msg = message['msg']
-    emit('message', {"msg": {str(username) + ' : ' + str(msg)}}, room=room)
+    msg = message["msg"]
+    emit("message", {"response": f"{username} : {msg}"}, room=room)
 
 
-@socketio.on("left", namespace="/chat")
-def left(message):
-    room = message['room']
+@socketio.on("leave", namespace="/chat")
+def leave(message):
+    room = message["room"]
     username = message["email"]
     # leaving the room
     leave_room(room=room)
-    emit("message", {"msg": {str(username) + "has left the room."}}, room=room)
+    emit("message", {"response": f"{username} has left the room."}, room=room)

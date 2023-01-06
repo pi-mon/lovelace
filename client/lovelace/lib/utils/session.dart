@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:lovelace/models/user_detail.dart';
 import 'package:lovelace/resources/storage_methods.dart';
 import 'package:lovelace/utils/global_variables.dart';
+import 'package:socket_io_client/socket_io_client.dart' as socket_io;
 
 class Session {
   final _storageMethods = StorageMethods();
@@ -31,7 +32,7 @@ class Session {
     headers[HttpHeaders.contentTypeHeader] = 'application/json; charset=UTF-8';
     if (cookie != null) {
       headers[HttpHeaders.cookieHeader] = cookie;
-    }    
+    }
     debugPrint('${data.runtimeType}');
     // if (data.runtimeType == UserDetails) { // JSON encode data before storing object
     //   // TODO: Store the user object in local storage
@@ -40,6 +41,22 @@ class Session {
         body: jsonEncode(data), headers: headers);
     updateCookie(response);
     return response.body;
+  }
+
+  Future<socket_io.Socket> getSocket(String route, dynamic data) async {
+    dynamic cookie = await _storageMethods.read("cookie");
+
+    socket_io.Socket socket = socket_io.io(
+        Uri.http(_baseUrl, route),
+        socket_io.OptionBuilder()
+            .setTransports(['websocket'])
+            .disableAutoConnect()
+            .setExtraHeaders({
+              HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
+              HttpHeaders.cookieHeader: cookie
+            })
+            .build());
+    return socket;
   }
 
   void updateCookie(http.Response response) async {

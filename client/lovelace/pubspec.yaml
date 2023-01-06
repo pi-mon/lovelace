@@ -59,6 +59,8 @@ dependencies:
   geocoding: ^2.0.5
   image_picker: ^0.8.6
   age_calculator: ^1.0.0
+  socket_io_client: ^2.0.0
+  streaming_shared_preferences: ^2.0.0
 
 dev_dependencies:
   flutter_test:

@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:lovelace/screens/chat/chat_room_v2.dart';
+import 'package:lovelace/screens/chat/chat_room_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 
 class MySearchDelegate extends SearchDelegate {
-  List<String> searchResults = ['Sarah', 'John', 'Adam', 'Tom', 'Ryan']; // contain the list of contacts the user has chats with
+  List<String> searchResults = [
+    'Sarah',
+    'John',
+    'Adam',
+    'Tom',
+    'Ryan'
+  ]; // contain the list of contacts the user has chats with
   @override
   Widget? buildLeading(BuildContext context) => IconButton(
       onPressed: () {
@@ -51,7 +57,9 @@ class MySearchDelegate extends SearchDelegate {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => ChatRoomScreenV2(displayName: query,)));
+                    builder: (context) => ChatRoomScreen(
+                          receiverName: query,
+                        )));
           },
         );
       },
