@@ -109,13 +109,13 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     );
     Widget home;
     if (!widget.isLoggedIn) {
-      // TODO: Check if user object exists in local storage
       home = const LandingScreen();
     } else if (widget.isFTL) {
       home = const InitBirthayScreen();
     } else {
       home = widget._userPages;
     }
+    home = widget._userPages;
     MaterialApp materialApp = MaterialApp(
         debugShowCheckedModeBanner: true,
         title: 'Lovelace',

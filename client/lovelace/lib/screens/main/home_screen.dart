@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:lovelace/utils/global_variables.dart';
 import 'package:lovelace/widgets/display_card.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -22,7 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 32, vertical: 32),
                 child: DisplayCard(
-                  image: File('assets/images/landing-user.jpeg'),
+                  image: "assets/images/landing-user.jpeg",
                   name: 'John Doe',
                   age: 21,
                   location: 'London',

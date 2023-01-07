@@ -20,6 +20,7 @@ class ChatPerson extends StatelessWidget {
       children: [
         ElevatedButton(
           onPressed: () {
+            print(displayName);
             Navigator.push(
                 context,
                 MaterialPageRoute(

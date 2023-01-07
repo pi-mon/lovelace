@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:lovelace/utils/colors.dart';
 
 class DisplayCard extends StatefulWidget {
-  final File image;
+  final dynamic image;
   final String name;
   final int age;
   final String location;
@@ -37,12 +37,19 @@ class _DisplayCardState extends State<DisplayCard> {
       children: <Widget>[
         ClipRRect(
             borderRadius: BorderRadius.circular(25),
-            child: Image.file(
-              widget.image,
-              height: cardWidth / 2 * 3,
-              width: cardWidth,
-              fit: BoxFit.cover,
-            )),
+            child: widget.image is File
+                ? Image.file(
+                    widget.image,
+                    height: cardWidth / 2 * 3,
+                    width: cardWidth,
+                    fit: BoxFit.cover,
+                  )
+                : Image.asset(
+                    widget.image,
+                    height: cardWidth / 2 * 3,
+                    width: cardWidth,
+                    fit: BoxFit.cover,
+                  )),
         Container(
           height: cardWidth / 2 * 3,
           width: cardWidth,

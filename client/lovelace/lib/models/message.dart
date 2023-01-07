@@ -3,28 +3,24 @@ class Message {
   final String sender;
   final String receiver;
   final String dateTime;
-  final bool isSentByMe;
 
   Message(
       {required this.text,
       required this.sender,
       required this.receiver,
-      required this.dateTime,
-      required this.isSentByMe});
+      required this.dateTime});
 
   Message.fromJson(Map<String, dynamic> json)
       : text = json['text'],
         sender = json['sender'],
         receiver = json['receiver'],
-        dateTime = json['dateTime'],
-        isSentByMe = json['isSentByMe'];
+        dateTime = json['dateTime'];
 
   Map<String, dynamic> toJson() => {
         'text': text,
         'sender': sender,
         'receiver': receiver,
         'dateTime': dateTime,
-        'isSentByMe': isSentByMe
       };
 
   // @override
