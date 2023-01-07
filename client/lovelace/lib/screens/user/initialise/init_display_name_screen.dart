@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:lovelace/screens/user/initialise/init_birthday_screen.dart';
-import 'package:lovelace/screens/user/initialise/init_location_screen.dart';
+import 'package:lovelace/screens/user/initialise/init_gender.dart';
 import 'package:lovelace/utils/colors.dart';
+import 'package:lovelace/widgets/date_field_input.dart';
+import 'package:lovelace/widgets/text_field_input.dart';
 
-class InitGenderScreen extends StatefulWidget {
-  final String displayName;
-  const InitGenderScreen({super.key, required this.displayName});
+class InitDisplayNameScreen extends StatefulWidget {
+  const InitDisplayNameScreen({super.key});
 
   @override
-  State<InitGenderScreen> createState() => _InitGenderScreenState();
+  State<InitDisplayNameScreen> createState() => _InitDisplayNameScreenState();
 }
 
-class _InitGenderScreenState extends State<InitGenderScreen> {
-  List<String> dropdownValues = ['Male', 'Female'];
-  String dropdownValue = 'Male';
+class _InitDisplayNameScreenState extends State<InitDisplayNameScreen> {
+  final TextEditingController _displayNameController = TextEditingController();
 
   @override
   void dispose() {
     super.dispose();
+    _displayNameController.dispose();
   }
 
   @override
@@ -35,14 +35,15 @@ class _InitGenderScreenState extends State<InitGenderScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         GestureDetector(
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                          child: const Icon(
-                            Icons.arrow_back_ios,
-                            color: primaryColor,
-                          ),
-                        ),
+                            onTap: () {
+                              // Navigator.pop(context);
+                            },
+                            child: Container()
+                            // const Icon(
+                            //   Icons.arrow_back_ios,
+                            //   color: primaryColor,
+                            // ),
+                            ),
                         const Expanded(
                             child: Padding(
                                 padding: EdgeInsets.only(right: 32.0),
@@ -56,7 +57,7 @@ class _InitGenderScreenState extends State<InitGenderScreen> {
                     ),
                     const SizedBox(height: 16),
                     const Text(
-                      'What is your gender?',
+                      'What is your name?',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           color: primaryColor,
@@ -67,32 +68,14 @@ class _InitGenderScreenState extends State<InitGenderScreen> {
                       flex: 1,
                       child: Container(),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Container(
-                        padding: const EdgeInsets.only(left: 16, right: 16),
-                        decoration: BoxDecoration(
-                            border: Border.all(color: primaryColor, width: 1),
-                            borderRadius: BorderRadius.circular(12)),
-                        child: DropdownButton<String>(
-                          hint: const Text("Select gender"),
-                          value: dropdownValue,
-                          icon: const Icon(Icons.arrow_drop_down),
-                          isExpanded: true,
-                          underline: const SizedBox(),
-                          items: dropdownValues.map((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
-                          }).toList(),
-                          onChanged: (String? newValue) {
-                            setState(() {
-                              dropdownValue = newValue!;
-                            });
-                          },
-                        ),
-                      ),
+                    TextFieldInput(
+                      label: "Display Name",
+                      hintText: "Enter your full name",
+                      textInputType: TextInputType.text,
+                      textEditingController: _displayNameController,
+                      validator: (value) {
+                        return null;
+                      },
                     ),
                     const SizedBox(height: 128),
                     Flexible(
@@ -102,14 +85,12 @@ class _InitGenderScreenState extends State<InitGenderScreen> {
                     const SizedBox(height: 32),
                     ElevatedButton(
                         onPressed: () async {
-                          String gender = dropdownValue;
-
-                          bool genderIsValid = gender.isNotEmpty;
-
-                          if (!genderIsValid) {
+                          String displayName = _displayNameController.text;
+                          bool displayNameIsValid = displayName.isNotEmpty;
+                          if (!displayNameIsValid) {
                             String message = "Invalid ";
-                            if (!genderIsValid) {
-                              message += "gender";
+                            if (!displayNameIsValid) {
+                              message += "display name";
                             }
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                               content: Text(message),
@@ -120,9 +101,8 @@ class _InitGenderScreenState extends State<InitGenderScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => InitBirthayScreen(
-                                      displayName: widget.displayName,
-                                      gender: gender,
+                                builder: (context) => InitGenderScreen(
+                                      displayName: _displayNameController.text,
                                     )),
                           );
                         },

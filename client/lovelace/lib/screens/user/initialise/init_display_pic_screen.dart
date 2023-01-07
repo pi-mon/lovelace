@@ -10,15 +10,17 @@ import 'package:age_calculator/age_calculator.dart';
 import 'package:lovelace/widgets/display_card.dart';
 
 class InitDisplayPicScreen extends StatefulWidget {
-  final String birthday;
+  final String displayName;
   final String gender;
+  final String birthday;
   final String location;
   final File profilePic;
 
   const InitDisplayPicScreen(
       {super.key,
-      required this.birthday,
+      required this.displayName,
       required this.gender,
+      required this.birthday,
       required this.location,
       required this.profilePic});
 
@@ -144,13 +146,14 @@ class _InitDisplayPicScreenState extends State<InitDisplayPicScreen> {
                             Uint8List displayPicData =
                                 await _image!.readAsBytes();
                             print('before update function');
-                            _accountMethods.update(
-                              birthday: widget.birthday,
-                              gender: widget.gender,
-                              location: widget.location,
-                              profilePic: profilePicData,
-                              displayPic: displayPicData,
-                            );
+
+                            // _accountMethods.update(
+                            //   birthday: widget.birthday,
+                            //   gender: widget.gender,
+                            //   location: widget.location,
+                            //   profilePic: profilePicData,
+                            //   displayPic: displayPicData,
+                            // );
 
                             Navigator.push(
                                 context,

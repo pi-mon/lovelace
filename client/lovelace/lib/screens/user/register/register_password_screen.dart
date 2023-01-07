@@ -5,21 +5,16 @@ import 'package:lovelace/widgets/text_field_input.dart';
 import 'package:lovelace/resources/authenticate_methods.dart';
 
 class RegisterPasswordScreen extends StatefulWidget {
-  final String displayName;
   final String email;
-  const RegisterPasswordScreen(
-      {super.key, required this.displayName, required this.email});
+  const RegisterPasswordScreen({super.key, required this.email});
 
   @override
-  State<RegisterPasswordScreen> createState() =>
-      _RegisterPasswordScreenState(displayName, email);
+  State<RegisterPasswordScreen> createState() => _RegisterPasswordScreenState();
 }
 
 class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
-  _RegisterPasswordScreenState(this.displayName, this.email);
+  _RegisterPasswordScreenState();
   bool _isLoading = false;
-  final String displayName;
-  final String email;
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _password2Controller = TextEditingController();
 
@@ -149,9 +144,7 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
 
                           List<dynamic> response = await AuthenticateMethods()
                               .register(
-                                  email: email,
-                                  password: password,
-                                  displayName: displayName);
+                                  email: widget.email, password: password);
 
                           setState(() {
                             _isLoading = false;
@@ -168,15 +161,14 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
                           ));
 
                           if (isSuccess) {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => RegisterVerifyScreen(
-                                          displayName: displayName,
-                                          email: email,
-                                          password: password,
-                                        )),
-                              );
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => RegisterVerifyScreen(
+                                        email: widget.email,
+                                        password: password,
+                                      )),
+                            );
                           } else if (message != "Please enter all the fields") {
                             Navigator.pop(context);
                           }

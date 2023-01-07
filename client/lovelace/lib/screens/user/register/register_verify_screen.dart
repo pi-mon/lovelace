@@ -5,27 +5,18 @@ import 'package:lovelace/utils/colors.dart';
 import 'package:lovelace/widgets/text_field_input.dart';
 
 class RegisterVerifyScreen extends StatefulWidget {
-  final String displayName;
   final String email;
   final String password;
   const RegisterVerifyScreen(
-      {super.key,
-      required this.displayName,
-      required this.email,
-      required this.password});
+      {super.key, required this.email, required this.password});
 
   @override
-  State<RegisterVerifyScreen> createState() =>
-      _RegisterVerifyScreenState(displayName, email, password);
+  State<RegisterVerifyScreen> createState() => _RegisterVerifyScreenState();
 }
 
 class _RegisterVerifyScreenState extends State<RegisterVerifyScreen> {
-  _RegisterVerifyScreenState(this.displayName, this.email, this.password);
+  _RegisterVerifyScreenState();
   bool _isLoading = false;
-
-  final String displayName;
-  final String email;
-  final String password;
 
   final TextEditingController _otpController = TextEditingController();
 
@@ -132,9 +123,8 @@ class _RegisterVerifyScreenState extends State<RegisterVerifyScreen> {
                           List<dynamic> response = await AuthenticateMethods()
                               .verify(
                                   method: "create",
-                                  email: email,
-                                  password: password,
-                                  displayName: displayName,
+                                  email: widget.email,
+                                  password: widget.password,
                                   otp: int.parse(otp));
 
                           setState(() {
@@ -152,11 +142,11 @@ class _RegisterVerifyScreenState extends State<RegisterVerifyScreen> {
                           ));
 
                           if (isSuccess) {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const LoginScreen()),
-                              );
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const LoginScreen()),
+                            );
                           }
 
                           showDialog(

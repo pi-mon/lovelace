@@ -3,6 +3,7 @@ import 'package:lovelace/models/message.dart';
 
 class UserDetails {
   final String email;
+  final String displayName;
   final String birthday;
   final String gender;
   final String location;
@@ -12,6 +13,7 @@ class UserDetails {
 
   UserDetails(
       {required this.email,
+      required this.displayName,
       required this.birthday,
       required this.gender,
       required this.location,
@@ -21,6 +23,7 @@ class UserDetails {
 
   UserDetails.fromJson(Map<String, dynamic> json)
       : email = json['email'],
+        displayName = json['displayName'],
         birthday = json['birthday'],
         gender = json['gender'],
         location = json['location'],
@@ -30,6 +33,7 @@ class UserDetails {
 
   Map<String, dynamic> toJson() => {
         'email': email,
+        'displayName': displayName,
         'birthday': birthday,
         'gender': gender,
         'location': location,
@@ -40,5 +44,5 @@ class UserDetails {
 
   @override
   String toString() =>
-      'UserDetails{email: $email, birthday: $birthday, location: $location, gender: $gender, displayPic: $displayPic, messages: $messages}';
+      'UserDetails{email: $email, displayName: $displayName, birthday: $birthday, location: $location, gender: $gender, displayPic: $displayPic, messages: $messages}';
 }

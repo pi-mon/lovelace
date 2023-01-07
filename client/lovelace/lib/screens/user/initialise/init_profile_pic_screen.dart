@@ -6,14 +6,16 @@ import 'package:lovelace/screens/user/initialise/init_display_pic_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 
 class InitProfilePicScreen extends StatefulWidget {
-  final String birthday;
+  final String displayName;
   final String gender;
+  final String birthday;
   final String location;
 
   const InitProfilePicScreen(
       {super.key,
-      required this.birthday,
+      required this.displayName,
       required this.gender,
+      required this.birthday,
       required this.location});
 
   @override
@@ -135,8 +137,9 @@ class _InitProfilePicScreenState extends State<InitProfilePicScreen> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => InitDisplayPicScreen(
-                                      birthday: widget.birthday,
+                                      displayName: widget.displayName,
                                       gender: widget.gender,
+                                      birthday: widget.birthday,
                                       location: widget.location,
                                       profilePic: _image!,
                                     )),

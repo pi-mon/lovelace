@@ -35,9 +35,7 @@ def create_account():
         ph = PasswordHasher()
         account_collection = mongo_account_read.account
         temp_collection = mongo_temp_write.account
-        # new_username = request.form.get("username")
         account_json = request.get_json()
-        new_display_name = account_json["displayName"]
         new_email = account_json["email"]
         new_password = account_json["password"]
     except KeyError:
@@ -63,7 +61,6 @@ def create_account():
                 return jsonify({"creation": False, "response": "Email already exist"})
             new_password_hash = ph.hash(new_password)
             new_user = account.User(
-                display_name=new_display_name,
                 email=new_email,
                 password=new_password_hash,
             )

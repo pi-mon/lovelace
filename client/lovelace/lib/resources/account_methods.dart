@@ -38,51 +38,52 @@ class AccountMethods {
     return [output, message, isSuccess];
   }
 
-  Future<List> update({
-    required String birthday,
-    required String gender,
-    required String location,
-    required Uint8List profilePic,
-    required Uint8List displayPic,
-  }) async {
-    String output;
-    String message = "An error occurred";
-    bool isSuccess = false;
+  // Future<List> update({
+  //   required String birthday,
+  //   required String gender,
+  //   required String location,
+  //   required Uint8List profilePic,
+  //   required Uint8List displayPic,
+  // }) async {
+  //   String output;
+  //   String message = "An error occurred";
+  //   bool isSuccess = false;
 
-    try {
-      // DateFormat dateFormat = DateFormat('MMMM yyyy');
-      UserDetails userDetails = UserDetails(
-          email: await storageMethods.read("email"),
-          birthday: birthday,
-          gender: gender,
-          location: location,
-          displayPic: displayPic,
-          cardPic: displayPic,
-          messages: []);
-      print("ERROR HERE!!");
-      output = await session.post(
-          '/account/profile/update',
-          userDetails
-              .toString()); // will get conversion error if not in String format
-      print("AFTER THE ERROR");
-      try {
-        dynamic outputJson = jsonDecode(output);
+  //   try {
+  //     // DateFormat dateFormat = DateFormat('MMMM yyyy');
+  //     UserDetails userDetails = UserDetails(
+  //         email: await storageMethods.read("email"),
+  //         displayName: displayName,
+  //         gender: gender,
+  //         birthday: birthday,
+  //         location: location,
+  //         displayPic: displayPic,
+  //         cardPic: displayPic,
+  //         messages: []);
+  //     print("ERROR HERE!!");
+  //     output = await session.post(
+  //         '/account/profile/update',
+  //         userDetails
+  //             .toString()); // will get conversion error if not in String format
+  //     print("AFTER THE ERROR");
+  //     try {
+  //       dynamic outputJson = jsonDecode(output);
 
-        if (outputJson['response'] != "User details has not been created yet") {
-          isSuccess = true;
-          message = "Read successful";
-          print(output);
-        } else {
-          message = outputJson['response'];
-        }
-      } catch (e) {
-        message = "An error occurred";
-      }
-    } catch (e) {
-      output = e.toString();
-    }
-    print(output);
+  //       if (outputJson['response'] != "User details has not been created yet") {
+  //         isSuccess = true;
+  //         message = "Read successful";
+  //         print(output);
+  //       } else {
+  //         message = outputJson['response'];
+  //       }
+  //     } catch (e) {
+  //       message = "An error occurred";
+  //     }
+  //   } catch (e) {
+  //     output = e.toString();
+  //   }
+  //   print(output);
 
-    return [output, message, isSuccess];
-  }
+  //   return [output, message, isSuccess];
+  // }
 }

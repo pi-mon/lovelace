@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:lovelace/screens/user/initialise/init_gender.dart';
+import 'package:lovelace/screens/user/initialise/init_location_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:lovelace/widgets/date_field_input.dart';
 
 class InitBirthayScreen extends StatefulWidget {
-  const InitBirthayScreen({super.key});
+  final String displayName;
+  final String gender;
+
+  const InitBirthayScreen(
+      {super.key, required this.displayName, required this.gender});
 
   @override
   State<InitBirthayScreen> createState() => _InitBirthayScreenState();
@@ -102,7 +106,9 @@ class _InitBirthayScreenState extends State<InitBirthayScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => InitGenderScreen(
+                                builder: (context) => InitLocationScreen(
+                                      displayName: widget.displayName,
+                                      gender: widget.gender,
                                       birthday: _birthdayController.text,
                                     )),
                           );

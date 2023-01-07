@@ -12,28 +12,13 @@ class RegisterDetailsScreen extends StatefulWidget {
 }
 
 class _RegisterDetailsScreenState extends State<RegisterDetailsScreen> {
-  final TextEditingController _displayNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
 
   @override
   void dispose() {
     super.dispose();
-    _displayNameController.dispose();
     _emailController.dispose();
   }
-
-  // void iniState() {
-  //   super.initState();
-  //   init();
-  // }
-
-  // Future init() async {
-  //   final email = await SecureStorage().getEmail() ?? '';
-
-  //   setState(() {
-  //     this._emailController.text = email;
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -83,16 +68,6 @@ class _RegisterDetailsScreenState extends State<RegisterDetailsScreen> {
                       child: Container(),
                     ),
                     TextFieldInput(
-                      label: "Display Name",
-                      hintText: "Enter your name",
-                      textInputType: TextInputType.name,
-                      textEditingController: _displayNameController,
-                      validator: (value) {
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: 16),
-                    TextFieldInput(
                       label: "Email",
                       hintText: "Enter your email",
                       textInputType: TextInputType.emailAddress,
@@ -109,22 +84,12 @@ class _RegisterDetailsScreenState extends State<RegisterDetailsScreen> {
                     const SizedBox(height: 32),
                     ElevatedButton(
                         onPressed: () async {
-                          String displayName = _displayNameController.text;
                           String email = _emailController.text;
-
-                          bool displayNameIsValid = displayName.isNotEmpty;
                           bool emailIsValid = EmailValidator.validate(email);
-
-                          if (!emailIsValid || !displayNameIsValid) {
+                          if (!emailIsValid) {
                             String message = "Invalid ";
                             if (!emailIsValid) {
                               message += "email address";
-                            }
-                            if (!emailIsValid && !displayNameIsValid) {
-                              message += " and ";
-                            }
-                            if (!displayNameIsValid) {
-                              message += "display name";
                             }
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                               content: Text(message),
@@ -137,7 +102,6 @@ class _RegisterDetailsScreenState extends State<RegisterDetailsScreen> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => RegisterPasswordScreen(
-                                      displayName: _displayNameController.text,
                                       email: _emailController.text,
                                     )),
                           );

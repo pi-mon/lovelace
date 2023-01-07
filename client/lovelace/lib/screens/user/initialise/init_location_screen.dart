@@ -45,11 +45,15 @@ Future<String> _getLocation() async {
 }
 
 class InitLocationScreen extends StatefulWidget {
-  final String birthday;
+  final String displayName;
   final String gender;
+  final String birthday;
 
   const InitLocationScreen(
-      {super.key, required this.birthday, required this.gender});
+      {super.key,
+      required this.displayName,
+      required this.gender,
+      required this.birthday});
 
   @override
   State<InitLocationScreen> createState() => _InitLocationScreenState();
@@ -153,8 +157,9 @@ class _InitLocationScreenState extends State<InitLocationScreen> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => InitProfilePicScreen(
-                                      birthday: widget.birthday,
+                                      displayName: widget.displayName,
                                       gender: widget.gender,
+                                      birthday: widget.birthday,
                                       location: _locationController.text,
                                     )),
                           );
