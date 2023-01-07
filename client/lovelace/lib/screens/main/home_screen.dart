@@ -1,8 +1,5 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:lovelace/resources/account_methods.dart';
-import 'package:lovelace/screens/user/initialise/init_birthday_screen.dart';
 import 'package:lovelace/widgets/display_card.dart';
 
 class HomeScreen extends StatefulWidget {

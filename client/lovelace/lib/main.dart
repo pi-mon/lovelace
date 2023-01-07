@@ -39,16 +39,6 @@ void main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]).then((value) => runApp(MyApp(isLoggedIn: isLoggedIn, isFTL: isFTL)));
-
-// AppLock(
-//       builder: (arg) => MyApp(
-//             data: arg,
-//             key: const Key('MyApp'),
-//             isLoggedIn: isLoggedIn,
-//           ),
-//       lockScreen: const LockScreen(key: Key('LockScreen')),
-//       backgroundLockLatency: const Duration(seconds: 3),
-//       enabled: false)
 }
 
 class MyApp extends StatefulWidget {
@@ -77,7 +67,6 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     screenCaptureEvent.preventAndroidScreenShot(true);
     WidgetsBinding.instance.addObserver(this);
     // FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
-    // isRooted();
     screenShotRecord();
     super.initState();
     WidgetsBinding.instance.addObserver(this);
@@ -98,35 +87,16 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
     if (state == AppLifecycleState.inactive) {
       debugPrint('App in background - $state');
-      // AppLock.of(context)!.showLockScreen();
     } else {
       debugPrint('App in foreground - $state');
     }
   }
-
-  // Future<void> isRooted() async {
-  //   try {
-  //     bool isJailBroken = Platform.isAndroid
-  //         ? await FlutterRootJailbreak.isRooted
-  //         : await FlutterRootJailbreak.isJailBroken;
-  //     _isJailbroken = isJailBroken;
-  //   } catch (e) {
-  //     debugPrint('======ERROR: isRooted======');
-  //   }
-
-  //   setState(() {});
-  // }
 
   Future<void> screenShotRecord() async {
     bool isSecureMode = false;
     setState(() {
       isSecureMode = !isSecureMode;
     });
-    // if (isSecureMode) {
-    //   FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
-    // } else {
-    //   FlutterWindowManager.clearFlags(FlutterWindowManager.FLAG_SECURE);
-    // }
     print('secure mode: $isSecureMode');
   }
 
@@ -139,6 +109,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     );
     Widget home;
     if (!widget.isLoggedIn) {
+      // TODO: Check if user object exists in local storage
       home = const LandingScreen();
     } else if (widget.isFTL) {
       home = const InitBirthayScreen();
