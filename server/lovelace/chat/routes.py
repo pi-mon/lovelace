@@ -57,7 +57,7 @@ def sent(message):
     msg = message["message"]
     response = f"{username} : {msg}"
     print(response)
-    emit("message", {"response": response, "message": message}, room=room)
+    emit("sent", {"response": response, "message": message}, room=room)
 
 
 @socketio.on("leave", namespace="/chat")

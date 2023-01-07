@@ -39,7 +39,6 @@ void connectAndListen(String keyName, String senderName) async {
   //When an event recieved from server, data is added to the stream
   socket.on('sent', (data) {
     print(data);
-    // streamSocket.addResponse;
   });
 
   socket.onDisconnect((_) {

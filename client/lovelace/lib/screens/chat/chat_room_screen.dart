@@ -167,8 +167,8 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
     }
   }
 
-  Future<String> getLatestMessage() async {
-    String latestMessage = await ChatStreamSocket().getResponse.last;
-    return latestMessage;
-  }
+  // Future<String> getLatestMessage() async {
+  //   String latestMessage = await ChatStreamSocket().getResponse.last;
+  //   return latestMessage;
+  // }
 }
