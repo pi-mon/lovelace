@@ -303,23 +303,26 @@ def login_verify(user):
         return jsonify({"login": False, "response": "Invalid or expired otp"})
 
 
-@account_page.route("/account/profile/update")
+@account_page.route("/account/profile/update", methods=["POST"])
 @token_required()  # user is email registered
-def update_profile(user):
+def update_profile(user_email):
     try:
         profile_information = request.get_json()
         user_detail_collection = mongo_account_details_write.account_details
         new_account_details = account.UserDetails(
-            user,
-            profile_information["display_name"],
-            profile_information["age"],
-            profile_information["gender"],
-            profile_information["location"],
+            email=user_email,
+            display_name=profile_information["displayName"],
+            birthday=profile_information["birthday"],
+            gender=profile_information["gender"],
+            location=profile_information["location"],
         )
-    except:
-        return jsonify({"create": False, "response": "Invalid user input"})
+    except Exception as e:
+        print(e)
+        return jsonify({"update": False, "response": "Invalid user input"})
     if (
-        user_detail_collection.account_details.find_one({"email": user}, {"email": 1})
+        user_detail_collection.account_details.find_one(
+            {"email": user_email}, {"email": 1}
+        )
         == None
     ):  # check if need to update profilwwwwwe or create new profile
         #         output = jsonify({"login": True, "response": "User login successful"})
@@ -346,21 +349,21 @@ def update_profile(user):
         #     ):  # check if need to update profile or create new profile
         user_detail_collection.account_details.insert_one(new_account_details.__dict__)
         return jsonify(
-            {"create": True, "response": "User account details has been created"}
+            {"update": True, "response": "User account details has been created"}
         )
     else:
         new_values = {
             "$set": {
-                "username": profile_information["display_name"],
+                "username": profile_information["displayName"],
                 "gender": profile_information["gender"],
                 "age": profile_information["age"],
                 "location": profile_information["location"],
             }
         }
         user_detail_collection.account_details.update_one(
-            {"email": user}, update=new_values
+            {"update": user_email}, update=new_values
         )
-        return jsonify({"create": True, "response": "User details has been updated"})
+        return jsonify({"update": True, "response": "User details has been updated"})
 
         # user_detail_collection.account_details.update_one({})
         # return jsonify(
@@ -370,9 +373,11 @@ def update_profile(user):
 
 @account_page.route("/account/profile")
 @token_required()
-def profile(user):
+def profile(user_email):
     user_detail_collection = mongo_account_details_write.account_details
-    account_details = user_detail_collection.account_details.find_one({"email": user})
+    account_details = user_detail_collection.account_details.find_one(
+        {"email": user_email}
+    )
     if account_details == None:
         return jsonify(
             {"read": False, "response": "User details has not been created yet"}

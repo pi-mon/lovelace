@@ -1,9 +1,10 @@
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:lovelace/models/user_detail.dart';
 import 'package:lovelace/resources/account_methods.dart';
+import 'package:lovelace/resources/storage_methods.dart';
 import 'package:lovelace/screens/user/initialise/init_complete_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:age_calculator/age_calculator.dart';
@@ -128,7 +129,6 @@ class _InitDisplayPicScreenState extends State<InitDisplayPicScreen> {
                       child: ElevatedButton(
                           onPressed: () async {
                             bool imageIsValid = _image != null;
-
                             if (!imageIsValid) {
                               String message = "Empty ";
                               if (!imageIsValid) {
@@ -141,25 +141,29 @@ class _InitDisplayPicScreenState extends State<InitDisplayPicScreen> {
                               ));
                               return;
                             }
-                            Uint8List profilePicData =
-                                await widget.profilePic.readAsBytes();
-                            Uint8List displayPicData =
-                                await _image!.readAsBytes();
-                            print('before update function');
-
-                            // _accountMethods.update(
-                            //   birthday: widget.birthday,
-                            //   gender: widget.gender,
-                            //   location: widget.location,
-                            //   profilePic: profilePicData,
-                            //   displayPic: displayPicData,
-                            // );
-
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        InitCompleteScreen()));
+                            // Uint8List profilePicData =
+                            //     await widget.profilePic.readAsBytes();
+                            // Uint8List displayPicData =
+                            //     await _image!.readAsBytes();
+                            // print('before update function');
+                            UserDetails userDetails = UserDetails(
+                                email: await StorageMethods().read("email"),
+                                displayName: widget.displayName,
+                                birthday: widget.birthday,
+                                gender: widget.gender,
+                                location: widget.location,
+                                profilePicPath: widget.profilePic.path,
+                                displayPicPath: _image!.path);
+                            List response = await _accountMethods.update(
+                                userDetails: userDetails);
+                            bool isSuccess = response[2];
+                            if (isSuccess) {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          InitCompleteScreen()));
+                            }
                           },
                           style: ElevatedButton.styleFrom(
                             minimumSize: const Size(150, 50),

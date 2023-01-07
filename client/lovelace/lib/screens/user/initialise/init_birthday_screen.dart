@@ -38,15 +38,14 @@ class _InitBirthayScreenState extends State<InitBirthayScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         GestureDetector(
-                            onTap: () {
-                              // Navigator.pop(context);
-                            },
-                            child: Container()
-                            // const Icon(
-                            //   Icons.arrow_back_ios,
-                            //   color: primaryColor,
-                            // ),
-                            ),
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Icon(
+                            Icons.arrow_back_ios,
+                            color: primaryColor,
+                          ),
+                        ),
                         const Expanded(
                             child: Padding(
                                 padding: EdgeInsets.only(right: 32.0),
