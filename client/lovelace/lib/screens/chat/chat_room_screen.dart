@@ -152,23 +152,16 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
       oldContent.add(chatMessageMap);
       String newContent = json.encode(oldContent);
       content!.setValue(newContent);
+      print("new message sent");
 
       chatMessageMap.addAll({
         "room": keyName,
       });
 
       sendingMessage(chatMessageMap);
-      // socket.emit("sent", chatMessageMap);
-
-      // DatabaseService().sendMessage(widget.groupId, chatMessageMap);
       setState(() {
         messageController.clear();
       });
     }
   }
-
-  // Future<String> getLatestMessage() async {
-  //   String latestMessage = await ChatStreamSocket().getResponse.last;
-  //   return latestMessage;
-  // }
 }
