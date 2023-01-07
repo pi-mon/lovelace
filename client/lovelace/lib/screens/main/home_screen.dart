@@ -4,7 +4,7 @@ import 'package:lovelace/widgets/display_card.dart';
 import 'package:lovelace/widgets/cards_stack_widget.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -22,9 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Container(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 32, vertical: 32),
-                child: const [
-                  CardsStackWidget(),
-                ],
+                child: const CardsStackWidget(),
               ),
             ],
           ),
