@@ -113,7 +113,7 @@ class _InitDisplayPicScreenState extends State<InitDisplayPicScreen> {
                         },
                         child: DisplayCard(
                             image: _image!,
-                            name: "Your name",
+                            name: widget.displayName,
                             age: age,
                             location: widget.location),
                       ),
