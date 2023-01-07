@@ -116,17 +116,17 @@ class _LoginVerifyScreenState extends State<LoginVerifyScreen> {
 
                         bool otpIsValid = otp.isNotEmpty && otp.length == 6;
 
-                          if (!otpIsValid) {
-                            String message = "Invalid OTP";
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Text(message),
-                              backgroundColor: errorColor,
-                            ));
-                            setState(() {
-                              _isLoading = false;
-                            });
-                            return;
-                          }
+                        if (!otpIsValid) {
+                          String message = "Invalid OTP";
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text(message),
+                            backgroundColor: errorColor,
+                          ));
+                          setState(() {
+                            _isLoading = false;
+                          });
+                          return;
+                        }
                         List<dynamic> response = await AuthenticateMethods()
                             .verify(
                                 method: "login",

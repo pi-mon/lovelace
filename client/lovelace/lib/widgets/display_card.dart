@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:lovelace/utils/colors.dart';
 
 class DisplayCard extends StatefulWidget {
+  final File image;
   final String name;
   final int age;
   final String location;
@@ -9,22 +12,18 @@ class DisplayCard extends StatefulWidget {
 
   const DisplayCard(
       {super.key,
+      required this.image,
       required this.name,
       required this.age,
       required this.location,
       this.extraWidth = 0});
 
   @override
-  State<DisplayCard> createState() =>
-      _DisplayCardState(name, age, location, extraWidth);
+  State<DisplayCard> createState() => _DisplayCardState();
 }
 
 class _DisplayCardState extends State<DisplayCard> {
-  _DisplayCardState(this.name, this.age, this.location, this.extraWidth);
-  final String name;
-  final int age;
-  final String location;
-  final double extraWidth;
+  _DisplayCardState();
 
   @override
   Widget build(BuildContext context) {
@@ -37,14 +36,13 @@ class _DisplayCardState extends State<DisplayCard> {
       alignment: Alignment.bottomCenter,
       children: <Widget>[
         ClipRRect(
-          borderRadius: BorderRadius.circular(25),
-          child: Image.asset(
-            'assets/images/landing_user.jpeg',
-            height: cardWidth / 2 * 3,
-            width: cardWidth,
-            fit: BoxFit.cover,
-          ),
-        ),
+            borderRadius: BorderRadius.circular(25),
+            child: Image.file(
+              widget.image,
+              height: cardWidth / 2 * 3,
+              width: cardWidth,
+              fit: BoxFit.cover,
+            )),
         Container(
           height: cardWidth / 2 * 3,
           width: cardWidth,
@@ -70,7 +68,7 @@ class _DisplayCardState extends State<DisplayCard> {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    name,
+                    widget.name,
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.left,
                     style: TextStyle(
@@ -83,7 +81,7 @@ class _DisplayCardState extends State<DisplayCard> {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "$age • $location",
+                    "${widget.age} • ${widget.location}",
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.left,
                     style: TextStyle(

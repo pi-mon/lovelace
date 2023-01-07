@@ -7,22 +7,21 @@ import 'package:lovelace/utils/colors.dart';
 
 class InitProfilePicScreen extends StatefulWidget {
   final String birthday;
-  final String location;
   final String gender;
+  final String location;
 
   const InitProfilePicScreen(
-      {super.key, required this.birthday, required this.location, required this.gender});
+      {super.key,
+      required this.birthday,
+      required this.gender,
+      required this.location});
 
   @override
-  State<InitProfilePicScreen> createState() =>
-      _InitProfilePicScreenState(birthday, location, gender);
+  State<InitProfilePicScreen> createState() => _InitProfilePicScreenState();
 }
 
 class _InitProfilePicScreenState extends State<InitProfilePicScreen> {
-  _InitProfilePicScreenState(this.birthday, this.location, this.gender);
-  final String birthday;
-  final String location;
-  final String gender;
+  _InitProfilePicScreenState();
   final ImagePicker _picker = ImagePicker();
   File? _image;
   bool _isDefault = true;
@@ -131,15 +130,15 @@ class _InitProfilePicScreenState extends State<InitProfilePicScreen> {
                             ));
                             return;
                           }
-
+                          print(_image);
                           Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => InitDisplayPicScreen(
-                                      birthday: birthday,
-                                      location: location,
-                                      gender: gender,
-                                      profilePic: _image,
+                                      birthday: widget.birthday,
+                                      gender: widget.gender,
+                                      location: widget.location,
+                                      profilePic: _image!,
                                     )),
                           );
                         },

@@ -41,7 +41,10 @@ def token_required(need_authenticated=True, database=mongo_account_read.account.
                 if current_user == None:
                     return jsonify({"message": "Invalid user in token"}), 500
                 if need_authenticated == True and data["authenticated"] == False:
-                    return jsonify({"message": "user is not authenticated"}), 500
+                    return (
+                        jsonify({"message": "user is not authenticated with token"}),
+                        500,
+                    )
                 current_user = current_user["email"]
             except jwt.ExpiredSignatureError:
                 return jsonify({"message": "Token has expired !!"}), 401

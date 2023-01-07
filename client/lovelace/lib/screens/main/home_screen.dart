@@ -1,4 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:lovelace/resources/account_methods.dart';
+import 'package:lovelace/screens/user/initialise/init_birthday_screen.dart';
 import 'package:lovelace/widgets/display_card.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -20,7 +24,8 @@ class _HomeScreenState extends State<HomeScreen> {
               Container(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 32, vertical: 32),
-                child: const DisplayCard(
+                child: DisplayCard(
+                  image: File('assets/images/landing-user.jpeg'),
                   name: 'John Doe',
                   age: 21,
                   location: 'London',

@@ -1,12 +1,7 @@
 import 'dart:convert';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:lovelace/resources/storage_methods.dart';
-import 'package:lovelace/utils/global_variables.dart';
 import 'package:lovelace/widgets/chat_stream_socket.dart';
 import 'package:lovelace/widgets/message_tile.dart';
-import 'package:socket_io_client/socket_io_client.dart' as socket_io;
 import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
 
 class ChatRoomScreen extends StatefulWidget {
@@ -50,9 +45,36 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
       appBar: AppBar(
         centerTitle: true,
         elevation: 0,
+        toolbarHeight: 64,
         title: Text(receiverName),
         backgroundColor: Theme.of(context).primaryColor,
-        actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.info))],
+        actions: [
+          IconButton(
+              onPressed: () {
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: const Text("Clear chat history"),
+                        content: const Text("Are you sure?"),
+                        actions: [
+                          TextButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: const Text("Cancel")),
+                          TextButton(
+                              onPressed: () {
+                                content!.setValue("[]");
+                                Navigator.pop(context);
+                              },
+                              child: const Text("Confirm")),
+                        ],
+                      );
+                    });
+              },
+              icon: const Icon(Icons.info))
+        ],
       ),
       body: Stack(
         children: <Widget>[
