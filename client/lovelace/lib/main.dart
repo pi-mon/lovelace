@@ -25,7 +25,9 @@ class MyAppSettings {
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final StorageMethods storageMethods = StorageMethods();
-  final bool isLoggedIn = json.decode(await storageMethods.read('isLoggedIn'));
+  final bool isLoggedIn =
+      json.decode(await storageMethods.read('isLoggedIn') ?? 'false');
+  final bool isFTL = json.decode(await storageMethods.read('isFTL') ?? 'false');
 
   // * Enable communication through HTTPS
   ByteData data = await PlatformAssetBundle().load('assets/ca/cert.pem');
@@ -107,13 +109,13 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     );
     Widget home;
     if (!widget.isLoggedIn) {
+      // TODO: Check if user object exists in local storage
       home = const LandingScreen();
     } else if (widget.isFTL) {
       home = const InitBirthayScreen();
     } else {
       home = widget._userPages;
     }
-    home = widget._userPages;
     MaterialApp materialApp = MaterialApp(
         debugShowCheckedModeBanner: true,
         title: 'Lovelace',
