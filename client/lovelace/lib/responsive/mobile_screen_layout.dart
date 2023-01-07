@@ -21,7 +21,7 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
         toolbarHeight: 64,
         title: Row(
           children: const <Widget>[
-            Image(image: AssetImage("assets/images/logo.png"), height: 40)
+            Image(image: AssetImage("assets/images/logo-text.png"), height: 40)
           ],
         ),
       ),

@@ -299,10 +299,14 @@ def login_verify(user):
             request.remote_addr,
             user,
         )
+        output = jsonify({"login": True, "response": "Login verify successful"})
+        output.set_cookie("token", token)
+        return output
+    else:
         return jsonify({"login": False, "response": "Invalid or expired otp"})
 
 
-@account_page.route("/account/update_profile")
+@account_page.route("/account/profile/update")
 @token_required()  # user is email registered
 def update_profile(user):
     try:
@@ -373,10 +377,12 @@ def profile(user):
     user_detail_collection = mongo_account_details_write.account_details
     account_details = user_detail_collection.account_details.find_one({"email": user})
     if account_details == None:
-        return jsonify({"response": "User details has not been created yet"})
+        return jsonify(
+            {"read": False, "response": "User details has not been created yet"}
+        )
     else:
         account_details["_id"] = str(account_details["_id"])
-        return jsonify(account_details)
+        return jsonify({"read": True, "response": account_details})
 
 
 # @account_page.route("/account/email")

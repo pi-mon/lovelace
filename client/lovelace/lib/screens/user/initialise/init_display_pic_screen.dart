@@ -11,30 +11,31 @@ import 'package:lovelace/widgets/display_card.dart';
 
 class InitDisplayPicScreen extends StatefulWidget {
   final String birthday;
-  final String location;
-  final File? profilePic;
   final String gender;
+  final String location;
+  final File profilePic;
 
   const InitDisplayPicScreen(
       {super.key,
       required this.birthday,
+      required this.gender,
       required this.location,
-      required this.profilePic, required this.gender});
+      required this.profilePic});
 
   @override
   State<InitDisplayPicScreen> createState() =>
-      _InitDisplayPicScreenState(birthday, location, profilePic, gender);
+      _InitDisplayPicScreenState(profilePic);
 }
 
 class _InitDisplayPicScreenState extends State<InitDisplayPicScreen> {
-  _InitDisplayPicScreenState(this.birthday, this.location, this.profilePic, this.gender);
-  final String birthday;
-  final String location;
-  final File? profilePic;
-  final String gender;
+  final File profilePic;
   final ImagePicker _picker = ImagePicker();
   File? _image;
   final AccountMethods _accountMethods = AccountMethods();
+
+  _InitDisplayPicScreenState(this.profilePic) {
+    _image = profilePic;
+  }
 
   @override
   void dispose() {
@@ -43,11 +44,10 @@ class _InitDisplayPicScreenState extends State<InitDisplayPicScreen> {
 
   @override
   Widget build(BuildContext context) {
-    DateTime birthDate = DateTime.parse(birthday);
+    DateTime birthDate = DateTime.parse(widget.birthday);
     int age = AgeCalculator.dateDifference(
             fromDate: birthDate, toDate: DateTime.now())
         .years;
-    _image = profilePic;
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -90,7 +90,7 @@ class _InitDisplayPicScreenState extends State<InitDisplayPicScreen> {
                           fontSize: 22,
                           fontWeight: FontWeight.bold),
                     ),
-                    // const SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     Flexible(
                       flex: 1,
                       child: Container(),
@@ -104,132 +104,70 @@ class _InitDisplayPicScreenState extends State<InitDisplayPicScreen> {
                               source: ImageSource.gallery);
                           if (image != null) {
                             setState(() {
+                              print("setstate done");
                               _image = File(image.path);
                             });
                           }
                         },
                         child: DisplayCard(
-                            name: "Your name", age: age, location: location),
-                        // Stack(
-                        //   alignment: Alignment.bottomCenter,
-                        //   children: <Widget>[
-                        //     Container(
-                        //       alignment: Alignment.center,
-                        //       child: ClipRRect(
-                        //           borderRadius: BorderRadius.circular(25),
-                        //           child: Image.file(
-                        //             _image!,
-                        //             height: 400,
-                        //             width: 400 / 3 * 2,
-                        //             fit: BoxFit.cover,
-                        //           )),
-                        //     ),
-                        //     Container(
-                        //       height: 400,
-                        //       width: 400 / 3 * 2,
-                        //       decoration: BoxDecoration(
-                        //         borderRadius: BorderRadius.circular(25),
-                        //         gradient: const LinearGradient(
-                        //             colors: [
-                        //               Colors.transparent,
-                        //               Color.fromRGBO(26, 26, 26, .2),
-                        //             ],
-                        //             begin: FractionalOffset(0, 0),
-                        //             end: FractionalOffset(0, 1),
-                        //             stops: [0.0, 1.0],
-                        //             tileMode: TileMode.clamp),
-                        //       ),
-                        //     ),
-                        //     Align(
-                        //       alignment: Alignment.bottomCenter,
-                        //       child: Container(
-                        //         padding:
-                        //             const EdgeInsets.only(left: 18, bottom: 24),
-                        //         child: Column(
-                        //           children: <Widget>[
-                        //             const Align(
-                        //               alignment: Alignment.centerLeft,
-                        //               child: Text(
-                        //                 "Your Name",
-                        //                 overflow: TextOverflow.ellipsis,
-                        //                 textAlign: TextAlign.left,
-                        //                 style: TextStyle(
-                        //                   color: whiteColor,
-                        //                   fontSize: 32,
-                        //                   fontWeight: FontWeight.w700,
-                        //                 ),
-                        //               ),
-                        //             ),
-                        //             Align(
-                        //               alignment: Alignment.centerLeft,
-                        //               child: Text(
-                        //                 "$age • $location",
-                        //                 overflow: TextOverflow.ellipsis,
-                        //                 textAlign: TextAlign.left,
-                        //                 style: const TextStyle(
-                        //                   color: whiteColor,
-                        //                   fontSize: 16,
-                        //                   fontWeight: FontWeight.w700,
-                        //                 ),
-                        //               ),
-                        //             ),
-                        //           ],
-                        //         ),
-                        //       ),
-                        //     ),
-                        //   ],
-                        // ),
+                            image: _image!,
+                            name: "Your name",
+                            age: age,
+                            location: widget.location),
                       ),
                     ),
                     Flexible(
                       flex: 1,
                       child: Container(),
                     ),
-                    ElevatedButton(
-                        onPressed: () async {
-                          bool imageIsValid = _image != null;
+                    Padding(
+                      padding: const EdgeInsets.all(0),
+                      // padding: const EdgeInsets.only(bottom: 16.0),
+                      child: ElevatedButton(
+                          onPressed: () async {
+                            bool imageIsValid = _image != null;
 
-                          if (!imageIsValid) {
-                            String message = "Empty ";
                             if (!imageIsValid) {
-                              message += "image";
+                              String message = "Empty ";
+                              if (!imageIsValid) {
+                                message += "image";
+                              }
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(SnackBar(
+                                content: Text(message),
+                                backgroundColor: errorColor,
+                              ));
+                              return;
                             }
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Text(message),
-                              backgroundColor: errorColor,
-                            ));
-                            return;
-                          }
-                          Uint8List profilePicData =
-                              await profilePic!.readAsBytes();
-                          Uint8List displayPicData =
-                              await _image!.readAsBytes();
-                          debugPrint('before update function');
-                          _accountMethods.update(
-                              birthday: birthday,
-                              location: location,
+                            Uint8List profilePicData =
+                                await widget.profilePic.readAsBytes();
+                            Uint8List displayPicData =
+                                await _image!.readAsBytes();
+                            print('before update function');
+                            _accountMethods.update(
+                              birthday: widget.birthday,
+                              gender: widget.gender,
+                              location: widget.location,
                               profilePic: profilePicData,
-                              displayPic: displayPicData, gender: gender);
+                              displayPic: displayPicData,
+                            );
 
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => InitCompleteScreen(
-                                      birthday: birthday,
-                                      location: location,
-                                      gender: gender,
-                                      profilePic: profilePic,
-                                      displayPic: _image)));
-                        },
-                        style: ElevatedButton.styleFrom(
-                          minimumSize: const Size(150, 50),
-                          backgroundColor: primaryColor,
-                        ),
-                        child: const Text("Submit",
-                            style: TextStyle(
-                                fontSize: 18,
-                                color: whiteColor,
-                                fontWeight: FontWeight.bold))),
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        InitCompleteScreen()));
+                          },
+                          style: ElevatedButton.styleFrom(
+                            minimumSize: const Size(150, 50),
+                            backgroundColor: primaryColor,
+                          ),
+                          child: const Text("Submit",
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  color: whiteColor,
+                                  fontWeight: FontWeight.bold))),
+                    ),
                   ]))),
     );
   }

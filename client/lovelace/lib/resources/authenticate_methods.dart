@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:logger/logger.dart';
 import 'package:lovelace/models/user.dart';
 import 'package:flutter/foundation.dart';

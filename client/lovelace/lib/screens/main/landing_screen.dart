@@ -148,7 +148,6 @@ class _LandingScreenState extends State<LandingScreen> {
           if (isLoggedIn == null || !isLoggedIn) {
             ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
               content: Text("Login once to enable biometrics"),
-              backgroundColor: borderColor,
             ));
           } else {
             final String message = await _authenticateWithBiometrics();

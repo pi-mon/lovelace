@@ -4,32 +4,14 @@ import 'package:lovelace/utils/colors.dart';
 import 'package:lovelace/utils/global_variables.dart';
 
 class InitCompleteScreen extends StatefulWidget {
-  final String birthday;
-  final String location;
-  final File? profilePic;
-  final File? displayPic;
-  final String gender;
-
-  const InitCompleteScreen(
-      {super.key,
-      required this.birthday,
-      required this.location,
-      required this.profilePic,
-      required this.displayPic, required this.gender});
+  const InitCompleteScreen({super.key});
 
   @override
-  State<InitCompleteScreen> createState() =>
-      _InitDisplayPicScreenState(birthday, location, profilePic, displayPic, gender);
+  State<InitCompleteScreen> createState() => _InitDisplayPicScreenState();
 }
 
 class _InitDisplayPicScreenState extends State<InitCompleteScreen> {
-  _InitDisplayPicScreenState(
-      this.birthday, this.location, this.profilePic, this.displayPic, this.gender);
-  final String birthday;
-  final String gender;
-  final String location;
-  final File? profilePic;
-  final File? displayPic;
+  _InitDisplayPicScreenState();
 
   @override
   void dispose() {

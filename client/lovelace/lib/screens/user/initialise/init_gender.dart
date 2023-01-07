@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lovelace/screens/user/initialise/init_location_screen.dart';
 import 'package:lovelace/utils/colors.dart';
-import 'package:lovelace/widgets/date_field_input.dart';
 
 class InitGenderScreen extends StatefulWidget {
   final String birthday;
@@ -12,17 +11,19 @@ class InitGenderScreen extends StatefulWidget {
 }
 
 class _InitGenderScreenState extends State<InitGenderScreen> {
-  final TextEditingController _birthdayController = TextEditingController();
-  String dropDownValue = 'Male';
+  // final TextEditingController _genderController = TextEditingController();
+  List<String> dropdownValues = ['Male', 'Female'];
+  String dropdownValue = 'Male';
 
   @override
   void dispose() {
     super.dispose();
-    _birthdayController.dispose();
+    // _genderController.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    // String dropdownValue = dropdownValues[0];
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SafeArea(
@@ -36,15 +37,14 @@ class _InitGenderScreenState extends State<InitGenderScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         GestureDetector(
-                            onTap: () {
-                              // Navigator.pop(context);
-                            },
-                            child: Container()
-                            // const Icon(
-                            //   Icons.arrow_back_ios,
-                            //   color: primaryColor,
-                            // ),
-                            ),
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Icon(
+                            Icons.arrow_back_ios,
+                            color: primaryColor,
+                          ),
+                        ),
                         const Expanded(
                             child: Padding(
                                 padding: EdgeInsets.only(right: 32.0),
@@ -69,23 +69,33 @@ class _InitGenderScreenState extends State<InitGenderScreen> {
                       flex: 1,
                       child: Container(),
                     ),
-                    DropdownButton<String>(
-                      value: dropDownValue,
-                      items: <String>['Male, Female']
-                          .map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(
-                            value,
-                            style: const TextStyle(fontSize: 16),
-                          ),
-                        );
-                      }).toList(),
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          dropDownValue = newValue!;
-                        });
-                      },
+                    Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Container(
+                        padding: const EdgeInsets.only(left: 16, right: 16),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: primaryColor, width: 1),
+                          borderRadius: BorderRadius.circular(12)
+                        ),
+                        child: DropdownButton<String>(
+                          hint: const Text("Select gender"),
+                          value: dropdownValue,
+                          icon: const Icon(Icons.arrow_drop_down),
+                          isExpanded: true,
+                          underline: const SizedBox(),
+                          items: dropdownValues.map((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              dropdownValue = newValue!;
+                            });
+                          },
+                        ),
+                      ),
                     ),
                     const SizedBox(height: 128),
                     Flexible(
@@ -95,14 +105,15 @@ class _InitGenderScreenState extends State<InitGenderScreen> {
                     const SizedBox(height: 32),
                     ElevatedButton(
                         onPressed: () async {
-                          String birthday = _birthdayController.text;
+                          // String gender = _genderController.text;
+                          String gender = dropdownValue;
 
-                          bool genderIsValid = birthday.isNotEmpty;
+                          bool genderIsValid = gender.isNotEmpty;
 
                           if (!genderIsValid) {
                             String message = "Invalid ";
                             if (!genderIsValid) {
-                              message += "birthday";
+                              message += "gender";
                             }
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                               content: Text(message),
@@ -114,8 +125,8 @@ class _InitGenderScreenState extends State<InitGenderScreen> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => InitLocationScreen(
-                                      gender: dropDownValue,
-                                      birthday: birthday,
+                                      birthday: widget.birthday,
+                                      gender: gender,
                                     )),
                           );
                         },

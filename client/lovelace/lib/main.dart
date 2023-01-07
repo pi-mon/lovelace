@@ -3,11 +3,11 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:lovelace/resources/storage_methods.dart';
-// import 'package:flutter_windowmanager/flutter_windowmanager.dart';
 import 'package:lovelace/responsive/mobile_screen_layout.dart';
 import 'package:lovelace/responsive/responsive_layout.dart';
 import 'package:lovelace/responsive/web_screen_layout.dart';
 import 'package:lovelace/screens/main/landing_screen.dart';
+import 'package:lovelace/screens/user/initialise/init_birthday_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:flutter/services.dart';
 import 'package:screen_capture_event/screen_capture_event.dart';
@@ -25,7 +25,6 @@ class MyAppSettings {
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final StorageMethods storageMethods = StorageMethods();
-  final sharedPreferences = await StreamingSharedPreferences.instance;
   final bool isLoggedIn = json.decode(await storageMethods.read('isLoggedIn'));
 
   // * Enable communication through HTTPS
@@ -37,25 +36,17 @@ void main() async {
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
-  ]).then((value) => runApp(MyApp(isLoggedIn: isLoggedIn)));
-
-// AppLock(
-//       builder: (arg) => MyApp(
-//             data: arg,
-//             key: const Key('MyApp'),
-//             isLoggedIn: isLoggedIn,
-//           ),
-//       lockScreen: const LockScreen(key: Key('LockScreen')),
-//       backgroundLockLatency: const Duration(seconds: 3),
-//       enabled: false)
+  ]).then((value) => runApp(MyApp(isLoggedIn: isLoggedIn, isFTL: isFTL)));
 }
 
 class MyApp extends StatefulWidget {
   final bool isLoggedIn;
+  final bool isFTL;
   final ResponsiveLayout _userPages = const ResponsiveLayout(
       mobileScreenLayout: MobileScreenLayout(),
       webScreenLayout: WebScreenLayout());
-  const MyApp({Key? key, required this.isLoggedIn, Object? data})
+  const MyApp(
+      {Key? key, required this.isLoggedIn, required this.isFTL, Object? data})
       : super(key: key);
   @override
   State<MyApp> createState() => _MyAppState();
@@ -74,7 +65,6 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     screenCaptureEvent.preventAndroidScreenShot(true);
     WidgetsBinding.instance.addObserver(this);
     // FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
-    // isRooted();
     screenShotRecord();
     super.initState();
     WidgetsBinding.instance.addObserver(this);
@@ -95,52 +85,41 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
     if (state == AppLifecycleState.inactive) {
       debugPrint('App in background - $state');
-      // AppLock.of(context)!.showLockScreen();
     } else {
       debugPrint('App in foreground - $state');
     }
   }
-
-  // Future<void> isRooted() async {
-  //   try {
-  //     bool isJailBroken = Platform.isAndroid
-  //         ? await FlutterRootJailbreak.isRooted
-  //         : await FlutterRootJailbreak.isJailBroken;
-  //     _isJailbroken = isJailBroken;
-  //   } catch (e) {
-  //     debugPrint('======ERROR: isRooted======');
-  //   }
-
-  //   setState(() {});
-  // }
 
   Future<void> screenShotRecord() async {
     bool isSecureMode = false;
     setState(() {
       isSecureMode = !isSecureMode;
     });
-    // if (isSecureMode) {
-    //   FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
-    // } else {
-    //   FlutterWindowManager.clearFlags(FlutterWindowManager.FLAG_SECURE);
-    // }
-    debugPrint('secure mode: $isSecureMode');
+    print('secure mode: $isSecureMode');
   }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    ThemeData themeData = ThemeData(
+      fontFamily: 'Quicksand',
+      scaffoldBackgroundColor: whiteColor,
+      primaryColor: primaryColor,
+    );
+    Widget home;
+    if (!widget.isLoggedIn) {
+      // TODO: Check if user object exists in local storage
+      home = const LandingScreen();
+    } else if (widget.isFTL) {
+      home = const InitBirthayScreen();
+    } else {
+      home = widget._userPages;
+    }
+    MaterialApp materialApp = MaterialApp(
         debugShowCheckedModeBanner: true,
         title: 'Lovelace',
-        theme: ThemeData(
-          fontFamily: 'Quicksand',
-          scaffoldBackgroundColor: whiteColor,
-          primaryColor: primaryColor,
-        ),
-        // home: widget.isLoggedIn
-        //     ? const InitBirthayScreen()
-        //     : const LandingScreen());
-        home: widget.isLoggedIn ? widget._userPages : const LandingScreen());
+        theme: themeData,
+        home: home);
+    return materialApp;
   }
 }
 

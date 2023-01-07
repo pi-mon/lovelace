@@ -40,25 +40,30 @@ def get_chat():
 @socketio.on("join", namespace="/chat")
 def join(message):
     room = message["room"]
-    username = message["email"]
+    username = message["username"]
     # join room
     join_room(room)
+    response = f"{username} has entered room ({room})."
+    print(response)
+
     # Emit message or notifier to other user of same room
-    emit("message", {"response": f"{username}has entered the room."}, room=room)
+    emit("message", {"response": response}, room=room)
 
 
-@socketio.on("text", namespace="/chat")
-def text(message):
+@socketio.on("sent", namespace="/chat")
+def sent(message):
     room = message["room"]
-    username = message["email"]
-    msg = message["msg"]
-    emit("message", {"response": f"{username} : {msg}"}, room=room)
+    username = message["sender"]
+    msg = message["message"]
+    response = f"{username} : {msg}"
+    print(response)
+    emit("sent", {"response": response, "message": message}, room=room)
 
 
 @socketio.on("leave", namespace="/chat")
 def leave(message):
     room = message["room"]
-    username = message["email"]
+    username = message["username"]
     # leaving the room
     leave_room(room=room)
     emit("message", {"response": f"{username} has left the room."}, room=room)
