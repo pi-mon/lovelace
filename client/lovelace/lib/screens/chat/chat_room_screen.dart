@@ -115,12 +115,13 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
             reverse: true,
             itemCount: messages.length,
             itemBuilder: (context, index) {
+              int revIndex = messages.length - index - 1;
               MessageTile messageTile = MessageTile(
-                  message: messages[index]['message'],
-                  sender: messages[index]['sender'],
-                  sentByMe: senderName == messages[index]['sender']);
+                  message: messages[revIndex]['message'],
+                  sender: messages[revIndex]['sender'],
+                  sentByMe: senderName == messages[revIndex]['sender']);
               // if last index give bottom padding
-              if (index == messages.length - 1) {
+              if (index == 0) {
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 100),
                   child: messageTile,
