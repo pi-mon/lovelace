@@ -55,16 +55,6 @@ class _ChatScreenState extends State<ChatListScreen> {
                       children: <Widget>[
                         ChatPerson(time: DateTime.now(), displayName: "Sarah"),
                         ChatPerson(time: DateTime.now(), displayName: "John"),
-                        ChatPerson(time: DateTime.now(), displayName: "Sarah"),
-                        ChatPerson(time: DateTime.now(), displayName: "John"),
-                        ChatPerson(time: DateTime.now(), displayName: "Sarah"),
-                        ChatPerson(time: DateTime.now(), displayName: "John"),
-                        ChatPerson(time: DateTime.now(), displayName: "Sarah"),
-                        ChatPerson(time: DateTime.now(), displayName: "John"),
-                        ChatPerson(time: DateTime.now(), displayName: "Sarah"),
-                        ChatPerson(time: DateTime.now(), displayName: "John"),
-                        ChatPerson(time: DateTime.now(), displayName: "Sarah"),
-                        ChatPerson(time: DateTime.now(), displayName: "John"),
                       ],
                     ),
                   )

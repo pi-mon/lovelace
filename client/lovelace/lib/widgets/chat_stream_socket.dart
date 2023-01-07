@@ -21,25 +21,45 @@ class ChatStreamSocket {
 ChatStreamSocket streamSocket = ChatStreamSocket();
 
 //STEP2: Add this function in main function in main.dart file and add incoming data to the stream
-void connectAndListen() async {
+void connectAndListen(String keyName, String senderName) async {
   dynamic cookie = await StorageMethods().read("cookie");
   String baseUrl = checkDevice();
 
   socket_io.Socket socket = socket_io.io(
-      Uri.http(baseUrl, '/chat'),
+      Uri.http(baseUrl, '/chat').toString(),
       socket_io.OptionBuilder().setTransports(['websocket']).setExtraHeaders({
         HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
         HttpHeaders.cookieHeader: cookie
       }).build());
 
   socket.onConnect((_) {
-    print('connect');
-    socket.emit('msg', 'test');
+    socket.emit('join', {"room": keyName, "username": senderName});
   });
 
   //When an event recieved from server, data is added to the stream
-  socket.on('event', (data) => streamSocket.addResponse);
-  socket.onDisconnect((_) => print('disconnect'));
+  socket.on('sent', (data) {
+    print(data);
+    // streamSocket.addResponse;
+  });
+
+  socket.onDisconnect((_) {
+    socket.emit('leave', {"room": keyName, "username": senderName});
+  });
+}
+
+void sendingMessage(dynamic chatMessageMap) async {
+  dynamic cookie = await StorageMethods().read("cookie");
+  String baseUrl = checkDevice();
+
+  socket_io.Socket socket = socket_io.io(
+      Uri.http(baseUrl, '/chat').toString(),
+      socket_io.OptionBuilder().setTransports(['websocket']).setExtraHeaders({
+        HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
+        HttpHeaders.cookieHeader: cookie
+      }).build());
+
+  socket.emit('sent', chatMessageMap);
+  // print(chatMessageMap);
 }
 
 //Step3: Build widgets with streambuilder
@@ -49,15 +69,12 @@ class ChatStreamSocketBuild extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: StreamBuilder(
-        stream: streamSocket.getResponse,
-        builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-          return Container(
-            child: Text(snapshot.data!),
-          );
-        },
-      ),
+    return StreamBuilder(
+      stream: streamSocket.getResponse,
+      builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+        print(snapshot.data!);
+        return Text(snapshot.data!);
+      },
     );
   }
 }

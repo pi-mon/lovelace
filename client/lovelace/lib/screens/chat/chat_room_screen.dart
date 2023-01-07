@@ -1,6 +1,10 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:lovelace/resources/storage_methods.dart';
+import 'package:lovelace/utils/global_variables.dart';
+import 'package:lovelace/widgets/chat_stream_socket.dart';
 import 'package:lovelace/widgets/message_tile.dart';
 import 'package:socket_io_client/socket_io_client.dart' as socket_io;
 import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
@@ -16,12 +20,17 @@ class ChatRoomScreen extends StatefulWidget {
 class _ChatRoomScreenState extends State<ChatRoomScreen> {
   _ChatRoomScreenState(this.receiverName) {
     receiverName = receiverName;
-    keyName = "\"$senderName\"->\"$receiverName\"";
+    List<String> names = <String>[senderName, receiverName];
+    names.sort();
+    keyName = "\"${names[0]}\":\"${names[1]}\"";
     getContent();
   }
 
-  // final Session _session = Session();
-  // final StorageMethods _storageMethods = StorageMethods();
+  Future<void> getContent() async {
+    preferences = await StreamingSharedPreferences.instance;
+    content = preferences!.getString(keyName, defaultValue: "[]");
+  }
+
   String senderName = "Guan Feng";
   String receiverName = "";
   String keyName = "";
@@ -30,17 +39,13 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
   Preference<String>? content;
   String initializedData = "[]";
 
-  // Stream<dynamic>? content;
-  TextEditingController messageController = TextEditingController();
-  // socket_io.Socket? socket;
+  ChatStreamSocket chatStreamSocket = ChatStreamSocket();
 
-  Future<void> getContent() async {
-    preferences = await StreamingSharedPreferences.instance;
-    content = preferences!.getString(keyName, defaultValue: "[]");
-  }
+  TextEditingController messageController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    connectAndListen(keyName, senderName);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -107,12 +112,21 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
         if (snapshot.hasData) {
           dynamic messages = json.decode(snapshot.data);
           return ListView.builder(
+            reverse: true,
             itemCount: messages.length,
             itemBuilder: (context, index) {
-              return MessageTile(
+              MessageTile messageTile = MessageTile(
                   message: messages[index]['message'],
                   sender: messages[index]['sender'],
                   sentByMe: senderName == messages[index]['sender']);
+              // if last index give bottom padding
+              if (index == messages.length - 1) {
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 100),
+                  child: messageTile,
+                );
+              }
+              return messageTile;
             },
           );
         } else {
@@ -138,10 +152,22 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
       String newContent = json.encode(oldContent);
       content!.setValue(newContent);
 
+      chatMessageMap.addAll({
+        "room": keyName,
+      });
+
+      sendingMessage(chatMessageMap);
+      // socket.emit("sent", chatMessageMap);
+
       // DatabaseService().sendMessage(widget.groupId, chatMessageMap);
       setState(() {
         messageController.clear();
       });
     }
+  }
+
+  Future<String> getLatestMessage() async {
+    String latestMessage = await ChatStreamSocket().getResponse.last;
+    return latestMessage;
   }
 }
