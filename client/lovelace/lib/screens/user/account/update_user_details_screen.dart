@@ -30,6 +30,8 @@ class _UpdateUserDetailsScreenState extends State<UpdateUserDetailsScreen> {
   final ImagePicker _picker = ImagePicker();
   File? _image;
   bool _isDefault = true;
+  List<String> dropdownValues = ['Male', 'Female'];
+  String dropdownValue = 'Male';
 
   @override
   void initState() {
@@ -162,28 +164,32 @@ class _UpdateUserDetailsScreenState extends State<UpdateUserDetailsScreen> {
                   children: <Widget>[
                     const Text("Gender",
                         style: TextStyle(color: primaryColor, fontSize: 18)),
-                    DropdownButton<String>(
-                      value: dropDownValue,
-                      icon: const Icon(Icons.arrow_drop_down_sharp),
-                      iconSize: 24,
-                      elevation: 16,
-                      style: const TextStyle(color: Colors.deepPurple),
-                      underline: Container(
-                        height: 2,
-                        color: Colors.deepPurpleAccent,
+                    Padding(
+                      padding: const EdgeInsets.only(right: 16, bottom: 16),
+                      child: Container(
+                        padding: const EdgeInsets.only(left: 16, right: 16),
+                        decoration: BoxDecoration(
+                            border: Border.all(color: primaryColor, width: 1),
+                            borderRadius: BorderRadius.circular(12)),
+                        child: DropdownButton<String>(
+                          hint: const Text("Select gender"),
+                          value: dropdownValue,
+                          icon: const Icon(Icons.arrow_drop_down),
+                          isExpanded: true,
+                          underline: const SizedBox(),
+                          items: dropdownValues.map((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              dropdownValue = newValue!;
+                            });
+                          },
+                        ),
                       ),
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          dropDownValue = newValue!;
-                        });
-                      },
-                      items: <String>['Male', 'Female']
-                          .map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
                     ),
                   ],
                 ),

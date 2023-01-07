@@ -69,19 +69,33 @@ class _InitGenderScreenState extends State<InitGenderScreen> {
                       flex: 1,
                       child: Container(),
                     ),
-                    DropdownButton<String>(
-                      value: dropdownValue,
-                      items: dropdownValues.map((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          dropdownValue = newValue!;
-                        });
-                      },
+                    Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Container(
+                        padding: const EdgeInsets.only(left: 16, right: 16),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: primaryColor, width: 1),
+                          borderRadius: BorderRadius.circular(12)
+                        ),
+                        child: DropdownButton<String>(
+                          hint: const Text("Select gender"),
+                          value: dropdownValue,
+                          icon: const Icon(Icons.arrow_drop_down),
+                          isExpanded: true,
+                          underline: const SizedBox(),
+                          items: dropdownValues.map((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              dropdownValue = newValue!;
+                            });
+                          },
+                        ),
+                      ),
                     ),
                     const SizedBox(height: 128),
                     Flexible(
