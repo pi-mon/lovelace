@@ -29,6 +29,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
   Future<void> getContent() async {
     preferences = await StreamingSharedPreferences.instance;
     content = preferences!.getString(keyName, defaultValue: "[]");
+    content!.getValue();
   }
 
   _ChatRoomScreenState(this.receiverName) {
@@ -53,7 +54,8 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
               MessageTile messageTile = MessageTile(
                   message: messages[revIndex]['message'],
                   sender: messages[revIndex]['sender'],
-                  sentByMe: senderName == messages[revIndex]['sender']);
+                  sentByMe: senderName == messages[revIndex]['sender'],
+                  time: messages[revIndex]['time']);
               if (index == 0) {
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 100),

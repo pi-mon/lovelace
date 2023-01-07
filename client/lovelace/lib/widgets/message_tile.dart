@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class MessageTile extends StatefulWidget {
   final String message;
   final String sender;
   final bool sentByMe;
+  final int time;
 
   const MessageTile(
       {Key? key,
       required this.message,
       required this.sender,
-      required this.sentByMe})
+      required this.sentByMe,
+      required this.time})
       : super(key: key);
 
   @override
@@ -19,6 +22,9 @@ class MessageTile extends StatefulWidget {
 class _MessageTileState extends State<MessageTile> {
   @override
   Widget build(BuildContext context) {
+    DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(widget.time);
+    var timeString = DateFormat.jm().format(dateTime);
+
     return Container(
       padding: EdgeInsets.only(
           top: 4,
@@ -60,11 +66,17 @@ class _MessageTileState extends State<MessageTile> {
                   letterSpacing: -0.5),
             ),
             const SizedBox(
-              height: 8,
+              height: 4,
             ),
             Text(widget.message,
                 textAlign: TextAlign.start,
-                style: const TextStyle(fontSize: 16, color: Colors.white))
+                style: const TextStyle(fontSize: 16, color: Colors.white)),
+            const SizedBox(
+              height: 4,
+            ),
+            Text(timeString,
+                textAlign: TextAlign.start,
+                style: const TextStyle(fontSize: 8, color: Colors.white))
           ],
         ),
       ),
