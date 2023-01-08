@@ -1,22 +1,41 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:lovelace/models/user.dart';
+import 'package:lovelace/models/user_detail.dart';
+import 'package:lovelace/resources/storage_methods.dart';
 
 import 'package:lovelace/widgets/chat_stream_socket.dart';
 import 'package:lovelace/widgets/message_tile.dart';
 import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
 
 class ChatRoomScreen extends StatefulWidget {
-  const ChatRoomScreen({super.key, required this.receiverName});
-  final String receiverName;
+  const ChatRoomScreen({super.key, required this.receiverEmail});
+  final String receiverEmail;
 
   @override
-  State<ChatRoomScreen> createState() => _ChatRoomScreenState(receiverName);
+  State<ChatRoomScreen> createState() => _ChatRoomScreenState();
 }
 
 class _ChatRoomScreenState extends State<ChatRoomScreen> {
-  String senderName = "Guan Feng";
-  String receiverName = "";
+  UserDetails receiverUserDetails = UserDetails(
+    email: "lgf2111@gmail.com",
+    displayName: "Lee Guan Feng",
+    birthday: "21-11-2004",
+    gender: "Male",
+    location: "Singapore",
+    profilePicPath: "",
+    displayPicPath: "",
+  );
+  UserDetails senderUserDetails = UserDetails(
+    email: "213587x@gmail.com",
+    displayName: "Paimon",
+    birthday: "01-01-2001",
+    gender: "Female",
+    location: "Singapore",
+    profilePicPath: "",
+    displayPicPath: "",
+  );
   String keyName = "";
 
   StreamingSharedPreferences? preferences;
@@ -35,14 +54,32 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
     });
   }
 
-  _ChatRoomScreenState(this.receiverName) {
-    receiverName = receiverName;
-    List<String> names = <String>[senderName, receiverName];
-    names.sort();
-    keyName = "\"${names[0]}\"&\"${names[1]}\"";
-    connectAndListen(keyName, senderName);
+  getReceiverUserDetails() async {
+    dynamic receiverUserDetailsJson =
+        await StorageMethods().read("userDetails");
+    receiverUserDetails =
+        UserDetails.fromJson(json.decode(receiverUserDetailsJson));
+  }
+
+  _ChatRoomScreenState() {
+    getReceiverUserDetails();
+    List<String> emails = <String>[
+      senderUserDetails.email,
+      receiverUserDetails.email
+    ];
+    emails.sort();
+    keyName = "${emails[0]}&${emails[1]}";
+    connectAndListen(keyName, senderUserDetails.displayName);
     getContent();
   }
+
+  @override
+  void dispose() {
+    super.dispose();
+    messageController.dispose();
+    disconnect(keyName, senderUserDetails.displayName);
+  }
+
   dynamic chatMessages() {
     return StreamBuilder(
       initialData: initialData,
@@ -58,7 +95,8 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
               MessageTile messageTile = MessageTile(
                   message: messages[revIndex]['message'],
                   sender: messages[revIndex]['sender'],
-                  sentByMe: senderName == messages[revIndex]['sender'],
+                  sentByMe: senderUserDetails.displayName ==
+                      messages[revIndex]['sender'],
                   time: messages[revIndex]['time']);
               if (index == 0) {
                 return Padding(
@@ -82,8 +120,8 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
     if (messageController.text.isNotEmpty) {
       Map<String, dynamic> chatMessageMap = {
         "message": messageController.text,
-        "sender": senderName,
-        "receiver": receiverName,
+        "sender": senderUserDetails.displayName,
+        "receiver": receiverUserDetails.displayName,
         "time": DateTime.now().millisecondsSinceEpoch,
       };
 
@@ -110,7 +148,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
         centerTitle: true,
         elevation: 0,
         toolbarHeight: 64,
-        title: Text(receiverName),
+        title: Text(receiverUserDetails.displayName),
         backgroundColor: Theme.of(context).primaryColor,
         actions: [
           IconButton(

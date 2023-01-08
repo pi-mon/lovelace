@@ -24,7 +24,7 @@ class ChatPerson extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                     builder: (context) => ChatRoomScreen(
-                          receiverName: displayName,
+                          receiverEmail: displayName,
                         )));
           },
           style: ElevatedButton.styleFrom(backgroundColor: whiteColor),
