@@ -3,9 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:lovelace/models/user_detail.dart';
 import 'package:lovelace/resources/account_methods.dart';
-import 'package:lovelace/resources/authenticate_methods.dart';
 import 'package:lovelace/resources/storage_methods.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:lovelace/widgets/text_field_input.dart';
@@ -29,7 +27,7 @@ class _UpdateUserDetailsScreenState extends State<UpdateUserDetailsScreen> {
   File? _image;
   bool _isDefault = true;
   List<String> dropdownValues = ['Male', 'Female'];
-  String dropdownValue = 'Male';
+  String dropdownValue = 'Female';
 
   String displayName = '';
   String email = '';
@@ -38,40 +36,30 @@ class _UpdateUserDetailsScreenState extends State<UpdateUserDetailsScreen> {
   String birthday = '';
 
   final TextEditingController _newEmailController = TextEditingController();
+  final TextEditingController _newDisplayNameController =
+      TextEditingController();
   final TextEditingController _newBirthdayController = TextEditingController();
   final TextEditingController _newLocationController = TextEditingController();
-  final TextEditingController _newDisplayNameController = TextEditingController();
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   init();
-  // }
-
-  // void init() async {
-  //   List response = await _accountMethods.read();
-  //   String output = response[0];
-  //   UserDetails userDetails =
-  //       UserDetails.fromJson(json.decode(output)["response"]);
-  //   String email = userDetails.email;
-  //   _storageMethods.read("userDetails_$email").then((value) {
-  //     dynamic valueJson = json.decode(value);
-  //     setState(() {
-  //       displayName = valueJson["displayName"];
-  //       location = valueJson["location"];
-  //       email = valueJson["email"];
-  //       birthday = valueJson["birthday"];
-  //       gender = valueJson["gender"];
-  //     });
-  //   });
-  // }
+  _UpdateUserDetailsScreenState() {
+    _storageMethods.read("userDetails").then((value) {
+      dynamic valueJson = json.decode(value);
+      setState(() {
+        _newEmailController.text = valueJson["email"];
+        _newDisplayNameController.text = valueJson["displayName"];
+        dropDownValue = valueJson["gender"]; // doesn't work
+        _newBirthdayController.text = valueJson["birthday"];
+        _newLocationController.text = valueJson["location"];
+      });
+    });
+  }
 
   @override
   void dispose() {
     _newEmailController.dispose();
     _newDisplayNameController.dispose();
-    _newLocationController.dispose();
     _newBirthdayController.dispose();
+    _newLocationController.dispose();
     super.dispose();
   }
 
@@ -161,30 +149,7 @@ class _UpdateUserDetailsScreenState extends State<UpdateUserDetailsScreen> {
                   label: "Display Name",
                   hintText: "Enter your Display Name",
                   textInputType: TextInputType.emailAddress,
-                  textEditingController: _newEmailController,
-                  validator: (value) {
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 16),
-                TextFieldInput(
-                  onTap: () async {
-                    DateTime? newDate = await showDatePicker(
-                        context: context,
-                        initialDate: dateNow,
-                        firstDate: DateTime(1990),
-                        lastDate: DateTime(2023));
-                    // if CANCEL is pressed
-                    if (newDate == null) return;
-
-                    // if OK is pressed
-                    setState(() => _newBirthdayController.text =
-                        DateFormat('dd-MM-yyyy').format(newDate));
-                  },
-                  label: "Birthday",
-                  hintText: "Enter your birthday",
-                  textInputType: TextInputType.text,
-                  textEditingController: _newBirthdayController,
+                  textEditingController: _newDisplayNameController,
                   validator: (value) {
                     return null;
                   },
@@ -226,6 +191,29 @@ class _UpdateUserDetailsScreenState extends State<UpdateUserDetailsScreen> {
                 ),
                 const SizedBox(height: 16),
                 TextFieldInput(
+                  onTap: () async {
+                    DateTime? newDate = await showDatePicker(
+                        context: context,
+                        initialDate: dateNow,
+                        firstDate: DateTime(1990),
+                        lastDate: DateTime(2023));
+                    // if CANCEL is pressed
+                    if (newDate == null) return;
+
+                    // if OK is pressed
+                    setState(() => _newBirthdayController.text =
+                        DateFormat('dd-MM-yyyy').format(newDate));
+                  },
+                  label: "Birthday",
+                  hintText: "Enter your birthday",
+                  textInputType: TextInputType.text,
+                  textEditingController: _newBirthdayController,
+                  validator: (value) {
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 16),
+                TextFieldInput(
                   label: "Location",
                   hintText: "Enter your location",
                   textInputType: TextInputType.text,
@@ -253,7 +241,8 @@ class _UpdateUserDetailsScreenState extends State<UpdateUserDetailsScreen> {
                     String location = _newLocationController.text;
                     String gender = dropDownValue;
 
-                    debugPrint('$email, $displayName, $birthday, $location, $gender');
+                    debugPrint(
+                        '$email, $displayName, $birthday, $location, $gender');
 
                     // if (_formKey.currentState!.validate()) {
                     //   String email = _newEmailController.text;
