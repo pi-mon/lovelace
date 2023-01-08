@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:lovelace/resources/storage_methods.dart';
 import 'package:lovelace/screens/admin/admin_account_screen.dart';
 import 'package:lovelace/screens/user/account/account_settings_screen.dart';
 import 'package:lovelace/utils/colors.dart';
@@ -11,10 +14,23 @@ class AccountScreen extends StatefulWidget {
 }
 
 class _AccountScreenState extends State<AccountScreen> {
+  StorageMethods _storageMethods = StorageMethods();
+  String displayName = '';
+  String location = '';
+
+  _AccountScreenState() {
+    _storageMethods.read("userDetails").then((value) {
+      dynamic valueJson = json.decode(value);
+      setState(() {
+        displayName = valueJson["displayName"];
+        location = valueJson["location"];
+      });
+    });
+  }
+
   // @override
   // void initState() {
   //   super.initState();
-  //   StorageMethods _storageMethods = StorageMethods();
   // }
 
   @override
@@ -35,9 +51,9 @@ class _AccountScreenState extends State<AccountScreen> {
                     const SizedBox(height: 15),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: const <Widget>[
-                        Text('Name',
-                            style: TextStyle(
+                      children: <Widget>[
+                        Text(displayName,
+                            style: const TextStyle(
                                 fontSize: 25,
                                 color: blackColor,
                                 fontWeight: FontWeight.bold)),
@@ -46,8 +62,8 @@ class _AccountScreenState extends State<AccountScreen> {
                     const SizedBox(height: 10),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: const <Widget>[
-                        Text('Location',
+                      children: <Widget>[
+                        Text(location,
                             style: TextStyle(
                                 fontSize: 17,
                                 color: placeholderColor,

@@ -18,12 +18,12 @@ class UserDetails {
 
   UserDetails.fromJson(Map<String, dynamic> json)
       : email = json['email'],
-        displayName = json['displayName'],
+        displayName = json['display_name'],
         birthday = json['birthday'],
         gender = json['gender'],
         location = json['location'],
-        profilePicPath = json['profilePicPath'],
-        displayPicPath = json['displayPicPath'];
+        profilePicPath = json['profile_pic'] ?? "",
+        displayPicPath = json['display_pic'] ?? "";
 
   Map<String, dynamic> toJson() => {
         'email': email,

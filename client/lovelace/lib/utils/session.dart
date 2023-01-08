@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:lovelace/models/user_detail.dart';
 import 'package:lovelace/resources/storage_methods.dart';
@@ -22,41 +23,22 @@ class Session {
     http.Response response =
         await http.get(Uri.http(_baseUrl, route), headers: headers);
     updateCookie(response);
+    checkTokenExpired(response);
     return response.body;
   }
 
   Future<String> post(String route, dynamic data) async {
-    debugPrint('inside post function');
     dynamic cookie = await _storageMethods.read("cookie");
 
     headers[HttpHeaders.contentTypeHeader] = 'application/json; charset=UTF-8';
     if (cookie != null) {
       headers[HttpHeaders.cookieHeader] = cookie;
     }
-    debugPrint('${data.runtimeType}');
-    // if (data.runtimeType == UserDetails) { // JSON encode data before storing object
-    //   // TODO: Store the user object in local storage
-    // }
     http.Response response = await http.post(Uri.http(_baseUrl, route),
         body: jsonEncode(data), headers: headers);
     updateCookie(response);
+    checkTokenExpired(response);
     return response.body;
-  }
-
-  Future<socket_io.Socket> getSocket(String route, dynamic data) async {
-    dynamic cookie = await _storageMethods.read("cookie");
-
-    socket_io.Socket socket = socket_io.io(
-        Uri.http(_baseUrl, route),
-        socket_io.OptionBuilder()
-            .setTransports(['websocket'])
-            .disableAutoConnect()
-            .setExtraHeaders({
-              HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
-              HttpHeaders.cookieHeader: cookie
-            })
-            .build());
-    return socket;
   }
 
   void updateCookie(http.Response response) async {
@@ -67,5 +49,21 @@ class Session {
           (index == -1) ? rawCookie : rawCookie.substring(0, index);
       bool isStored = await _storageMethods.write("cookie", rawCookie);
     }
+  }
+
+  bool checkTokenExpired(http.Response response) {
+    String responseBody = response.body;
+    try {
+      dynamic responseJson = json.decode(responseBody);
+      if (responseJson['message'] == "Token has expired !!") {
+        _storageMethods.delete("isLoggedIn");
+        _storageMethods.delete("isFTL");
+        _storageMethods.delete("cookie");
+        return true;
+      }
+    } catch (e) {
+      print(e);
+    }
+    return false;
   }
 }

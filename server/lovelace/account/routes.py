@@ -356,7 +356,7 @@ def update_profile(user_email):
             "$set": {
                 "username": profile_information["displayName"],
                 "gender": profile_information["gender"],
-                "age": profile_information["age"],
+                "birthday": profile_information["birthday"],
                 "location": profile_information["location"],
             }
         }

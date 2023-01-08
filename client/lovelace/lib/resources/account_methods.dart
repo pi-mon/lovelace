@@ -17,14 +17,11 @@ class AccountMethods {
       output = await session.get('/account/profile');
       try {
         dynamic outputJson = jsonDecode(output);
-        print(outputJson);
 
         if (outputJson['read'] == true) {
-          // User Details already exist
           isSuccess = true;
           message = "Read successful";
         } else {
-          // User Details don't exist. Direct user to init pages and store object locally
           message = outputJson['response'];
         }
       } catch (e) {
@@ -33,7 +30,7 @@ class AccountMethods {
     } catch (e) {
       output = e.toString();
     }
-    debugPrint(output, wrapWidth: 1024);
+    print(output);
 
     return [output, message, isSuccess];
   }
