@@ -32,8 +32,7 @@ class _AccountScreenState extends State<AccountScreen> {
     String output = response[0];    
     UserDetails userDetails =
         UserDetails.fromJson(json.decode(output)["response"]);
-    String email = userDetails.email;
-    _storageMethods.read("userDetails_$email").then((value) {
+    _storageMethods.read("userDetails").then((value) {
       dynamic valueJson = json.decode(value);
       setState(() {
         displayName = valueJson["displayName"];

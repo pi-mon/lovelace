@@ -92,8 +92,8 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
                         ],
                       ));
                     });
-                // StorageMethods().deleteAll();
-                StorageMethods().delete("cookie");
+                StorageMethods().deleteAll();
+                // StorageMethods().delete("cookie");
                 UserStateMethods().logoutState(context);
                 initList();
               })

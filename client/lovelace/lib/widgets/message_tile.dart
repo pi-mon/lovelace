@@ -76,7 +76,7 @@ class _MessageTileState extends State<MessageTile> {
             ),
             Text(timeString,
                 textAlign: TextAlign.start,
-                style: const TextStyle(fontSize: 8, color: Colors.white))
+                style: const TextStyle(fontSize: 10, color: Colors.white))
           ],
         ),
       ),

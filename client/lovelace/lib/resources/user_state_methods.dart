@@ -21,8 +21,7 @@ class UserStateMethods {
     if (isSuccess) {
       UserDetails userDetails =
           UserDetails.fromJson(json.decode(output)["response"]);
-      String email = userDetails.email;
-      _storageMethods.write("userDetails_$email", userDetails);
+      _storageMethods.write("userDetails", userDetails);
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => userPages));
     } else {

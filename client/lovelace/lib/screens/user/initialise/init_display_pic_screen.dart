@@ -147,13 +147,14 @@ class _InitDisplayPicScreenState extends State<InitDisplayPicScreen> {
                             //     await _image!.readAsBytes();
                             // print('before update function');
                             UserDetails userDetails = UserDetails(
-                                email: await StorageMethods().read("email"),
-                                displayName: widget.displayName,
-                                birthday: widget.birthday,
-                                gender: widget.gender,
-                                location: widget.location,
-                                profilePicPath: widget.profilePic.path,
-                                displayPicPath: _image!.path);
+                              email: await StorageMethods().read("email"),
+                              displayName: widget.displayName,
+                              birthday: widget.birthday,
+                              gender: widget.gender,
+                              location: widget.location,
+                              profilePicPath: widget.profilePic.path,
+                              displayPicPath: _image!.path,
+                            );
                             List response = await _accountMethods.update(
                                 userDetails: userDetails);
                             bool isSuccess = response[2];
