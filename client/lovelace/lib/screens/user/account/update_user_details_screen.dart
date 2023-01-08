@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:lovelace/models/user_detail.dart';
 import 'package:lovelace/resources/account_methods.dart';
 import 'package:lovelace/resources/storage_methods.dart';
 import 'package:lovelace/utils/colors.dart';
@@ -17,17 +18,18 @@ class UpdateUserDetailsScreen extends StatefulWidget {
 }
 
 class _UpdateUserDetailsScreenState extends State<UpdateUserDetailsScreen> {
+  final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
+      GlobalKey<ScaffoldMessengerState>();
   DateTime dateNow = DateTime(2022);
   String dropDownValue = 'Male';
   final StorageMethods _storageMethods = StorageMethods();
-  final AccountMethods _accountMethods = AccountMethods();
   final _formKey = GlobalKey<FormState>();
   final ImagePicker _picker = ImagePicker();
 
   File? _image;
   bool _isDefault = true;
   List<String> dropdownValues = ['Male', 'Female'];
-  String dropdownValue = 'Female';
+  String dropdownValue = 'Male';
 
   String displayName = '';
   String email = '';
@@ -235,40 +237,49 @@ class _UpdateUserDetailsScreenState extends State<UpdateUserDetailsScreen> {
                         color: whiteColor),
                   ),
                   onPressed: () async {
-                    String email = _newEmailController.text;
-                    String displayName = _newDisplayNameController.text;
-                    String birthday = _newBirthdayController.text;
-                    String location = _newLocationController.text;
-                    String gender = dropDownValue;
+                    // String email = _newEmailController.text;
+                    // String displayName = _newDisplayNameController.text;
+                    // String birthday = _newBirthdayController.text;
+                    // String location = _newLocationController.text;
+                    // String gender = dropDownValue;
 
-                    debugPrint(
-                        '$email, $displayName, $birthday, $location, $gender');
+                    if (_formKey.currentState!.validate()) {
+                      String email = _newEmailController.text;
+                      String displayName = _newDisplayNameController.text;
+                      String gender = dropDownValue;
+                      String birthday = _newBirthdayController.text;
+                      String location = _newLocationController.text;
+                      // File? displayPic = _image;
 
-                    // if (_formKey.currentState!.validate()) {
-                    //   String email = _newEmailController.text;
-                    //   String birthday = _newBirthdayController.text;
-                    //   String gender = dropDownValue;
-                    //   String location = _newLocationController.text;
-                    //   File? displayPic = _image;
+                      UserDetails userDetails = UserDetails(
+                        email: email,
+                        displayName: displayName,
+                        gender: gender,
+                        birthday: birthday,
+                        location: location,
+                        profilePicPath: "",
+                        displayPicPath: "",
+                      );
 
-                    //   // call update function to send request to server side to update user details
-                    //   List response = await AuthenticateMethods()
-                    //       .updateUserDetails(
-                    //           email: email,
-                    //           birthday: birthday,
-                    //           location: location,
-                    //           gender: gender,
-                    //           displayPic: displayPic);
+                      //   // call update function to send request to server side to update user details
+                      List response = await AccountMethods()
+                          .update(userDetails: userDetails);
 
-                    //   String output = response[0];
-                    //   String message = response[1];
-                    //   bool isUpdated = response[2];
+                      String output = response[0];
+                      String message = response[1];
+                      bool isSuccess = response[2];
 
-                    //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    //     content: Text(message),
-                    //     backgroundColor: isUpdated ? successColor : errorColor,
-                    //   ));
-                    // }
+                      print(output);
+
+                      scaffoldMessengerKey.currentState?.showSnackBar(SnackBar(
+                        content: Text(message),
+                        backgroundColor: isSuccess ? successColor : errorColor,
+                      ));
+
+                      if (isSuccess) {
+                        _storageMethods.write("userDetails", userDetails);
+                      }
+                    }
                   },
                 )
               ],
