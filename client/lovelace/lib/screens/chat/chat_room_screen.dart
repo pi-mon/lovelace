@@ -21,6 +21,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
 
   StreamingSharedPreferences? preferences;
   Preference<String>? content;
+  String initialData = "[]";
 
   ChatStreamSocket chatStreamSocket = ChatStreamSocket();
 
@@ -29,7 +30,9 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
   Future<void> getContent() async {
     preferences = await StreamingSharedPreferences.instance;
     content = preferences!.getString(keyName, defaultValue: "[]");
-    content!.getValue();
+    setState(() {
+      initialData = content!.getValue();
+    });
   }
 
   _ChatRoomScreenState(this.receiverName) {
@@ -42,6 +45,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
   }
   dynamic chatMessages() {
     return StreamBuilder(
+      initialData: initialData,
       stream: content,
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if (snapshot.hasData) {
