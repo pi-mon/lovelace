@@ -56,17 +56,12 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   final ScreenCaptureEvent screenCaptureEvent = ScreenCaptureEvent();
-  // final bool _isJailbroken = true;
-  double blurr = 20;
-  double opacity = 0.6;
-  StreamSubscription<bool>? subLock;
 
   @override
   void initState() {
     screenCaptureEvent.watch();
     screenCaptureEvent.preventAndroidScreenShot(true);
     WidgetsBinding.instance.addObserver(this);
-    // FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
     screenShotRecord();
     super.initState();
     WidgetsBinding.instance.addObserver(this);
@@ -74,7 +69,6 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
   @override
   void dispose() {
-    subLock?.cancel();
     screenCaptureEvent.dispose();
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();

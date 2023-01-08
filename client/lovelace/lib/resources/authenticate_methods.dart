@@ -105,7 +105,6 @@ class AuthenticateMethods {
           if (outputJson[method] == true) {
             isSuccess = true;
             message = "Verification successful";
-            storageMethods.write("email", email);
           } else {
             message = outputJson['response'];
           }

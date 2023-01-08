@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 
 class StorageMethods {
   final _secureStorage = const FlutterSecureStorage();
-  static const _keyDisplayName = "display_name";
+  static const _keyDisplayName = "displayName";
   static const _keyAge = "age";
   static const _keyLocation = "location";
   static const _keyEmail = "email";
@@ -20,13 +20,7 @@ class StorageMethods {
     return true;
   }
 
-  // Future<void> writeUserJson(String email, dynamic value) async { // accept the email to be used as key
-  //   // write the object to local storage
-  //   await _secureStorage.write(key: "key_$email", value: value);
-  // }
-
   Future read<T>(String key) async {
-    // "T" is a generic type parameter used to specify the variable type when the exact type is still unknown
     dynamic value = await _secureStorage.read(key: key);
     debugPrint('$key read from secure_storage');
     return value;

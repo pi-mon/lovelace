@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:lovelace/models/user_detail.dart';
+import 'package:lovelace/resources/account_methods.dart';
 import 'package:lovelace/resources/storage_methods.dart';
 import 'package:lovelace/screens/admin/admin_account_screen.dart';
 import 'package:lovelace/screens/user/account/account_settings_screen.dart';
@@ -14,12 +16,24 @@ class AccountScreen extends StatefulWidget {
 }
 
 class _AccountScreenState extends State<AccountScreen> {
-  StorageMethods _storageMethods = StorageMethods();
+  final StorageMethods _storageMethods = StorageMethods();
+  final AccountMethods _accountMethods = AccountMethods();
   String displayName = '';
   String location = '';
+  
+  @override
+  void initState() {
+    super.initState();
+    init();
+  }
 
-  _AccountScreenState() {
-    _storageMethods.read("userDetails").then((value) {
+  void init() async {
+    List response = await _accountMethods.read();
+    String output = response[0];    
+    UserDetails userDetails =
+        UserDetails.fromJson(json.decode(output)["response"]);
+    String email = userDetails.email;
+    _storageMethods.read("userDetails_$email").then((value) {
       dynamic valueJson = json.decode(value);
       setState(() {
         displayName = valueJson["displayName"];
@@ -27,11 +41,6 @@ class _AccountScreenState extends State<AccountScreen> {
       });
     });
   }
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +73,7 @@ class _AccountScreenState extends State<AccountScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Text(location,
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 17,
                                 color: placeholderColor,
                                 fontWeight: FontWeight.bold)),

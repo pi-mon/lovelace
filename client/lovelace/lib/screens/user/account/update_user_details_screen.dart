@@ -1,8 +1,10 @@
+import 'dart:convert';
 import 'dart:io';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:lovelace/models/user_detail.dart';
+import 'package:lovelace/resources/account_methods.dart';
 import 'package:lovelace/resources/authenticate_methods.dart';
 import 'package:lovelace/resources/storage_methods.dart';
 import 'package:lovelace/utils/colors.dart';
@@ -19,31 +21,50 @@ class UpdateUserDetailsScreen extends StatefulWidget {
 class _UpdateUserDetailsScreenState extends State<UpdateUserDetailsScreen> {
   DateTime dateNow = DateTime(2022);
   String dropDownValue = 'Male';
-  final StorageMethods storage = StorageMethods();
-  final TextEditingController _newEmailController = TextEditingController();
-  final TextEditingController _newBirthdayController = TextEditingController();
-  final TextEditingController _newLocationController = TextEditingController();
-  final TextEditingController _newGenderController = TextEditingController();
-  final TextEditingController _newDisplayNameController =
-      TextEditingController();
+  final StorageMethods _storageMethods = StorageMethods();
+  final AccountMethods _accountMethods = AccountMethods();
   final _formKey = GlobalKey<FormState>();
   final ImagePicker _picker = ImagePicker();
+
   File? _image;
   bool _isDefault = true;
   List<String> dropdownValues = ['Male', 'Female'];
   String dropdownValue = 'Male';
 
-  @override
-  void initState() {
-    super.initState();
-    init();
-  }
+  String displayName = '';
+  String email = '';
+  String location = '';
+  String gender = '';
+  String birthday = '';
 
-  Future init() async {
-    // TODO: Get the user data
+  final TextEditingController _newEmailController = TextEditingController();
+  final TextEditingController _newBirthdayController = TextEditingController();
+  final TextEditingController _newLocationController = TextEditingController();
+  final TextEditingController _newDisplayNameController = TextEditingController();
 
-    setState(() {});
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   init();
+  // }
+
+  // void init() async {
+  //   List response = await _accountMethods.read();
+  //   String output = response[0];
+  //   UserDetails userDetails =
+  //       UserDetails.fromJson(json.decode(output)["response"]);
+  //   String email = userDetails.email;
+  //   _storageMethods.read("userDetails_$email").then((value) {
+  //     dynamic valueJson = json.decode(value);
+  //     setState(() {
+  //       displayName = valueJson["displayName"];
+  //       location = valueJson["location"];
+  //       email = valueJson["email"];
+  //       birthday = valueJson["birthday"];
+  //       gender = valueJson["gender"];
+  //     });
+  //   });
+  // }
 
   @override
   void dispose() {
@@ -137,6 +158,16 @@ class _UpdateUserDetailsScreenState extends State<UpdateUserDetailsScreen> {
                 ),
                 const SizedBox(height: 16),
                 TextFieldInput(
+                  label: "Display Name",
+                  hintText: "Enter your Display Name",
+                  textInputType: TextInputType.emailAddress,
+                  textEditingController: _newEmailController,
+                  validator: (value) {
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 16),
+                TextFieldInput(
                   onTap: () async {
                     DateTime? newDate = await showDatePicker(
                         context: context,
@@ -217,11 +248,12 @@ class _UpdateUserDetailsScreenState extends State<UpdateUserDetailsScreen> {
                   ),
                   onPressed: () async {
                     String email = _newEmailController.text;
+                    String displayName = _newDisplayNameController.text;
                     String birthday = _newBirthdayController.text;
                     String location = _newLocationController.text;
                     String gender = dropDownValue;
 
-                    debugPrint('$email, $birthday, $location, $gender');
+                    debugPrint('$email, $displayName, $birthday, $location, $gender');
 
                     // if (_formKey.currentState!.validate()) {
                     //   String email = _newEmailController.text;

@@ -1,6 +1,4 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:lovelace/utils/global_variables.dart';
 import 'package:lovelace/widgets/display_card.dart';
 // import 'package:lovelace/widgets/cards_stack_widget.dart';
 
@@ -24,7 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 32, vertical: 32),
                 // child: const CardsStackWidget(),
-                child: DisplayCard(
+                child: const DisplayCard(
                   image: "assets/images/landing-user.jpeg",
                   name: 'John Doe',
                   age: 21,
