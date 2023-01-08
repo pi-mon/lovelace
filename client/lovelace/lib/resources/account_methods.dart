@@ -39,7 +39,14 @@ class AccountMethods {
     String message = "An error occurred";
     bool isSuccess = false;
     try {
-      output = await session.post('/account/profile/update', userDetails);
+      // List<Map<String, String>> filesMap = [
+      //   {"name": "profilePicture", "path": userDetails.profilePicPath},
+      //   {"name": "displayPicture", "path": userDetails.displayPicPath}
+      // ];
+      output = await session.post(
+        '/account/profile/update', userDetails,
+        // filesMap: filesMap
+      );
       try {
         dynamic outputJson = jsonDecode(output);
 
