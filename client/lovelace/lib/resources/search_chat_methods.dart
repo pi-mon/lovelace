@@ -58,7 +58,7 @@ class MySearchDelegate extends SearchDelegate {
                 context,
                 MaterialPageRoute(
                     builder: (context) => ChatRoomScreen(
-                          receiverName: query,
+                          receiverEmail: query,
                         )));
           },
         );

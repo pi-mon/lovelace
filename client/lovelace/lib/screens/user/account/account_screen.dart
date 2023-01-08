@@ -1,8 +1,5 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:lovelace/models/user_detail.dart';
-import 'package:lovelace/resources/account_methods.dart';
 import 'package:lovelace/resources/storage_methods.dart';
 import 'package:lovelace/screens/admin/admin_account_screen.dart';
 import 'package:lovelace/screens/user/account/account_settings_screen.dart';
@@ -17,21 +14,10 @@ class AccountScreen extends StatefulWidget {
 
 class _AccountScreenState extends State<AccountScreen> {
   final StorageMethods _storageMethods = StorageMethods();
-  final AccountMethods _accountMethods = AccountMethods();
   String displayName = '';
   String location = '';
-  
-  @override
-  void initState() {
-    super.initState();
-    init();
-  }
 
-  void init() async {
-    List response = await _accountMethods.read();
-    String output = response[0];    
-    UserDetails userDetails =
-        UserDetails.fromJson(json.decode(output)["response"]);
+  _AccountScreenState() {
     _storageMethods.read("userDetails").then((value) {
       dynamic valueJson = json.decode(value);
       setState(() {

@@ -13,8 +13,8 @@ class AccountDetailsScreen extends StatefulWidget {
 }
 
 class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
-  bool _isLoading = false;
   final StorageMethods _storageMethods = StorageMethods();
+  final List deleteList = ["cookie", "userDetails"];
 
   @override
   void initState() {
@@ -24,14 +24,7 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
 
   void initList() async {
     await _storageMethods.readAllJson();
-    setState(() {
-      _isLoading = false;
-    });
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
+    setState(() {});
   }
 
   @override
@@ -69,9 +62,7 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
               label: "Logout",
               labelColor: errorColor,
               function: () async {
-                setState(() {
-                  _isLoading = true;
-                });
+                setState(() {});
                 showDialog(
                     context: context,
                     builder: (context) {
@@ -92,8 +83,11 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
                         ],
                       ));
                     });
-                StorageMethods().deleteAll();
-                // StorageMethods().delete("cookie");
+                // StorageMethods().deleteAll();
+                for (String element in deleteList) {
+                  _storageMethods.delete(element);
+                }
+
                 UserStateMethods().logoutState(context);
                 initList();
               })

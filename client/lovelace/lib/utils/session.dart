@@ -27,18 +27,34 @@ class Session {
     return response.body;
   }
 
-  Future<String> post(String route, dynamic data) async {
-    dynamic cookie = await _storageMethods.read("cookie");
+  Future<String> post(String route, dynamic data,
+      {List<Map<String, String>>? filesMap}) async {
+    dynamic cookie = await _storageMethods.read("cookie") ?? "";
 
-    headers[HttpHeaders.contentTypeHeader] = 'application/json; charset=UTF-8';
-    if (cookie != null) {
+    if (filesMap != null) {
+      headers[HttpHeaders.contentTypeHeader] = 'multipart/form-data';
       headers[HttpHeaders.cookieHeader] = cookie;
+      http.MultipartRequest request =
+          http.MultipartRequest("POST", Uri.http(_baseUrl, route));
+      request.headers.addAll(headers);
+      request.fields['payload'] = jsonEncode(data);
+      for (Map<String, String> fileMap in filesMap) {
+        request.files.add(await http.MultipartFile.fromPath(
+            fileMap["name"]!, fileMap["path"]!));
+      }
+      http.StreamedResponse response = await request.send();
+      return response.stream.bytesToString();
+    } else {
+      headers[HttpHeaders.contentTypeHeader] =
+          'application/json; charset=UTF-8';
+      headers[HttpHeaders.cookieHeader] = cookie;
+
+      http.Response response = await http.post(Uri.http(_baseUrl, route),
+          body: jsonEncode(data), headers: headers);
+      updateCookie(response);
+      checkTokenExpired(response);
+      return response.body;
     }
-    http.Response response = await http.post(Uri.http(_baseUrl, route),
-        body: jsonEncode(data), headers: headers);
-    updateCookie(response);
-    checkTokenExpired(response);
-    return response.body;
   }
 
   void updateCookie(http.Response response) async {

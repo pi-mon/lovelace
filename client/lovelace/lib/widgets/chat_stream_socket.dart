@@ -60,6 +60,25 @@ void connectAndListen(String keyName, String senderName) async {
   });
 }
 
+void disconnect(String keyName, String senderName) async {
+  dynamic cookie = await StorageMethods().read("cookie");
+  String baseUrl = checkDevice();
+  StreamingSharedPreferences preferences =
+      await StreamingSharedPreferences.instance;
+  Preference<String> content =
+      preferences.getString(keyName, defaultValue: "[]");
+
+  socket_io.Socket socket = socket_io.io(
+      Uri.http(baseUrl, '/chat').toString(),
+      socket_io.OptionBuilder().setTransports(['websocket']).setExtraHeaders({
+        HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
+        HttpHeaders.cookieHeader: cookie
+      }).build());
+
+  socket.emit('leave', {"room": keyName, "username": senderName});
+  socket.disconnect();
+}
+
 void sendingMessage(dynamic chatMessageMap) async {
   dynamic cookie = await StorageMethods().read("cookie");
   String baseUrl = checkDevice();
