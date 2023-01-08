@@ -17,23 +17,11 @@ class AccountScreen extends StatefulWidget {
 
 class _AccountScreenState extends State<AccountScreen> {
   final StorageMethods _storageMethods = StorageMethods();
-  final AccountMethods _accountMethods = AccountMethods();
   String displayName = '';
   String location = '';
-  
-  @override
-  void initState() {
-    super.initState();
-    init();
-  }
 
-  void init() async {
-    List response = await _accountMethods.read();
-    String output = response[0];    
-    UserDetails userDetails =
-        UserDetails.fromJson(json.decode(output)["response"]);
-    String email = userDetails.email;
-    _storageMethods.read("userDetails_$email").then((value) {
+  _AccountScreenState() {
+    _storageMethods.read("userDetails").then((value) {
       dynamic valueJson = json.decode(value);
       setState(() {
         displayName = valueJson["displayName"];
