@@ -14,12 +14,12 @@ class User {
       : email = json['email'],
         password = json['password'],
         otp = json['otp'],
-        otpExpiry = json['otpExpiry'];
+        otpExpiry = json['otp_expiry'];
 
   Map<String, dynamic> toJson() => {
         'email': email,
         'password': password,
         'otp': otp,
-        'otpExpiry': otpExpiry,
+        'otp_expiry': otpExpiry,
       };
 }

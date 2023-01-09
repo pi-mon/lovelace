@@ -311,7 +311,7 @@ def update_profile(user_email):
         user_detail_collection = mongo_account_details_write.account_details
         new_account_details = account.UserDetails(
             email=user_email,
-            display_name=profile_information["displayName"],
+            display_name=profile_information["display_name"],
             birthday=profile_information["birthday"],
             gender=profile_information["gender"],
             location=profile_information["location"],
