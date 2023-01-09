@@ -311,7 +311,7 @@ def update_profile(user):
     if (
         user_detail_collection.account_details.find_one({"email": user}, {"email": 1})
         == None
-    ):  # check if need to update profilwwwwwe or create new profile
+    ):  # check if need to update profile or create new profile
         user_detail_collection.account_details.insert_one(new_account_details.__dict__)
         return jsonify(
             {"create": True, "response": "User account details has been created"}
@@ -343,7 +343,7 @@ def update_display_pic(user):
     if (
         user_detail_collection.account_details.find_one({"email": user}, {"email": 1})
         == None
-    ):  # check if need to update profilwwwwwe or create new profile
+    ):  # check if need to update profile or create new profile
         user_detail_collection.account_details.insert_one(new_account_details.__dict__)
         return jsonify(
             {
@@ -374,7 +374,7 @@ def update_profile_pic(user):
     if (
         user_detail_collection.account_details.find_one({"email": user}, {"email": 1})
         == None
-    ):  # check if need to update profilwwwwwe or create new profile
+    ):  # check if need to update profile or create new profile
         user_detail_collection.account_details.insert_one(new_account_details.__dict__)
         return jsonify(
             {
