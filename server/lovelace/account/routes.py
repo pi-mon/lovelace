@@ -224,13 +224,14 @@ def login_verify(user):
      try:
        account_collection = mongo_account_read.account
        otp_details = account_collection.user.find_one({"email": user}, {"otp": 1,"otp_expiry":1})
-       otp_expiry = otp_details["otp_expiry"] 
        otp = str(request.get_json()["otp"])
+       user_otp = str(otp_details["otp"])
+       user_otp_expiry = otp_details["otp_expiry"]
      except:
        return jsonify(
             {"login": False, "response": "User login failed due to invalid input"}
         )
-     if otp_expiry > datetime.utcnow() and otp_details["otp"] == otp: #checks if otp has expired
+     if user_otp_expiry > datetime.utcnow() and user_otp == otp: #checks if otp has expired and is valid
          token = jwt.encode(
             {"email": user,
             "request ip":request.remote_addr,
@@ -245,8 +246,16 @@ def login_verify(user):
          return jsonify(
             {"login": True, "response": "User login successful", "token": token}
         )
+     elif user_otp_expiry < datetime.utcnow():
+         print(f"{datetime.utcnow()} is the current time, {user_otp_expiry} is when the otp expires ")
+         return jsonify(
+            {"login": False, "response": "Expired otp"})
+     elif user_otp != otp:
+         print(f"{otp} is what user entered, {user_otp} is the valid otp")
+         return jsonify(
+            {"login": False, "response": "Invalid otp"})
      return jsonify(
-            {"login": False, "response": "Invalid or expired otp"})
+            {"login": False, "response": "Error logging verifying account please try again later"})
 @account_page.route("/account/update_profile")
 @token_required() #user is email registered
 def update_profile(user):
