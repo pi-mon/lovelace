@@ -48,7 +48,7 @@ class _UpdateUserDetailsScreenState extends State<UpdateUserDetailsScreen> {
       dynamic valueJson = json.decode(value);
       setState(() {
         _newEmailController.text = valueJson["email"];
-        _newDisplayNameController.text = valueJson["displayName"];
+        _newDisplayNameController.text = valueJson["display_name"];
         dropDownValue = valueJson["gender"]; // doesn't work
         _newBirthdayController.text = valueJson["birthday"];
         _newLocationController.text = valueJson["location"];
