@@ -9,7 +9,7 @@ class User:
 class UserDetails:
     def __init__(self, email, display_name, birthday, gender, location):
         self.email = email
-        self.display_name = display_name
+        self.displayName = display_name
         self.birthday = birthday
         self.location = location
         self.gender = gender

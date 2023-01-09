@@ -21,7 +21,7 @@ class _AccountScreenState extends State<AccountScreen> {
     _storageMethods.read("userDetails").then((value) {
       dynamic valueJson = json.decode(value);
       setState(() {
-        displayName = valueJson["displayName"];
+        displayName = valueJson["display_name"];
         location = valueJson["location"];
       });
     });

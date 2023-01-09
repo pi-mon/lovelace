@@ -18,21 +18,21 @@ class UserDetails {
 
   UserDetails.fromJson(Map<String, dynamic> json)
       : email = json['email'],
-        displayName = json['displayName'],
+        displayName = json['display_name'],
         birthday = json['birthday'],
         gender = json['gender'],
         location = json['location'],
-        profilePicPath = json['profilePic'] ?? "",
-        displayPicPath = json['displayPic'] ?? "";
+        profilePicPath = json['profile_pic'] ?? "",
+        displayPicPath = json['display_pic'] ?? "";
 
   Map<String, dynamic> toJson() => {
         'email': email,
-        'displayName': displayName,
+        'display_name': displayName,
         'birthday': birthday,
         'gender': gender,
         'location': location,
-        'profilePicPath': profilePicPath,
-        'displayPicPath': displayPicPath,
+        'profile_pic_path': profilePicPath,
+        'display_pic_path': displayPicPath,
       };
 
   @override
