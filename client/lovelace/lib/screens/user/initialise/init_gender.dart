@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:lovelace/screens/user/initialise/init_birthday_screen.dart';
-import 'package:lovelace/screens/user/initialise/init_location_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 
 class InitGenderScreen extends StatefulWidget {

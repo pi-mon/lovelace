@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:lovelace/models/user.dart';
 import 'package:lovelace/models/user_detail.dart';
 import 'package:lovelace/resources/storage_methods.dart';
 
