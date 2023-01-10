@@ -157,8 +157,8 @@ class _InitDisplayPicScreenState extends State<InitDisplayPicScreen> {
                             );
                             List response = await _accountMethods.update(
                                 userDetails: userDetails);
-                            bool isSuccess = response[2];
-                            if (isSuccess) {
+                            List<bool> isSuccessList = response[2];
+                            if (!isSuccessList.any((element) => false)) {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(

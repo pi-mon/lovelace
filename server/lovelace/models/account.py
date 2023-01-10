@@ -9,9 +9,9 @@ class User:
 class UserDetails:
     def __init__(self, email, display_name, birthday, gender, location):
         self.email = email
-        self.displayName = display_name
+        self.display_name = display_name
         self.birthday = birthday
         self.location = location
         self.gender = gender
         self.profile_pic = ""
-        self.card_pic = ""
+        self.display_pic = ""

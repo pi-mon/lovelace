@@ -31,8 +31,8 @@ class UserDetails {
         'birthday': birthday,
         'gender': gender,
         'location': location,
-        'profile_pic_path': profilePicPath,
-        'display_pic_path': displayPicPath,
+        'profile_pic': profilePicPath,
+        'display_pic': displayPicPath,
       };
 
   @override

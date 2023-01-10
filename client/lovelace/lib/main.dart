@@ -110,6 +110,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
       home = widget._userPages;
     }
     // home = widget._userPages;
+
     MaterialApp materialApp = MaterialApp(
         debugShowCheckedModeBanner: true,
         title: 'Lovelace',
