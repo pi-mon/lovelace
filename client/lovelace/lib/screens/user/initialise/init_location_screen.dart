@@ -156,7 +156,7 @@ class _InitLocationScreenState extends State<InitLocationScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => InitProfilePicScreen(
+                                builder: (context) => InitprofilePicScreen(
                                       displayName: widget.displayName,
                                       gender: widget.gender,
                                       birthday: widget.birthday,

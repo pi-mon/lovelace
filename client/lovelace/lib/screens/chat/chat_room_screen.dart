@@ -23,8 +23,8 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
     birthday: "21-11-2004",
     gender: "Male",
     location: "Singapore",
-    profilePicPath: "",
-    displayPicPath: "",
+    profilePic: "",
+    displayPic: "",
   );
   UserDetails senderUserDetails = UserDetails(
     email: "213587x@gmail.com",
@@ -32,8 +32,8 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
     birthday: "01-01-2001",
     gender: "Female",
     location: "Singapore",
-    profilePicPath: "",
-    displayPicPath: "",
+    profilePic: "",
+    displayPic: "",
   );
   String keyName = "";
 

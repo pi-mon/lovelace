@@ -407,9 +407,11 @@ def profile(user):
         profile_pic = base64.b64encode(account_details["profile_pic"]).decode("utf-8")
         account_details["display_pic"] = display_pic
         account_details["profile_pic"] = profile_pic
-        return jsonify(account_details)
+        return jsonify({"read": True, "response": account_details})
     except Exception as e:
-        return jsonify({"response": f"Error retrieving user profile: {e}"})
+        return jsonify(
+            {"read": True, "response": f"Error retrieving user profile: {e}"}
+        )
 
 
 # @account_page.route("/account/email")

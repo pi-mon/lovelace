@@ -52,7 +52,7 @@ dependencies:
   crypto: ^3.0.2
   encrypt: ^5.0.1
   grouped_list: ^5.1.2
-  intl: ^0.17.0
+  intl: ^0.18.0
   path: ^1.8.2
   flutter_datetime_picker: ^1.5.1
   geolocator: ^9.0.2

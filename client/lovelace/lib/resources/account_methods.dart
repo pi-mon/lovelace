@@ -15,7 +15,7 @@ class AccountMethods {
     try {
       output = await session.get('/account/profile');
       try {
-        dynamic outputJson = jsonDecode(output);
+        dynamic outputJson = json.decode(output);
 
         if (outputJson['read'] == true) {
           isSuccess = true;
@@ -29,37 +29,42 @@ class AccountMethods {
     } catch (e) {
       output = e.toString();
     }
+
     print(output);
 
     return [output, message, isSuccess];
   }
 
   Future<List> update({required UserDetails userDetails}) async {
-    List<String> outputList = [];
-    List<String> messageList = [];
-    List<bool> isSuccessList = [];
+    String output = "";
+    String message = "";
+    bool isSuccess = false;
     // List<Map<String, String>> filesMap = [
-    //   {"name": "profile_picture", "path": userDetails.profilePicPath},
-    //   {"name": "display_picture", "path": userDetails.displayPicPath}
+    //   {"name": "profile_picture", "path": userDetails.profilePic},
+    //   {"name": "display_picture", "path": userDetails.displayPic}
     // ];
     updateDetails(userDetails: userDetails).then((value) {
-      outputList.add(value[0]);
-      messageList.add(value[1]);
-      isSuccessList.add(value[2]);
+      output += value[0];
+      message += value[1];
+      isSuccess = isSuccess && value[2];
     });
-    updateFile(fileName: "profile_pic", filePath: userDetails.profilePicPath)
-        .then((value) => {
-              outputList.add(value[0]),
-              messageList.add(value[1]),
-              isSuccessList.add(value[2]),
-            });
-    updateFile(fileName: "display_pic", filePath: userDetails.displayPicPath)
-        .then((value) => {
-              outputList.add(value[0]),
-              messageList.add(value[1]),
-              isSuccessList.add(value[2]),
-            });
-    return [outputList, messageList, isSuccessList];
+    if (userDetails.profilePic != "") {
+      updateFile(fileName: "profile_pic", filePath: userDetails.profilePic)
+          .then((value) => {
+                output += value[0],
+                message += value[1],
+                isSuccess = isSuccess && value[2],
+              });
+    }
+    if (userDetails.displayPic != "") {
+      updateFile(fileName: "display_pic", filePath: userDetails.displayPic)
+          .then((value) => {
+                output += value[0],
+                message += value[1],
+                isSuccess = isSuccess && value[2],
+              });
+    }
+    return [output, message, isSuccess];
   }
 
   Future<List> updateDetails({required UserDetails userDetails}) async {

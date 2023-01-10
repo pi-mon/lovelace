@@ -14,7 +14,6 @@ class AccountDetailsScreen extends StatefulWidget {
 
 class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
   final StorageMethods _storageMethods = StorageMethods();
-  final List deleteList = ["cookie", "userDetails"];
   bool isBackedup = true;
 
   @override
@@ -101,10 +100,6 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
                         ],
                       ));
                     });
-                // StorageMethods().deleteAll();
-                for (String element in deleteList) {
-                  _storageMethods.delete(element);
-                }
 
                 UserStateMethods().logoutState(context);
                 initList();

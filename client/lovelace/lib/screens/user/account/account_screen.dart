@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:lovelace/resources/storage_methods.dart';
 import 'package:lovelace/screens/admin/admin_account_screen.dart';
@@ -16,6 +17,8 @@ class _AccountScreenState extends State<AccountScreen> {
   final StorageMethods _storageMethods = StorageMethods();
   String displayName = '';
   String location = '';
+  String profilePic = '';
+  bool profilePicLoaded = false;
 
   _AccountScreenState() {
     _storageMethods.read("userDetails").then((value) {
@@ -23,6 +26,8 @@ class _AccountScreenState extends State<AccountScreen> {
       setState(() {
         displayName = valueJson["display_name"];
         location = valueJson["location"];
+        profilePic = valueJson["profile_pic"];
+        profilePicLoaded = true;
       });
     });
   }
@@ -39,10 +44,23 @@ class _AccountScreenState extends State<AccountScreen> {
               children: <Widget>[
                 Column(
                   children: <Widget>[
-                    Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: const <Widget>[Icon(Icons.person, size: 60)]),
-                    const SizedBox(height: 15),
+                    Container(
+                      width: 100,
+                      height: 100,
+                      decoration: BoxDecoration(
+                        border: Border.all(color: borderColor),
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: profilePicLoaded
+                                ? Image.memory(Uint8List.fromList(
+                                        base64.decode(profilePic)))
+                                    .image
+                                : Image.asset(
+                                        "assets/images/default-profile-picture.png")
+                                    .image),
+                      ),
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[

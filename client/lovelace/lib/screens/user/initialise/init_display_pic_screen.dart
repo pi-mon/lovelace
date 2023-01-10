@@ -152,8 +152,8 @@ class _InitDisplayPicScreenState extends State<InitDisplayPicScreen> {
                               birthday: widget.birthday,
                               gender: widget.gender,
                               location: widget.location,
-                              profilePicPath: widget.profilePic.path,
-                              displayPicPath: _image!.path,
+                              profilePic: widget.profilePic.path,
+                              displayPic: _image!.path,
                             );
                             List response = await _accountMethods.update(
                                 userDetails: userDetails);

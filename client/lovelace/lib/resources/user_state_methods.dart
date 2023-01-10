@@ -17,6 +17,7 @@ class UserStateMethods {
     List response = await _accountMethods.read();
     String output = response[0];
     bool isSuccess = response[2];
+    print(isSuccess);
     _storageMethods.write("isFTL", !isSuccess);
     if (isSuccess) {
       UserDetails userDetails =
@@ -33,8 +34,10 @@ class UserStateMethods {
   }
 
   void logoutState(BuildContext context) async {
-    _storageMethods.write("isLoggedIn", false);
-    // notify user that user has been logged out
+    List<String> keyList = ["isLoggedIn", "isFTL", "userDetails", "cookie"];
+    for (String key in keyList) {
+      _storageMethods.delete(key);
+    }
 
     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
       content: Text("You have been logged out"),

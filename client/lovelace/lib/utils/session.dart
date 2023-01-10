@@ -20,7 +20,7 @@ class Session {
     http.Response response =
         await http.get(Uri.http(_baseUrl, route), headers: headers);
     updateCookie(response);
-    // checkTokenExpired(response);
+    checkTokenExpired(response);
     return response.body;
   }
 
@@ -48,7 +48,7 @@ class Session {
       http.Response response = await http.post(Uri.http(_baseUrl, route),
           body: jsonEncode(data), headers: headers);
       updateCookie(response);
-      // checkTokenExpired(response);
+      checkTokenExpired(response);
       return response.body;
     }
   }
@@ -63,19 +63,18 @@ class Session {
     }
   }
 
-  // bool checkTokenExpired(http.Response response) {
-  //   String responseBody = response.body;
-  //   try {
-  //     dynamic responseJson = json.decode(responseBody);
-  //     if (responseJson['message'] == "Token has expired !!") {
-  //       _storageMethods.delete("isLoggedIn");
-  //       _storageMethods.delete("isFTL");
-  //       _storageMethods.delete("cookie");
-  //       return true;
-  //     }
-  //   } catch (e) {
-  //     print(e);
-  //   }
-  //   return false;
-  // }
+  void checkTokenExpired(http.Response response) {
+    String responseBody = response.body;
+    try {
+      dynamic responseJson = json.decode(responseBody);
+      if (responseJson['message'] == "Token has expired !!") {
+        List<String> deleteList = ["isLoggedIn", "isFTL", "cookie"];
+        for (String key in deleteList) {
+          _storageMethods.delete(key);
+        }
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
 }

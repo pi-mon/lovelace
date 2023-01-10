@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
@@ -36,6 +37,7 @@ class _UpdateUserDetailsScreenState extends State<UpdateUserDetailsScreen> {
   String location = '';
   String gender = '';
   String birthday = '';
+  String profilePic = '';
 
   final TextEditingController _newEmailController = TextEditingController();
   final TextEditingController _newDisplayNameController =
@@ -52,6 +54,7 @@ class _UpdateUserDetailsScreenState extends State<UpdateUserDetailsScreen> {
         dropDownValue = valueJson["gender"]; // doesn't work
         _newBirthdayController.text = valueJson["birthday"];
         _newLocationController.text = valueJson["location"];
+        profilePic = valueJson["profile_pic"];
       });
     });
   }
@@ -114,8 +117,9 @@ class _UpdateUserDetailsScreenState extends State<UpdateUserDetailsScreen> {
                             image: DecorationImage(
                               fit: BoxFit.cover,
                               image: _isDefault
-                                  ? const AssetImage(
-                                      'assets/images/default-profile-picture.png')
+                                  ? Image.memory(Uint8List.fromList(
+                                          base64.decode(profilePic)))
+                                      .image
                                   : Image.file(_image!).image,
                             ),
                           ),
@@ -249,7 +253,7 @@ class _UpdateUserDetailsScreenState extends State<UpdateUserDetailsScreen> {
                       String gender = dropDownValue;
                       String birthday = _newBirthdayController.text;
                       String location = _newLocationController.text;
-                      // File? displayPic = _image;
+                      File? profilePic = _image;
 
                       UserDetails userDetails = UserDetails(
                         email: email,
@@ -257,8 +261,8 @@ class _UpdateUserDetailsScreenState extends State<UpdateUserDetailsScreen> {
                         gender: gender,
                         birthday: birthday,
                         location: location,
-                        profilePicPath: "",
-                        displayPicPath: "",
+                        profilePic: profilePic?.path ?? "",
+                        displayPic: "",
                       );
 
                       //   // call update function to send request to server side to update user details
