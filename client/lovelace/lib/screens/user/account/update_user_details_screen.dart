@@ -8,6 +8,7 @@ import 'package:lovelace/models/user_detail.dart';
 import 'package:lovelace/resources/account_methods.dart';
 import 'package:lovelace/resources/storage_methods.dart';
 import 'package:lovelace/utils/colors.dart';
+import 'package:lovelace/widgets/dropdown_field_input.dart';
 import 'package:lovelace/widgets/text_field_input.dart';
 
 class UpdateUserDetailsScreen extends StatefulWidget {
@@ -141,8 +142,7 @@ class _UpdateUserDetailsScreenState extends State<UpdateUserDetailsScreen> {
                           decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               color: whiteColor,
-                              border:
-                                  Border.all(color: primaryColor, width: 1)),
+                              border: Border.all(color: borderColor, width: 1)),
                           child: const Icon(Icons.edit,
                               color: placeholderColor, size: 20),
                         ))
@@ -167,43 +167,13 @@ class _UpdateUserDetailsScreenState extends State<UpdateUserDetailsScreen> {
                     return null;
                   },
                 ),
-                const SizedBox(height: 10),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    const Padding(
-                      padding: EdgeInsets.only(bottom: 5),
-                      child: Text("Gender",
-                          style: TextStyle(color: primaryColor, fontSize: 18)),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 16),
-                      child: Container(
-                        padding: const EdgeInsets.only(left: 16, right: 16),
-                        decoration: BoxDecoration(
-                            border: Border.all(color: borderColor, width: .5),
-                            borderRadius: BorderRadius.circular(12)),
-                        child: DropdownButton<String>(
-                          hint: const Text("Select gender"),
-                          value: _newGenderController.text,
-                          icon: const Icon(Icons.arrow_drop_down),
-                          isExpanded: true,
-                          underline: const SizedBox(),
-                          items: dropdownValues.map((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
-                          }).toList(),
-                          onChanged: (String? newValue) {
-                            setState(() {
-                              _newGenderController.text = newValue!;
-                            });
-                          },
-                        ),
-                      ),
-                    ),
-                  ],
+                const SizedBox(height: 16),
+                DropdownFieldInput(
+                  textEditingController: _newGenderController,
+                  label: "Gender",
+                  hintText: "Select gender",
+                  dropdownValues: dropdownValues,
+                  setState: setState,
                 ),
                 const SizedBox(height: 16),
                 TextFieldInput(
