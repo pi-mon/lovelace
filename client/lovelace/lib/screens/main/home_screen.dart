@@ -21,7 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
             children: <Widget>[
               Container(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 32, vertical: 32),
+                    const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
                 child: const CardsStackWidget(),
                 // child: const DisplayCard(
                 //   image: "assets/images/landing-user.jpeg",
