@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lovelace/resources/auth_methods.dart';
 import 'package:lovelace/resources/user_state_methods.dart';
-import 'package:lovelace/responsive/mobile_screen_layout.dart';
-import 'package:lovelace/responsive/responsive_layout.dart';
-import 'package:lovelace/responsive/web_screen_layout.dart';
-import 'package:lovelace/screens/authentication/register_email_screen.dart';
+import 'package:lovelace/screens/user/register_email_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:lovelace/widgets/text_field_input.dart';
 
@@ -17,9 +14,6 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final _userPages = const ResponsiveLayout(
-      mobileScreenLayout: MobileScreenLayout(),
-      webScreenLayout: WebScreenLayout());
   final _formKey = GlobalKey<FormState>();
   final controllerToken = TextEditingController();
 
@@ -84,7 +78,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     hintText: "Enter your email",
                     textInputType: TextInputType.emailAddress,
                     textEditingController: _emailController,
-                    validator: (value) {},
+                    validator: (value) {
+                      return null;
+                    },
                   ),
                   const SizedBox(height: 16),
                   TextFieldInput(
@@ -93,7 +89,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     textInputType: TextInputType.text,
                     textEditingController: _passwordController,
                     isPass: true,
-                    validator: (value) {},
+                    validator: (value) {
+                      return null;
+                    },
                   ),
                   const SizedBox(height: 128),
                   Flexible(
@@ -131,32 +129,34 @@ class _LoginScreenState extends State<LoginScreen> {
                             color: whiteColor,
                             fontWeight: FontWeight.bold)),
                     onPressed: () async {
-                      UserStateMethods().loginState(context);                      
                       if (_formKey.currentState!.validate()) {
                         final String email = _emailController.text;
                         final String password = _passwordController.text;
+
                         List response = await AuthMethods()
                             .login(email: email, password: password);
+
+                        String output = response[0];
+                        String message = response[1];
+                        bool isSuccess = response[2];
+
                         // ignore: use_build_context_synchronously
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          content: Text(response[1]),
+                          content: Text(message),
                           backgroundColor:
-                              response[2] ? successColor : errorColor,
+                              isSuccess ? successColor : errorColor,
                         ));
 
-                        if (response[2]) {
-                          debugPrint("Test2");
+                        if (isSuccess) {
                           // ignore: use_build_context_synchronously
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => _userPages));
+                          UserStateMethods().loginState(context);
                         }
+
                         showDialog(
                           context: context,
                           builder: (context) {
                             return AlertDialog(
-                              content: Text(response[0]),
+                              content: Text(output),
                             );
                           },
                         );
