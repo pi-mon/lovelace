@@ -271,7 +271,7 @@ def update_profile(user):
         user_detail_collection.account_details.insert_one(new_account_details.__dict__)
         return(jsonify({"create":True,"response":"User account details has been created"}))
     else:
-        new_values = { "$set": {"username":profile_information["display_name"],"gender":profile_information["gender"],"age":profile_information["age"],"location":profile_information["location"],"profile_pic":profile_information["profile_pic"],"display_pic":profile_information["display_pic"]} }
+        new_values = { "$set": {"display_name":profile_information["display_name"],"gender":profile_information["gender"],"age":profile_information["age"],"location":profile_information["location"],"profile_pic":profile_information["profile_pic"],"display_pic":profile_information["display_pic"]} }
         user_detail_collection.account_details.update_one({"email": user},update=new_values)
         return(jsonify({"create":True,"response":"User details has been updated"}))
     
