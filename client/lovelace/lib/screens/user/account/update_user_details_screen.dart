@@ -29,6 +29,7 @@ class _UpdateUserDetailsScreenState extends State<UpdateUserDetailsScreen> {
 
   File? _image;
   bool _isDefault = true;
+  bool _isLoading = true;
   List<String> dropdownValues = ['Male', 'Female'];
   String dropdownValue = 'Male';
 
@@ -42,6 +43,8 @@ class _UpdateUserDetailsScreenState extends State<UpdateUserDetailsScreen> {
   final TextEditingController _newEmailController = TextEditingController();
   final TextEditingController _newDisplayNameController =
       TextEditingController();
+  final TextEditingController _newGenderController =
+      TextEditingController(text: "Male");
   final TextEditingController _newBirthdayController = TextEditingController();
   final TextEditingController _newLocationController = TextEditingController();
 
@@ -51,10 +54,11 @@ class _UpdateUserDetailsScreenState extends State<UpdateUserDetailsScreen> {
       setState(() {
         _newEmailController.text = valueJson["email"];
         _newDisplayNameController.text = valueJson["display_name"];
-        dropDownValue = valueJson["gender"]; // doesn't work
+        _newGenderController.text = valueJson["gender"]; // doesn't work
         _newBirthdayController.text = valueJson["birthday"];
         _newLocationController.text = valueJson["location"];
         profilePic = valueJson["profile_pic"];
+        _isLoading = false;
       });
     });
   }
@@ -63,6 +67,7 @@ class _UpdateUserDetailsScreenState extends State<UpdateUserDetailsScreen> {
   void dispose() {
     _newEmailController.dispose();
     _newDisplayNameController.dispose();
+    _newGenderController.dispose();
     _newBirthdayController.dispose();
     _newLocationController.dispose();
     super.dispose();
@@ -117,9 +122,13 @@ class _UpdateUserDetailsScreenState extends State<UpdateUserDetailsScreen> {
                             image: DecorationImage(
                               fit: BoxFit.cover,
                               image: _isDefault
-                                  ? Image.memory(Uint8List.fromList(
-                                          base64.decode(profilePic)))
-                                      .image
+                                  ? (_isLoading
+                                      ? Image.asset(
+                                              "assets/images/default-profile-picture.png")
+                                          .image
+                                      : Image.memory(Uint8List.fromList(
+                                              base64.decode(profilePic)))
+                                          .image)
                                   : Image.file(_image!).image,
                             ),
                           ),
@@ -175,7 +184,7 @@ class _UpdateUserDetailsScreenState extends State<UpdateUserDetailsScreen> {
                             borderRadius: BorderRadius.circular(12)),
                         child: DropdownButton<String>(
                           hint: const Text("Select gender"),
-                          value: dropdownValue,
+                          value: _newGenderController.text,
                           icon: const Icon(Icons.arrow_drop_down),
                           isExpanded: true,
                           underline: const SizedBox(),
@@ -187,7 +196,7 @@ class _UpdateUserDetailsScreenState extends State<UpdateUserDetailsScreen> {
                           }).toList(),
                           onChanged: (String? newValue) {
                             setState(() {
-                              dropdownValue = newValue!;
+                              _newGenderController.text = newValue!;
                             });
                           },
                         ),
