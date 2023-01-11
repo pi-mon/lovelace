@@ -91,7 +91,6 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     setState(() {
       isSecureMode = !isSecureMode;
     });
-    print('secure mode: $isSecureMode');
   }
 
   @override

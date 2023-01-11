@@ -132,7 +132,6 @@ class _InitprofilePicScreenState extends State<InitprofilePicScreen> {
                             ));
                             return;
                           }
-                          print(_image);
                           Navigator.push(
                             context,
                             MaterialPageRoute(

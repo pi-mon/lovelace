@@ -145,9 +145,8 @@ class _InitDisplayPicScreenState extends State<InitDisplayPicScreen> {
                             //     await widget.profilePic.readAsBytes();
                             // Uint8List displayPicData =
                             //     await _image!.readAsBytes();
-                            // print('before update function');
                             UserDetails userDetails = UserDetails(
-                              email: await StorageMethods().read("email"),
+                              email: await StorageMethods().read("email") ?? "",
                               displayName: widget.displayName,
                               birthday: widget.birthday,
                               gender: widget.gender,
@@ -163,7 +162,7 @@ class _InitDisplayPicScreenState extends State<InitDisplayPicScreen> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          InitCompleteScreen()));
+                                          const InitCompleteScreen()));
                             }
                           },
                           style: ElevatedButton.styleFrom(

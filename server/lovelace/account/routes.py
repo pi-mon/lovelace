@@ -410,7 +410,7 @@ def profile(user):
         return jsonify({"read": True, "response": account_details})
     except Exception as e:
         return jsonify(
-            {"read": True, "response": f"Error retrieving user profile: {e}"}
+            {"read": False, "response": f"Error retrieving user profile: {e}"}
         )
 
 
