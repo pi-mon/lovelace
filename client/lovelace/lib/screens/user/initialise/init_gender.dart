@@ -11,7 +11,7 @@ class InitGenderScreen extends StatefulWidget {
 }
 
 class _InitGenderScreenState extends State<InitGenderScreen> {
-  List<String> dropdownValues = ['Male', 'Female'];
+  List<String> dropdownValues = ['Male', 'Female', 'Others'];
   String dropdownValue = 'Male';
 
   @override

@@ -8,11 +8,12 @@ class BackupMethods {
     Directory directory = await getApplicationDocumentsDirectory();
     final path = directory.path; // get the local file
     File file = File('$path/sample.json');
-    
-    if (!await file.exists()) { // create the file if it doesn't exist
+
+    if (!await file.exists()) {
+      // create the file if it doesn't exist
       file = await file.create();
     }
-    debugPrint(file.toString());
+    print(file.toString());
     return file;
   }
 
