@@ -167,7 +167,7 @@ class _UpdateUserDetailsScreenState extends State<UpdateUserDetailsScreen> {
                     return null;
                   },
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 10),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
