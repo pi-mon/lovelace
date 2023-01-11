@@ -45,7 +45,7 @@ class AuthenticateMethods {
     } else {
       output = message = "Please enter all the fields";
     }
-    print(output, wrapWidth: 1024);
+    print(output);
 
     return [output, message, isSuccess];
   }

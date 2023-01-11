@@ -34,8 +34,9 @@ Future<Position> _determinePosition() async {
 Future<String> _getLocation() async {
   String location = "";
   Position position = await _determinePosition();
-  List<Placemark> placemarks =
-      await placemarkFromCoordinates(position.latitude, position.longitude);
+  List<Placemark> placemarks = await placemarkFromCoordinates(
+      position.latitude, position.longitude,
+      localeIdentifier: "en");
   Placemark placemark = placemarks[0];
   if (placemark.locality != "") {
     location += "${placemark.locality}, ";
