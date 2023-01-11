@@ -36,6 +36,7 @@ class AccountMethods {
   }
 
   Future<List> update({required UserDetails userDetails}) async {
+    Map<String, String> outputJson = {};
     String output = "";
     String message = "";
     bool isSuccess = false;
@@ -44,14 +45,16 @@ class AccountMethods {
     //   {"name": "display_picture", "path": userDetails.displayPic}
     // ];
     updateDetails(userDetails: userDetails).then((value) {
-      output += value[0];
+      outputJson['details'] = value[0];
+      // output += value[0];
       message += value[1];
       isSuccess = isSuccess && value[2];
     });
     if (userDetails.profilePic != "") {
       updateFile(fileName: "profile_pic", filePath: userDetails.profilePic)
           .then((value) => {
-                output += value[0],
+                outputJson['profile_pic'] = value[0],
+                // output += value[0],
                 message += value[1],
                 isSuccess = isSuccess && value[2],
               });
@@ -59,11 +62,22 @@ class AccountMethods {
     if (userDetails.displayPic != "") {
       updateFile(fileName: "display_pic", filePath: userDetails.displayPic)
           .then((value) => {
-                output += value[0],
+                outputJson['display_pic'] = value[0],
+                // output += value[0],
                 message += value[1],
                 isSuccess = isSuccess && value[2],
               });
     }
+    if (isSuccess) {
+      read().then((value) {
+        dynamic sOutput = json.decode(value[0]);
+        bool sIsSuccess = value[2];
+        if (sIsSuccess) {
+          storageMethods.write("userDetails", sOutput["response"]);
+        }
+      });
+    }
+    output = json.encode(outputJson);
     return [output, message, isSuccess];
   }
 
