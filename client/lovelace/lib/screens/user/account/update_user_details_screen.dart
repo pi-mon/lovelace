@@ -22,7 +22,6 @@ class _UpdateUserDetailsScreenState extends State<UpdateUserDetailsScreen> {
   final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
       GlobalKey<ScaffoldMessengerState>();
   DateTime dateNow = DateTime(2022);
-  String dropDownValue = 'Male';
   final StorageMethods _storageMethods = StorageMethods();
   final _formKey = GlobalKey<FormState>();
   final ImagePicker _picker = ImagePicker();
@@ -31,7 +30,6 @@ class _UpdateUserDetailsScreenState extends State<UpdateUserDetailsScreen> {
   bool _isDefault = true;
   bool _isLoading = true;
   List<String> dropdownValues = ['Male', 'Female'];
-  String dropdownValue = 'Male';
 
   String displayName = '';
   String email = '';
@@ -54,7 +52,7 @@ class _UpdateUserDetailsScreenState extends State<UpdateUserDetailsScreen> {
       setState(() {
         _newEmailController.text = valueJson["email"];
         _newDisplayNameController.text = valueJson["display_name"];
-        _newGenderController.text = valueJson["gender"]; // doesn't work
+        _newGenderController.text = valueJson["gender"];
         _newBirthdayController.text = valueJson["birthday"];
         _newLocationController.text = valueJson["location"];
         profilePic = valueJson["profile_pic"];
@@ -259,7 +257,7 @@ class _UpdateUserDetailsScreenState extends State<UpdateUserDetailsScreen> {
                     if (_formKey.currentState!.validate()) {
                       String email = _newEmailController.text;
                       String displayName = _newDisplayNameController.text;
-                      String gender = dropDownValue;
+                      String gender = _newGenderController.text;
                       String birthday = _newBirthdayController.text;
                       String location = _newLocationController.text;
                       File? profilePic = _image;

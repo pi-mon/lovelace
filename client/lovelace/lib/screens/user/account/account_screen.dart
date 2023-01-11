@@ -18,7 +18,7 @@ class _AccountScreenState extends State<AccountScreen> {
   String displayName = '';
   String location = '';
   String profilePic = '';
-  bool profilePicLoaded = false;
+  bool profilePicLoading = true;
 
   _AccountScreenState() {
     _storageMethods.read("userDetails").then((value) {
@@ -27,7 +27,7 @@ class _AccountScreenState extends State<AccountScreen> {
         displayName = valueJson["display_name"];
         location = valueJson["location"];
         profilePic = valueJson["profile_pic"];
-        profilePicLoaded = true;
+        profilePicLoading = false;
       });
     });
   }
@@ -52,12 +52,12 @@ class _AccountScreenState extends State<AccountScreen> {
                         shape: BoxShape.circle,
                         image: DecorationImage(
                             fit: BoxFit.cover,
-                            image: profilePicLoaded
-                                ? Image.memory(Uint8List.fromList(
-                                        base64.decode(profilePic)))
-                                    .image
-                                : Image.asset(
+                            image: profilePicLoading
+                                ? Image.asset(
                                         "assets/images/default-profile-picture.png")
+                                    .image
+                                : Image.memory(Uint8List.fromList(
+                                        base64.decode(profilePic)))
                                     .image),
                       ),
                     ),
@@ -110,31 +110,31 @@ class _AccountScreenState extends State<AccountScreen> {
                           ],
                         )),
                     const SizedBox(height: 5),
-                    ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: primaryColor),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: const <Widget>[
-                            Icon(Icons.person),
-                            SizedBox(width: 10),
-                            Text('Button 2', style: TextStyle(fontSize: 17))
-                          ],
-                        )),
-                    const SizedBox(height: 5),
-                    ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: primaryColor),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: const <Widget>[
-                            Icon(Icons.person),
-                            SizedBox(width: 10),
-                            Text('Button 3', style: TextStyle(fontSize: 17))
-                          ],
-                        )),
+                    // ElevatedButton(
+                    //     onPressed: () {},
+                    //     style: ElevatedButton.styleFrom(
+                    //         backgroundColor: primaryColor),
+                    //     child: Row(
+                    //       mainAxisAlignment: MainAxisAlignment.center,
+                    //       children: const <Widget>[
+                    //         Icon(Icons.person),
+                    //         SizedBox(width: 10),
+                    //         Text('Button 2', style: TextStyle(fontSize: 17))
+                    //       ],
+                    //     )),
+                    // const SizedBox(height: 5),
+                    // ElevatedButton(
+                    //     onPressed: () {},
+                    //     style: ElevatedButton.styleFrom(
+                    //         backgroundColor: primaryColor),
+                    //     child: Row(
+                    //       mainAxisAlignment: MainAxisAlignment.center,
+                    //       children: const <Widget>[
+                    //         Icon(Icons.person),
+                    //         SizedBox(width: 10),
+                    //         Text('Button 3', style: TextStyle(fontSize: 17))
+                    //       ],
+                    //     )),
                   ],
                 ),
                 SizedBox(
