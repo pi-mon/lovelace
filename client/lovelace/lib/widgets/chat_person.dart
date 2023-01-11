@@ -33,18 +33,26 @@ class ChatPerson extends StatelessWidget {
             child: Row(
               children: <Widget>[
                 Container(
-                    decoration: BoxDecoration(
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(30)),
-                        border: Border.all(width: 2, color: primaryColor),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.3),
-                            spreadRadius: 2,
-                            blurRadius: 5,
-                          ),
-                        ]),
-                    child: const Icon(Icons.person, size: 40)),
+                  height: 40,
+                  width: 40,
+                  decoration: BoxDecoration(
+                    image: const DecorationImage(
+                        fit: BoxFit.cover,
+                        image: AssetImage(
+                            'assets/images/default-profile-picture.png')),
+                    borderRadius: const BorderRadius.all(Radius.circular(30)),
+                    border: Border.all(width: .5, color: Colors.grey.shade300),
+                    // boxShadow: [
+                    //   BoxShadow(
+                    //     color: Colors.grey.withOpacity(0.3),
+                    //     spreadRadius: 2,
+                    //     blurRadius: 5,
+                    //   ),
+                    // ]
+                  ),
+
+                  // child: const Icon(Icons.person, size: 40)
+                ),
                 Container(
                   width: MediaQuery.of(context).size.width * 0.75,
                   padding: const EdgeInsets.only(left: 20),

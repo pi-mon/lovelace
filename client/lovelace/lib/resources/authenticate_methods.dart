@@ -1,8 +1,6 @@
 import 'dart:convert';
 import 'package:logger/logger.dart';
 import 'package:lovelace/models/user.dart';
-import 'package:flutter/foundation.dart';
-import 'package:lovelace/models/user_detail.dart';
 import 'package:lovelace/resources/storage_methods.dart';
 import 'package:lovelace/utils/session.dart';
 

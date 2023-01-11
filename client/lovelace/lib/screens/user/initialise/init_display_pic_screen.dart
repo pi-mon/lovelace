@@ -100,7 +100,7 @@ class _InitDisplayPicScreenState extends State<InitDisplayPicScreen> {
                     ),
                     Container(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 32, vertical: 32),
+                          horizontal: 32, vertical: 28),
                       child: GestureDetector(
                         onTap: () async {
                           XFile? image = await _picker.pickImage(
@@ -157,7 +157,7 @@ class _InitDisplayPicScreenState extends State<InitDisplayPicScreen> {
                             List response = await _accountMethods.update(
                                 userDetails: userDetails);
                             bool isSuccess = response[2];
-                            if (isSuccess) {
+                            if (!isSuccess) {
                               // String output = response[0];
                               StorageMethods().delete("isFTL");
                               Navigator.push(

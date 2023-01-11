@@ -68,7 +68,7 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
                 // notify user of successful backup
               }),
           CustomButton(
-              icon: const Icon(Icons.info),
+              icon: const Icon(Icons.info, color: placeholderColor),
               label: "Read backed up data",
               labelColor: blackColor,
               function: () {

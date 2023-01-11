@@ -17,7 +17,7 @@ class ChatRoomScreen extends StatefulWidget {
 }
 
 class _ChatRoomScreenState extends State<ChatRoomScreen> {
-  UserDetails receiverUserDetails = UserDetails(
+  UserDetails senderUserDetails = UserDetails(
     email: "lgf2111@gmail.com",
     displayName: "Lee Guan Feng",
     birthday: "21-11-2004",
@@ -26,7 +26,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
     profilePic: "",
     displayPic: "",
   );
-  UserDetails senderUserDetails = UserDetails(
+  UserDetails receiverUserDetails = UserDetails(
     email: "213587x@gmail.com",
     displayName: "Paimon",
     birthday: "01-01-2001",
@@ -36,7 +36,6 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
     displayPic: "",
   );
   String keyName = "";
-
   StreamingSharedPreferences? preferences;
   Preference<String>? content;
   String initialData = "[]";
