@@ -11,16 +11,6 @@ import 'package:lovelace/screens/user/initialise/init_display_name_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:flutter/services.dart';
 import 'package:screen_capture_event/screen_capture_event.dart';
-import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
-
-class MyAppSettings {
-  MyAppSettings(StreamingSharedPreferences preferences)
-      : content = preferences.getCustomValue('content',
-            defaultValue: 0,
-            adapter: JsonAdapter(serializer: (value) => value));
-
-  final Preference<dynamic> content;
-}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -78,11 +68,10 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
     if (state == AppLifecycleState.detached) return;
-
     if (state == AppLifecycleState.inactive) {
-      debugPrint('App in background - $state');
+      print('App in background - $state');
     } else {
-      debugPrint('App in foreground - $state');
+      print('App in foreground - $state');
     }
   }
 
@@ -108,7 +97,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     } else {
       home = widget._userPages;
     }
-    // home = widget._userPages;
+    // home = const LandingScreen();
 
     MaterialApp materialApp = MaterialApp(
         debugShowCheckedModeBanner: true,

@@ -47,7 +47,7 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
       canCheckBiometrics = await auth.canCheckBiometrics;
     } on PlatformException catch (e) {
       canCheckBiometrics = false;
-      debugPrint('$e');
+      print('$e');
     }
     if (!mounted) {
       return;
@@ -64,7 +64,7 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
       availableBiometrics = await auth.getAvailableBiometrics();
     } on PlatformException catch (e) {
       availableBiometrics = <BiometricType>[];
-      debugPrint('$e');
+      print('$e');
     }
     if (!mounted) {
       return;
@@ -92,7 +92,7 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
         _isAuthenticating = false;
       });
     } on PlatformException catch (e) {
-      debugPrint('$e');
+      print('$e');
       setState(() {
         _isAuthenticating = false;
         _authorized = 'Error - ${e.message}';
@@ -127,7 +127,7 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
         _authorized = 'Authenticating';
       });
     } on PlatformException catch (e) {
-      debugPrint('$e');
+      print('$e');
       setState(() {
         _isAuthenticating = false;
         _authorized = 'Error - ${e.message}';

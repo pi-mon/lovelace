@@ -53,7 +53,7 @@ class MySearchDelegate extends SearchDelegate {
           title: Text(suggestion),
           onTap: () {
             query = suggestion;
-            debugPrint(query);
+            print(query);
             Navigator.push(
                 context,
                 MaterialPageRoute(
