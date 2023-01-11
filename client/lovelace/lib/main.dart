@@ -68,11 +68,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
     if (state == AppLifecycleState.detached) return;
-    if (state == AppLifecycleState.inactive) {
-      print('App in background - $state');
-    } else {
-      print('App in foreground - $state');
-    }
+    debugPrint(state.toString());
   }
 
   Future<void> screenShotRecord() async {
