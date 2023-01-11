@@ -48,7 +48,7 @@ class _AccountScreenState extends State<AccountScreen> {
                       width: 100,
                       height: 100,
                       decoration: BoxDecoration(
-                        border: Border.all(color: borderColor),
+                        // border: Border.all(color: borderColor),
                         shape: BoxShape.circle,
                         image: DecorationImage(
                             fit: BoxFit.cover,
@@ -61,6 +61,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                     .image),
                       ),
                     ),
+                    const SizedBox(height: 8),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[

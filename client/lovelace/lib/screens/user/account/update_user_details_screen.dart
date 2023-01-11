@@ -115,7 +115,7 @@ class _UpdateUserDetailsScreenState extends State<UpdateUserDetailsScreen> {
                           width: 100,
                           height: 100,
                           decoration: BoxDecoration(
-                            border: Border.all(color: borderColor),
+                            // border: Border.all(color: borderColor),
                             shape: BoxShape.circle,
                             image: DecorationImage(
                               fit: BoxFit.cover,
@@ -171,14 +171,17 @@ class _UpdateUserDetailsScreenState extends State<UpdateUserDetailsScreen> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
-                    const Text("Gender",
-                        style: TextStyle(color: primaryColor, fontSize: 18)),
+                    const Padding(
+                      padding: EdgeInsets.only(bottom: 5),
+                      child: Text("Gender",
+                          style: TextStyle(color: primaryColor, fontSize: 18)),
+                    ),
                     Padding(
-                      padding: const EdgeInsets.only(right: 16, bottom: 16),
+                      padding: const EdgeInsets.only(bottom: 16),
                       child: Container(
                         padding: const EdgeInsets.only(left: 16, right: 16),
                         decoration: BoxDecoration(
-                            border: Border.all(color: primaryColor, width: 1),
+                            border: Border.all(color: borderColor, width: .5),
                             borderRadius: BorderRadius.circular(12)),
                         child: DropdownButton<String>(
                           hint: const Text("Select gender"),
