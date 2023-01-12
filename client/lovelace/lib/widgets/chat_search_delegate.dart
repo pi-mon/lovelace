@@ -7,13 +7,6 @@ class ChatSearchDelegate extends SearchDelegate {
   final List<UserDetails> userDetailsList;
   ChatSearchDelegate(this.userDetailsList);
 
-  // List<String> searchResults = [
-  //   'Sarah',
-  //   'John',
-  //   'Adam',
-  //   'Tom',
-  //   'Ryan'
-  // ]; // contain the list of contacts the user has chats with
   @override
   Widget? buildLeading(BuildContext context) => IconButton(
       onPressed: () {
