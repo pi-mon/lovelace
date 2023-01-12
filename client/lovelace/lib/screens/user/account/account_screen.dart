@@ -5,6 +5,7 @@ import 'package:lovelace/resources/storage_methods.dart';
 import 'package:lovelace/screens/admin/admin_account_screen.dart';
 import 'package:lovelace/screens/user/account/account_settings_screen.dart';
 import 'package:lovelace/utils/colors.dart';
+import 'package:lovelace/widgets/account_button.dart';
 
 class AccountScreen extends StatefulWidget {
   const AccountScreen({super.key});
@@ -15,6 +16,10 @@ class AccountScreen extends StatefulWidget {
 
 class _AccountScreenState extends State<AccountScreen> {
   final StorageMethods _storageMethods = StorageMethods();
+  final Map<String, dynamic> accountButtonMap = {
+    "Admin Mode": AdminAccountScreen,
+    "Account Settings": AccountSettingsScreen,
+  };
   String displayName = '';
   String location = '';
   String profilePic = '';
@@ -86,97 +91,13 @@ class _AccountScreenState extends State<AccountScreen> {
                   ],
                 ),
                 SizedBox(height: 64),
-                Column(
-                  children: <Widget>[
-                    ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              PageRouteBuilder(
-                                pageBuilder:
-                                    (context, animation1, animation2) =>
-                                        const AdminAccountScreen(),
-                                transitionDuration: Duration.zero,
-                                reverseTransitionDuration: Duration.zero,
-                              ));
-                        },
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: primaryColor),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: const <Widget>[
-                            Icon(Icons.admin_panel_settings),
-                            SizedBox(width: 10),
-                            Text('Turn On Admin',
-                                style: TextStyle(fontSize: 17))
-                          ],
-                        )),
-                    const SizedBox(height: 5),
-                    // ElevatedButton(
-                    //     onPressed: () {},
-                    //     style: ElevatedButton.styleFrom(
-                    //         backgroundColor: primaryColor),
-                    //     child: Row(
-                    //       mainAxisAlignment: MainAxisAlignment.center,
-                    //       children: const <Widget>[
-                    //         Icon(Icons.person),
-                    //         SizedBox(width: 10),
-                    //         Text('Button 2', style: TextStyle(fontSize: 17))
-                    //       ],
-                    //     )),
-                    // const SizedBox(height: 5),
-                    // ElevatedButton(
-                    //     onPressed: () {},
-                    //     style: ElevatedButton.styleFrom(
-                    //         backgroundColor: primaryColor),
-                    //     child: Row(
-                    //       mainAxisAlignment: MainAxisAlignment.center,
-                    //       children: const <Widget>[
-                    //         Icon(Icons.person),
-                    //         SizedBox(width: 10),
-                    //         Text('Button 3', style: TextStyle(fontSize: 17))
-                    //       ],
-                    //     )),
-                  ],
-                ),
-                // SizedBox(
-                //     height: 50,
-                //     child: ElevatedButton(
-                //       onPressed: () {},
-                //       style:
-                //           ElevatedButton.styleFrom(backgroundColor: whiteColor),
-                //       child: Row(
-                //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //         children: const <Widget>[
-                //           Text('My Ideal Person',
-                //               style:
-                //                   TextStyle(fontSize: 17, color: blackColor)),
-                //           Icon(Icons.arrow_right, color: placeholderColor)
-                //         ],
-                //       ),
-                //     )),
-                SizedBox(
-                    height: 50,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    const AccountDetailsScreen()));
-                      },
-                      style:
-                          ElevatedButton.styleFrom(backgroundColor: whiteColor),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: const <Widget>[
-                          Text('Account Settings',
-                              style:
-                                  TextStyle(fontSize: 17, color: blackColor)),
-                          Icon(Icons.arrow_right, color: placeholderColor)
-                        ],
-                      ),
-                    )),
+                for (String key in accountButtonMap.keys)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 1.5, horizontal: 12),
+                    child: AccountButton(
+                        label: key, nextScreen: accountButtonMap[key]),
+                  )
               ]),
         )));
   }

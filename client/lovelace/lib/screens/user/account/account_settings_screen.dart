@@ -5,14 +5,14 @@ import 'package:lovelace/screens/user/account/update_user_details_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:lovelace/widgets/account_settings_btn.dart';
 
-class AccountDetailsScreen extends StatefulWidget {
-  const AccountDetailsScreen({super.key});
+class AccountSettingsScreen extends StatefulWidget {
+  const AccountSettingsScreen({super.key});
 
   @override
-  State<AccountDetailsScreen> createState() => _AccountDetailsScreenState();
+  State<AccountSettingsScreen> createState() => _AccountSettingsScreenState();
 }
 
-class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
+class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
   final StorageMethods _storageMethods = StorageMethods();
   bool isBackedup = true;
 

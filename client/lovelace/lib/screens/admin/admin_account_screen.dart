@@ -125,7 +125,7 @@ class _AdminAccountScreenState extends State<AdminAccountScreen> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
-                                    const AccountDetailsScreen()));
+                                    const AccountSettingsScreen()));
                       },
                       style:
                           ElevatedButton.styleFrom(backgroundColor: whiteColor),
