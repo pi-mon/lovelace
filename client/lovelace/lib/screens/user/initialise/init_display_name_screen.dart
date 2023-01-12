@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lovelace/screens/user/initialise/init_gender.dart';
 import 'package:lovelace/utils/colors.dart';
-import 'package:lovelace/widgets/date_field_input.dart';
 import 'package:lovelace/widgets/text_field_input.dart';
 
 class InitDisplayNameScreen extends StatefulWidget {

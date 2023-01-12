@@ -1,8 +1,6 @@
 import 'dart:convert';
 import 'package:logger/logger.dart';
 import 'package:lovelace/models/user.dart';
-import 'package:flutter/foundation.dart';
-import 'package:lovelace/models/user_detail.dart';
 import 'package:lovelace/resources/storage_methods.dart';
 import 'package:lovelace/utils/session.dart';
 
@@ -32,7 +30,7 @@ class AuthenticateMethods {
           if (outputJson['creation'] == true) {
             isSuccess = true;
             message = "Enter OTP to verify your account";
-            debugPrint(output);
+            print(output);
           } else {
             message = outputJson['response'];
           }
@@ -45,7 +43,7 @@ class AuthenticateMethods {
     } else {
       output = message = "Please enter all the fields";
     }
-    debugPrint(output, wrapWidth: 1024);
+    print(output);
 
     return [output, message, isSuccess];
   }
@@ -62,7 +60,7 @@ class AuthenticateMethods {
       User user = User(email: email, password: password);
       try {
         output = await session.post('/account/login', user);
-        // debugPrint('inside login function');
+        // print('inside login function');
         try {
           dynamic outputJson = jsonDecode(output);
           if (outputJson['login'] == true) {

@@ -149,14 +149,14 @@ class _RegisterVerifyScreenState extends State<RegisterVerifyScreen> {
                             );
                           }
 
-                          showDialog(
-                            context: context,
-                            builder: (context) {
-                              return AlertDialog(
-                                content: Text(output),
-                              );
-                            },
-                          );
+                          // showDialog(
+                          //   context: context,
+                          //   builder: (context) {
+                          //     return AlertDialog(
+                          //       content: Text(output),
+                          //     );
+                          //   },
+                          // );
                         },
                         style: ElevatedButton.styleFrom(
                           minimumSize: const Size(150, 50),

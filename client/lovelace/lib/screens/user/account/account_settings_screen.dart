@@ -14,7 +14,7 @@ class AccountDetailsScreen extends StatefulWidget {
 
 class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
   final StorageMethods _storageMethods = StorageMethods();
-  final List deleteList = ["cookie", "userDetails"];
+  bool isBackedup = true;
 
   @override
   void initState() {
@@ -56,7 +56,24 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
               icon: const Icon(Icons.backup, color: placeholderColor),
               label: "Backup my data",
               labelColor: blackColor,
-              function: () {}),
+              function: () async {
+                // TODO: get the user data and call the BackupMethods
+                // final userData = storageMethods.read("userDetails");
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: const Text('Backing up data...'),
+                    backgroundColor:
+                        const SnackBarThemeData().backgroundColor));
+
+                // wait for BackupMethods to complete
+                // notify user of successful backup
+              }),
+          CustomButton(
+              icon: const Icon(Icons.info, color: placeholderColor),
+              label: "Read backed up data",
+              labelColor: blackColor,
+              function: () {
+                // TODO: Read data from local file
+              }),
           CustomButton(
               icon: const Icon(Icons.exit_to_app, color: placeholderColor),
               label: "Logout",
@@ -83,10 +100,6 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
                         ],
                       ));
                     });
-                // StorageMethods().deleteAll();
-                for (String element in deleteList) {
-                  _storageMethods.delete(element);
-                }
 
                 UserStateMethods().logoutState(context);
                 initList();

@@ -34,8 +34,9 @@ Future<Position> _determinePosition() async {
 Future<String> _getLocation() async {
   String location = "";
   Position position = await _determinePosition();
-  List<Placemark> placemarks =
-      await placemarkFromCoordinates(position.latitude, position.longitude);
+  List<Placemark> placemarks = await placemarkFromCoordinates(
+      position.latitude, position.longitude,
+      localeIdentifier: "en");
   Placemark placemark = placemarks[0];
   if (placemark.locality != "") {
     location += "${placemark.locality}, ";
@@ -156,7 +157,7 @@ class _InitLocationScreenState extends State<InitLocationScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => InitProfilePicScreen(
+                                builder: (context) => InitprofilePicScreen(
                                       displayName: widget.displayName,
                                       gender: widget.gender,
                                       birthday: widget.birthday,

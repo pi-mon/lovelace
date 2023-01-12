@@ -120,6 +120,10 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
                               content: Text('Passwords do not match'),
                               backgroundColor: errorColor,
                             ));
+                            setState(() {
+                              _isLoading = false;
+                            });
+
                             return;
                           }
 
@@ -172,15 +176,6 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
                           } else if (message != "Please enter all the fields") {
                             Navigator.pop(context);
                           }
-
-                          showDialog(
-                            context: context,
-                            builder: (context) {
-                              return AlertDialog(
-                                content: Text(output),
-                              );
-                            },
-                          );
                         },
                         style: ElevatedButton.styleFrom(
                           minimumSize: const Size(150, 50),

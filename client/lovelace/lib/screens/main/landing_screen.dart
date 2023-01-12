@@ -59,7 +59,7 @@ class _LandingScreenState extends State<LandingScreen> {
       availableBiometrics = await auth.getAvailableBiometrics();
     } on PlatformException catch (e) {
       availableBiometrics = <BiometricType>[];
-      debugPrint('$e');
+      print('$e');
     }
     if (!mounted) {
       return;

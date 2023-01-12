@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:lovelace/widgets/cards_stack_widget.dart';
-import 'package:lovelace/widgets/display_card.dart';
 // import 'package:lovelace/widgets/cards_stack_widget.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -21,14 +20,8 @@ class _HomeScreenState extends State<HomeScreen> {
             children: <Widget>[
               Container(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 32, vertical: 32),
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 child: const CardsStackWidget(),
-                // child: const DisplayCard(
-                //   image: "assets/images/landing-user.jpeg",
-                //   name: 'John Doe',
-                //   age: 21,
-                //   location: 'London',
-                // ),
               ),
             ],
           ),

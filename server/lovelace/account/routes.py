@@ -12,6 +12,7 @@ from pymongo import errors as db_errors
 from argon2 import PasswordHasher
 from lovelace.models import account
 import jwt
+import base64
 from datetime import datetime, timedelta
 from os import environ
 from pyotp import TOTP
@@ -291,64 +292,131 @@ def login_verify(user):
 @token_required()  # user is email registered
 def update_profile(user):
     if True:
-        profile_information = request.get_json
+        profile_information = request.get_json()
         user_detail_collection = mongo_account_details_write.account_details
-        profile_pic_file = request.files["profile_pic"]
-        display_pic_file = request.files["display_pic"]
-        with open(profile_pic_file, "rb") as f:
-            encoded_profile_pic = Binary(f.read())
-        with open(display_pic_file, "rb") as f:
-            encoded_display_pic = Binary(f.read())
-        print("test")
+        # profile_pic_file = request.files["profile_pic"]
+        # display_pic_file = request.files["display_pic"]
+        # with open(profile_pic_file, "rb") as f:
+        #     encoded_profile_pic = Binary(f.read())
+        # with open(display_pic_file, "rb") as f:
+        #     encoded_display_pic = Binary(f.read())
+        # print("test")
         new_account_details = account.UserDetails(
             user,
             profile_information["display_name"],
-            profile_information["age"],
+            profile_information["birthday"],
             profile_information["gender"],
             profile_information["location"],
-            encoded_profile_pic,
-            encoded_display_pic,
+            # encoded_profile_pic,
+            # encoded_display_pic,
         )
     # except:
-    #   return jsonify({"create":False,"response":"Invalid user input"})
+    #   return jsonify({"update":False,"response":"Invalid user input"})
     if (
         user_detail_collection.account_details.find_one({"email": user}, {"email": 1})
         == None
     ):  # check if need to update profile or create new profile
         user_detail_collection.account_details.insert_one(new_account_details.__dict__)
         return jsonify(
-            {"create": True, "response": "User account details has been created"}
+            {"update": True, "response": "User account details has been created"}
         )
     else:
         new_values = {
             "$set": {
                 "display_name": profile_information["display_name"],
                 "gender": profile_information["gender"],
-                "age": profile_information["age"],
+                "birthday": profile_information["birthday"],
                 "location": profile_information["location"],
-                "profile_pic": profile_information["profile_pic"],
-                "display_pic": profile_information["display_pic"],
+                # "profile_pic": profile_information["profile_pic"],
+                # "display_pic": profile_information["display_pic"],
             }
         }
         user_detail_collection.account_details.update_one(
             {"email": user}, update=new_values
         )
-        return jsonify({"create": True, "response": "User details has been updated"})
+        return jsonify({"updated": True, "response": "User details has been updated"})
+
+
+@account_page.route("/account/profile/update/display_pic", methods=["POST", "GET"])
+@token_required()
+def update_display_pic(user):
+    try:
+        user_detail_collection = mongo_account_details_write.account_details
+        display_pic = request.files["display_pic"]
+        new_account_details = account.UserDetails(user, "", "", "", "")
+    except:
+        return jsonify({"update": False, "response": "Invalid user input"})
+    if (
+        user_detail_collection.account_details.find_one({"email": user}, {"email": 1})
+        == None
+    ):  # check if need to update profile or create new profile
+        user_detail_collection.account_details.insert_one(new_account_details.__dict__)
+        return jsonify(
+            {
+                "update": True,
+                "response": "display_pic was updated and empty user details was created",
+            }
+        )
+    else:
+        encoded_display_pic = display_pic.read()
+        new_values = {"$set": {"display_pic": encoded_display_pic}}
+        user_detail_collection.account_details.update_one(
+            {"email": user}, update=new_values
+        )
+        return jsonify(
+            {"update": True, "response": "User display_pic has been updated"}
+        )
+
+
+@account_page.route("/account/profile/update/profile_pic", methods=["POST", "GET"])
+@token_required()
+def update_profile_pic(user):
+    try:
+        user_detail_collection = mongo_account_details_write.account_details
+        profile_pic = request.files["profile_pic"]
+        new_account_details = account.UserDetails(user, "", "", "", "")
+    except:
+        return jsonify({"update": False, "response": "Invalid user input"})
+    if (
+        user_detail_collection.account_details.find_one({"email": user}, {"email": 1})
+        == None
+    ):  # check if need to update profile or create new profile
+        user_detail_collection.account_details.insert_one(new_account_details.__dict__)
+        return jsonify(
+            {
+                "update": True,
+                "response": "profile_pic was updated and empty user details was created",
+            }
+        )
+    else:
+        encoded_profile_pic = profile_pic.read()
+        new_values = {"$set": {"profile_pic": encoded_profile_pic}}
+        user_detail_collection.account_details.update_one(
+            {"email": user}, update=new_values
+        )
+        return jsonify(
+            {"update": True, "response": "User profile_pic has been updated"}
+        )
 
 
 @account_page.route("/account/profile")
 @token_required()
 def profile(user):
-    import base64
-
-    user_detail_collection = mongo_account_details_write.account_details
-    account_details = user_detail_collection.account_details.find_one({"email": user})
-    account_details["_id"] = str(account_details["_id"])
-    display_pic = base64.b64encode(account_details["display_pic"]).decode("utf-8")
-    profile_pic = base64.b64encode(account_details["profile_pic"]).decode("utf-8")
-    account_details["display_pic"] = display_pic
-    account_details["profile_pic"] = display_pic
-    return jsonify(account_details)
+    try:
+        user_detail_collection = mongo_account_details_write.account_details
+        account_details = user_detail_collection.account_details.find_one(
+            {"email": user}
+        )
+        account_details["_id"] = str(account_details["_id"])
+        display_pic = base64.b64encode(account_details["display_pic"]).decode("utf-8")
+        profile_pic = base64.b64encode(account_details["profile_pic"]).decode("utf-8")
+        account_details["display_pic"] = display_pic
+        account_details["profile_pic"] = profile_pic
+        return jsonify({"read": True, "response": account_details})
+    except Exception as e:
+        return jsonify(
+            {"read": False, "response": f"Error retrieving user profile: {e}"}
+        )
 
 
 # @account_page.route("/account/email")

@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:lovelace/models/user.dart';
 import 'package:lovelace/models/user_detail.dart';
 import 'package:lovelace/resources/storage_methods.dart';
 
@@ -18,26 +17,25 @@ class ChatRoomScreen extends StatefulWidget {
 }
 
 class _ChatRoomScreenState extends State<ChatRoomScreen> {
-  UserDetails receiverUserDetails = UserDetails(
+  UserDetails senderUserDetails = UserDetails(
     email: "lgf2111@gmail.com",
     displayName: "Lee Guan Feng",
     birthday: "21-11-2004",
     gender: "Male",
     location: "Singapore",
-    profilePicPath: "",
-    displayPicPath: "",
+    profilePic: "",
+    displayPic: "",
   );
-  UserDetails senderUserDetails = UserDetails(
+  UserDetails receiverUserDetails = UserDetails(
     email: "213587x@gmail.com",
     displayName: "Paimon",
     birthday: "01-01-2001",
     gender: "Female",
     location: "Singapore",
-    profilePicPath: "",
-    displayPicPath: "",
+    profilePic: "",
+    displayPic: "",
   );
   String keyName = "";
-
   StreamingSharedPreferences? preferences;
   Preference<String>? content;
   String initialData = "[]";
