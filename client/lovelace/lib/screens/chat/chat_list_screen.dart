@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lovelace/models/user_detail.dart';
 import 'package:lovelace/resources/search_chat_methods.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:lovelace/widgets/chat_person.dart';
@@ -53,8 +54,29 @@ class _ChatScreenState extends State<ChatListScreen> {
                   Flexible(
                     child: ListView(
                       children: <Widget>[
-                        ChatPerson(time: DateTime.now(), displayName: "Sarah"),
-                        ChatPerson(time: DateTime.now(), displayName: "John"),
+                        ChatPerson(
+                          time: DateTime.now(),
+                          userDetails: UserDetails(
+                            email: "lgf2111@gmail.com",
+                            displayName: "Lee Guan Feng",
+                            birthday: "21-11-2004",
+                            gender: "Male",
+                            location: "Singapore",
+                            profilePic: "",
+                            displayPic: "",
+                          ),
+                        ),
+                        ChatPerson(
+                            time: DateTime.now(),
+                            userDetails: UserDetails(
+                              email: "213587x@gmail.com",
+                              displayName: "Paimon",
+                              birthday: "01-01-2001",
+                              gender: "Female",
+                              location: "Singapore",
+                              profilePic: "",
+                              displayPic: "",
+                            )),
                       ],
                     ),
                   )
