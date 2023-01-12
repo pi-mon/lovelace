@@ -100,7 +100,7 @@ class _UpdateUserDetailsScreenState extends State<UpdateUserDetailsScreen> {
                   children: <Widget>[
                     CircleAvatar(
                       radius: 50,
-                      backgroundColor: Colors.grey,
+                      // backgroundColor: Colors.grey,
                       child: GestureDetector(
                         onTap: () async {
                           XFile? image = await _picker.pickImage(
@@ -116,7 +116,7 @@ class _UpdateUserDetailsScreenState extends State<UpdateUserDetailsScreen> {
                           width: 100,
                           height: 100,
                           decoration: BoxDecoration(
-                            // border: Border.all(color: borderColor),
+                            border: Border.all(color: Colors.grey.shade300),
                             shape: BoxShape.circle,
                             image: DecorationImage(
                               fit: BoxFit.cover,
@@ -138,11 +138,12 @@ class _UpdateUserDetailsScreenState extends State<UpdateUserDetailsScreen> {
                         top: 70,
                         right: 5,
                         child: Container(
-                          padding: const EdgeInsets.all(1),
+                          padding: const EdgeInsets.all(3),
                           decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               color: whiteColor,
-                              border: Border.all(color: borderColor, width: 1)),
+                              border: Border.all(
+                                  color: Colors.grey.shade400, width: 1)),
                           child: const Icon(Icons.edit,
                               color: placeholderColor, size: 20),
                         ))

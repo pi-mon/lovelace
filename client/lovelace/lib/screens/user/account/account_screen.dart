@@ -40,15 +40,16 @@ class _AccountScreenState extends State<AccountScreen> {
             child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
+                const SizedBox(height: 64),
                 Column(
                   children: <Widget>[
                     Container(
                       width: 100,
                       height: 100,
                       decoration: BoxDecoration(
-                        // border: Border.all(color: borderColor),
+                        border: Border.all(color: Colors.grey.shade300),
                         shape: BoxShape.circle,
                         image: DecorationImage(
                             fit: BoxFit.cover,
@@ -72,7 +73,6 @@ class _AccountScreenState extends State<AccountScreen> {
                                 fontWeight: FontWeight.bold)),
                       ],
                     ),
-                    const SizedBox(height: 10),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
@@ -85,6 +85,7 @@ class _AccountScreenState extends State<AccountScreen> {
                     ),
                   ],
                 ),
+                SizedBox(height: 64),
                 Column(
                   children: <Widget>[
                     ElevatedButton(
@@ -138,22 +139,22 @@ class _AccountScreenState extends State<AccountScreen> {
                     //     )),
                   ],
                 ),
-                SizedBox(
-                    height: 50,
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      style:
-                          ElevatedButton.styleFrom(backgroundColor: whiteColor),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: const <Widget>[
-                          Text('My Ideal Person',
-                              style:
-                                  TextStyle(fontSize: 17, color: blackColor)),
-                          Icon(Icons.arrow_right, color: placeholderColor)
-                        ],
-                      ),
-                    )),
+                // SizedBox(
+                //     height: 50,
+                //     child: ElevatedButton(
+                //       onPressed: () {},
+                //       style:
+                //           ElevatedButton.styleFrom(backgroundColor: whiteColor),
+                //       child: Row(
+                //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //         children: const <Widget>[
+                //           Text('My Ideal Person',
+                //               style:
+                //                   TextStyle(fontSize: 17, color: blackColor)),
+                //           Icon(Icons.arrow_right, color: placeholderColor)
+                //         ],
+                //       ),
+                //     )),
                 SizedBox(
                     height: 50,
                     child: ElevatedButton(
