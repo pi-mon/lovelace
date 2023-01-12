@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:lovelace/utils/colors.dart';
 
-class CustomButton extends StatelessWidget {
+class WideButton extends StatelessWidget {
   final String label;
   final Icon icon;
   final Color labelColor;
-  final VoidCallback? function;
-  const CustomButton(
+  final VoidCallback? onPressed;
+  const WideButton(
       {super.key,
       required this.icon,
       required this.label,
-      required this.labelColor,
-      required this.function});
+      this.labelColor = blackColor,
+      required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class CustomButton extends StatelessWidget {
       child: SizedBox(
           height: 50,
           child: ElevatedButton(
-            onPressed: function,
+            onPressed: onPressed,
             style: ElevatedButton.styleFrom(backgroundColor: whiteColor),
             child: Row(children: <Widget>[
               icon,

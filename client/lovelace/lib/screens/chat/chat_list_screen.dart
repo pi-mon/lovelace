@@ -76,9 +76,12 @@ class _ChatScreenState extends State<ChatListScreen> {
                     child: ListView(
                       children: <Widget>[
                         for (UserDetails userDetails in userDetailsList)
-                          ChatPerson(
-                            time: DateTime.now(),
-                            userDetails: userDetails,
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: .5),
+                            child: ChatPerson(
+                              time: DateTime.now(),
+                              userDetails: userDetails,
+                            ),
                           )
                       ],
                     ),

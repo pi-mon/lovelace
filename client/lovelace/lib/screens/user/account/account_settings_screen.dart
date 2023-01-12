@@ -3,7 +3,7 @@ import 'package:lovelace/resources/storage_methods.dart';
 import 'package:lovelace/resources/user_state_methods.dart';
 import 'package:lovelace/screens/user/account/update_user_details_screen.dart';
 import 'package:lovelace/utils/colors.dart';
-import 'package:lovelace/widgets/account_settings_btn.dart';
+import 'package:lovelace/widgets/wide_button.dart';
 
 class AccountSettingsScreen extends StatefulWidget {
   const AccountSettingsScreen({super.key});
@@ -16,15 +16,10 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
   final StorageMethods _storageMethods = StorageMethods();
   bool isBackedup = true;
 
-  @override
-  void initState() {
-    super.initState();
-    initList();
-  }
-
-  void initList() async {
-    await _storageMethods.readAllJson();
-    setState(() {});
+  _AccountSettingsScreenState() {
+    _storageMethods.readAllJson().then((value) {
+      print(value);
+    });
   }
 
   @override
@@ -44,19 +39,17 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
         padding: const EdgeInsets.all(8.0),
         child: SafeArea(
             child: Column(children: <Widget>[
-          CustomButton(
-              icon: const Icon(Icons.edit, color: placeholderColor),
-              label: "Update user details",
-              labelColor: blackColor,
-              function: () =>
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return const UpdateUserDetailsScreen();
-                  }))),
-          CustomButton(
+          // WideButton(
+          //     icon: const Icon(Icons.edit, color: placeholderColor),
+          //     label: "Update user details",
+          //     onPressed: () =>
+          //         Navigator.push(context, MaterialPageRoute(builder: (context) {
+          //           return const UpdateUserDetailsScreen();
+          //         }))),
+          WideButton(
               icon: const Icon(Icons.backup, color: placeholderColor),
               label: "Backup my data",
-              labelColor: blackColor,
-              function: () async {
+              onPressed: () async {
                 // TODO: get the user data and call the BackupMethods
                 // final userData = storageMethods.read("userDetails");
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -67,42 +60,18 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                 // wait for BackupMethods to complete
                 // notify user of successful backup
               }),
-          CustomButton(
+          WideButton(
               icon: const Icon(Icons.info, color: placeholderColor),
               label: "Read backed up data",
-              labelColor: blackColor,
-              function: () {
+              onPressed: () {
                 // TODO: Read data from local file
               }),
-          CustomButton(
+          WideButton(
               icon: const Icon(Icons.exit_to_app, color: placeholderColor),
               label: "Logout",
-              labelColor: errorColor,
-              function: () async {
-                setState(() {});
-                showDialog(
-                    context: context,
-                    builder: (context) {
-                      return AlertDialog(
-                          content: Row(
-                        children: const <Widget>[
-                          SizedBox(
-                              height: 14,
-                              width: 14,
-                              child: CircularProgressIndicator(
-                                color: primaryColor,
-                                strokeWidth: 4,
-                              )),
-                          SizedBox(width: 15),
-                          Text('Logging out...',
-                              style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.bold))
-                        ],
-                      ));
-                    });
-
+              onPressed: () async {
                 UserStateMethods().logoutState(context);
-                initList();
+                _storageMethods.readAllJson().then((value) => print(value));
               })
         ])),
       ),

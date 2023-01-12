@@ -10,16 +10,16 @@ logs = Blueprint("logs", __name__)
 LOG_DIR = os.path.join(Path(__file__).parent.parent.parent, "logs")
 
 
-@logs.route("/logs/root", methods=["GET"])
+@logs.route("/logs/root/<int:start>/<int:limit>", methods=["GET"])
 # @token_required()
 # @admin_required()
-def root_logs():
+def root_logs(start, limit):
     logger.info("%s Accessed root logs", request.remote_addr)
     log_dir = os.path.join(LOG_DIR, "root.log")
 
     try:
-        start = int(request.args.get("start", 1))
-        limit = int(request.args.get("limit", 20))
+        # start = int(request.args.get("start", 1))
+        # limit = int(request.args.get("limit", 20))
         if start == 0:
             return jsonify({"response": "start variable must be from 1 onwards"})
     except TypeError:
@@ -34,20 +34,20 @@ def root_logs():
             count += 1
 
     log_dict = get_paginated_list("/logs/account", start, limit, count)
-    log_dict["result"] = log_list[(start - 1) : (start - 1 + limit)]
+    log_dict["results"] = log_list[(start - 1) : (start - 1 + limit)]
     return jsonify(log_dict)
 
 
-@logs.route("/logs/account")
+@logs.route("/logs/account/<int:start>/<int:limit>")
 # @token_required()
 # @admin_required()
-def account_logs():
+def account_logs(start, limit):
     logger.info("%s Accessed account logs", request.remote_addr)
     log_dir = os.path.join(LOG_DIR, "account.log")
 
     try:
-        start = int(request.args.get("start", 1))
-        limit = int(request.args.get("limit", 20))
+        # start = int(request.args.get("start", 1))
+        # limit = int(request.args.get("limit", 20))
         if start == 0:
             return jsonify({"response": "start variable must be from 1 onwards"})
     except TypeError:
@@ -62,20 +62,20 @@ def account_logs():
             count += 1
 
     log_dict = get_paginated_list("/logs/root", start, limit, count)
-    log_dict["result"] = log_list[(start - 1) : (start - 1 + limit)]
+    log_dict["results"] = log_list[(start - 1) : (start - 1 + limit)]
     return jsonify(log_dict)
 
 
-@logs.route("/logs/chat")
+@logs.route("/logs/chat/<int:start>/<int:limit>")
 # @token_required()
 # @admin_required()
-def chat_logs():
+def chat_logs(start, limit):
     logger.info("%s Accessed chat logs", request.remote_addr)
     log_dir = os.path.join(LOG_DIR, "chat.log")
 
     try:
-        start = int(request.args.get("start", 1))
-        limit = int(request.args.get("limit", 20))
+        # start = int(request.args.get("start", 1))
+        # limit = int(request.args.get("limit", 20))
         if start == 0:
             return jsonify({"response": "start variable must be from 1 onwards"})
     except TypeError:
@@ -92,10 +92,10 @@ def chat_logs():
     return log_list
 
 
-@logs.route("/logs/recommendation")
+@logs.route("/logs/recommendation/<int:start>/<int:limit>")
 # @token_required()
 # @admin_required()
-def recommendation_logs():
+def recommendation_logs(start, limit):
     logger.info("%s Accessed recommendation logs", request.remote_addr)
     log_dir = os.path.join(LOG_DIR, "recommendation.log")
 
@@ -109,5 +109,5 @@ def recommendation_logs():
 
     return log_dict
 
-    # log_dict = {"result": log_list}
+    # log_dict = {"results": log_list}
     # return jsonify(log_dict)

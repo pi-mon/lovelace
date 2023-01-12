@@ -42,17 +42,9 @@ class ChatPerson extends StatelessWidget {
                         image: AssetImage(
                             'assets/images/default-profile-picture.png')),
                     borderRadius: const BorderRadius.all(Radius.circular(30)),
-                    border: Border.all(width: .5, color: Colors.grey.shade300),
-                    // boxShadow: [
-                    //   BoxShadow(
-                    //     color: Colors.grey.withOpacity(0.3),
-                    //     spreadRadius: 2,
-                    //     blurRadius: 5,
-                    //   ),
-                    // ]
+                    border:
+                        Border.all(width: .5, color: Colors.grey.shade300), // ]
                   ),
-
-                  // child: const Icon(Icons.person, size: 40)
                 ),
                 Container(
                   width: MediaQuery.of(context).size.width * 0.75,
@@ -71,7 +63,6 @@ class ChatPerson extends StatelessWidget {
             ),
           ),
         ),
-        const SizedBox(height: 1),
       ],
     );
   }

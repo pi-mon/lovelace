@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:lovelace/resources/storage_methods.dart';
 import 'package:lovelace/screens/admin/admin_account_screen.dart';
 import 'package:lovelace/screens/user/account/account_settings_screen.dart';
+import 'package:lovelace/screens/user/account/update_user_details_screen.dart';
 import 'package:lovelace/utils/colors.dart';
-import 'package:lovelace/widgets/account_button.dart';
+import 'package:lovelace/widgets/wide_button_arrow.dart';
 
 class AccountScreen extends StatefulWidget {
   const AccountScreen({super.key});
@@ -16,10 +17,20 @@ class AccountScreen extends StatefulWidget {
 
 class _AccountScreenState extends State<AccountScreen> {
   final StorageMethods _storageMethods = StorageMethods();
-  final Map<String, dynamic> accountButtonMap = {
-    "Admin Mode": AdminAccountScreen,
-    "Account Settings": AccountSettingsScreen,
-  };
+  final List<WideButtonArrow> wideButtonArrowList = [
+    WideButtonArrow(
+        iconData: Icons.edit,
+        label: "Edit Profile",
+        nextScreen: UpdateUserDetailsScreen()),
+    WideButtonArrow(
+        iconData: Icons.settings,
+        label: "Settings",
+        nextScreen: AccountSettingsScreen()),
+    WideButtonArrow(
+        iconData: Icons.admin_panel_settings,
+        label: "Admin Mode",
+        nextScreen: AdminAccountScreen()),
+  ];
   String displayName = '';
   String location = '';
   String profilePic = '';
@@ -91,12 +102,11 @@ class _AccountScreenState extends State<AccountScreen> {
                   ],
                 ),
                 SizedBox(height: 64),
-                for (String key in accountButtonMap.keys)
+                for (WideButtonArrow wideButtonArrow in wideButtonArrowList)
                   Padding(
                     padding: const EdgeInsets.symmetric(
                         vertical: 1.5, horizontal: 12),
-                    child: AccountButton(
-                        label: key, nextScreen: accountButtonMap[key]),
+                    child: wideButtonArrow,
                   )
               ]),
         )));
