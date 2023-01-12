@@ -1,8 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:lovelace/utils/colors.dart';
-import 'package:lovelace/utils/global_variables.dart';
-import 'package:http/http.dart' as http;
 import 'package:lovelace/utils/session.dart';
 
 class ViewLogsDetailScreen extends StatefulWidget {
@@ -16,7 +14,7 @@ class ViewLogsDetailScreen extends StatefulWidget {
 
 class _ViewLogsDetailScreenState extends State<ViewLogsDetailScreen> {
   late ScrollController _scrollController;
-  bool _showBackToTopButton = false;
+  bool showBackToTopButton = false;
   Session session = Session();
   Future snapshot = Future.value("");
   int count = 0;
@@ -52,9 +50,9 @@ class _ViewLogsDetailScreenState extends State<ViewLogsDetailScreen> {
       ..addListener(() {
         setState(() {
           if (_scrollController.offset >= 400) {
-            _showBackToTopButton = true; // show the back-to-top button
+            showBackToTopButton = true; // show the back-to-top button
           } else {
-            _showBackToTopButton = false; // hide the back-to-top button
+            showBackToTopButton = false; // hide the back-to-top button
           }
         });
       });
