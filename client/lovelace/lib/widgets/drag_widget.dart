@@ -47,14 +47,14 @@ class _DragWidgetState extends State<DragWidget> {
                                 top: 40,
                                 left: 20,
                                 child: Transform.rotate(
-                                  angle: 12,
+                                  angle: 1,
                                 ),
                               )
                             : Positioned(
                                 top: 50,
                                 right: 24,
                                 child: Transform.rotate(
-                                  angle: -12,
+                                  angle: -1,
                                 ),
                               )
                         : const SizedBox.shrink(),
