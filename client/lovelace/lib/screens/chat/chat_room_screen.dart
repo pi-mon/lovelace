@@ -51,7 +51,6 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
     setState(() {
       initialData = content!.getValue();
     });
-    print('initialData: $initialData'); // returns messages
   }
 
   getReceiverUserDetails() async {
@@ -134,9 +133,10 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
         "room": keyName,
       });
 
+      print(content);
       sendingMessage(chatMessageMap);
       storageMethods.write("message", newContent);
-      storageMethods.read("message");
+      // storageMethods.read("message");
       setState(() {
         messageController.clear();
       });

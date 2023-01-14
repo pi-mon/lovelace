@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:path_provider/path_provider.dart';
 
 class BackupMethods {
@@ -8,30 +8,24 @@ class BackupMethods {
     Directory directory = await getApplicationDocumentsDirectory();
     final path = directory.path; // get the local file
     File file = File('$path/sample.json');
-
-    if (!await file.exists()) {
-      // create the file if it doesn't exist
-      file = await file.create();
-    }
-    print(file.toString());
     return file;
   }
 
   // read from local file
   Future<String> readFile() async {
-    try {
-      final file = await _localFile; // get the local file
-      final contents = await file.readAsString(); // read file contents
+    debugPrint('Reading data from local file');
+    final file = await _localFile; // get the local file
+    final contents = await file.readAsString(); // read file contents
 
-      return contents;
-    } catch (e) {
-      return ('$e');
-    }
+    return contents;
   }
 
   // write to local file
   Future<File> writeFile(String data) async {
+    debugPrint('Writing data to local file');
     final file = await _localFile; // get the local file
+    print(file);
+    print(data);
     return file.writeAsString(data); // write to the local file
   }
 }
