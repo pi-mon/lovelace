@@ -70,6 +70,7 @@ dev_dependencies:
     sdk: flutter
   json_serializable: ^6.5.4
   build_runner: ^2.3.3
+  flutter_lints: ^2.0.1
 
 flutter_icons:
   uses-material-design: true

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lovelace/resources/account_methods.dart';
 import 'package:lovelace/resources/storage_methods.dart';
 import 'package:lovelace/resources/user_state_methods.dart';
 import 'package:lovelace/screens/user/account/update_user_details_screen.dart';
@@ -72,6 +73,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
               onPressed: () async {
                 UserStateMethods().logoutState(context);
                 _storageMethods.readAllJson().then((value) => print(value));
+                storageMethods.deleteAll();
               })
         ])),
       ),
