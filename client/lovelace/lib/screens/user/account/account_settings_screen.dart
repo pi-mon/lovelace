@@ -57,14 +57,16 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                 // TODO: get the user data and call the BackupMethods
                 dynamic userDataJson = await storageMethods.read("userDetails");
                 dynamic chatDataJson = await storageMethods.read("message");
-                UserDetails userData = UserDetails.fromJson(jsonDecode(userDataJson));
+                UserDetails userData =
+                    UserDetails.fromJson(jsonDecode(userDataJson));
 
                 print('chatDataJson: ${chatDataJson.runtimeType}');
                 // print(userData.toString());
-                print('display name: ${userData.displayName}\ngender: ${userData.gender}\nemail: ${userData.email}\nbirthday: ${userData.birthday}\nlocation: ${userData.location}\n');
+                print(
+                    'display name: ${userData.displayName}\ngender: ${userData.gender}\nemail: ${userData.email}\nbirthday: ${userData.birthday}\nlocation: ${userData.location}\n');
 
                 // Write data to file
-                // _backupMethods.writeFile(userData.toString());
+                _backupMethods.writeStringToJsonFile(userData.displayName);
                 // wait for BackupMethods to complete
                 // notify user of successful backup
               }),

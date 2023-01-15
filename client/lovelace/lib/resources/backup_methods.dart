@@ -1,31 +1,30 @@
+import 'dart:convert';
 import 'dart:io';
-import 'package:flutter/cupertino.dart';
 import 'package:path_provider/path_provider.dart';
 
 class BackupMethods {
-  // get local file
-  Future<File> get _localFile async {
-    Directory directory = await getApplicationDocumentsDirectory();
-    final path = directory.path; // get the local file
-    File file = File('$path/sample.json');
-    return file;
-  }
-
   // read from local file
-  Future<String> readFile() async {
-    debugPrint('Reading data from local file');
-    final file = await _localFile; // get the local file
-    final contents = await file.readAsString(); // read file contents
+  // Future<String> readFile() async {
+  //   debugPrint('Reading data from local file');
+  //   final String response = await rootBundle
+  //       .loadString('assets/sample.json'); // read data from json file
+  //   final data = await jsonDecode(response); // read file contents
+  //   return data;
+  // }
 
-    return contents;
+  Future<File> writeStringToJsonFile(String data) async {
+    final directory = await getApplicationDocumentsDirectory();
+    final file = File('${directory.path}/data.json');
+    print(file);
+    final map = {'data': data};
+    return file.writeAsString(jsonEncode(map));
   }
 
-  // write to local file
-  Future<File> writeFile(String data) async {
-    debugPrint('Writing data to local file');
-    final file = await _localFile; // get the local file
-    print(file);
-    print(data);
-    return file.writeAsString(data); // write to the local file
+  Future<String> readStringFromJsonFile() async {
+    final directory = await getApplicationDocumentsDirectory();
+    final file = File('${directory.path}/data.json');
+    final jsonString = await file.readAsString();
+    final jsonData = jsonDecode(jsonString);
+    return jsonData['data'];
   }
 }
