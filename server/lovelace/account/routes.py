@@ -1,5 +1,10 @@
-from flask import Blueprint, jsonify, request
-from lovelace import mongo_account_read,mongo_account_write,mongo_account_details_write,mongo_temp_write,mongo_temp_read
+from flask import Blueprint, jsonify, request, make_response
+from lovelace import(mongo_account_read,
+    mongo_account_write,
+    mongo_account_details_write,
+    mongo_temp_write,mongo_temp_read,
+    mongo_chat_request_write,
+    mongo_chat_request_read)
 from flask import current_app as app
 from flask_mail import Message,Mail
 from pymongo import errors as db_errors
@@ -94,9 +99,11 @@ def create_account():
                 request.remote_addr,
                 new_email,
             )
-            return jsonify(
-                {"creation": True, "response": "Temp account was created successfully","token":token}
-            )
+            resp = make_response(jsonify(
+                {"creation": True, "response": "Temp account was created successfully"}
+            ))
+            resp.set_cookie("token",token)
+            return resp
         # except db_errors.DuplicateKeyError:
         #     logger.info(
         #         "%s Did not succeed in creating an account due to duplicated email %s",
@@ -128,9 +135,11 @@ def create_verify(user):
     try:
       if otp_expiry > datetime.utcnow() and user_details["otp"] == otp:
           account_collection = mongo_account_write.account
+          request_collection = mongo_chat_request_write.account_details
           new_user = account.User(user_details["email"],user_details["password"])
           new_user_json = new_user.__dict__
           account_collection.user.insert_one(new_user_json)
+          request_collection.chat_request.insert_one({"email":user,"request":[]})
           return(jsonify({"create":True,"response":"Account was created successfully"}))
     except db_errors.OperationFailure:
          return jsonify(
@@ -211,12 +220,14 @@ def login_account():
         mail.send(msg)
         # resp = make_response(jsonify({"login":True,"response":"User login successful"}))
         # resp.set_cookie("token", token)
+        resp = make_response(jsonify(
+            {"login": True, "response": "User login successful"}
+        ))
+        resp.set_cookie("token", token)
         logger.info(
             "%s Logged in successfully using email, otp required to login %s", request.remote_addr, email
         )
-        return jsonify(
-            {"login": True, "response": "User login successful", "token": token}
-        )
+        return resp
 
 
 @account_page.route("/account/login/verify", methods=["POST", "GET"])
@@ -244,9 +255,11 @@ def login_verify(user):
          logger.info(
             "%s Logged in successfully with 2fa using email %s", request.remote_addr, user
         )
-         return jsonify(
-            {"login": True, "response": "User login successful", "token": token}
-        )
+         resp = make_response(jsonify(
+            {"login": True, "response": "User login successful"}
+        ))
+         resp.set_cookie("token",token)
+         return resp
      elif user_otp_expiry < datetime.utcnow():
          print(f"{datetime.utcnow()} is the current time, {user_otp_expiry} is when the otp expires ")
          return jsonify(
@@ -320,13 +333,36 @@ def profile(user):
     display_pic = base64.b64encode(account_details["display_pic"]).decode("utf-8")
     profile_pic = base64.b64encode(account_details["profile_pic"]).decode("utf-8")
     account_details["display_pic"] = display_pic
-    account_details["profile_pic"] = display_pic
+    account_details["profile_pic"] = profile_pic
     return jsonify(account_details)
 
-# @account_page.route("/account/email")
-# def test_email():
-#     mail = Mail(app)
-#     msg = Message('Hello from the other side!', sender =   'lovelace.dating@gmail.com', recipients = ['joel.lim04@gmail.com'])
-#     msg.body = "Hey Paul, sending you this email from my Flask app, lmk if it works"
-#     mail.send(msg)
-#     return "Message sent!"
+@account_page.route("/account/request_list")
+@token_required()
+def request_lst(user):
+    request_collection = mongo_chat_request_read.account_details
+    try:
+      user_request_lst = request_collection.chat_request.find_one({"email":user},{"request":1})["request"]
+    except KeyError:
+      return jsonify({"response":"chat request list cannot be found"})
+    except db_errors.OperationFailure:
+      return jsonify({"Invalid database operation"})
+    return jsonify(user_request_lst)
+
+@account_page.route("/account/request_list/accept")
+@token_required()
+def accept_request(user):
+    target_user_json = request.get_json()
+    try:
+      target_email = target_user_json["target_email"]
+    except KeyError:
+      return jsonify({"response":"Invalid input was sent"})
+    request_collection = mongo_chat_request_write.account_details
+    if request_collection.chat_request.find_one({"email":user}) != None:
+      follow_lst = request_collection.chat_request.find_one({"email":user},{"request":1})["request"]
+      for users in follow_lst:
+        if users["target"] == target_email:
+          new_values = { "$set": { 'request':{"target":target_email,"approved":True}} }
+          request_collection.chat_request.update_one({"email":user},update=new_values)
+          return jsonify({"response":"Chat request was approved"})
+    return jsonify({"reponse":"Target user cannot be found in follow list"})
+
