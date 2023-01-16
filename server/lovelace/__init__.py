@@ -30,6 +30,10 @@ mongo_temp_read = pymongo.MongoClient(
     host=os.environ.get("MONGO_URI_TEMP_USER_READ"), tlsCAFile=ca
 )
 
+mongo_chat_write = pymongo.MongoClient(
+    host=os.environ.get("MONGO_URI_CHAT_WRITE"), tlsCAFile=ca
+)
+
 root_logger = setup_logger("")
 account_logger = setup_logger("account")
 chat_logger = setup_logger("chat")
