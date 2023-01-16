@@ -36,22 +36,59 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   shared_preferences: ^2.0.15
-  flutter_secure_storage: ^6.1.0
+  flutter_secure_storage: ^7.0.1
   http: ^0.13.5
   email_validator: ^2.1.17
   logging: ^1.1.0
   logger: ^1.1.0
-  device_info_plus: ^8.0.0 # to get device specific information
-  network_info_plus: ^3.0.1
   local_auth: ^2.1.2
-  get: ^4.6.5
-  flutter_spinkit: ^5.1.0
-  flutter_jailbreak_detection: ^1.8.0
+  flutter_app_lock: ^3.0.0
+  screen_capture_event: ^1.1.1
   flutter_windowmanager: ^0.2.0
+  lit_backup_service: ^1.0.3
+  json_annotation: ^4.7.0
+  flutter_root_jailbreak: ^2.0.2
+  webcrypto: ^0.5.3
+  crypto: ^3.0.2
+  encrypt: ^5.0.1
+  grouped_list: ^5.1.2
+  intl: ^0.18.0
+  path: ^1.8.2
+  flutter_datetime_picker: ^1.5.1
+  geolocator: ^9.0.2
+  geocoding: ^2.0.5
+  image_picker: ^0.8.6
+  age_calculator: ^1.0.0
+  socket_io_client: ^2.0.0
+  streaming_shared_preferences: ^2.0.0
+  swipe: ^0.0.1
+  path_provider: ^2.0.11
+  flutter_launcher_icons: ^0.11.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  json_serializable: ^6.5.4
+  build_runner: ^2.3.3
+
+flutter_icons:
+  uses-material-design: true
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/logo-square copy.png"
+  min_sdk_android: 21 # android min sdk min:16, default 21
+  web:
+    generate: true
+    image_path: "assets/images/logo-square copy.png"
+    background_color: "#hexcode"
+    theme_color: "#hexcode"
+  windows:
+    generate: true
+    image_path: "assets/images/logo-square copy.png"
+    icon_size: 48 # min:48, max:256, default: 48
+  macos:
+    generate: true
+    image_path: "assets/images/logo-square copy.png"
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -74,6 +111,7 @@ flutter:
   assets:
     - assets/images/
     - assets/ca/cert.pem
+    - assets/sample.json
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 

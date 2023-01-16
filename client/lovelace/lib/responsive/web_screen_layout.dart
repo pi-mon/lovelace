@@ -40,8 +40,11 @@ class _WebScreenLayoutState extends State<WebScreenLayout> {
       appBar: AppBar(
         backgroundColor: primaryColor,
         automaticallyImplyLeading: false, // hides the back arrow
-        title: Image.asset('assets/images/logo-square.png',
-            height: 45.0, width: 45.0),
+        leading: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Image.asset('assets/images/logo-square.png',
+              height: 45.0, width: 45.0),
+        ),
         actions: [
           IconButton(
             onPressed: () => navigationTapped(0),

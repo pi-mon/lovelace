@@ -14,6 +14,13 @@ class _ViewLogsScreenState extends State<ViewLogsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         resizeToAvoidBottomInset: false,
+        appBar: AppBar(
+            backgroundColor: primaryColor,
+            leading: IconButton(
+                onPressed: () => Navigator.pop(context),
+                icon: const Icon(Icons.arrow_back)),
+            title: const Text("View Logs",
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold))),
         body: SafeArea(
             child: Padding(
           padding: const EdgeInsets.all(8.0),

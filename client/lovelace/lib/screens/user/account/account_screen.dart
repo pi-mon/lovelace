@@ -1,6 +1,9 @@
+import 'dart:convert';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:lovelace/resources/storage_methods.dart';
 import 'package:lovelace/screens/admin/admin_account_screen.dart';
-import 'package:lovelace/screens/user/account_details_screen.dart';
+import 'package:lovelace/screens/user/account/account_settings_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 
 class AccountScreen extends StatefulWidget {
@@ -11,6 +14,24 @@ class AccountScreen extends StatefulWidget {
 }
 
 class _AccountScreenState extends State<AccountScreen> {
+  final StorageMethods _storageMethods = StorageMethods();
+  String displayName = '';
+  String location = '';
+  String profilePic = '';
+  bool profilePicLoading = true;
+
+  _AccountScreenState() {
+    _storageMethods.read("userDetails").then((value) {
+      dynamic valueJson = json.decode(value);
+      setState(() {
+        displayName = valueJson["display_name"];
+        location = valueJson["location"];
+        profilePic = valueJson["profile_pic"];
+        profilePicLoading = false;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,15 +44,29 @@ class _AccountScreenState extends State<AccountScreen> {
               children: <Widget>[
                 Column(
                   children: <Widget>[
-                    Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: const <Widget>[Icon(Icons.person, size: 60)]),
-                    const SizedBox(height: 15),
+                    Container(
+                      width: 100,
+                      height: 100,
+                      decoration: BoxDecoration(
+                        // border: Border.all(color: borderColor),
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: profilePicLoading
+                                ? Image.asset(
+                                        "assets/images/default-profile-picture.png")
+                                    .image
+                                : Image.memory(Uint8List.fromList(
+                                        base64.decode(profilePic)))
+                                    .image),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: const <Widget>[
-                        Text('Name',
-                            style: TextStyle(
+                      children: <Widget>[
+                        Text(displayName,
+                            style: const TextStyle(
                                 fontSize: 25,
                                 color: blackColor,
                                 fontWeight: FontWeight.bold)),
@@ -40,9 +75,9 @@ class _AccountScreenState extends State<AccountScreen> {
                     const SizedBox(height: 10),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: const <Widget>[
-                        Text('Location',
-                            style: TextStyle(
+                      children: <Widget>[
+                        Text(location,
+                            style: const TextStyle(
                                 fontSize: 17,
                                 color: placeholderColor,
                                 fontWeight: FontWeight.bold)),
@@ -76,49 +111,33 @@ class _AccountScreenState extends State<AccountScreen> {
                           ],
                         )),
                     const SizedBox(height: 5),
-                    ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: primaryColor),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: const <Widget>[
-                            Icon(Icons.person),
-                            SizedBox(width: 10),
-                            Text('Button 2', style: TextStyle(fontSize: 17))
-                          ],
-                        )),
-                    const SizedBox(height: 5),
-                    ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: primaryColor),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: const <Widget>[
-                            Icon(Icons.person),
-                            SizedBox(width: 10),
-                            Text('Button 3', style: TextStyle(fontSize: 17))
-                          ],
-                        )),
+                    // ElevatedButton(
+                    //     onPressed: () {},
+                    //     style: ElevatedButton.styleFrom(
+                    //         backgroundColor: primaryColor),
+                    //     child: Row(
+                    //       mainAxisAlignment: MainAxisAlignment.center,
+                    //       children: const <Widget>[
+                    //         Icon(Icons.person),
+                    //         SizedBox(width: 10),
+                    //         Text('Button 2', style: TextStyle(fontSize: 17))
+                    //       ],
+                    //     )),
+                    // const SizedBox(height: 5),
+                    // ElevatedButton(
+                    //     onPressed: () {},
+                    //     style: ElevatedButton.styleFrom(
+                    //         backgroundColor: primaryColor),
+                    //     child: Row(
+                    //       mainAxisAlignment: MainAxisAlignment.center,
+                    //       children: const <Widget>[
+                    //         Icon(Icons.person),
+                    //         SizedBox(width: 10),
+                    //         Text('Button 3', style: TextStyle(fontSize: 17))
+                    //       ],
+                    //     )),
                   ],
                 ),
-                SizedBox(
-                    height: 50,
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      style:
-                          ElevatedButton.styleFrom(backgroundColor: whiteColor),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: const <Widget>[
-                          Text('My Profile',
-                              style:
-                                  TextStyle(fontSize: 17, color: blackColor)),
-                          Icon(Icons.arrow_right, color: placeholderColor)
-                        ],
-                      ),
-                    )),
                 SizedBox(
                     height: 50,
                     child: ElevatedButton(
@@ -139,7 +158,6 @@ class _AccountScreenState extends State<AccountScreen> {
                     height: 50,
                     child: ElevatedButton(
                       onPressed: () {
-                        // TODO: DISPLAY TOKEN IN POP UP
                         Navigator.push(
                             context,
                             MaterialPageRoute(

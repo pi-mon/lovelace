@@ -7,11 +7,11 @@ class User:
 
 
 class UserDetails:
-    def __init__(self,email ,display_name, age, gender,location):
+    def __init__(self, email, display_name, birthday, gender, location):
         self.email = email
         self.display_name = display_name
-        self.age = age
+        self.birthday = birthday
         self.location = location
         self.gender = gender
         self.profile_pic = ""
-        self.card_pic = ""
+        self.display_pic = ""

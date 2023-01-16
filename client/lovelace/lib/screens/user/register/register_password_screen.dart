@@ -1,22 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:lovelace/screens/user/login_screen.dart';
+import 'package:lovelace/screens/user/register/register_verify_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:lovelace/widgets/text_field_input.dart';
-import 'package:lovelace/resources/auth_methods.dart';
+import 'package:lovelace/resources/authenticate_methods.dart';
 
 class RegisterPasswordScreen extends StatefulWidget {
   final String email;
   const RegisterPasswordScreen({super.key, required this.email});
 
   @override
-  State<RegisterPasswordScreen> createState() =>
-      // ignore: no_logic_in_create_state
-      _RegisterPasswordScreenState(email);
+  State<RegisterPasswordScreen> createState() => _RegisterPasswordScreenState();
 }
 
 class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
-  _RegisterPasswordScreenState(this.email);
-  final String email;
+  _RegisterPasswordScreenState();
+  bool _isLoading = false;
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _password2Controller = TextEditingController();
 
@@ -103,10 +101,15 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
                     const SizedBox(height: 16),
                     ElevatedButton(
                         onPressed: () async {
+                          setState(() {
+                            _isLoading = true;
+                          });
+
                           const String passwordRegex =
                               r"^(?=\S{8,20}$)(?=.*?\d)(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[^A-Za-z\s0-9])";
                           final String password = _passwordController.text;
                           final String password2 = _password2Controller.text;
+
                           final bool passwordMatch = password == password2;
                           final bool passwordValid =
                               RegExp(passwordRegex).hasMatch(password);
@@ -117,6 +120,10 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
                               content: Text('Passwords do not match'),
                               backgroundColor: errorColor,
                             ));
+                            setState(() {
+                              _isLoading = false;
+                            });
+
                             return;
                           }
 
@@ -139,50 +146,50 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
                             return;
                           }
 
-                          List<dynamic> response = await AuthMethods()
-                              .register(email: email, password: password);
+                          List<dynamic> response = await AuthenticateMethods()
+                              .register(
+                                  email: widget.email, password: password);
+
+                          setState(() {
+                            _isLoading = false;
+                          });
 
                           String output = response[0];
                           String message = response[1];
                           bool isSuccess = response[2];
 
-                          // ignore: use_build_context_synchronously
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             content: Text(message),
                             backgroundColor:
-                                isSuccess ? successColor : errorColor,
+                                isSuccess ? borderColor : errorColor,
                           ));
 
                           if (isSuccess) {
-                            // ignore: use_build_context_synchronously
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const LoginScreen()),
+                                  builder: (context) => RegisterVerifyScreen(
+                                        email: widget.email,
+                                        password: password,
+                                      )),
                             );
                           } else if (message != "Please enter all the fields") {
-                            // ignore: use_build_context_synchronously
                             Navigator.pop(context);
                           }
-
-                          showDialog(
-                            context: context,
-                            builder: (context) {
-                              return AlertDialog(
-                                content: Text(output),
-                              );
-                            },
-                          );
                         },
                         style: ElevatedButton.styleFrom(
                           minimumSize: const Size(150, 50),
                           backgroundColor: primaryColor,
                         ),
-                        child: const Text("Sign Up",
-                            style: TextStyle(
-                                fontSize: 18,
+                        child: !_isLoading
+                            ? const Text("Sign Up",
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    color: whiteColor,
+                                    fontWeight: FontWeight.bold))
+                            : const CircularProgressIndicator(
                                 color: whiteColor,
-                                fontWeight: FontWeight.bold))),
+                              )),
                   ]))),
     );
   }

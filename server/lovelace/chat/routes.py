@@ -17,8 +17,9 @@ chat = Blueprint("chat", __name__, template_folder="templates")
 @chat.route("/swipe")
 # @token_required()
 def swipe():
-    account_details = mongo_account_details_write.account_details
-    profiles = account_details.account_details.find({})
+    account = mongo_account_read.account
+    pipeline = [{"$sample": {"size": 5}}]
+    profiles = account.user.aggregate(pipeline=pipeline)
     profile_list = list(profiles)
     for profile in profile_list:
         profile["_id"] = str(profile["_id"])
@@ -26,16 +27,9 @@ def swipe():
     return jsonify(profile_dict)
 
 
-@chat.route("/swiperight", methods=["POST"])
-def swipe_right():
-    get_json = request.get_json()
-    target_email = get_json["target_email"]
-
-
 @chat.route("/chat")
 @token_required()
 def get_chat():
-    global user_json
     user_json = request.get_json()
     email = user_json["email"]
     target_user = user_json["target_email"]
@@ -45,26 +39,31 @@ def get_chat():
 
 @socketio.on("join", namespace="/chat")
 def join(message):
-    room = message["room"]  # temporary
-    username = user_json["email"]  # temporary
+    room = message["room"]
+    username = message["username"]
     # join room
     join_room(room)
+    response = f"{username} has entered room ({room})."
+    print(response)
+
     # Emit message or notifier to other user of same room
-    emit("message", {"msg": {str(username) + "has entered the room."}}, room=room)
+    emit("message", {"response": response}, room=room)
 
 
-@socketio.on("text", namespace="/chat")
-def text(message):
+@socketio.on("sent", namespace="/chat")
+def sent(message):
     room = message["room"]
-    username = user_json["email"]
-    msg = message["msg"]
-    emit("message", {"msg": {str(username) + " : " + str(msg)}}, room=room)
+    username = message["sender"]
+    msg = message["message"]
+    response = f"{username} : {msg}"
+    print(response)
+    emit("sent", {"response": response, "message": message}, room=room)
 
 
-@socketio.on("left", namespace="/chat")
-def left(message):
+@socketio.on("leave", namespace="/chat")
+def leave(message):
     room = message["room"]
-    username = user_json["email"]
+    username = message["username"]
     # leaving the room
     leave_room(room=room)
-    emit("message", {"msg": {str(username) + "has left the room."}}, room=room)
+    emit("message", {"response": f"{username} has left the room."}, room=room)

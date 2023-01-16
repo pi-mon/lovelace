@@ -365,3 +365,4 @@ def accept_request(user):
           request_collection.chat_request.update_one({"email":user},update=new_values)
           return jsonify({"response":"Chat request was approved"})
     return jsonify({"reponse":"Target user cannot be found in follow list"})
+

@@ -1,37 +1,27 @@
-import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:lovelace/screens/user/register_password_screen.dart';
+import 'package:lovelace/screens/user/initialise/init_location_screen.dart';
 import 'package:lovelace/utils/colors.dart';
-import 'package:lovelace/widgets/text_field_input.dart';
+import 'package:lovelace/widgets/date_field_input.dart';
 
-class RegisterEmailScreen extends StatefulWidget {
-  const RegisterEmailScreen({super.key});
+class InitBirthayScreen extends StatefulWidget {
+  final String displayName;
+  final String gender;
+
+  const InitBirthayScreen(
+      {super.key, required this.displayName, required this.gender});
 
   @override
-  State<RegisterEmailScreen> createState() => _RegisterEmailScreenState();
+  State<InitBirthayScreen> createState() => _InitBirthayScreenState();
 }
 
-class _RegisterEmailScreenState extends State<RegisterEmailScreen> {
-  final TextEditingController _emailController = TextEditingController();
+class _InitBirthayScreenState extends State<InitBirthayScreen> {
+  final TextEditingController _birthdayController = TextEditingController();
 
   @override
   void dispose() {
     super.dispose();
-    _emailController.dispose();
+    _birthdayController.dispose();
   }
-
-  // void iniState() {
-  //   super.initState();
-  //   init();
-  // }
-
-  // Future init() async {
-  //   final email = await SecureStorage().getEmail() ?? '';
-
-  //   setState(() {
-  //     this._emailController.text = email;
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +50,7 @@ class _RegisterEmailScreenState extends State<RegisterEmailScreen> {
                             child: Padding(
                                 padding: EdgeInsets.only(right: 32.0),
                                 child: Text(
-                                  'Register',
+                                  'First Time Login',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       color: primaryColor, fontSize: 20),
@@ -69,7 +59,7 @@ class _RegisterEmailScreenState extends State<RegisterEmailScreen> {
                     ),
                     const SizedBox(height: 16),
                     const Text(
-                      'Welcome!\nHow are you?',
+                      'When is your birthday?',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           color: primaryColor,
@@ -80,11 +70,11 @@ class _RegisterEmailScreenState extends State<RegisterEmailScreen> {
                       flex: 1,
                       child: Container(),
                     ),
-                    TextFieldInput(
-                      label: "Email",
-                      hintText: "Enter your email",
-                      textInputType: TextInputType.emailAddress,
-                      textEditingController: _emailController,
+                    DateFieldInput(
+                      label: "Birthday",
+                      hintText: "Enter your birthday",
+                      textInputType: TextInputType.datetime,
+                      textEditingController: _birthdayController,
                       validator: (value) {
                         return null;
                       },
@@ -94,26 +84,31 @@ class _RegisterEmailScreenState extends State<RegisterEmailScreen> {
                       flex: 1,
                       child: Container(),
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: 32),
                     ElevatedButton(
                         onPressed: () async {
-                          String email = _emailController.text;
-                          bool isValid = EmailValidator.validate(email);
+                          String birthday = _birthdayController.text;
 
-                          if (!isValid) {
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(const SnackBar(
-                              content: Text('Invalid email address'),
+                          bool birthdayIsValid = birthday.isNotEmpty;
+
+                          if (!birthdayIsValid) {
+                            String message = "Invalid ";
+                            if (!birthdayIsValid) {
+                              message += "birthday";
+                            }
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text(message),
                               backgroundColor: errorColor,
                             ));
                             return;
                           }
-                          // ignore: use_build_context_synchronously
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => RegisterPasswordScreen(
-                                      email: _emailController.text,
+                                builder: (context) => InitLocationScreen(
+                                      displayName: widget.displayName,
+                                      gender: widget.gender,
+                                      birthday: _birthdayController.text,
                                     )),
                           );
                         },

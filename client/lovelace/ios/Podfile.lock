@@ -1,58 +1,134 @@
 PODS:
-  - device_info_plus (0.0.1):
+  - DKImagePickerController/Core (4.3.4):
+    - DKImagePickerController/ImageDataManager
+    - DKImagePickerController/Resource
+  - DKImagePickerController/ImageDataManager (4.3.4)
+  - DKImagePickerController/PhotoGallery (4.3.4):
+    - DKImagePickerController/Core
+    - DKPhotoGallery
+  - DKImagePickerController/Resource (4.3.4)
+  - DKPhotoGallery (0.0.17):
+    - DKPhotoGallery/Core (= 0.0.17)
+    - DKPhotoGallery/Model (= 0.0.17)
+    - DKPhotoGallery/Preview (= 0.0.17)
+    - DKPhotoGallery/Resource (= 0.0.17)
+    - SDWebImage
+    - SwiftyGif
+  - DKPhotoGallery/Core (0.0.17):
+    - DKPhotoGallery/Model
+    - DKPhotoGallery/Preview
+    - SDWebImage
+    - SwiftyGif
+  - DKPhotoGallery/Model (0.0.17):
+    - SDWebImage
+    - SwiftyGif
+  - DKPhotoGallery/Preview (0.0.17):
+    - DKPhotoGallery/Model
+    - DKPhotoGallery/Resource
+    - SDWebImage
+    - SwiftyGif
+  - DKPhotoGallery/Resource (0.0.17):
+    - SDWebImage
+    - SwiftyGif
+  - file_picker (0.0.1):
+    - DKImagePickerController/PhotoGallery
     - Flutter
-  - DTTJailbreakDetection (0.4.0)
   - Flutter (1.0.0)
-  - flutter_jailbreak_detection (1.0.0):
-    - DTTJailbreakDetection
+  - flutter_root_jailbreak (0.0.1):
     - Flutter
   - flutter_secure_storage (6.0.0):
     - Flutter
+  - geocoding (1.0.5):
+    - Flutter
+  - geolocator_apple (1.2.0):
+    - Flutter
+  - image_picker_ios (0.0.1):
+    - Flutter
   - local_auth_ios (0.0.1):
     - Flutter
-  - network_info_plus (0.0.1):
+  - path_provider_ios (0.0.1):
     - Flutter
+  - permission_handler_apple (9.0.4):
+    - Flutter
+  - screen_capture_event (0.0.1):
+    - Flutter
+  - SDWebImage (5.14.3):
+    - SDWebImage/Core (= 5.14.3)
+  - SDWebImage/Core (5.14.3)
   - shared_preferences_ios (0.0.1):
+    - Flutter
+  - SwiftyGif (5.4.3)
+  - webcrypto (0.1.1):
     - Flutter
 
 DEPENDENCIES:
-  - device_info_plus (from `.symlinks/plugins/device_info_plus/ios`)
+  - file_picker (from `.symlinks/plugins/file_picker/ios`)
   - Flutter (from `Flutter`)
-  - flutter_jailbreak_detection (from `.symlinks/plugins/flutter_jailbreak_detection/ios`)
+  - flutter_root_jailbreak (from `.symlinks/plugins/flutter_root_jailbreak/ios`)
   - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
+  - geocoding (from `.symlinks/plugins/geocoding/ios`)
+  - geolocator_apple (from `.symlinks/plugins/geolocator_apple/ios`)
+  - image_picker_ios (from `.symlinks/plugins/image_picker_ios/ios`)
   - local_auth_ios (from `.symlinks/plugins/local_auth_ios/ios`)
-  - network_info_plus (from `.symlinks/plugins/network_info_plus/ios`)
+  - path_provider_ios (from `.symlinks/plugins/path_provider_ios/ios`)
+  - permission_handler_apple (from `.symlinks/plugins/permission_handler_apple/ios`)
+  - screen_capture_event (from `.symlinks/plugins/screen_capture_event/ios`)
   - shared_preferences_ios (from `.symlinks/plugins/shared_preferences_ios/ios`)
+  - webcrypto (from `.symlinks/plugins/webcrypto/ios`)
 
 SPEC REPOS:
   trunk:
-    - DTTJailbreakDetection
+    - DKImagePickerController
+    - DKPhotoGallery
+    - SDWebImage
+    - SwiftyGif
 
 EXTERNAL SOURCES:
-  device_info_plus:
-    :path: ".symlinks/plugins/device_info_plus/ios"
+  file_picker:
+    :path: ".symlinks/plugins/file_picker/ios"
   Flutter:
     :path: Flutter
-  flutter_jailbreak_detection:
-    :path: ".symlinks/plugins/flutter_jailbreak_detection/ios"
+  flutter_root_jailbreak:
+    :path: ".symlinks/plugins/flutter_root_jailbreak/ios"
   flutter_secure_storage:
     :path: ".symlinks/plugins/flutter_secure_storage/ios"
+  geocoding:
+    :path: ".symlinks/plugins/geocoding/ios"
+  geolocator_apple:
+    :path: ".symlinks/plugins/geolocator_apple/ios"
+  image_picker_ios:
+    :path: ".symlinks/plugins/image_picker_ios/ios"
   local_auth_ios:
     :path: ".symlinks/plugins/local_auth_ios/ios"
-  network_info_plus:
-    :path: ".symlinks/plugins/network_info_plus/ios"
+  path_provider_ios:
+    :path: ".symlinks/plugins/path_provider_ios/ios"
+  permission_handler_apple:
+    :path: ".symlinks/plugins/permission_handler_apple/ios"
+  screen_capture_event:
+    :path: ".symlinks/plugins/screen_capture_event/ios"
   shared_preferences_ios:
     :path: ".symlinks/plugins/shared_preferences_ios/ios"
+  webcrypto:
+    :path: ".symlinks/plugins/webcrypto/ios"
 
 SPEC CHECKSUMS:
-  device_info_plus: e5c5da33f982a436e103237c0c85f9031142abed
-  DTTJailbreakDetection: 5e356c5badc17995f65a83ed9483f787a0057b71
+  DKImagePickerController: b512c28220a2b8ac7419f21c491fc8534b7601ac
+  DKPhotoGallery: fdfad5125a9fdda9cc57df834d49df790dbb4179
+  file_picker: ce3938a0df3cc1ef404671531facef740d03f920
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
-  flutter_jailbreak_detection: f6c01e4bc73641c6b69c5112e50301240601abb4
+  flutter_root_jailbreak: 0117e16bde16aa04a798c35f162b6fc2efd70e4f
   flutter_secure_storage: 23fc622d89d073675f2eaa109381aefbcf5a49be
+  geocoding: 32cfcdb16d38d907caaba65e2e42ad10d38bee58
+  geolocator_apple: cc556e6844d508c95df1e87e3ea6fa4e58c50401
+  image_picker_ios: b786a5dcf033a8336a657191401bfdf12017dabb
   local_auth_ios: 0d333dde7780f669e66f19d2ff6005f3ea84008d
-  network_info_plus: b78876159360f5580608c2cea620d6ceffabd0ad
+  path_provider_ios: 14f3d2fd28c4fdb42f44e0f751d12861c43cee02
+  permission_handler_apple: 44366e37eaf29454a1e7b1b7d736c2cceaeb17ce
+  screen_capture_event: bcf965bb31968a51c08ad3698725c5ad8c597124
+  SDWebImage: 9c36e66c8ce4620b41a7407698dda44211a96764
   shared_preferences_ios: 548a61f8053b9b8a49ac19c1ffbc8b92c50d68ad
+  SwiftyGif: 6c3eafd0ce693cad58bb63d2b2fb9bacb8552780
+  webcrypto: 58dac29c85327d3d72a47d19d44128f10905f58e
 
 PODFILE CHECKSUM: ef19549a9bc3046e7bb7d2fab4d021637c0c58a3
 
