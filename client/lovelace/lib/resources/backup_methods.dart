@@ -1,30 +1,48 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
 
 class BackupMethods {
   // read from local file
-  // Future<String> readFile() async {
-  //   debugPrint('Reading data from local file');
-  //   final String response = await rootBundle
-  //       .loadString('assets/sample.json'); // read data from json file
-  //   final data = await jsonDecode(response); // read file contents
-  //   return data;
-  // }
-
-  Future<File> writeStringToJsonFile(String data) async {
-    final directory = await getApplicationDocumentsDirectory();
-    final file = File('${directory.path}/data.json');
-    print(file);
-    final map = {'data': data};
-    return file.writeAsString(jsonEncode(map));
+  Future get _localPath async {
+    Directory directory = await getApplicationDocumentsDirectory();
+    print(directory.path);
+    return directory.path;
   }
 
-  Future<String> readStringFromJsonFile() async {
-    final directory = await getApplicationDocumentsDirectory();
-    final file = File('${directory.path}/data.json');
-    final jsonString = await file.readAsString();
-    final jsonData = jsonDecode(jsonString);
-    return jsonData['data'];
+  Future get _localFile async {
+    final path = await _localPath;
+    return File('$path/sample.json');
+  }
+
+  Future<Map<String, dynamic>> readJsonFile() async {
+    final file = await _localFile;
+    // Read the file
+    debugPrint('Reading data from JSON file');
+    String jsonString = await file.readAsString();
+    Map<String, dynamic> jsonMap = jsonDecode(jsonString);
+    print(jsonMap);
+    debugPrint('Data read from JSON file');
+    return jsonMap;
+  }
+
+  Future<void> writeJsonFile(String email, displayName, gender, birthday,
+      location, profilePic, messages) async {
+    final file = await _localFile;
+    debugPrint('Writing data to JSON file');
+    Map<String, dynamic> jsonMap = {
+      "Email": email,
+      "Display Name": displayName,
+      "Gender": gender,
+      "Birthday": birthday,
+      "Location": location,
+      "Profile Picture": profilePic,
+      "Messages": messages
+    };
+
+    String jsonString = jsonEncode(jsonMap);
+    await file.writeAsString(jsonString);
+    debugPrint('Data written to JSON file');
   }
 }

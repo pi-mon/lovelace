@@ -52,7 +52,6 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     screenCaptureEvent.watch();
     screenCaptureEvent.preventAndroidScreenShot(true);
     WidgetsBinding.instance.addObserver(this);
-    screenShotRecord();
     super.initState();
     WidgetsBinding.instance.addObserver(this);
   }
@@ -69,13 +68,6 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     super.didChangeAppLifecycleState(state);
     if (state == AppLifecycleState.detached) return;
     debugPrint(state.toString());
-  }
-
-  Future<void> screenShotRecord() async {
-    bool isSecureMode = false;
-    setState(() {
-      isSecureMode = !isSecureMode;
-    });
   }
 
   @override

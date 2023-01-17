@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:lovelace/models/user_detail.dart';
 import 'package:lovelace/resources/account_methods.dart';
@@ -18,13 +19,6 @@ class AccountSettingsScreen extends StatefulWidget {
 class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
   final StorageMethods _storageMethods = StorageMethods();
   final BackupMethods _backupMethods = BackupMethods();
-  bool isBackedup = true;
-
-  // _AccountSettingsScreenState() {
-  //   _storageMethods.read("message").then((value) {
-  //     print(value);
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -43,30 +37,25 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
         padding: const EdgeInsets.all(8.0),
         child: SafeArea(
             child: Column(children: <Widget>[
-          // WideButton(
-          //     icon: const Icon(Icons.edit, color: placeholderColor),
-          //     label: "Update user details",
-          //     onPressed: () =>
-          //         Navigator.push(context, MaterialPageRoute(builder: (context) {
-          //           return const UpdateUserDetailsScreen();
-          //         }))),
           WideButton(
               icon: const Icon(Icons.backup, color: placeholderColor),
               label: "Backup my data",
               onPressed: () async {
-                // TODO: get the user data and call the BackupMethods
                 dynamic userDataJson = await storageMethods.read("userDetails");
                 dynamic chatDataJson = await storageMethods.read("message");
                 UserDetails userData =
                     UserDetails.fromJson(jsonDecode(userDataJson));
-
-                print('chatDataJson: ${chatDataJson.runtimeType}');
-                // print(userData.toString());
-                print(
-                    'display name: ${userData.displayName}\ngender: ${userData.gender}\nemail: ${userData.email}\nbirthday: ${userData.birthday}\nlocation: ${userData.location}\n');
+                List chatDataString = jsonDecode(chatDataJson);
 
                 // Write data to file
-                _backupMethods.writeStringToJsonFile(userData.displayName);
+                _backupMethods.writeJsonFile(
+                    userData.email,
+                    userData.displayName,
+                    userData.gender,
+                    userData.birthday,
+                    userData.location,
+                    userData.profilePic,
+                    chatDataString);
                 // wait for BackupMethods to complete
                 // notify user of successful backup
               }),
@@ -74,7 +63,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
               icon: const Icon(Icons.info, color: placeholderColor),
               label: "Read backed up data",
               onPressed: () {
-                // TODO: Read data from local file
+                _backupMethods.readJsonFile();
               }),
           WideButton(
               icon: const Icon(Icons.exit_to_app, color: placeholderColor),
