@@ -107,7 +107,7 @@ class _InitDisplayPicScreenState extends State<InitDisplayPicScreen> {
                               source: ImageSource.gallery);
                           if (image != null) {
                             setState(() {
-                              print("setstate done");
+                              // print("setstate done");
                               _image = File(image.path);
                             });
                           }

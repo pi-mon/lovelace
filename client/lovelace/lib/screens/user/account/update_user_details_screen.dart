@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:age_calculator/age_calculator.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -7,9 +8,9 @@ import 'package:intl/intl.dart';
 import 'package:lovelace/models/user_detail.dart';
 import 'package:lovelace/resources/account_methods.dart';
 import 'package:lovelace/resources/storage_methods.dart';
-import 'package:lovelace/screens/user/account/account_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:lovelace/utils/global_variables.dart';
+import 'package:lovelace/widgets/display_card.dart';
 import 'package:lovelace/widgets/dropdown_field_input.dart';
 import 'package:lovelace/widgets/text_field_input.dart';
 
@@ -29,9 +30,12 @@ class _UpdateUserDetailsScreenState extends State<UpdateUserDetailsScreen> {
   final _formKey = GlobalKey<FormState>();
   final ImagePicker _picker = ImagePicker();
 
-  File? _image;
-  bool _isDefault = true;
-  bool _isLoading = true;
+  File? _ppImage;
+  File? _dpImage;
+  bool _ppIsDefault = true;
+  bool _dpIsDefault = true;
+  bool _ppIsLoading = true;
+  bool _dpIsLoading = true;
   List<String> dropdownValues = ['Male', 'Female'];
 
   String displayName = '';
@@ -40,14 +44,18 @@ class _UpdateUserDetailsScreenState extends State<UpdateUserDetailsScreen> {
   String gender = '';
   String birthday = '';
   String profilePic = '';
+  String displayPic = '';
 
-  final TextEditingController _newEmailController = TextEditingController();
+  final TextEditingController _newEmailController =
+      TextEditingController(text: "");
   final TextEditingController _newDisplayNameController =
       TextEditingController();
   final TextEditingController _newGenderController =
       TextEditingController(text: "Male");
-  final TextEditingController _newBirthdayController = TextEditingController();
-  final TextEditingController _newLocationController = TextEditingController();
+  final TextEditingController _newBirthdayController = TextEditingController(
+      text: DateFormat('yyyy-MM-dd').format(DateTime.now()));
+  final TextEditingController _newLocationController =
+      TextEditingController(text: "");
 
   _UpdateUserDetailsScreenState() {
     _storageMethods.read("userDetails").then((value) {
@@ -59,7 +67,9 @@ class _UpdateUserDetailsScreenState extends State<UpdateUserDetailsScreen> {
         _newBirthdayController.text = valueJson["birthday"];
         _newLocationController.text = valueJson["location"];
         profilePic = valueJson["profile_pic"];
-        _isLoading = false;
+        displayPic = valueJson["display_pic"];
+        _ppIsLoading = false;
+        _dpIsLoading = false;
       });
     });
   }
@@ -111,8 +121,9 @@ class _UpdateUserDetailsScreenState extends State<UpdateUserDetailsScreen> {
                               source: ImageSource.gallery);
                           if (image != null) {
                             setState(() {
-                              _image = File(image.path);
-                              _isDefault = false;
+                              _ppImage = File(image.path);
+                              _ppIsDefault = false;
+                              _ppIsDefault = false;
                             });
                           }
                         },
@@ -124,15 +135,15 @@ class _UpdateUserDetailsScreenState extends State<UpdateUserDetailsScreen> {
                             shape: BoxShape.circle,
                             image: DecorationImage(
                               fit: BoxFit.cover,
-                              image: _isDefault
-                                  ? (_isLoading
+                              image: _ppIsDefault
+                                  ? (_ppIsLoading
                                       ? Image.asset(
                                               "assets/images/default-profile-picture.png")
                                           .image
                                       : Image.memory(Uint8List.fromList(
                                               base64.decode(profilePic)))
                                           .image)
-                                  : Image.file(_image!).image,
+                                  : Image.file(_ppImage!).image,
                             ),
                           ),
                         ),
@@ -153,6 +164,7 @@ class _UpdateUserDetailsScreenState extends State<UpdateUserDetailsScreen> {
                         ))
                   ],
                 ),
+                const SizedBox(height: 16),
                 TextFieldInput(
                   label: "Email",
                   hintText: "Enter your email",
@@ -193,7 +205,7 @@ class _UpdateUserDetailsScreenState extends State<UpdateUserDetailsScreen> {
 
                     // if OK is pressed
                     setState(() => _newBirthdayController.text =
-                        DateFormat('dd-MM-yyyy').format(newDate));
+                        DateFormat('yyyy-MM-dd').format(newDate));
                   },
                   label: "Birthday",
                   hintText: "Enter your birthday",
@@ -212,6 +224,40 @@ class _UpdateUserDetailsScreenState extends State<UpdateUserDetailsScreen> {
                   validator: (value) {
                     return null;
                   },
+                ),
+                const SizedBox(height: 16),
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 32, vertical: 28),
+                  child: GestureDetector(
+                    onTap: () async {
+                      XFile? image =
+                          await _picker.pickImage(source: ImageSource.gallery);
+                      if (image != null) {
+                        setState(() {
+                          _dpImage = File(image.path);
+                          _dpIsDefault = false;
+                          _dpIsDefault = false;
+                        });
+                      }
+                    },
+                    child: DisplayCard(
+                      image: _dpIsDefault
+                          ? (_dpIsLoading
+                              ? "assets/images/default-profile-picture.png"
+                              : Image.memory(Uint8List.fromList(
+                                      base64.decode(profilePic)))
+                                  .image)
+                          : Image.file(_dpImage!).image,
+                      name: _newDisplayNameController.text,
+                      age: AgeCalculator.dateDifference(
+                              fromDate:
+                                  DateTime.parse(_newBirthdayController.text),
+                              toDate: DateTime.now())
+                          .years,
+                      location: _newLocationController.text,
+                    ),
+                  ),
                 ),
                 const SizedBox(height: 16),
                 ElevatedButton(
@@ -238,7 +284,8 @@ class _UpdateUserDetailsScreenState extends State<UpdateUserDetailsScreen> {
                       String gender = _newGenderController.text;
                       String birthday = _newBirthdayController.text;
                       String location = _newLocationController.text;
-                      File? profilePic = _image;
+                      File? profilePic = _ppImage;
+                      File? displayPic = _dpImage;
 
                       UserDetails userDetails = UserDetails(
                         email: email,
@@ -247,7 +294,7 @@ class _UpdateUserDetailsScreenState extends State<UpdateUserDetailsScreen> {
                         birthday: birthday,
                         location: location,
                         profilePic: profilePic?.path ?? "",
-                        displayPic: "",
+                        displayPic: displayPic?.path ?? "",
                       );
 
                       //   // call update function to send request to server side to update user details
@@ -260,10 +307,15 @@ class _UpdateUserDetailsScreenState extends State<UpdateUserDetailsScreen> {
 
                       print(output);
 
-                      scaffoldMessengerKey.currentState?.showSnackBar(SnackBar(
+                      // show snackbar to show the result of the update
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                         content: Text(message),
                         backgroundColor: isSuccess ? successColor : errorColor,
                       ));
+                      // scaffoldMessengerKey.currentState?.showSnackBar(SnackBar(
+                      //   content: Text(message),
+                      //   backgroundColor: isSuccess ? successColor : errorColor,
+                      // ));
 
                       if (isSuccess) {
                         _storageMethods.write("userDetails", userDetails);

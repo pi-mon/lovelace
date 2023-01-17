@@ -31,29 +31,52 @@ class _DisplayCardState extends State<DisplayCard> {
     final double screenWidth = queryData.size.width;
     final double screenHeight = queryData.size.height;
     final double cardWidth = screenWidth / 1.23;
+    // dynamic image;
+    // bool isImage;
+    // ClipRRect cardImage() {
+    //   return null;
+    // }
+    // if (widget.image.runtimeType == String) {
+    //   image = Image.asset(
+    //     widget.image,
+    //     height: cardWidth / 2 * 3,
+    //     width: cardWidth,
+    //     fit: BoxFit.cover,
+    //   );
+    // } else if (widget.image.runtimeType == File) {
+    //   image = Image.file(
+    //     widget.image,
+    //     height: cardWidth / 2 * 3,
+    //     width: cardWidth,
+    //     fit: BoxFit.cover,
+    //   );
+    // } else {
+    //   image = Container(
+    //     // width: 100,
+    //     // height: 100,
+    //     decoration: BoxDecoration(
+    //       // border: Border.all(color: Colors.grey.shade300),
+    //       // shape: BoxShape.circle,
+    //       image: DecorationImage(fit: BoxFit.cover, image: widget.image),
+    //     ),
+    //   );
+    // }
 
     return Stack(
       alignment: Alignment.bottomCenter,
       children: <Widget>[
-        ClipRRect(
-            borderRadius: BorderRadius.circular(25),
-            child: widget.image is File
-                ? Image.file(
-                    widget.image,
-                    height: cardWidth / 2 * 3,
-                    width: cardWidth,
-                    fit: BoxFit.cover,
-                  )
-                : Image.asset(
-                    widget.image,
-                    height: cardWidth / 2 * 3,
-                    width: cardWidth,
-                    fit: BoxFit.cover,
-                  )),
+        // cardImage(),
+        // ClipRRect(
+        //     borderRadius: BorderRadius.circular(25), child: isImage ? "" : ""),
         Container(
           height: cardWidth / 2 * 3,
           width: cardWidth,
           decoration: BoxDecoration(
+            image: DecorationImage(
+                fit: BoxFit.cover,
+                image: widget.image.runtimeType != String
+                    ? widget.image
+                    : Image.asset(widget.image).image),
             borderRadius: BorderRadius.circular(25),
             gradient: const LinearGradient(
                 colors: [

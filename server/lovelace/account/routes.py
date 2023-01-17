@@ -319,14 +319,14 @@ def update_profile(user):
             profile_information["location"],
         )
     except:
-        return jsonify({"create": False, "response": "Invalid user input"})
+        return jsonify({"update": False, "response": "Invalid user input"})
     if (
         user_detail_collection.account_details.find_one({"email": user}, {"email": 1})
         == None
     ):  # check if need to update profilwwwwwe or create new profile
         user_detail_collection.account_details.insert_one(new_account_details.__dict__)
         return jsonify(
-            {"create": True, "response": "User account details has been created"}
+            {"update": True, "response": "User account details has been created"}
         )
     else:
         new_values = {
@@ -340,7 +340,7 @@ def update_profile(user):
         user_detail_collection.account_details.update_one(
             {"email": user}, update=new_values
         )
-        return jsonify({"create": True, "response": "User details has been updated"})
+        return jsonify({"update": True, "response": "User details has been updated"})
 
 
 @account_page.route("/account/profile/update/display_pic", methods=["POST", "GET"])
@@ -351,7 +351,7 @@ def update_display_pic(user):
         display_pic = request.files["display_pic"]
         new_account_details = account.UserDetails(user, "", "", "", "")
     except:
-        return jsonify({"create": False, "response": "Invalid user input"})
+        return jsonify({"update": False, "response": "Invalid user input"})
     if (
         user_detail_collection.account_details.find_one({"email": user}, {"email": 1})
         == None
@@ -359,7 +359,7 @@ def update_display_pic(user):
         user_detail_collection.account_details.insert_one(new_account_details.__dict__)
         return jsonify(
             {
-                "create": True,
+                "update": True,
                 "response": "display_pic was updated and empty user details was created",
             }
         )
@@ -370,7 +370,7 @@ def update_display_pic(user):
             {"email": user}, update=new_values
         )
         return jsonify(
-            {"create": True, "response": "User display_pic has been updated"}
+            {"update": True, "response": "User display_pic has been updated"}
         )
 
 
@@ -382,7 +382,7 @@ def update_profile_pic(user):
         profile_pic = request.files["profile_pic"]
         new_account_details = account.UserDetails(user, "", "", "", "")
     except:
-        return jsonify({"create": False, "response": "Invalid user input"})
+        return jsonify({"update": False, "response": "Invalid user input"})
     if (
         user_detail_collection.account_details.find_one({"email": user}, {"email": 1})
         == None
@@ -390,7 +390,7 @@ def update_profile_pic(user):
         user_detail_collection.account_details.insert_one(new_account_details.__dict__)
         return jsonify(
             {
-                "create": True,
+                "update": True,
                 "response": "profile_pic was updated and empty user details was created",
             }
         )
@@ -401,7 +401,7 @@ def update_profile_pic(user):
             {"email": user}, update=new_values
         )
         return jsonify(
-            {"create": True, "response": "User profile_pic has been updated"}
+            {"update": True, "response": "User profile_pic has been updated"}
         )
 
 

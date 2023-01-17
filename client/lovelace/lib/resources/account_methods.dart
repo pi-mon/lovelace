@@ -40,43 +40,83 @@ class AccountMethods {
     String output = "";
     String message = "";
     bool isSuccess = true;
+    List updateDetailsList;
+    List updateProfilePicList;
+    List updateDisplayPicList;
     // List<Map<String, String>> filesMap = [
     //   {"name": "profile_picture", "path": userDetails.profilePic},
     //   {"name": "display_picture", "path": userDetails.displayPic}
     // ];
-    updateDetails(userDetails: userDetails).then((value) {
-      outputJson['details'] = value[0];
-      // output += value[0];
-      message += value[1];
-      isSuccess = isSuccess && value[2];
-    });
+    updateDetailsList = await updateDetails(userDetails: userDetails);
+    outputJson['details'] = updateDetailsList[0];
+    message += updateDetailsList[1];
+    print(updateDetailsList[2]);
+    isSuccess = isSuccess && updateDetailsList[2];
     if (userDetails.profilePic != "") {
-      updateFile(fileName: "profile_pic", filePath: userDetails.profilePic)
-          .then((value) => {
-                outputJson['profile_pic'] = value[0],
-                // output += value[0],
-                message += value[1],
-                isSuccess = isSuccess && value[2],
-              });
+      updateProfilePicList = await updateFile(
+          fileName: "profile_pic", filePath: userDetails.profilePic);
+      outputJson['profile_pic'] = updateProfilePicList[0];
+      message += updateProfilePicList[1];
+      isSuccess = isSuccess && updateProfilePicList[2];
     }
     if (userDetails.displayPic != "") {
-      updateFile(fileName: "display_pic", filePath: userDetails.displayPic)
-          .then((value) => {
-                outputJson['display_pic'] = value[0],
-                message += value[1],
-                isSuccess = isSuccess && value[2],
-              });
+      updateDisplayPicList = await updateFile(
+          fileName: "display_pic", filePath: userDetails.displayPic);
+      outputJson['display_pic'] = updateDisplayPicList[0];
+      message += updateDisplayPicList[1];
+      isSuccess = isSuccess && updateDisplayPicList[2];
     }
+    // outputJson = {
+    //   "details": updateDetailsList[0],
+    //   "profile_pic": updateProfilePicList[0],
+    //   "display_pic": updateDisplayPicList[0],
+    // };
+    // message = updateDetailsList[1] +
+    //     updateProfilePicList[1] +
+    //     updateDisplayPicList[1];
+    // isSuccess = updateDetailsList[2] && updateProfilePicList[2] && updateDisplayPicList[2];
+    // // updateDetails(userDetails: userDetails).then((value) {
+    // //   outputJson['details'] = value[0];
+    // //   // output += value[0];
+    // //   message += value[1];
+    // //   isSuccess = isSuccess && value[2];
+    // // });
+    // if (userDetails.profilePic != "") {
+    //   updateFile(fileName: "profile_pic", filePath: userDetails.profilePic)
+    //       .then((value) => {
+    //             outputJson['profile_pic'] = value[0],
+    //             // output += value[0],
+    //             message += value[1],
+    //             isSuccess = isSuccess && value[2],
+    //           });
+    // }
+    // if (userDetails.displayPic != "") {
+    //   updateFile(fileName: "display_pic", filePath: userDetails.displayPic)
+    //       .then((value) => {
+    //             outputJson['display_pic'] = value[0],
+    //             message += value[1],
+    //             isSuccess = isSuccess && value[2],
+    //           });
+    // }
+    print(isSuccess);
     if (isSuccess) {
-      read().then((value) {
-        dynamic sOutput = json.decode(value[0]);
-        bool sIsSuccess = value[2];
-        if (sIsSuccess) {
-          storageMethods.write("userDetails", sOutput["response"]);
-        }
-      });
+      List response = await read();
+      print(response);
+      dynamic sOutput = json.decode(response[0]);
+      bool sIsSuccess = response[2];
+      if (sIsSuccess) {
+        storageMethods.write("userDetails", sOutput["response"]);
+      }
+      // read().then((value) {
+      //   dynamic sOutput = json.decode(value[0]);
+      //   bool sIsSuccess = value[2];
+      //   if (sIsSuccess) {
+      //     storageMethods.write("userDetails", sOutput["response"]);
+      //   }
+      // });
     }
     output = json.encode(outputJson);
+    print(output);
     return [output, message, isSuccess];
   }
 
