@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:lovelace/models/user_detail.dart';
 import 'package:lovelace/resources/account_methods.dart';
@@ -19,6 +18,8 @@ class AccountSettingsScreen extends StatefulWidget {
 class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
   final StorageMethods _storageMethods = StorageMethods();
   final BackupMethods _backupMethods = BackupMethods();
+  bool isSuccess = false;
+  String message = "Data is backed up!";
 
   @override
   Widget build(BuildContext context) {
@@ -41,8 +42,8 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
               icon: const Icon(Icons.backup, color: placeholderColor),
               label: "Backup my data",
               onPressed: () async {
-                dynamic userDataJson = await storageMethods.read("userDetails");
                 dynamic chatDataJson = await storageMethods.read("message");
+                dynamic userDataJson = await storageMethods.read("userDetails");
                 UserDetails userData =
                     UserDetails.fromJson(jsonDecode(userDataJson));
                 List chatDataString = jsonDecode(chatDataJson);
@@ -54,10 +55,15 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                     userData.gender,
                     userData.birthday,
                     userData.location,
-                    userData.profilePic,
                     chatDataString);
-                // wait for BackupMethods to complete
+                setState(() {
+                  isSuccess = true;
+                });                
                 // notify user of successful backup
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text(message),
+                  backgroundColor: isSuccess ? successColor : errorColor,
+                ));
               }),
           WideButton(
               icon: const Icon(Icons.info, color: placeholderColor),

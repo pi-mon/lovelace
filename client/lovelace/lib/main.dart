@@ -85,7 +85,8 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     } else {
       home = widget._userPages;
     }
-    home = const LandingScreen();
+    // home = const LandingScreen();
+    home = widget._userPages;
 
     MaterialApp materialApp = MaterialApp(
         debugShowCheckedModeBanner: true,
