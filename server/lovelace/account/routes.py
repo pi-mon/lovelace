@@ -14,6 +14,7 @@ from pymongo import errors as db_errors
 from argon2 import PasswordHasher
 from lovelace.models import account
 import jwt
+import base64
 from datetime import datetime, timedelta
 from os import environ
 from pyotp import TOTP
@@ -258,7 +259,7 @@ def login_verify(user):
         otp_details = account_collection.user.find_one(
             {"email": user}, {"otp": 1, "otp_expiry": 1}
         )
-        otp = str(request.get_json()["otp"])
+        otp = str(request.get_json()["otp"]).zfill(6)
         user_otp = str(otp_details["otp"])
         user_otp_expiry = otp_details["otp_expiry"]
     except:
@@ -407,16 +408,21 @@ def update_profile_pic(user):
 @account_page.route("/account/profile")
 @token_required()
 def profile(user):
-    import base64
-
-    user_detail_collection = mongo_account_details_write.account_details
-    account_details = user_detail_collection.account_details.find_one({"email": user})
-    account_details["_id"] = str(account_details["_id"])
-    display_pic = base64.b64encode(account_details["display_pic"]).decode("utf-8")
-    profile_pic = base64.b64encode(account_details["profile_pic"]).decode("utf-8")
-    account_details["display_pic"] = display_pic
-    account_details["profile_pic"] = profile_pic
-    return jsonify(account_details)
+    try:
+        user_detail_collection = mongo_account_details_write.account_details
+        account_details = user_detail_collection.account_details.find_one(
+            {"email": user}
+        )
+        account_details["_id"] = str(account_details["_id"])
+        display_pic = base64.b64encode(account_details["display_pic"]).decode("utf-8")
+        profile_pic = base64.b64encode(account_details["profile_pic"]).decode("utf-8")
+        account_details["display_pic"] = display_pic
+        account_details["profile_pic"] = profile_pic
+        return jsonify({"read": True, "response": account_details})
+    except Exception as e:
+        return jsonify(
+            {"read": False, "response": f"Error retrieving user profile: {e}"}
+        )
 
 
 @account_page.route("/account/request_list")

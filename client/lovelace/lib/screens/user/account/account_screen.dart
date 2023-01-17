@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:lovelace/resources/storage_methods.dart';
+import 'package:lovelace/resources/user_state_methods.dart';
 import 'package:lovelace/screens/admin/admin_account_screen.dart';
 import 'package:lovelace/screens/user/account/account_settings_screen.dart';
 import 'package:lovelace/screens/user/account/update_user_details_screen.dart';
@@ -38,6 +39,9 @@ class _AccountScreenState extends State<AccountScreen> {
 
   _AccountScreenState() {
     _storageMethods.read("userDetails").then((value) {
+      if (value == null) {
+        UserStateMethods().logoutState(context);
+      }
       print(value);
       dynamic valueJson = json.decode(value);
       setState(() {
