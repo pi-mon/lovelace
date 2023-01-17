@@ -34,7 +34,7 @@ class BackupMethods {
   }
 
   Future<void> writeJsonFile(
-      String email, displayName, gender, birthday, location, messages) async {
+    String email, displayName, gender, birthday, location, messages) async {
     final file = await _localFile;
     debugPrint('Writing data to JSON file');
     Map<String, dynamic> jsonMap = {
