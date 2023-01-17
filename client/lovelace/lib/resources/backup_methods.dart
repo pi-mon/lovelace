@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io' as io;
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
@@ -24,24 +23,14 @@ class BackupMethods {
   }
 
   Future<Map<String, dynamic>> readJsonFile() async {
-    dynamic response;
     final file = await _localFile;
     // Read the file
     debugPrint('Reading data from JSON file');
-    // Check if file exists. Otherwise, return message
-    final fileExists = await _fileExists();
-
-    if (fileExists == true) {
-      String jsonString = await file.readAsString();
-      Map<String, dynamic> jsonMap = jsonDecode(jsonString);
-      print(jsonMap);
-      debugPrint('Data read from JSON file');
-      response = jsonMap;
-    } else {
-      // notify user file does not exist. Must back up first for file to be created
-      response = "Sorry, the file does not exist!";
-    }
-    return response;
+    String jsonString = await file.readAsString();
+    Map<String, dynamic> jsonMap = jsonDecode(jsonString);
+    print(jsonMap);
+    debugPrint('Data read from JSON file');
+    return jsonMap;
   }
 
   Future<void> writeJsonFile(

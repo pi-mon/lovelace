@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:lovelace/models/user_detail.dart';
 import 'package:lovelace/resources/account_methods.dart';
@@ -7,6 +8,7 @@ import 'package:lovelace/resources/storage_methods.dart';
 import 'package:lovelace/resources/user_state_methods.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:lovelace/widgets/wide_button.dart';
+import 'package:path_provider/path_provider.dart';
 
 class AccountSettingsScreen extends StatefulWidget {
   const AccountSettingsScreen({super.key});
@@ -19,7 +21,14 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
   final StorageMethods _storageMethods = StorageMethods();
   final BackupMethods _backupMethods = BackupMethods();
   bool isSuccess = false;
-  String message = "Data is backed up!";
+  String message = '';
+
+  Future<bool> _fileExists() async {
+    Directory? directory = await getExternalStorageDirectory();
+    final file = File('${directory?.path}/user-data.json');
+    // print(file.exists());
+    return file.exists();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +67,8 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                     chatDataString);
                 setState(() {
                   isSuccess = true;
-                });                
+                });
+                message = "Data is backed up!";
                 // notify user of successful backup
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                   content: Text(message),
@@ -68,8 +78,30 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
           WideButton(
               icon: const Icon(Icons.info, color: placeholderColor),
               label: "Read backed up data",
-              onPressed: () {
-                _backupMethods.readJsonFile();
+              onPressed: () async {
+                final fileExists = await _fileExists();
+
+                if (fileExists == true) {
+                  setState(() {
+                    isSuccess = true;
+                  });
+                  message = 'Reading backed up data...';
+                  final data = _backupMethods.readJsonFile();
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text(message),
+                    backgroundColor: isSuccess ? successColor : errorColor,
+                  ));
+                } else {
+                  setState(() {
+                    isSuccess = false;
+                  });
+                  // notify user to back up data first
+                  message = 'The file does not exist! Back up your data first!';
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text(message),
+                    backgroundColor: isSuccess ? successColor : errorColor,
+                  ));
+                }
               }),
           WideButton(
               icon: const Icon(Icons.exit_to_app, color: placeholderColor),
