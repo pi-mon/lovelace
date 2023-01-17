@@ -316,10 +316,6 @@ class _UpdateUserDetailsScreenState extends State<UpdateUserDetailsScreen> {
                       //   content: Text(message),
                       //   backgroundColor: isSuccess ? successColor : errorColor,
                       // ));
-
-                      // if (isSuccess) {
-                      //   _storageMethods.write("userDetails", userDetails);
-                      // }
                     }
                   },
                 )
