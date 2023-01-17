@@ -1,4 +1,4 @@
-import 'package:lovelace/main.dart';
+import 'package:lovelace/utils/global_variables.dart';
 import 'package:lovelace/widgets/profile.dart';
 import 'package:lovelace/widgets/action_button_widget.dart';
 import 'package:lovelace/widgets/drag_widget.dart';
@@ -52,9 +52,9 @@ class _CardsStackWidgetState extends State<CardsStackWidget>
     );
     _animationController.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
+        print(swipeNotifier.value);
         draggableItems.removeLast();
         _animationController.reset();
-
         swipeNotifier.value = Swipe.none;
       }
     });

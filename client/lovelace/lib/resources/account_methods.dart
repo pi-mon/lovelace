@@ -39,7 +39,7 @@ class AccountMethods {
     Map<String, String> outputJson = {};
     String output = "";
     String message = "";
-    bool isSuccess = false;
+    bool isSuccess = true;
     // List<Map<String, String>> filesMap = [
     //   {"name": "profile_picture", "path": userDetails.profilePic},
     //   {"name": "display_picture", "path": userDetails.displayPic}
@@ -63,7 +63,6 @@ class AccountMethods {
       updateFile(fileName: "display_pic", filePath: userDetails.displayPic)
           .then((value) => {
                 outputJson['display_pic'] = value[0],
-                // output += value[0],
                 message += value[1],
                 isSuccess = isSuccess && value[2],
               });
