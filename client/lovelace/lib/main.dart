@@ -85,8 +85,6 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     } else {
       home = widget._userPages;
     }
-    // home = const LandingScreen();
-    home = widget._userPages;
 
     MaterialApp materialApp = MaterialApp(
         debugShowCheckedModeBanner: true,
@@ -96,5 +94,3 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     return materialApp;
   }
 }
-
-// enum Swipe { left, right, none }
