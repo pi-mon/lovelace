@@ -41,12 +41,13 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
   String initialData = "[]";
 
   ChatStreamSocket chatStreamSocket = ChatStreamSocket();
+  StorageMethods storageMethods = StorageMethods();
 
   TextEditingController messageController = TextEditingController();
 
   Future<void> getContent() async {
     preferences = await StreamingSharedPreferences.instance;
-    content = preferences!.getString(keyName, defaultValue: "[]");
+    content = preferences!.getString(keyName, defaultValue: "[]");    
     setState(() {
       initialData = content!.getValue();
     });
@@ -54,7 +55,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
 
   getReceiverUserDetails() async {
     dynamic receiverUserDetailsJson =
-        await StorageMethods().read("userDetails");
+        await storageMethods.read("userDetails");
     receiverUserDetails =
         UserDetails.fromJson(json.decode(receiverUserDetailsJson));
   }
@@ -127,12 +128,15 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
       oldContent.add(chatMessageMap);
       String newContent = json.encode(oldContent);
       content!.setValue(newContent);
-
+      print('newContent: $newContent');
       chatMessageMap.addAll({
         "room": keyName,
       });
 
+      print(content);
       sendingMessage(chatMessageMap);
+      storageMethods.write("message", newContent);
+      // storageMethods.read("message");
       setState(() {
         messageController.clear();
       });

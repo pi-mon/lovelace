@@ -70,6 +70,7 @@ dev_dependencies:
     sdk: flutter
   json_serializable: ^6.5.4
   build_runner: ^2.3.3
+  flutter_lints: ^2.0.1
 
 flutter_icons:
   uses-material-design: true
@@ -111,7 +112,6 @@ flutter:
   assets:
     - assets/images/
     - assets/ca/cert.pem
-    - assets/sample.json
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 

@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:lovelace/resources/storage_methods.dart';
 import 'package:lovelace/screens/admin/admin_account_screen.dart';
 import 'package:lovelace/screens/user/account/account_settings_screen.dart';
+import 'package:lovelace/screens/user/account/update_user_details_screen.dart';
 import 'package:lovelace/utils/colors.dart';
+import 'package:lovelace/widgets/wide_button_arrow.dart';
 
 class AccountScreen extends StatefulWidget {
   const AccountScreen({super.key});
@@ -15,6 +17,20 @@ class AccountScreen extends StatefulWidget {
 
 class _AccountScreenState extends State<AccountScreen> {
   final StorageMethods _storageMethods = StorageMethods();
+  final List<WideButtonArrow> wideButtonArrowList = [
+    const WideButtonArrow(
+        iconData: Icons.edit,
+        label: "Edit Profile",
+        nextScreen: UpdateUserDetailsScreen()),
+    const WideButtonArrow(
+        iconData: Icons.settings,
+        label: "Settings",
+        nextScreen: AccountSettingsScreen()),
+    const WideButtonArrow(
+        iconData: Icons.admin_panel_settings,
+        label: "Admin Mode",
+        nextScreen: AdminAccountScreen()),
+  ];
   String displayName = '';
   String location = '';
   String profilePic = '';
@@ -22,6 +38,7 @@ class _AccountScreenState extends State<AccountScreen> {
 
   _AccountScreenState() {
     _storageMethods.read("userDetails").then((value) {
+      print(value);
       dynamic valueJson = json.decode(value);
       setState(() {
         displayName = valueJson["display_name"];
@@ -40,15 +57,16 @@ class _AccountScreenState extends State<AccountScreen> {
             child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
+                const SizedBox(height: 64),
                 Column(
                   children: <Widget>[
                     Container(
                       width: 100,
                       height: 100,
                       decoration: BoxDecoration(
-                        // border: Border.all(color: borderColor),
+                        border: Border.all(color: Colors.grey.shade300),
                         shape: BoxShape.circle,
                         image: DecorationImage(
                             fit: BoxFit.cover,
@@ -72,7 +90,6 @@ class _AccountScreenState extends State<AccountScreen> {
                                 fontWeight: FontWeight.bold)),
                       ],
                     ),
-                    const SizedBox(height: 10),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
@@ -85,97 +102,13 @@ class _AccountScreenState extends State<AccountScreen> {
                     ),
                   ],
                 ),
-                Column(
-                  children: <Widget>[
-                    ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              PageRouteBuilder(
-                                pageBuilder:
-                                    (context, animation1, animation2) =>
-                                        const AdminAccountScreen(),
-                                transitionDuration: Duration.zero,
-                                reverseTransitionDuration: Duration.zero,
-                              ));
-                        },
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: primaryColor),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: const <Widget>[
-                            Icon(Icons.admin_panel_settings),
-                            SizedBox(width: 10),
-                            Text('Turn On Admin',
-                                style: TextStyle(fontSize: 17))
-                          ],
-                        )),
-                    const SizedBox(height: 5),
-                    // ElevatedButton(
-                    //     onPressed: () {},
-                    //     style: ElevatedButton.styleFrom(
-                    //         backgroundColor: primaryColor),
-                    //     child: Row(
-                    //       mainAxisAlignment: MainAxisAlignment.center,
-                    //       children: const <Widget>[
-                    //         Icon(Icons.person),
-                    //         SizedBox(width: 10),
-                    //         Text('Button 2', style: TextStyle(fontSize: 17))
-                    //       ],
-                    //     )),
-                    // const SizedBox(height: 5),
-                    // ElevatedButton(
-                    //     onPressed: () {},
-                    //     style: ElevatedButton.styleFrom(
-                    //         backgroundColor: primaryColor),
-                    //     child: Row(
-                    //       mainAxisAlignment: MainAxisAlignment.center,
-                    //       children: const <Widget>[
-                    //         Icon(Icons.person),
-                    //         SizedBox(width: 10),
-                    //         Text('Button 3', style: TextStyle(fontSize: 17))
-                    //       ],
-                    //     )),
-                  ],
-                ),
-                SizedBox(
-                    height: 50,
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      style:
-                          ElevatedButton.styleFrom(backgroundColor: whiteColor),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: const <Widget>[
-                          Text('My Ideal Person',
-                              style:
-                                  TextStyle(fontSize: 17, color: blackColor)),
-                          Icon(Icons.arrow_right, color: placeholderColor)
-                        ],
-                      ),
-                    )),
-                SizedBox(
-                    height: 50,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    const AccountDetailsScreen()));
-                      },
-                      style:
-                          ElevatedButton.styleFrom(backgroundColor: whiteColor),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: const <Widget>[
-                          Text('Account Settings',
-                              style:
-                                  TextStyle(fontSize: 17, color: blackColor)),
-                          Icon(Icons.arrow_right, color: placeholderColor)
-                        ],
-                      ),
-                    )),
+                const SizedBox(height: 64),
+                for (WideButtonArrow wideButtonArrow in wideButtonArrowList)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 1.5, horizontal: 12),
+                    child: wideButtonArrow,
+                  )
               ]),
         )));
   }

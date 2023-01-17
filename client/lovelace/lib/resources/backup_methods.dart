@@ -1,37 +1,30 @@
+import 'dart:convert';
 import 'dart:io';
-import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 
 class BackupMethods {
-  // get local file
-  Future<File> get _localFile async {
-    Directory directory = await getApplicationDocumentsDirectory();
-    final path = directory.path; // get the local file
-    File file = File('$path/sample.json');
-
-    if (!await file.exists()) {
-      // create the file if it doesn't exist
-      file = await file.create();
-    }
-    print(file.toString());
-    return file;
-  }
-
   // read from local file
-  Future<String> readFile() async {
-    try {
-      final file = await _localFile; // get the local file
-      final contents = await file.readAsString(); // read file contents
+  // Future<String> readFile() async {
+  //   debugPrint('Reading data from local file');
+  //   final String response = await rootBundle
+  //       .loadString('assets/sample.json'); // read data from json file
+  //   final data = await jsonDecode(response); // read file contents
+  //   return data;
+  // }
 
-      return contents;
-    } catch (e) {
-      return ('$e');
-    }
+  Future<File> writeStringToJsonFile(String data) async {
+    final directory = await getApplicationDocumentsDirectory();
+    final file = File('${directory.path}/data.json');
+    print(file);
+    final map = {'data': data};
+    return file.writeAsString(jsonEncode(map));
   }
 
-  // write to local file
-  Future<File> writeFile(String data) async {
-    final file = await _localFile; // get the local file
-    return file.writeAsString(data); // write to the local file
+  Future<String> readStringFromJsonFile() async {
+    final directory = await getApplicationDocumentsDirectory();
+    final file = File('${directory.path}/data.json');
+    final jsonString = await file.readAsString();
+    final jsonData = jsonDecode(jsonString);
+    return jsonData['data'];
   }
 }

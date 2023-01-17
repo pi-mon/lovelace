@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lovelace/models/user_detail.dart';
-import 'package:lovelace/resources/search_chat_methods.dart';
+import 'package:lovelace/widgets/chat_search_delegate.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:lovelace/widgets/chat_person.dart';
 
@@ -13,6 +13,26 @@ class ChatListScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatListScreen> {
   final TextEditingController _searchController = TextEditingController();
+  final List<UserDetails> userDetailsList = [
+    UserDetails(
+      email: "lgf2111@gmail.com",
+      displayName: "Lee Guan Feng",
+      birthday: "21-11-2004",
+      gender: "Male",
+      location: "Singapore",
+      profilePic: "",
+      displayPic: "",
+    ),
+    UserDetails(
+      email: "213587x@gmail.com",
+      displayName: "Paimon",
+      birthday: "01-01-2001",
+      gender: "Female",
+      location: "Singapore",
+      profilePic: "",
+      displayPic: "",
+    )
+  ];
 
   @override
   void dispose() {
@@ -41,7 +61,8 @@ class _ChatScreenState extends State<ChatListScreen> {
                       IconButton(
                           onPressed: () {
                             showSearch(
-                                context: context, delegate: MySearchDelegate());
+                                context: context,
+                                delegate: ChatSearchDelegate(userDetailsList));
                           },
                           icon: const Icon(
                             Icons.search,
@@ -54,29 +75,14 @@ class _ChatScreenState extends State<ChatListScreen> {
                   Flexible(
                     child: ListView(
                       children: <Widget>[
-                        ChatPerson(
-                          time: DateTime.now(),
-                          userDetails: UserDetails(
-                            email: "lgf2111@gmail.com",
-                            displayName: "Lee Guan Feng",
-                            birthday: "21-11-2004",
-                            gender: "Male",
-                            location: "Singapore",
-                            profilePic: "",
-                            displayPic: "",
-                          ),
-                        ),
-                        ChatPerson(
-                            time: DateTime.now(),
-                            userDetails: UserDetails(
-                              email: "213587x@gmail.com",
-                              displayName: "Paimon",
-                              birthday: "01-01-2001",
-                              gender: "Female",
-                              location: "Singapore",
-                              profilePic: "",
-                              displayPic: "",
-                            )),
+                        for (UserDetails userDetails in userDetailsList)
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: .5),
+                            child: ChatPerson(
+                              time: DateTime.now(),
+                              userDetails: userDetails,
+                            ),
+                          )
                       ],
                     ),
                   )
