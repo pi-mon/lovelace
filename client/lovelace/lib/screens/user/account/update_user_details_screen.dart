@@ -317,9 +317,9 @@ class _UpdateUserDetailsScreenState extends State<UpdateUserDetailsScreen> {
                       //   backgroundColor: isSuccess ? successColor : errorColor,
                       // ));
 
-                      if (isSuccess) {
-                        _storageMethods.write("userDetails", userDetails);
-                      }
+                      // if (isSuccess) {
+                      //   _storageMethods.write("userDetails", userDetails);
+                      // }
                     }
                   },
                 )
