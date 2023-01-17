@@ -142,7 +142,7 @@ def create_verify(user):
         temp_collection = mongo_temp_read.account
         user_details = temp_collection.temp_user.find_one({"email": user})
         otp_expiry = user_details["otp_expiry"]
-        otp = str(request.get_json()["otp"])
+        otp = str(request.get_json()["otp"]).zfill(6)
     except db_errors.OperationFailure:
         return jsonify({"create": False, "response": "Invalid database operation"})
     except:
@@ -331,7 +331,7 @@ def update_profile(user):
     else:
         new_values = {
             "$set": {
-                "username": profile_information["display_name"],
+                "display_name": profile_information["display_name"],
                 "gender": profile_information["gender"],
                 "birthday": profile_information["birthday"],
                 "location": profile_information["location"],
