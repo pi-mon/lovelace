@@ -9,6 +9,7 @@ from lovelace import (
     mongo_account_details_write,
     mongo_temp_write,
     mongo_temp_read,
+    mongo_chat_write
 )
 
 chat = Blueprint("chat", __name__, template_folder="templates")
@@ -38,12 +39,19 @@ def get_chat():
 
 
 @socketio.on("join", namespace="/chat")
+@token_required()
 def join(message):
-    room = message["room"]
-    username = message["username"]
+    user1 = message["user1"]
+    user2 = message["user2"]
+    chatRoom = mongo_chat_write.chat
+    room = chatRoom.chat.find_one({"$and": [{"user1": message["user1"]}, {"user2": message["user2"]}]})['_id']
+
+    if room == None:
+        room = chatRoom.chat.insert_one({'user1':message['user1'],'user2':message['user2']})
+        
     # join room
-    join_room(room)
-    response = f"{username} has entered room ({room})."
+    join_room(str(room))
+    response = f"{user1} has entered room ({room})."
     print(response)
 
     # Emit message or notifier to other user of same room
@@ -51,6 +59,7 @@ def join(message):
 
 
 @socketio.on("sent", namespace="/chat")
+@token_required()
 def sent(message):
     room = message["room"]
     username = message["sender"]
@@ -61,6 +70,7 @@ def sent(message):
 
 
 @socketio.on("leave", namespace="/chat")
+@token_required()
 def leave(message):
     room = message["room"]
     username = message["username"]
