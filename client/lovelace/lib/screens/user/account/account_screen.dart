@@ -18,15 +18,15 @@ class AccountScreen extends StatefulWidget {
 class _AccountScreenState extends State<AccountScreen> {
   final StorageMethods _storageMethods = StorageMethods();
   final List<WideButtonArrow> wideButtonArrowList = [
-    WideButtonArrow(
+    const WideButtonArrow(
         iconData: Icons.edit,
         label: "Edit Profile",
         nextScreen: UpdateUserDetailsScreen()),
-    WideButtonArrow(
+    const WideButtonArrow(
         iconData: Icons.settings,
         label: "Settings",
         nextScreen: AccountSettingsScreen()),
-    WideButtonArrow(
+    const WideButtonArrow(
         iconData: Icons.admin_panel_settings,
         label: "Admin Mode",
         nextScreen: AdminAccountScreen()),
@@ -38,6 +38,7 @@ class _AccountScreenState extends State<AccountScreen> {
 
   _AccountScreenState() {
     _storageMethods.read("userDetails").then((value) {
+      print(value);
       dynamic valueJson = json.decode(value);
       setState(() {
         displayName = valueJson["display_name"];
@@ -101,7 +102,7 @@ class _AccountScreenState extends State<AccountScreen> {
                     ),
                   ],
                 ),
-                SizedBox(height: 64),
+                const SizedBox(height: 64),
                 for (WideButtonArrow wideButtonArrow in wideButtonArrowList)
                   Padding(
                     padding: const EdgeInsets.symmetric(
