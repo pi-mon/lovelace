@@ -28,14 +28,14 @@ def swipe():
     return jsonify(profile_dict)
 
 
-@chat.route("/chat")
-@token_required()
-def get_chat():
-    user_json = request.get_json()
-    email = user_json["email"]
-    target_user = user_json["target_email"]
+# @chat.route("/chat")
+# @token_required()
+# def get_chat():
+#     user_json = request.get_json()
+#     email = user_json["email"]
+#     target_user = user_json["target_email"]
 
-    return jsonify({"data": "testing", "email": email})
+#     return jsonify({"data": "testing", "email": email})
 
 
 @socketio.on("join", namespace="/chat")
@@ -43,11 +43,11 @@ def get_chat():
 def join(message):
     user1 = message["user1"]
     user2 = message["user2"]
-    chatRoom = mongo_chat_write.chat
-    room = chatRoom.chat.find_one({"$and": [{"user1": message["user1"]}, {"user2": message["user2"]}]})['_id']
+    chat_collection = mongo_chat_write.chat
+    room = chat_collection.chat.find_one({"$and": [{"user1": user1}, {"user2": user2}]})['_id']
 
     if room == None:
-        room = chatRoom.chat.insert_one({'user1':message['user1'],'user2':message['user2']})
+        room = chat_collection.chat.insert_one({'user1':message['user1'],'user2':message['user2']})
         
     # join room
     join_room(str(room))
@@ -61,10 +61,12 @@ def join(message):
 @socketio.on("sent", namespace="/chat")
 @token_required()
 def sent(message):
-    room = message["room"]
-    username = message["sender"]
+    user1 = message["user1"]
+    user2 = message["user2"]
+    chat_collection = mongo_chat_write.chat
+    room = chat_collection.chat.find_one({"$and": [{"user1": user1}, {"user2": user2}]})['_id']
     msg = message["message"]
-    response = f"{username} : {msg}"
+    response = f"{user1} : {msg}"
     print(response)
     emit("sent", {"response": response, "message": message}, room=room)
 
@@ -72,8 +74,10 @@ def sent(message):
 @socketio.on("leave", namespace="/chat")
 @token_required()
 def leave(message):
-    room = message["room"]
-    username = message["username"]
+    user1 = message["user1"]
+    user2 = message["user2"]
+    chat_collection = mongo_chat_write.chat
+    room = chat_collection.chat.find_one({"$and": [{"user1": user1}, {"user2": user2}]})['_id']
     # leaving the room
     leave_room(room=room)
-    emit("message", {"response": f"{username} has left the room."}, room=room)
+    emit("message", {"response": f"{user1} has left the room."}, room=room)
