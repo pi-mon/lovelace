@@ -7,7 +7,9 @@ import 'package:intl/intl.dart';
 import 'package:lovelace/models/user_detail.dart';
 import 'package:lovelace/resources/account_methods.dart';
 import 'package:lovelace/resources/storage_methods.dart';
+import 'package:lovelace/screens/user/account/account_screen.dart';
 import 'package:lovelace/utils/colors.dart';
+import 'package:lovelace/utils/global_variables.dart';
 import 'package:lovelace/widgets/dropdown_field_input.dart';
 import 'package:lovelace/widgets/text_field_input.dart';
 
@@ -80,7 +82,9 @@ class _UpdateUserDetailsScreenState extends State<UpdateUserDetailsScreen> {
           backgroundColor: primaryColor,
           leading: IconButton(
               onPressed: () {
-                Navigator.pop(context);
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => userPages));
+                // Navigator.pop(context);
               },
               icon: const Icon(Icons.arrow_back)),
           title: const Text(

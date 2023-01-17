@@ -1,4 +1,4 @@
-import 'package:lovelace/main.dart';
+import 'package:lovelace/utils/global_variables.dart';
 import 'package:lovelace/widgets/profile.dart';
 import 'package:lovelace/widgets/profile_card.dart';
 import 'package:flutter/material.dart';
