@@ -65,7 +65,8 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                 message = "Restoring backed up data...";
 
                 if (response == false) {
-                  message = "No data found! Make a backup!";
+                  message = "No data found! Create a backup!";
+                  print(message);
                   setState(() {
                     isSuccess = false;
                   });
@@ -74,7 +75,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                   content: Text(message),
                   backgroundColor: isSuccess ? blackColor : errorColor,
                 ));
-                // TODO: Send data in that back up copy to update function to update state of user model
+                // TODO: Send data in that back up copy to update function to update chat data
               }),
           WideButton(
               icon: const Icon(Icons.exit_to_app, color: placeholderColor),

@@ -42,7 +42,6 @@ class _AccountScreenState extends State<AccountScreen> {
       if (value == null) {
         UserStateMethods().logoutState(context);
       }
-      print(value);
       dynamic valueJson = json.decode(value);
       setState(() {
         displayName = valueJson["display_name"];

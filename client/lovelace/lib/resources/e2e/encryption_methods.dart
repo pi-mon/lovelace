@@ -5,15 +5,15 @@ class EncryptionDecryption {
   static final iv  = IV.fromSecureRandom(16); // in bytes
   static final encrypter = Encrypter(AES(key));
 
-  Future<Encrypted> encryptAES(dynamic plainText) async  {
+  Future encryptAES(plainText) async  {
     final encrypted = encrypter.encrypt(plainText, iv: iv);
-    print(encrypted.bytes);
-    print(encrypted.base16);
-    print(encrypted.base64);
-    return encrypted;
+    // print(encrypted.bytes);
+    // print(encrypted.base16);
+    // print(encrypted.base64);
+    return encrypted.base64;
   }
 
-  Future<dynamic> decryptAES(Encrypted cipherText) async {
+  Future decryptAES(cipherText) async {
     final decrypted = encrypter.decrypt(cipherText, iv: iv);
     return decrypted;
   }
