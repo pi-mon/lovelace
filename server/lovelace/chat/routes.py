@@ -40,13 +40,12 @@ chat = Blueprint("chat", __name__, template_folder="templates")
 
 @socketio.on("join", namespace="/chat")
 @token_required()
-def join(message):
+def join(_, message):
+    print("hi")
     user1 = message["user1"]
     user2 = message["user2"]
     chat_collection = mongo_chat_write.chat
-    room = chat_collection.chat.find_one(
-        {"$and": [{"user1": user1}, {"user2": user2}]}
-    )["_id"]
+    room = chat_collection.chat.find_one({"$and": [{"user1": user1}, {"user2": user2}]})
 
     if room == None:
         room = chat_collection.chat.insert_one(
@@ -54,17 +53,18 @@ def join(message):
         )
 
     # join room
-    join_room(str(room))
-    response = f"{user1} has entered room ({room})."
+    room_name = str(room["_id"])
+    join_room(str(room_name))
+    response = f"{user1} has entered room ({room_name})."
     print(response)
 
     # Emit message or notifier to other user of same room
-    emit("message", {"response": response}, room=room)
+    emit("message", {"response": response}, room_name=room_name)
 
 
 @socketio.on("sent", namespace="/chat")
 @token_required()
-def sent(message):
+def sent(_, message):
     user1 = message["user1"]
     user2 = message["user2"]
     chat_collection = mongo_chat_write.chat
@@ -79,7 +79,7 @@ def sent(message):
 
 @socketio.on("leave", namespace="/chat")
 @token_required()
-def leave(message):
+def leave(_, message):
     user1 = message["user1"]
     user2 = message["user2"]
     chat_collection = mongo_chat_write.chat
