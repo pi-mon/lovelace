@@ -9,23 +9,23 @@ from lovelace import (
     mongo_account_details_write,
     mongo_temp_write,
     mongo_temp_read,
-    mongo_chat_write
+    mongo_chat_write,
 )
 
 chat = Blueprint("chat", __name__, template_folder="templates")
 
 
-@chat.route("/swipe")
-# @token_required()
-def swipe():
-    account = mongo_account_read.account
-    pipeline = [{"$sample": {"size": 5}}]
-    profiles = account.user.aggregate(pipeline=pipeline)
-    profile_list = list(profiles)
-    for profile in profile_list:
-        profile["_id"] = str(profile["_id"])
-    profile_dict = {"results": profile_list}
-    return jsonify(profile_dict)
+# @chat.route("/swipe")
+# # @token_required()
+# def swipe():
+#     account = mongo_account_read.account
+#     pipeline = [{"$sample": {"size": 5}}]
+#     profiles = account.user.aggregate(pipeline=pipeline)
+#     profile_list = list(profiles)
+#     for profile in profile_list:
+#         profile["_id"] = str(profile["_id"])
+#     profile_dict = {"results": profile_list}
+#     return jsonify(profile_dict)
 
 
 @chat.route("/chat")
@@ -44,11 +44,15 @@ def join(message):
     user1 = message["user1"]
     user2 = message["user2"]
     chatRoom = mongo_chat_write.chat
-    room = chatRoom.chat.find_one({"$and": [{"user1": message["user1"]}, {"user2": message["user2"]}]})['_id']
+    room = chatRoom.chat.find_one(
+        {"$and": [{"user1": message["user1"]}, {"user2": message["user2"]}]}
+    )["_id"]
 
     if room == None:
-        room = chatRoom.chat.insert_one({'user1':message['user1'],'user2':message['user2']})
-        
+        room = chatRoom.chat.insert_one(
+            {"user1": message["user1"], "user2": message["user2"]}
+        )
+
     # join room
     join_room(str(room))
     response = f"{user1} has entered room ({room})."
