@@ -240,27 +240,29 @@ class _LandingScreenState extends State<LandingScreen> {
                   showModalBottomSheet(
                       context: context,
                       builder: (BuildContext context) {
+                        Map<String, String> supportMap = {
+                          "Lost or forgot password":
+                              "lovelace.dating+password@gmail.com",
+                          "Technical assistance":
+                              "lovelace.dating+technical@gmail.com",
+                          "Billing inquiries":
+                              "lovelace.dating+billing@gmail.com"
+                        };
                         return Column(
                           mainAxisSize: MainAxisSize.min,
-                          children: const <Widget>[
-                            ListTile(
-                              leading: Icon(Icons.help),
-                              title: Text('Lost or forgot password'),
-                              subtitle:
-                                  Text('lovelace.dating+password@gmail.com'),
-                            ),
-                            ListTile(
-                              leading: Icon(Icons.help),
-                              title: Text('Technical assistance'),
-                              subtitle:
-                                  Text('lovelace.dating+technical@gmail.com'),
-                            ),
-                            ListTile(
-                              leading: Icon(Icons.help),
-                              title: Text('Billing inquiries'),
-                              subtitle:
-                                  Text('lovelace.dating+billing@gmail.com'),
-                            ),
+                          children: [
+                            for (String title in supportMap.keys)
+                              ListTile(
+                                leading: IconButton(
+                                  icon: const Icon(Icons.copy),
+                                  onPressed: () {
+                                    Clipboard.setData(
+                                        ClipboardData(text: supportMap[title]));
+                                  },
+                                ),
+                                title: Text(title),
+                                subtitle: SelectableText(supportMap[title]!),
+                              )
                           ],
                         );
                       });
