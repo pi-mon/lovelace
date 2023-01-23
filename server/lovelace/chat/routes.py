@@ -41,7 +41,6 @@ chat = Blueprint("chat", __name__, template_folder="templates")
 @socketio.on("join", namespace="/chat")
 @token_required()
 def join(_, message):
-    print("hi")
     user1 = message["user1"]
     user2 = message["user2"]
     chat_collection = mongo_chat_write.chat
