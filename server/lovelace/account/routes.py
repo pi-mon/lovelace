@@ -346,16 +346,30 @@ def update_profile(user):
 @account_page.route("/account/profile/update/display_pic", methods=["POST", "GET"])
 @token_required()
 def update_display_pic(user):
+    def compare_hash(hash, file):
+        import hashlib
+        import base64
+
+        text = base64.b64encode(file.read())
+        encoded_text = text.decode("utf-8").encode("utf-8")
+        hash_object = hashlib.sha512(encoded_text)
+        hex_dig = hash_object.hexdigest()
+        print(hex_dig == hash)
+
     try:
+        hash = request.form.get("hash")
+        print(hash)
         user_detail_collection = mongo_account_details_write.account_details
         display_pic = request.files["display_pic"]
+        compare_hash(hash, display_pic)
         new_account_details = account.UserDetails(user, "", "", "", "")
-    except:
+    except Exception as e:
+        print(e)
         return jsonify({"update": False, "response": "Invalid user input"})
     if (
         user_detail_collection.account_details.find_one({"email": user}, {"email": 1})
         == None
-    ):  # check if need to update profilwwwwwe or create new profile
+    ):  # check if need to update profile or create new profile
         user_detail_collection.account_details.insert_one(new_account_details.__dict__)
         return jsonify(
             {

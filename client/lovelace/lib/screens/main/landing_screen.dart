@@ -180,7 +180,9 @@ class _LandingScreenState extends State<LandingScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-          child: Container(
+          child: Stack(
+        children: <Widget>[
+          Container(
               padding: const EdgeInsets.symmetric(horizontal: 32),
               width: double.infinity,
               child: (() {
@@ -224,7 +226,54 @@ class _LandingScreenState extends State<LandingScreen> {
                         ),
                       ]);
                 }
-              }()))),
+              }())),
+          Positioned(
+              bottom: 30.0,
+              right: 30.0,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  shape: const CircleBorder(),
+                  fixedSize: const Size(50, 50),
+                  backgroundColor: primaryColor,
+                ),
+                onPressed: () {
+                  showModalBottomSheet(
+                      context: context,
+                      builder: (BuildContext context) {
+                        Map<String, String> supportMap = {
+                          "Lost or forgot password":
+                              "lovelace.dating+password@gmail.com",
+                          "Technical assistance":
+                              "lovelace.dating+technical@gmail.com",
+                          "Billing inquiries":
+                              "lovelace.dating+billing@gmail.com"
+                        };
+                        return Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            for (String title in supportMap.keys)
+                              ListTile(
+                                leading: IconButton(
+                                  icon: const Icon(Icons.copy),
+                                  onPressed: () {
+                                    Clipboard.setData(
+                                        ClipboardData(text: supportMap[title]));
+                                  },
+                                ),
+                                title: Text(title),
+                                subtitle: SelectableText(supportMap[title]!),
+                              )
+                          ],
+                        );
+                      });
+                },
+                child: const Icon(
+                  Icons.question_mark,
+                  color: whiteColor,
+                ),
+              )),
+        ],
+      )),
     );
   }
 }

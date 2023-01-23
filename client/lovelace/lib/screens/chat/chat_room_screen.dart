@@ -47,29 +47,29 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
 
   Future<void> getContent() async {
     preferences = await StreamingSharedPreferences.instance;
-    content = preferences!.getString(keyName, defaultValue: "[]");    
+    content = preferences!.getString(keyName, defaultValue: "[]");
     setState(() {
       initialData = content!.getValue();
     });
     print(initialData); // returns the messages in the chat
   }
 
-  getReceiverUserDetails() async {
-    dynamic receiverUserDetailsJson =
-        await storageMethods.read("userDetails");
-    receiverUserDetails =
-        UserDetails.fromJson(json.decode(receiverUserDetailsJson));
+  getSenderUserDetails() async {
+    dynamic senderUserDetailsJson = await storageMethods.read("userDetails");
+    senderUserDetails =
+        UserDetails.fromJson(json.decode(senderUserDetailsJson));
   }
 
   _ChatRoomScreenState() {
-    getReceiverUserDetails();
+    getSenderUserDetails();
     List<String> emails = <String>[
       senderUserDetails.email,
       receiverUserDetails.email
     ];
     emails.sort();
     keyName = "${emails[0]}&${emails[1]}";
-    connectAndListen(keyName, senderUserDetails.displayName);
+    connectAndListen(
+        senderUserDetails.email, receiverUserDetails.email, keyName);
     getContent();
   }
 
@@ -77,7 +77,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
   void dispose() {
     super.dispose();
     messageController.dispose();
-    disconnect(keyName, senderUserDetails.displayName);
+    disconnect(senderUserDetails.email, receiverUserDetails.email, keyName);
   }
 
   dynamic chatMessages() {
@@ -135,7 +135,8 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
       });
 
       print(content);
-      sendingMessage(chatMessageMap);
+      sendingMessage(
+          chatMessageMap, senderUserDetails.email, receiverUserDetails.email);
       storageMethods.write("message", newContent);
       // storageMethods.read("message");
       setState(() {
