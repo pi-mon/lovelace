@@ -180,7 +180,9 @@ class _LandingScreenState extends State<LandingScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-          child: Container(
+          child: Stack(
+        children: <Widget>[
+          Container(
               padding: const EdgeInsets.symmetric(horizontal: 32),
               width: double.infinity,
               child: (() {
@@ -224,7 +226,52 @@ class _LandingScreenState extends State<LandingScreen> {
                         ),
                       ]);
                 }
-              }()))),
+              }())),
+          Positioned(
+              bottom: 30.0,
+              right: 30.0,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  shape: const CircleBorder(),
+                  fixedSize: const Size(50, 50),
+                  backgroundColor: primaryColor,
+                ),
+                onPressed: () {
+                  showModalBottomSheet(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: const <Widget>[
+                            ListTile(
+                              leading: Icon(Icons.help),
+                              title: Text('Lost or forgot password'),
+                              subtitle:
+                                  Text('lovelace.dating+password@gmail.com'),
+                            ),
+                            ListTile(
+                              leading: Icon(Icons.help),
+                              title: Text('Technical assistance'),
+                              subtitle:
+                                  Text('lovelace.dating+technical@gmail.com'),
+                            ),
+                            ListTile(
+                              leading: Icon(Icons.help),
+                              title: Text('Billing inquiries'),
+                              subtitle:
+                                  Text('lovelace.dating+billing@gmail.com'),
+                            ),
+                          ],
+                        );
+                      });
+                },
+                child: const Icon(
+                  Icons.question_mark,
+                  color: whiteColor,
+                ),
+              )),
+        ],
+      )),
     );
   }
 }
