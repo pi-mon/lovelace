@@ -10,6 +10,7 @@ import 'package:lovelace/screens/user/initialise/init_display_name_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:flutter/services.dart';
 import 'package:screen_capture_event/screen_capture_event.dart';
+import 'package:safe_device/safe_device.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -45,6 +46,12 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   final ScreenCaptureEvent screenCaptureEvent = ScreenCaptureEvent();
+  bool isJailBroken = false;
+  bool canMockLocation = false;
+  bool isRealDevice = true;
+  bool isOnExternalStorage = false;
+  bool isSafeDevice = false;
+  bool isDevelopmentModeEnable = false;
 
   @override
   void initState() {
@@ -52,7 +59,6 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     screenCaptureEvent.preventAndroidScreenShot(true);
     WidgetsBinding.instance.addObserver(this);
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
   }
 
   @override

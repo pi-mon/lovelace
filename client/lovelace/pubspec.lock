@@ -590,6 +590,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.4"
+  location_permissions:
+    dependency: "direct main"
+    description:
+      name: location_permissions
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.0.1"
   logger:
     dependency: "direct main"
     description:
@@ -786,6 +793,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.2.1"
+  safe_device:
+    dependency: "direct main"
+    description:
+      name: safe_device
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.2"
   screen_capture_event:
     dependency: "direct main"
     description:
@@ -966,6 +980,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.0"
+  trust_location:
+    dependency: transitive
+    description:
+      name: trust_location
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.13"
   typed_data:
     dependency: transitive
     description:
