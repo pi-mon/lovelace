@@ -7,6 +7,7 @@ import certifi
 import os
 from lovelace.logger import setup_logger
 import dotenv
+
 import flask_monitoringdashboard as dashboard
 
 dotenv.load_dotenv()
@@ -60,10 +61,10 @@ from lovelace.account.routes import account_page
 from lovelace.recommendation.routes import recommendation
 from lovelace.chat.routes import chat
 from lovelace.logger.routes import logs
-from lovelace.admin.routes import admin_page
+from lovelace.admin.routes import admin
 
 app.register_blueprint(account_page)
 app.register_blueprint(recommendation)
 app.register_blueprint(chat)
 app.register_blueprint(logs)
-app.register_blueprint(admin_page)
+app.register_blueprint(admin)

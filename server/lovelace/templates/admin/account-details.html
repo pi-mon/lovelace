@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container bg-light mt-5 p-5 border">
+    <div style="overflow:scroll;">
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Email</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Birthday</th>
+                    <th scope="col">Location</th>
+                    <th scope="col">Gender</th>
+                    <th scope="col">Profile Image</th>
+                    <th scope="col">Display Image</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for account_details in account_details_list %}
+                <tr>
+                    <td>{{ account_details.email }}</td>
+                    <td>{{ account_details.display_name }}</td>
+                    <td>{{ account_details.birthday }}</td>
+                    <td>{{ account_details.location }}</td>
+                    <td>{{ account_details.gender }}</td>
+                    <td><img src="data:image/png;base64,{{ account_details.profile_pic }}" alt="Profile Image"
+                            height="50" width="50"></td>
+                    <td><img src="data:image/png;base64,{{ account_details.display_pic }}" alt="Display Image"
+                            height="50" width="50"></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock content %}
