@@ -14,4 +14,5 @@ if __name__ == "__main__":
         debug=True,
         host=host,
         port=3000,
-    )  # ssl_context=("cert.pem", "key.pem"))
+        ssl_context=("cert.pem", "key.pem"),
+    )
