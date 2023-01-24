@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:local_auth/local_auth.dart';
+import 'package:location_permissions/location_permissions.dart';
 import 'package:lovelace/resources/user_state_methods.dart';
 import 'package:lovelace/screens/user/login/login_screen.dart';
 import 'package:lovelace/utils/colors.dart';
+import 'package:safe_device/safe_device.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 enum _SupportState {
@@ -21,21 +23,19 @@ class LandingScreen extends StatefulWidget {
 
 class _LandingScreenState extends State<LandingScreen> {
   final LocalAuthentication auth = LocalAuthentication();
+
   _SupportState _supportState = _SupportState.unknown;
   bool? _canCheckBiometrics;
   List<BiometricType>? _availableBiometrics;
   String _authorized = 'Not Authorized';
   bool _isAuthenticating = false;
 
-  @override
-  void initState() {
-    super.initState();
-    auth.isDeviceSupported().then(
-          (bool isSupported) => setState(() => _supportState = isSupported
-              ? _SupportState.supported
-              : _SupportState.unsupported),
-        );
-  }
+  bool isJailBroken = false;
+  bool canMockLocation = false;
+  bool isRealDevice = true;
+  bool isOnExternalStorage = false;
+  bool isSafeDevice = false;
+  bool isDevelopmentModeEnable = false;
 
   Future<void> _checkBiometrics() async {
     late bool canCheckBiometrics;
@@ -137,11 +137,40 @@ class _LandingScreenState extends State<LandingScreen> {
     return message;
   }
 
+  Future<void> initPlatformState() async {
+    await LocationPermissions().requestPermissions();
+    if (!mounted) return;
+    try {
+      isJailBroken = await SafeDevice.isJailBroken;
+      canMockLocation = await SafeDevice.canMockLocation;
+      isRealDevice = await SafeDevice.isRealDevice;
+      isOnExternalStorage = await SafeDevice.isOnExternalStorage;
+      isSafeDevice = await SafeDevice.isSafeDevice;
+      isDevelopmentModeEnable = await SafeDevice.isDevelopmentModeEnable;
+    } catch (error) {
+      print(error);
+    }
+    print('isJailBroken: $isJailBroken\n'
+        'canMockLocation: $canMockLocation\n'
+        'isRealDevice: $isRealDevice\n'
+        'isOnExternalStorage: $isOnExternalStorage\n'
+        'isSafeDevice: $isSafeDevice\n'
+        'isDevelopmentModeEnable: $isDevelopmentModeEnable\n');
+    setState(() {
+      isJailBroken = isJailBroken;
+      canMockLocation = canMockLocation;
+      isRealDevice = isRealDevice;
+      isOnExternalStorage = isOnExternalStorage;
+      isSafeDevice = isSafeDevice;
+      isDevelopmentModeEnable = isDevelopmentModeEnable;
+    });
+  }
+
   Widget get _biometricButton {
     if (_supportState == _SupportState.supported) {
       return MaterialButton(
         onPressed: () async {
-          final SharedPreferences sharedPreferences =
+          SharedPreferences sharedPreferences =
               await SharedPreferences.getInstance();
           bool? isLoggedIn = sharedPreferences.getBool('isLoggedIn');
 
@@ -150,8 +179,8 @@ class _LandingScreenState extends State<LandingScreen> {
               content: Text("Login once to enable biometrics"),
             ));
           } else {
-            final String message = await _authenticateWithBiometrics();
-            final bool isSuccess = message == 'Login Success!';
+            String message = await _authenticateWithBiometrics();
+            bool isSuccess = message == 'Login Success!';
 
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               content: Text(message),
@@ -177,7 +206,20 @@ class _LandingScreenState extends State<LandingScreen> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    auth.isDeviceSupported().then(
+          (bool isSupported) => setState(() => _supportState = isSupported
+              ? _SupportState.supported
+              : _SupportState.unsupported),
+        );
+    initPlatformState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    // force isSafeDevice to true for now
+    isSafeDevice = true;
     return Scaffold(
       body: SafeArea(
           child: Stack(
@@ -272,6 +314,30 @@ class _LandingScreenState extends State<LandingScreen> {
                   color: whiteColor,
                 ),
               )),
+          !isSafeDevice
+              ? Container(
+                  color: Colors.black.withOpacity(0.5),
+                  child: Center(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: const Padding(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                        child: Text(
+                          "Your device is not safe to use this app",
+                          style: TextStyle(
+                            color: Colors.red,
+                            fontSize: 20,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                )
+              : Container(),
         ],
       )),
     );

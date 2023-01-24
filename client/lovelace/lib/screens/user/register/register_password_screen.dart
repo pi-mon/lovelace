@@ -1,8 +1,11 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:lovelace/screens/user/register/register_verify_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:lovelace/widgets/text_field_input.dart';
 import 'package:lovelace/resources/authenticate_methods.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class RegisterPasswordScreen extends StatefulWidget {
   final String email;
@@ -98,6 +101,46 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
                       flex: 1,
                       child: Container(),
                     ),
+                    RichText(
+                        textAlign: TextAlign.center,
+                        text: TextSpan(children: [
+                          const TextSpan(
+                            text: 'By clicking Sign Up, you agree to our ',
+                            style: TextStyle(color: Colors.black),
+                          ),
+                          TextSpan(
+                            text: 'Terms of Service',
+                            style: const TextStyle(color: primaryColor),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () async {
+                                String url =
+                                    "https://lgf2111.notion.site/Terms-and-Conditions-300f3ece9dc24d73a779cc6f50e1abdc";
+                                if (await canLaunchUrlString(url)) {
+                                  await launchUrlString(url);
+                                }
+                              },
+                          ),
+                          const TextSpan(
+                            text: ', ',
+                            style: TextStyle(color: Colors.black),
+                          ),
+                          TextSpan(
+                            text: 'Privacy Policy',
+                            style: const TextStyle(color: primaryColor),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () async {
+                                String url =
+                                    "https://lgf2111.notion.site/Privacy-Policy-b5d338fa89154ba18254e36e9287ee82";
+                                if (await canLaunchUrlString(url)) {
+                                  await launchUrlString(url);
+                                }
+                              },
+                          ),
+                          const TextSpan(
+                            text: '.',
+                            style: TextStyle(color: Colors.black),
+                          ),
+                        ])),
                     const SizedBox(height: 16),
                     ElevatedButton(
                         onPressed: () async {
@@ -128,6 +171,9 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
                           }
 
                           if (!passwordValid) {
+                            setState(() {
+                              _isLoading = false;
+                            });
                             ScaffoldMessenger.of(context)
                                 .showSnackBar(const SnackBar(
                               content: Text(
