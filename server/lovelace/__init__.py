@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 from flask_socketio import SocketIO
@@ -7,6 +7,7 @@ import certifi
 import os
 from lovelace.logger import setup_logger
 import dotenv
+from prometheus_flask_exporter import PrometheusMetrics
 
 dotenv.load_dotenv()
 ca = certifi.where()
@@ -47,6 +48,13 @@ recommendation_logger = setup_logger("recommendation")
 
 
 app = Flask(__name__)
+metrics = PrometheusMetrics(app)
+metrics.register_default(
+    metrics.counter(
+        'by_path_counter', 'Request count by request paths',
+        labels={'path': lambda: request.path}
+    )
+)
 app.config.from_pyfile("config.py")
 limiter = Limiter(app, key_func=get_remote_address, default_limits=["50 per minute"])
 socketio = SocketIO(app, cors_allowed_origins=["127.0.0.1", "10.0.2.2"])
