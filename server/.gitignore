@@ -161,3 +161,6 @@ cython_debug/
 
 # Private key
 key.pem
+
+# Others
+monitor/dashboard.db
