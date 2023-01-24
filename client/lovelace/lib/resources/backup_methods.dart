@@ -32,13 +32,15 @@ class BackupMethods {
     if (exists == false) {
       return exists;
     } 
-    String jsonString = await file.readAsString(); // returns ciphertext
-    print(jsonString);
-    print(jsonString.runtimeType);
-    // dynamic plaintext = await encryptionDecryption.decryptAES(ciphertext); // decrypt the ciphertext
-    Map<String, dynamic> jsonMap = jsonDecode(jsonString);
+    String jsonString = await file.readAsString(); // returns ciphertext as a base64 String
+    // print(jsonString); // return the ciphertext as a String
+    // print(jsonString.runtimeType); // returns String
+    var plaintext = await encryptionDecryption.decryptAES(jsonString); // decrypt the ciphertext
+    print(plaintext.runtimeType);
+    print(plaintext);
+    // Map<String, dynamic> jsonMap = jsonDecode(jsonString);
     debugPrint('Data read from JSON file');
-    return jsonMap;
+    // return jsonMap;
   }
 
   Future<void> writeJsonFile(List messages) async {
@@ -46,10 +48,9 @@ class BackupMethods {
     debugPrint('Writing data to JSON file');
     Map<String, dynamic> jsonMap = {"Messages": messages};
     String jsonString = jsonEncode(jsonMap); // jsonEncode the map
-    String encoded = base64.encode(jsonString.codeUnits); // encode again to base64
-    dynamic encrypted = await encryptionDecryption.encryptAES(encoded); // encrypt the encoded JSON object
-    print(encrypted); 
-    await file.writeAsString(encrypted);
+    var encrypted = await encryptionDecryption.encryptAES(jsonString); // returns a base64 String of the ciphertext
+    print(encrypted); // print the base64 encoded String 
+    await file.writeAsString(encrypted); // write the base64 String to the JSON file
     debugPrint('Data written to JSON file');
   }
 }
