@@ -141,7 +141,7 @@ class _LandingScreenState extends State<LandingScreen> {
     if (_supportState == _SupportState.supported) {
       return MaterialButton(
         onPressed: () async {
-          final SharedPreferences sharedPreferences =
+          SharedPreferences sharedPreferences =
               await SharedPreferences.getInstance();
           bool? isLoggedIn = sharedPreferences.getBool('isLoggedIn');
 
@@ -150,8 +150,8 @@ class _LandingScreenState extends State<LandingScreen> {
               content: Text("Login once to enable biometrics"),
             ));
           } else {
-            final String message = await _authenticateWithBiometrics();
-            final bool isSuccess = message == 'Login Success!';
+            String message = await _authenticateWithBiometrics();
+            bool isSuccess = message == 'Login Success!';
 
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               content: Text(message),
