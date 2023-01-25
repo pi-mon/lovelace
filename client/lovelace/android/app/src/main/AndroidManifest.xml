@@ -11,6 +11,7 @@
    <application
         android:enableOnBackInvokedCallback="true"
         android:requestLegacyExternalStorage="true"
+        android:allowBackup="true"
         android:label="lovelace"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">

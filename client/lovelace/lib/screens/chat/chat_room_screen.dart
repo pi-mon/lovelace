@@ -51,6 +51,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
     setState(() {
       initialData = content!.getValue();
     });
+    print(initialData); // returns the messages in the chat
   }
 
   getSenderUserDetails() async {

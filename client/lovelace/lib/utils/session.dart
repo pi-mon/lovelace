@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:lovelace/resources/storage_methods.dart';
 import 'package:lovelace/utils/global_variables.dart';
+import 'package:crypto/crypto.dart';
 
 class Session {
   final _storageMethods = StorageMethods();
@@ -18,7 +19,7 @@ class Session {
     }
 
     http.Response response =
-        await http.get(Uri.http(_baseUrl, route), headers: headers);
+        await http.get(Uri.https(_baseUrl, route), headers: headers);
     updateCookie(response);
     checkTokenExpired(response);
     return response.body;
@@ -33,11 +34,16 @@ class Session {
     }
 
     if (isFilePath) {
+      String fileBase64 = base64.encode(File(data[1]).readAsBytesSync());
+      print(fileBase64);
+      String hash = sha512.convert(utf8.encode(fileBase64)).toString();
+      print(hash);
       headers[HttpHeaders.contentTypeHeader] = 'multipart/form-data';
       http.MultipartRequest request =
-          http.MultipartRequest("POST", Uri.http(_baseUrl, route));
+          http.MultipartRequest("POST", Uri.https(_baseUrl, route));
       request.headers.addAll(headers);
       request.fields['payload'] = jsonEncode(data);
+      request.fields['hash'] = hash;
       request.files.add(await http.MultipartFile.fromPath(data[0], data[1]));
       http.StreamedResponse response = await request.send();
       return response.stream.bytesToString();
@@ -45,7 +51,7 @@ class Session {
       headers[HttpHeaders.contentTypeHeader] =
           'application/json; charset=UTF-8';
 
-      http.Response response = await http.post(Uri.http(_baseUrl, route),
+      http.Response response = await http.post(Uri.https(_baseUrl, route),
           body: jsonEncode(data), headers: headers);
       updateCookie(response);
       checkTokenExpired(response);

@@ -9,6 +9,8 @@ from lovelace.logger import setup_logger
 import dotenv
 from prometheus_flask_exporter import PrometheusMetrics
 
+import flask_monitoringdashboard as dashboard
+
 dotenv.load_dotenv()
 ca = certifi.where()
 mongo = pymongo.MongoClient(host=os.environ.get("MONGO_URI"), tlsCAFile=ca)
@@ -56,6 +58,10 @@ metrics.register_default(
     )
 )
 app.config.from_pyfile("config.py")
+
+dashboard.config.init_from(file="monitor/config.cfg")
+dashboard.bind(app)
+
 limiter = Limiter(app, key_func=get_remote_address, default_limits=["50 per minute"])
 socketio = SocketIO(app, cors_allowed_origins=["127.0.0.1", "10.0.2.2"])
 
@@ -63,10 +69,10 @@ from lovelace.account.routes import account_page
 from lovelace.recommendation.routes import recommendation
 from lovelace.chat.routes import chat
 from lovelace.logger.routes import logs
-from lovelace.admin.routes import admin_page
+from lovelace.admin.routes import admin
 
 app.register_blueprint(account_page)
 app.register_blueprint(recommendation)
 app.register_blueprint(chat)
 app.register_blueprint(logs)
-app.register_blueprint(admin_page)
+app.register_blueprint(admin)
