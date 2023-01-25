@@ -5,6 +5,7 @@ import 'package:lovelace/responsive/mobile_screen_layout.dart';
 import 'package:lovelace/responsive/responsive_layout.dart';
 import 'package:lovelace/responsive/web_screen_layout.dart';
 import 'package:lovelace/utils/colors.dart';
+import 'authentication_screen.dart';
 
 class LockScreen extends StatelessWidget {
   const LockScreen({super.key});

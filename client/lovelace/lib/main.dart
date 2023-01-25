@@ -71,7 +71,8 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
-    if (state == AppLifecycleState.resumed) {
+    if (state == AppLifecycleState.resumed ||
+        state == AppLifecycleState.inactive) {
       print(state);
       final navigator = _navigatorKey.currentState;
       if (navigator == null) return;
