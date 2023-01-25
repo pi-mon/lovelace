@@ -7,10 +7,10 @@ import 'package:lovelace/responsive/responsive_layout.dart';
 import 'package:lovelace/responsive/web_screen_layout.dart';
 import 'package:lovelace/screens/main/landing_screen.dart';
 import 'package:lovelace/screens/user/initialise/init_display_name_screen.dart';
+import 'package:lovelace/screens/user/lock_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:flutter/services.dart';
 import 'package:screen_capture_event/screen_capture_event.dart';
-import 'package:safe_device/safe_device.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -46,7 +46,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   final ScreenCaptureEvent screenCaptureEvent = ScreenCaptureEvent();
-  bool isJailBroken = false;
+  final _navigatorKey = GlobalKey<NavigatorState>();
   bool canMockLocation = false;
   bool isRealDevice = true;
   bool isOnExternalStorage = false;
@@ -71,12 +71,15 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
-    if (state == AppLifecycleState.detached)
+    if (state == AppLifecycleState.resumed) {
+      print(state);
+      final navigator = _navigatorKey.currentState;
+      if (navigator == null) return;
+      navigator
+          .push(MaterialPageRoute(builder: (context) => const LockScreen()));
+    } else {
       return;
-    else if (state == AppLifecycleState.resumed) {
-      // prompt user to do biometrics
     }
-    print(state.toString());
   }
 
   @override
@@ -97,6 +100,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
     MaterialApp materialApp = MaterialApp(
         debugShowCheckedModeBanner: true,
+        navigatorKey: _navigatorKey,
         title: 'Lovelace',
         theme: themeData,
         home: home);

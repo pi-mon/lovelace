@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:lovelace/models/user_detail.dart';
 import 'package:lovelace/resources/account_methods.dart';
 import 'package:lovelace/resources/backup_methods.dart';
 import 'package:lovelace/resources/storage_methods.dart';
@@ -63,7 +62,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
               onPressed: () async {
                 final response = await _backupMethods.readJsonFile();
                 message = "Restoring backed up data...";
-                // print(response); // expecting to return the messages in plaintext                
+                print(response); // return the messages in plaintext                
                 if (response == false) {
                   message = "No data found! Create a backup!";
                   print(message);
@@ -75,7 +74,8 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                   content: Text(message),
                   backgroundColor: isSuccess ? blackColor : errorColor,
                 ));
-                // TODO: Send data in that back up copy to update function to update chat data
+                // TODO: Write data read from the JSON file to secure_storage
+                // storageMethods.write("message", response);
               }),
           WideButton(
               icon: const Icon(Icons.exit_to_app, color: placeholderColor),
@@ -83,10 +83,9 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
               onPressed: () async {
                 // Make another back up before logging out in case
                 dynamic chatDataJson = await storageMethods.read("message");
-                List chatDataString = jsonDecode(chatDataJson);
-
+                dynamic chatDataString = jsonDecode(chatDataJson);
                 // Write data to file
-                // _backupMethods.writeJsonFile();
+                _backupMethods.writeJsonFile(chatDataString);
                 setState(() {
                   isSuccess = true;
                 });

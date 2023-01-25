@@ -33,14 +33,9 @@ class BackupMethods {
       return exists;
     } 
     String jsonString = await file.readAsString(); // returns ciphertext as a base64 String
-    // print(jsonString); // return the ciphertext as a String
-    // print(jsonString.runtimeType); // returns String
     var plaintext = await encryptionDecryption.decryptAES(jsonString); // decrypt the ciphertext
-    print(plaintext.runtimeType);
-    print(plaintext);
-    // Map<String, dynamic> jsonMap = jsonDecode(jsonString);
     debugPrint('Data read from JSON file');
-    // return jsonMap;
+    return plaintext;
   }
 
   Future<void> writeJsonFile(List messages) async {

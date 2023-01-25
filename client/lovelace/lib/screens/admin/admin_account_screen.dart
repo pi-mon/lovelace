@@ -12,12 +12,12 @@ class AdminAccountScreen extends StatefulWidget {
 
 class _AdminAccountScreenState extends State<AdminAccountScreen> {
   List<WideButtonArrow> wideButtonArrowList = [
-    WideButtonArrow(
+    const WideButtonArrow(
         iconData: Icons.person,
         label: "User Mode",
         nextScreen: userPages,
         isAdmin: true),
-    WideButtonArrow(
+    const WideButtonArrow(
       iconData: Icons.track_changes,
       label: "View Logs",
       nextScreen: ViewLogsScreen(),
