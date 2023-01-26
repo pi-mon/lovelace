@@ -30,19 +30,6 @@ class _LoginVerifyScreenState extends State<LoginVerifyScreen> {
     _otpController.dispose();
   }
 
-  // void iniState() {
-  //   super.initState();
-  //   init();
-  // }
-
-  // Future init() async {
-  //   final otp = await SecureStorage().getotp() ?? '';
-
-  //   setState(() {
-  //     this._otpController.text = otp;
-  //   });
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

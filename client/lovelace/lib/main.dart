@@ -7,7 +7,7 @@ import 'package:lovelace/responsive/responsive_layout.dart';
 import 'package:lovelace/responsive/web_screen_layout.dart';
 import 'package:lovelace/screens/main/landing_screen.dart';
 import 'package:lovelace/screens/user/initialise/init_display_name_screen.dart';
-import 'package:lovelace/screens/user/lock_screen.dart';
+import 'package:lovelace/screens/user/background_auth/lock_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:flutter/services.dart';
 import 'package:screen_capture_event/screen_capture_event.dart';
