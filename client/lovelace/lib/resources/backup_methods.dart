@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
@@ -44,7 +45,7 @@ class BackupMethods {
     Map<String, dynamic> jsonMap = {"Messages": messages};
     String jsonString = jsonEncode(jsonMap); // jsonEncode the map
     var encrypted = await encryptionDecryption.encryptAES(jsonString); // returns a base64 String of the ciphertext
-    print(encrypted); // print the base64 encoded String 
+    debugPrint(encrypted); // print the base64 encoded String 
     await file.writeAsString(encrypted); // write the base64 String to the JSON file
     debugPrint('Data written to JSON file');
   }

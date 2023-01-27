@@ -1,6 +1,8 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:lovelace/resources/backup_methods.dart';
 import 'package:lovelace/resources/storage_methods.dart';
 import 'package:lovelace/responsive/mobile_screen_layout.dart';
 import 'package:lovelace/responsive/responsive_layout.dart';
@@ -29,6 +31,14 @@ void main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]).then((value) => runApp(MyApp(isLoggedIn: isLoggedIn, isFTL: isFTL)));
+  Timer.periodic(const Duration(days: 7), (timer) async {
+    // do something
+    print('test');
+    dynamic chatDataJson = await StorageMethods().read("message");
+    print(chatDataJson.runtimeType); // returns Future<dynamic>
+    dynamic chatDataString = jsonDecode(chatDataJson);
+    BackupMethods().writeJsonFile(chatDataString);
+  });
 }
 
 class MyApp extends StatefulWidget {

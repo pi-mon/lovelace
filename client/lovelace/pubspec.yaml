@@ -69,7 +69,6 @@ dependencies:
   image_gallery_saver: ^1.7.1
   url_launcher: ^6.1.8
   safe_device: ^1.1.2
-  location_permissions: ^4.0.1
 
 dev_dependencies:
   flutter_test:

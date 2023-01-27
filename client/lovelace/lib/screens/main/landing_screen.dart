@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:local_auth/local_auth.dart';
-import 'package:location_permissions/location_permissions.dart';
 import 'package:lovelace/resources/user_state_methods.dart';
 import 'package:lovelace/screens/user/login/login_screen.dart';
 import 'package:lovelace/utils/colors.dart';
@@ -138,7 +137,6 @@ class _LandingScreenState extends State<LandingScreen> {
   }
 
   Future<void> initPlatformState() async {
-    await LocationPermissions().requestPermissions();
     if (!mounted) return;
     try {
       isJailBroken = await SafeDevice.isJailBroken;
