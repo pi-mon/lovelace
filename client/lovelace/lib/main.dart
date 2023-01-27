@@ -31,7 +31,9 @@ void main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]).then((value) => runApp(MyApp(isLoggedIn: isLoggedIn, isFTL: isFTL)));
-  Timer.periodic(const Duration(days: 7), (timer) async {
+
+  //* Backup chat data every 24 hours
+  Timer.periodic(const Duration(days: 1), (timer) async {
     // do something
     print('test');
     dynamic chatDataJson = await StorageMethods().read("message");
