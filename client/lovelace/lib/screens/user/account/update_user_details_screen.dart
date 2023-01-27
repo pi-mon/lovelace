@@ -272,12 +272,6 @@ class _UpdateUserDetailsScreenState extends State<UpdateUserDetailsScreen> {
                         color: whiteColor),
                   ),
                   onPressed: () async {
-                    // String email = _newEmailController.text;
-                    // String displayName = _newDisplayNameController.text;
-                    // String birthday = _newBirthdayController.text;
-                    // String location = _newLocationController.text;
-                    // String gender = dropDownValue;
-
                     if (_formKey.currentState!.validate()) {
                       String email = _newEmailController.text;
                       String displayName = _newDisplayNameController.text;
@@ -300,7 +294,6 @@ class _UpdateUserDetailsScreenState extends State<UpdateUserDetailsScreen> {
                       //   // call update function to send request to server side to update user details
                       List response = await AccountMethods()
                           .update(userDetails: userDetails);
-
                       String output = response[0];
                       String message = response[1];
                       bool isSuccess = response[2];
