@@ -61,6 +61,8 @@ class _SetPinScreenState extends State<SetPinScreen> {
             child: PinCodeTextField(
               appContext: context,
               controller: pinController,
+              keyboardType: TextInputType.number,
+              obscureText: true,
               length: 6,
               cursorHeight: 16,
               enableActiveFill: true,
@@ -69,7 +71,6 @@ class _SetPinScreenState extends State<SetPinScreen> {
               inputFormatters: [
                 FilteringTextInputFormatter.digitsOnly,
               ],
-              keyboardType: TextInputType.number,
               pinTheme: PinTheme(
                 shape: PinCodeFieldShape.box,
                 fieldWidth: 50,
