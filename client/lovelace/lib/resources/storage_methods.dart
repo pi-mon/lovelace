@@ -17,7 +17,7 @@ class StorageMethods {
   Future read<T>(String key) async {
     dynamic value = await _secureStorage.read(key: key);
     print('$key read from secure_storage');
-    // print(value);
+    print(value);
     return value;
   }
 

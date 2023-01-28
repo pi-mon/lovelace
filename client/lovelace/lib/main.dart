@@ -14,6 +14,8 @@ import 'package:lovelace/utils/colors.dart';
 import 'package:flutter/services.dart';
 import 'package:screen_capture_event/screen_capture_event.dart';
 
+import 'screens/user/login/set_pin_screen.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final StorageMethods storageMethods = StorageMethods();
@@ -108,7 +110,8 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     } else if (widget.isFTL) {
       home = const InitDisplayNameScreen();
     } else {
-      home = widget._userPages;
+      // home = widget._userPages;
+      home = const SetPinScreen();
     }
 
     MaterialApp materialApp = MaterialApp(
