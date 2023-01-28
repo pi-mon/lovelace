@@ -19,7 +19,7 @@ class Session {
     }
 
     http.Response response =
-        await http.get(Uri.https(_baseUrl, route), headers: headers);
+        await http.get(Uri.http(_baseUrl, route), headers: headers);
     updateCookie(response);
     checkTokenExpired(response);
     return response.body;

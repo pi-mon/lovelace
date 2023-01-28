@@ -1,30 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:lovelace/resources/authenticate_methods.dart';
-import 'package:lovelace/screens/user/login/login_screen.dart';
-import 'package:lovelace/screens/user/register/register_pin_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:lovelace/widgets/text_field_input.dart';
 
-class RegisterVerifyScreen extends StatefulWidget {
+class RegisterPinScreen extends StatefulWidget {
   final String email;
-  final String password;
-  const RegisterVerifyScreen(
-      {super.key, required this.email, required this.password});
+  // final String password;
+  const RegisterPinScreen(
+      {super.key, required this.email});
 
   @override
-  State<RegisterVerifyScreen> createState() => _RegisterVerifyScreenState();
+  State<RegisterPinScreen> createState() => _RegisterPinScreenState();
 }
 
-class _RegisterVerifyScreenState extends State<RegisterVerifyScreen> {
-  _RegisterVerifyScreenState();
+class _RegisterPinScreenState extends State<RegisterPinScreen> {
+  _RegisterPinScreenState();
   bool _isLoading = false;
-
-  final TextEditingController _otpController = TextEditingController();
+  final TextEditingController _pinController = TextEditingController();
 
   @override
   void dispose() {
     super.dispose();
-    _otpController.dispose();
+    _pinController.dispose();
   }
 
   @override
@@ -54,7 +50,7 @@ class _RegisterVerifyScreenState extends State<RegisterVerifyScreen> {
                             child: Padding(
                                 padding: EdgeInsets.only(right: 32.0),
                                 child: Text(
-                                  'Verify your email',
+                                  'PIN',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       color: primaryColor, fontSize: 20),
@@ -63,7 +59,7 @@ class _RegisterVerifyScreenState extends State<RegisterVerifyScreen> {
                     ),
                     const SizedBox(height: 16),
                     const Text(
-                      'Check your email for OTP',
+                      'Create a PIN',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           color: primaryColor,
@@ -75,10 +71,11 @@ class _RegisterVerifyScreenState extends State<RegisterVerifyScreen> {
                       child: Container(),
                     ),
                     TextFieldInput(
-                      label: "OTP",
-                      hintText: "Enter your OTP",
-                      textInputType: TextInputType.number,
-                      textEditingController: _otpController,
+                      isPass: true,
+                      label: "PIN",
+                      hintText: "6 characters minimum",
+                      textInputType: TextInputType.text,
+                      textEditingController: _pinController,
                       validator: (value) {
                         return null;
                       },
@@ -95,68 +92,46 @@ class _RegisterVerifyScreenState extends State<RegisterVerifyScreen> {
                             _isLoading = true;
                           });
 
-                          String otp = _otpController.text;
+                          const String pinRegex =
+                              r"^(?=\S{8,20}$)(?=.*?\d)(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[^A-Za-z\s0-9])";
+                          final String pin = _pinController.text;
 
-                          bool otpIsValid = otp.isNotEmpty && otp.length == 6;
+                          final bool pinValid = RegExp(pinRegex).hasMatch(pin);
 
-                          if (!otpIsValid) {
-                            String message = "Invalid OTP";
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Text(message),
+                          if (!pinValid) {
+                            setState(() {
+                              _isLoading = false;
+                            });
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(const SnackBar(
+                              content:
+                                  Text('PIN does not meet the requirements'),
                               backgroundColor: errorColor,
                             ));
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return const AlertDialog(
+                                  content: Text(
+                                      "PIN Requirements:\n\t- Minimum 6 letters\n\t- Maximum 20 letters\n\t- At least 1 number\n\t- At least 1 lowercase alphabet\n\t- At least 1 uppercase alphabet\n\t- At least 1 special character"),
+                                );
+                              },
+                            );
                             return;
                           }
-
-                          List<dynamic> response = await AuthenticateMethods()
-                              .verify(
-                                  method: "create",
-                                  email: widget.email,
-                                  password: widget.password,
-                                  otp: int.parse(otp));
 
                           setState(() {
                             _isLoading = false;
                           });
 
-                          String output = response[0];
-                          String message = response[1];
-                          bool isSuccess = response[2];
-
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text(message),
-                            backgroundColor:
-                                isSuccess ? successColor : errorColor,
-                          ));
-
-                          if (isSuccess) {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => RegisterPinScreen(email: widget.email)),
-                            );
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //       builder: (context) => const LoginScreen()),
-                            // );
-                          }
-
-                          // showDialog(
-                          //   context: context,
-                          //   builder: (context) {
-                          //     return AlertDialog(
-                          //       content: Text(output),
-                          //     );
-                          //   },
-                          // );
+                          // TODO: use the PIN to encrypt the email and password and store in secure storage
                         },
                         style: ElevatedButton.styleFrom(
                           minimumSize: const Size(150, 50),
                           backgroundColor: primaryColor,
                         ),
                         child: !_isLoading
-                            ? const Text("Verify",
+                            ? const Text("Sign Up",
                                 style: TextStyle(
                                     fontSize: 18,
                                     color: whiteColor,
