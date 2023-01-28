@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lovelace/models/user_detail.dart';
@@ -146,7 +145,7 @@ class _InitDisplayPicScreenState extends State<InitDisplayPicScreen> {
                             // Uint8List displayPicData =
                             //     await _image!.readAsBytes();
                             UserDetails userDetails = UserDetails(
-                              email: await StorageMethods().read("email") ?? "",
+                              email: await StorageMethods().read("email") ?? "",  
                               displayName: widget.displayName,
                               birthday: widget.birthday,
                               gender: widget.gender,

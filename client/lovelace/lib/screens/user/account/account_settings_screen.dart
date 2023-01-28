@@ -82,14 +82,6 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
               icon: const Icon(Icons.exit_to_app, color: placeholderColor),
               label: "Logout",
               onPressed: () async {
-                // Make another back up before logging out in case
-                dynamic chatDataJson = await storageMethods.read("message");
-                dynamic chatDataString = jsonDecode(chatDataJson);
-                // Write data to file
-                _backupMethods.writeJsonFile(chatDataString);
-                setState(() {
-                  isSuccess = true;
-                });
                 UserStateMethods().logoutState(context);
                 _storageMethods.readAllJson().then((value) => print(value));
               })

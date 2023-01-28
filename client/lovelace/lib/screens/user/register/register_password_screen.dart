@@ -4,7 +4,6 @@ import 'package:lovelace/screens/user/register/register_verify_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:lovelace/widgets/text_field_input.dart';
 import 'package:lovelace/resources/authenticate_methods.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class RegisterPasswordScreen extends StatefulWidget {
