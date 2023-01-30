@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:lovelace/resources/user_state_methods.dart';
+import 'package:lovelace/screens/user/login/login_verify_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:lovelace/widgets/text_field_input.dart';
 
 class LoginPinScreen extends StatefulWidget {
-  final String pin;
-  const LoginPinScreen({super.key, required this.pin});
+  final String email;
+  final String password;
+  const LoginPinScreen(
+      {super.key, required this.email, required this.password});
 
   @override
-  State<LoginPinScreen> createState() => _LoginPinScreenState(pin);
+  State<LoginPinScreen> createState() => _LoginPinScreenState(email);
 }
 
 class _LoginPinScreenState extends State<LoginPinScreen> {
@@ -92,11 +94,11 @@ class _LoginPinScreenState extends State<LoginPinScreen> {
                         });
 
                         String pin = _pinController.text;
-                        // TODO: Need to decrypt encrypted email and password with
+                        // TODO: Need to decrypt encrypted email and password with pin
                         bool pinIsValid = pin.isNotEmpty && pin.length == 6;
 
                         if (!pinIsValid) {
-                          String message = "Invalid PIN";
+                          String message = "Incorrect PIN!";
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             content: Text(message),
                             backgroundColor: errorColor,
@@ -110,19 +112,13 @@ class _LoginPinScreenState extends State<LoginPinScreen> {
                           _isLoading = false;
                         });
 
-                        String message = 'Incorrect PIN!';
-                        bool isSuccess = true;
-
-                        // ignore: use_build_context_synchronously
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          content: Text(message),
-                          backgroundColor:
-                              isSuccess ? successColor : errorColor,
-                        ));
-
-                        if (isSuccess) {
-                          UserStateMethods().loginState(context, widget.pin);
-                        }
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => LoginVerifyScreen(
+                                    email: widget.email,
+                                    password: widget.password,
+                                    pin: _pinController.text)));
                       },
                       style: ElevatedButton.styleFrom(
                         minimumSize: const Size(150, 50),

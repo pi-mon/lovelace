@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:lovelace/resources/authenticate_methods.dart';
+import 'package:lovelace/resources/user_state_methods.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:lovelace/widgets/text_field_input.dart';
 
 class LoginVerifyScreen extends StatefulWidget {
   final String email;
   final String password;
+  final String pin;
   const LoginVerifyScreen(
-      {super.key, required this.email, required this.password});
+      {super.key, required this.email, required this.password, required this.pin});
 
   @override
   State<LoginVerifyScreen> createState() =>
@@ -136,8 +138,9 @@ class _LoginVerifyScreenState extends State<LoginVerifyScreen> {
                         ));
 
                         if (isSuccess) {
-                          // * userDetails written to SS inside loginState!!                          
-                          // UserStateMethods().loginState(context, ); 
+                          // * Store the pin in SS to retrieve later when encrypting the email and password in loginState. Will delete later.
+                          storageMethods.write("pin", widget.pin);
+                          UserStateMethods().loginState(context); 
                           // Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPinScreen()));
                         }
                       },

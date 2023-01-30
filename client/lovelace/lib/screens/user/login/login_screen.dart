@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lovelace/resources/authenticate_methods.dart';
-import 'package:lovelace/screens/user/login/login_verify_screen.dart';
+import 'package:lovelace/screens/user/login/login_pin.dart';
 import 'package:lovelace/screens/user/register/register_details_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:lovelace/widgets/text_field_input.dart';
@@ -174,7 +174,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => LoginVerifyScreen(
+                                builder: (context) => LoginPinScreen(
                                       email: email,
                                       password: password,
                                     )),

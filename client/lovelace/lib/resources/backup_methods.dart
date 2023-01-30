@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
-import 'package:lovelace/resources/e2e/encryption_methods.dart';
+import 'package:lovelace/resources/encryption_methods.dart';
 import 'package:path_provider/path_provider.dart';
 
 class BackupMethods {

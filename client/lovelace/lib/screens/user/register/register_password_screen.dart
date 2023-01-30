@@ -1,6 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:lovelace/screens/user/register/register_verify_screen.dart';
+import 'package:lovelace/screens/user/register/register_pin_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:lovelace/widgets/text_field_input.dart';
 import 'package:lovelace/resources/authenticate_methods.dart';
@@ -213,7 +213,7 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => RegisterVerifyScreen(
+                                  builder: (context) => RegisterPinScreen(
                                         email: widget.email,
                                         password: password,
                                       )),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lovelace/resources/authenticate_methods.dart';
+import 'package:lovelace/resources/user_state_methods.dart';
 import 'package:lovelace/screens/user/register/register_pin_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:lovelace/widgets/text_field_input.dart';
@@ -7,8 +8,9 @@ import 'package:lovelace/widgets/text_field_input.dart';
 class RegisterVerifyScreen extends StatefulWidget {
   final String email;
   final String password;
+  final String pin;
   const RegisterVerifyScreen(
-      {super.key, required this.email, required this.password});
+      {super.key, required this.email, required this.password, required this.pin});
 
   @override
   State<RegisterVerifyScreen> createState() => _RegisterVerifyScreenState();
@@ -128,16 +130,9 @@ class _RegisterVerifyScreenState extends State<RegisterVerifyScreen> {
                           ));
 
                           if (isSuccess) {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const RegisterPinScreen()),
-                            );
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //       builder: (context) => const RegisterPinScreen()),
-                            // );
+                            // * Store the pin in SS to retrieve later when encrypting the email and password in loginState. Will delete later
+                            storageMethods.write("pin", widget.pin);
+                            UserStateMethods().loginState(context); 
                           }
                         },
                         style: ElevatedButton.styleFrom(

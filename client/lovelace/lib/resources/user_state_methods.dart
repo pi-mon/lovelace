@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'package:encrypt/encrypt.dart';
 import 'package:flutter/material.dart';
 import 'package:lovelace/models/user_detail.dart';
 import 'package:lovelace/resources/account_methods.dart';
@@ -12,14 +12,15 @@ final StorageMethods _storageMethods = StorageMethods();
 final AccountMethods _accountMethods = AccountMethods();
 
 class UserStateMethods {
-  void loginState(BuildContext context, String pin) async {
+  void loginState(BuildContext context) async {
     _storageMethods.write("isLoggedIn", true);
     List response = await _accountMethods.read();
+    String pin = await storageMethods.read("pin");
     String output = response[0];
     bool isSuccess = response[2];
     print(isSuccess);
     _storageMethods.write("isFTL", !isSuccess);
-    if (isSuccess) {
+    if (isSuccess) { // If user is already registered
       UserDetails userDetails =
           UserDetails.fromJson(json.decode(output)["response"]);
       print(userDetails);      
@@ -27,7 +28,8 @@ class UserStateMethods {
       _storageMethods.write("userDetails", userDetails);
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => userPages));
-    } else {
+      // TODO: Delete pin from SS
+    } else { // is user is not registered yet
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(
               builder: (context) => const InitDisplayNameScreen()),

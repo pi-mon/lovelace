@@ -4,16 +4,20 @@ import 'package:lovelace/resources/storage_methods.dart';
 class EncryptionDecryption {
   StorageMethods storageMethods = StorageMethods();
 
-  Future encryptAES(plainText) async {
-    final key = Key.fromSecureRandom(32);
-    final iv = IV.fromSecureRandom(16);
+  Future<List> generateKeyIV() async {
+    final key = Key.fromSecureRandom(32); // 256-bits
+    final iv = IV.fromSecureRandom(16); // 128-bits
     final encrypter = Encrypter(AES(key));
+    return [key, iv, encrypter];
+  }
 
-    final encrypted = encrypter.encrypt(plainText, iv: iv);
+  Future encryptAES(plainText) async {
+    dynamic secrets = generateKeyIV();
+    final encrypted = secrets[2].encrypt(plainText, iv: secrets[1]);
     // print(key.base64); // returns value of key
     storageMethods.write(
-        "key", key.base64); // store key in secure storage as base64 encoded String
-    storageMethods.write("iv", iv.base64); // store iv in secure storage as base64 encoded String
+        "key", secrets[0].base64); // store key in secure storage as base64 encoded String
+    storageMethods.write("iv", secrets[1].base64); // store iv in secure storage as base64 encoded String
     return encrypted.base64; // return the encrypted data as base64 encoded String
   }
 
