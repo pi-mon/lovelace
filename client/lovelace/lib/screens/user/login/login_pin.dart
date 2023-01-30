@@ -1,32 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:lovelace/resources/authenticate_methods.dart';
+import 'package:lovelace/resources/user_state_methods.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:lovelace/widgets/text_field_input.dart';
 
-class LoginVerifyScreen extends StatefulWidget {
-  final String email;
-  final String password;
-  const LoginVerifyScreen(
-      {super.key, required this.email, required this.password});
+class LoginPinScreen extends StatefulWidget {
+  final String pin;
+  const LoginPinScreen({super.key, required this.pin});
 
   @override
-  State<LoginVerifyScreen> createState() =>
-      _LoginVerifyScreenState(email, password);
+  State<LoginPinScreen> createState() => _LoginPinScreenState(pin);
 }
 
-class _LoginVerifyScreenState extends State<LoginVerifyScreen> {
-  _LoginVerifyScreenState(this.email, this.password);
+class _LoginPinScreenState extends State<LoginPinScreen> {
+  _LoginPinScreenState(String pin);
   bool _isLoading = false;
-
-  final String email;
-  final String password;
-
-  final TextEditingController _otpController = TextEditingController();
+  final TextEditingController _pinController = TextEditingController();
 
   @override
   void dispose() {
     super.dispose();
-    _otpController.dispose();
+    _pinController.dispose();
   }
 
   @override
@@ -56,7 +49,7 @@ class _LoginVerifyScreenState extends State<LoginVerifyScreen> {
                             child: Padding(
                                 padding: EdgeInsets.only(right: 32.0),
                                 child: Text(
-                                  'Verify your email',
+                                  'Login',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       color: primaryColor, fontSize: 20),
@@ -65,7 +58,7 @@ class _LoginVerifyScreenState extends State<LoginVerifyScreen> {
                     ),
                     const SizedBox(height: 16),
                     const Text(
-                      'Check your email for OTP',
+                      'Enter your PIN',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           color: primaryColor,
@@ -77,10 +70,10 @@ class _LoginVerifyScreenState extends State<LoginVerifyScreen> {
                       child: Container(),
                     ),
                     TextFieldInput(
-                      label: "OTP",
-                      hintText: "Enter your OTP",
+                      label: "PIN",
+                      hintText: "Enter your PIN",
                       textInputType: TextInputType.number,
-                      textEditingController: _otpController,
+                      textEditingController: _pinController,
                       validator: (value) {
                         return null;
                       },
@@ -98,12 +91,12 @@ class _LoginVerifyScreenState extends State<LoginVerifyScreen> {
                           _isLoading = true;
                         });
 
-                        String otp = _otpController.text;
+                        String pin = _pinController.text;
+                        // TODO: Need to decrypt encrypted email and password with
+                        bool pinIsValid = pin.isNotEmpty && pin.length == 6;
 
-                        bool otpIsValid = otp.isNotEmpty && otp.length == 6;
-
-                        if (!otpIsValid) {
-                          String message = "Invalid OTP";
+                        if (!pinIsValid) {
+                          String message = "Invalid PIN";
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             content: Text(message),
                             backgroundColor: errorColor,
@@ -113,20 +106,12 @@ class _LoginVerifyScreenState extends State<LoginVerifyScreen> {
                           });
                           return;
                         }
-                        List<dynamic> response = await AuthenticateMethods()
-                            .verify(
-                                method: "login",
-                                email: email,
-                                password: password,
-                                otp: int.parse(otp));
-
                         setState(() {
                           _isLoading = false;
                         });
 
-                        // String output = response[0];
-                        String message = response[1];
-                        bool isSuccess = response[2];
+                        String message = 'Incorrect PIN!';
+                        bool isSuccess = true;
 
                         // ignore: use_build_context_synchronously
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -136,9 +121,7 @@ class _LoginVerifyScreenState extends State<LoginVerifyScreen> {
                         ));
 
                         if (isSuccess) {
-                          // * userDetails written to SS inside loginState!!                          
-                          // UserStateMethods().loginState(context, ); 
-                          // Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPinScreen()));
+                          UserStateMethods().loginState(context, widget.pin);
                         }
                       },
                       style: ElevatedButton.styleFrom(

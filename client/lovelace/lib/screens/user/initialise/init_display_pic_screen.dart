@@ -147,6 +147,7 @@ class _InitDisplayPicScreenState extends State<InitDisplayPicScreen> {
                             UserDetails userDetails = UserDetails(
                               email: await StorageMethods().read("email") ?? "",  
                               displayName: widget.displayName,
+                              password: await StorageMethods().read("password") ?? "",
                               birthday: widget.birthday,
                               gender: widget.gender,
                               location: widget.location,

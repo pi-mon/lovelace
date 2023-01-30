@@ -50,6 +50,7 @@ class _UpdateUserDetailsScreenState extends State<UpdateUserDetailsScreen> {
       TextEditingController(text: "");
   final TextEditingController _newDisplayNameController =
       TextEditingController();
+  final TextEditingController _newPasswordController = TextEditingController();
   final TextEditingController _newGenderController =
       TextEditingController(text: "Male");
   final TextEditingController _newBirthdayController = TextEditingController(
@@ -178,8 +179,18 @@ class _UpdateUserDetailsScreenState extends State<UpdateUserDetailsScreen> {
                 TextFieldInput(
                   label: "Display Name",
                   hintText: "Enter your Display Name",
-                  textInputType: TextInputType.emailAddress,
+                  textInputType: TextInputType.text,
                   textEditingController: _newDisplayNameController,
+                  validator: (value) {
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 16),
+                TextFieldInput(
+                  label: "Password",
+                  hintText: "Enter your password",
+                  textInputType: TextInputType.text,
+                  textEditingController: _newPasswordController,
                   validator: (value) {
                     return null;
                   },
@@ -275,6 +286,7 @@ class _UpdateUserDetailsScreenState extends State<UpdateUserDetailsScreen> {
                     if (_formKey.currentState!.validate()) {
                       String email = _newEmailController.text;
                       String displayName = _newDisplayNameController.text;
+                      String password = _newPasswordController.text;
                       String gender = _newGenderController.text;
                       String birthday = _newBirthdayController.text;
                       String location = _newLocationController.text;
@@ -284,6 +296,7 @@ class _UpdateUserDetailsScreenState extends State<UpdateUserDetailsScreen> {
                       UserDetails userDetails = UserDetails(
                         email: email,
                         displayName: displayName,
+                        password: password,
                         gender: gender,
                         birthday: birthday,
                         location: location,

@@ -20,6 +20,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
   UserDetails senderUserDetails = UserDetails(
     email: "lgf2111@gmail.com",
     displayName: "Lee Guan Feng",
+    password: '',
     birthday: "21-11-2004",
     gender: "Male",
     location: "Singapore",
@@ -29,6 +30,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
   UserDetails receiverUserDetails = UserDetails(
     email: "213587x@gmail.com",
     displayName: "Paimon",
+    password: '',
     birthday: "01-01-2001",
     gender: "Female",
     location: "Singapore",

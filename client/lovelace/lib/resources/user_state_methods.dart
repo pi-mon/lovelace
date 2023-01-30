@@ -12,7 +12,7 @@ final StorageMethods _storageMethods = StorageMethods();
 final AccountMethods _accountMethods = AccountMethods();
 
 class UserStateMethods {
-  void loginState(BuildContext context) async {
+  void loginState(BuildContext context, String pin) async {
     _storageMethods.write("isLoggedIn", true);
     List response = await _accountMethods.read();
     String output = response[0];
@@ -22,6 +22,8 @@ class UserStateMethods {
     if (isSuccess) {
       UserDetails userDetails =
           UserDetails.fromJson(json.decode(output)["response"]);
+      print(userDetails);      
+      // TODO: Encrypt the email and password before storing in SS.
       _storageMethods.write("userDetails", userDetails);
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => userPages));

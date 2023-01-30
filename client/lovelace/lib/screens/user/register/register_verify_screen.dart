@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:lovelace/resources/authenticate_methods.dart';
-import 'package:lovelace/screens/user/login/login_screen.dart';
 import 'package:lovelace/screens/user/register/register_pin_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:lovelace/widgets/text_field_input.dart';
@@ -96,7 +95,6 @@ class _RegisterVerifyScreenState extends State<RegisterVerifyScreen> {
                           });
 
                           String otp = _otpController.text;
-
                           bool otpIsValid = otp.isNotEmpty && otp.length == 6;
 
                           if (!otpIsValid) {
@@ -133,23 +131,14 @@ class _RegisterVerifyScreenState extends State<RegisterVerifyScreen> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => RegisterPinScreen(email: widget.email)),
+                                  builder: (context) => const RegisterPinScreen()),
                             );
                             // Navigator.push(
                             //   context,
                             //   MaterialPageRoute(
-                            //       builder: (context) => const LoginScreen()),
+                            //       builder: (context) => const RegisterPinScreen()),
                             // );
                           }
-
-                          // showDialog(
-                          //   context: context,
-                          //   builder: (context) {
-                          //     return AlertDialog(
-                          //       content: Text(output),
-                          //     );
-                          //   },
-                          // );
                         },
                         style: ElevatedButton.styleFrom(
                           minimumSize: const Size(150, 50),

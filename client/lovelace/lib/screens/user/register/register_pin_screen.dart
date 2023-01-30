@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:lovelace/resources/storage_methods.dart';
+import 'package:lovelace/screens/user/login/login_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:lovelace/widgets/text_field_input.dart';
 
 class RegisterPinScreen extends StatefulWidget {
-  final String email;
-  // final String password;
-  const RegisterPinScreen(
-      {super.key, required this.email});
+  const RegisterPinScreen({super.key});
 
   @override
   State<RegisterPinScreen> createState() => _RegisterPinScreenState();
@@ -15,6 +14,7 @@ class RegisterPinScreen extends StatefulWidget {
 class _RegisterPinScreenState extends State<RegisterPinScreen> {
   _RegisterPinScreenState();
   bool _isLoading = false;
+  StorageMethods storageMethods = StorageMethods();
   final TextEditingController _pinController = TextEditingController();
 
   @override
@@ -50,7 +50,7 @@ class _RegisterPinScreenState extends State<RegisterPinScreen> {
                             child: Padding(
                                 padding: EdgeInsets.only(right: 32.0),
                                 child: Text(
-                                  'PIN',
+                                  'Register',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       color: primaryColor, fontSize: 20),
@@ -79,6 +79,10 @@ class _RegisterPinScreenState extends State<RegisterPinScreen> {
                       validator: (value) {
                         return null;
                       },
+                    ),
+                    const Text(
+                      '*Please remember this PIN!',
+                      style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 128),
                     Flexible(
@@ -119,12 +123,16 @@ class _RegisterPinScreenState extends State<RegisterPinScreen> {
                             );
                             return;
                           }
-
+                          // * Should store pin temporarily in SS for validation when logging in later.
+                          // * Can delete pin from SS after using it to encrypt email & password.
                           setState(() {
                             _isLoading = false;
                           });
 
-                          // TODO: use the PIN to encrypt the email and password and store in secure storage
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const LoginScreen()));
                         },
                         style: ElevatedButton.styleFrom(
                           minimumSize: const Size(150, 50),
