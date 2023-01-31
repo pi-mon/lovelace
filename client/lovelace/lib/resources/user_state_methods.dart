@@ -1,5 +1,6 @@
 import 'dart:convert';
-import 'package:encrypt/encrypt.dart';
+import 'dart:typed_data';
+import 'package:aes_crypt/aes_crypt.dart';
 import 'package:flutter/material.dart';
 import 'package:lovelace/models/user_detail.dart';
 import 'package:lovelace/resources/account_methods.dart';
@@ -20,16 +21,25 @@ class UserStateMethods {
     bool isSuccess = response[2];
     print(isSuccess);
     _storageMethods.write("isFTL", !isSuccess);
-    if (isSuccess) { // If user is already registered
+    if (isSuccess) {
+      // If user is already registered
       UserDetails userDetails =
           UserDetails.fromJson(json.decode(output)["response"]);
-      print(userDetails);      
-      // TODO: Encrypt the email and password before storing in SS.
+      print(userDetails);
+      // var crypt = AesCrypt(pin); // initizlize encrypter
+      // final emailPlainText = userDetails.email;
+      // final passwordPlainText = userDetails.password;
+
+      // dynamic emailCipher = crypt.aesEncrypt();
+      // dynamic passwordCipher = crypt.aesEncrypt();
+
       _storageMethods.write("userDetails", userDetails);
+
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => userPages));
       // TODO: Delete pin from SS
-    } else { // is user is not registered yet
+    } else {
+      // is user is not registered yet
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(
               builder: (context) => const InitDisplayNameScreen()),
@@ -38,7 +48,7 @@ class UserStateMethods {
   }
 
   void logoutState(BuildContext context) async {
-    List<String> keyList = ["isLoggedIn", "isFTL", "userDetails", "cookie"];
+    List<String> keyList = ["isLoggedIn", "isFTL", "userDetails"];
     for (String key in keyList) {
       _storageMethods.delete(key);
     }
