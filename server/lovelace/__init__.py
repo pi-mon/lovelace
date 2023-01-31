@@ -8,7 +8,7 @@ import os
 from lovelace.logger import setup_logger
 import dotenv
 from prometheus_flask_exporter import PrometheusMetrics
-
+from flask_httpauth import HTTPBasicAuth
 import flask_monitoringdashboard as dashboard
 
 dotenv.load_dotenv()
@@ -50,19 +50,23 @@ recommendation_logger = setup_logger("recommendation")
 
 
 app = Flask(__name__)
-metrics = PrometheusMetrics(app)
+auth = HTTPBasicAuth(app)
+metrics = PrometheusMetrics(app, metrics_decorator=auth.login_required)
 metrics.register_default(
     metrics.counter(
         'by_path_counter', 'Request count by request paths',
         labels={'path': lambda: request.path}
     )
 )
+@auth.verify_password
+def verify_credentials(username, password):
+    return (username, password) == (os.environ.get("METRICS_USERNAME"), os.environ.get("METRICS_PASSWORD"))
 app.config.from_pyfile("config.py")
 
 dashboard.config.init_from(file="monitor/config.cfg")
 dashboard.bind(app)
 
-limiter = Limiter(app, key_func=get_remote_address, default_limits=["50 per minute"])
+limiter = Limiter(app, key_func=get_remote_address, default_limits=["10 per minute"])
 socketio = SocketIO(app, cors_allowed_origins=["127.0.0.1", "10.0.2.2"])
 
 from lovelace.account.routes import account_page
