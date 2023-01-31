@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, abort
 from lovelace import recommendation_logger as logger
 from lovelace.account.utils import token_required
 from lovelace import mongo_chat_request_write, mongo_account_details_write
@@ -15,6 +15,10 @@ recommendation = Blueprint("recommendation", __name__, template_folder="template
 #     request_collection.chat_request.insert_one({""})
 #     logger.info("%s Accessed Recommendation", request.remote_addr)
 #     return jsonify({"users": ["test1", "test2", "test3"]})
+
+@recommendation.route("/servererror")
+def server_error():
+    abort(500)
 
 @recommendation.route("/recommendation")
 @token_required()
