@@ -14,4 +14,4 @@ class UserDetails:
         self.location = location
         self.gender = gender
         self.profile_pic = ""
-        self.card_pic = ""
+        self.display_pic = ""

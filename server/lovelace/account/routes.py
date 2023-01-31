@@ -1,10 +1,12 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, make_response
 from lovelace import (
     mongo_account_read,
     mongo_account_write,
     mongo_account_details_write,
     mongo_temp_write,
     mongo_temp_read,
+    mongo_chat_request_write,
+    mongo_chat_request_read,
 )
 from flask import current_app as app
 from flask_mail import Message, Mail
@@ -12,10 +14,12 @@ from pymongo import errors as db_errors
 from argon2 import PasswordHasher
 from lovelace.models import account
 import jwt
+import base64
 from datetime import datetime, timedelta
 from os import environ
 from pyotp import TOTP
 from lovelace import account_logger as logger
+from bson.binary import Binary
 from lovelace.account.utils import (
     token_required,
     schema,
@@ -35,6 +39,7 @@ def create_account():
         ph = PasswordHasher()
         account_collection = mongo_account_read.account
         temp_collection = mongo_temp_write.account
+        # new_username = request.form.get("username")
         account_json = request.get_json()
         new_email = account_json["email"]
         new_password = account_json["password"]
@@ -60,10 +65,7 @@ def create_account():
                 )
                 return jsonify({"creation": False, "response": "Email already exist"})
             new_password_hash = ph.hash(new_password)
-            new_user = account.User(
-                email=new_email,
-                password=new_password_hash,
-            )
+            new_user = account.User(new_email, new_password_hash)
             new_user_json = new_user.__dict__
             new_user_json["createdAt"] = datetime.utcnow()
             # temp_collection.temp_user.create_index("email", unique=True) #makes email unique
@@ -110,14 +112,16 @@ def create_account():
                 request.remote_addr,
                 new_email,
             )
-            output = jsonify(
-                {
-                    "creation": True,
-                    "response": "Temp account was created successfully, please check mailbox for email verification.",
-                }
+            resp = make_response(
+                jsonify(
+                    {
+                        "creation": True,
+                        "response": "Temp account was created successfully",
+                    }
+                )
             )
-            output.set_cookie("token", token)
-            return output
+            resp.set_cookie("token", token)
+            return resp
         # except db_errors.DuplicateKeyError:
         #     logger.info(
         #         "%s Did not succeed in creating an account due to duplicated email %s",
@@ -138,20 +142,21 @@ def create_verify(user):
         temp_collection = mongo_temp_read.account
         user_details = temp_collection.temp_user.find_one({"email": user})
         otp_expiry = user_details["otp_expiry"]
-        otp = str(request.get_json()["otp"])
+        otp = str(request.get_json()["otp"]).zfill(6)
     except db_errors.OperationFailure:
         return jsonify({"create": False, "response": "Invalid database operation"})
-    except Exception as e:
-        print(f"Error: {e}")
+    except:
         return jsonify(
             {"create": False, "response": "User login failed due to invalid input"}
         )
     try:
         if otp_expiry > datetime.utcnow() and user_details["otp"] == otp:
             account_collection = mongo_account_write.account
+            request_collection = mongo_chat_request_write.account_details
             new_user = account.User(user_details["email"], user_details["password"])
             new_user_json = new_user.__dict__
             account_collection.user.insert_one(new_user_json)
+            request_collection.chat_request.insert_one({"email": user, "request": []})
             return jsonify(
                 {"create": True, "response": "Account was created successfully"}
             )
@@ -160,21 +165,6 @@ def create_verify(user):
     except:
         return jsonify({"create": False, "response": "Account creation has an error"})
     return jsonify({"create": False, "response": "Expired or Invalid OTP was entered"})
-    #     if otp_expiry > datetime.utcnow() and user_details["otp"] == otp:
-    #         account_collection = mongo_account_write.account
-    #         new_user = account.User(
-    #             display_name=user_details["display_name"],
-    #             email=user_details["email"],
-    #             password=user_details["password"],
-    #         )
-    #         new_user_json = new_user.__dict__
-    #         account_collection.user.insert_one(new_user_json)
-    # except db_errors.OperationFailure:
-    #     return jsonify({"create": False, "response": "Invalid database operation"})
-    # except Exception as e:
-    #     print(f"Error: {e}")
-    #     return jsonify({"create": False, "response": "Account creation has an error"})
-    # return jsonify({"create": True, "response": "Account was created successfully"})
 
 
 @account_page.route("/account/login", methods=["POST", "GET"])
@@ -249,19 +239,16 @@ def login_account():
         mail.send(msg)
         # resp = make_response(jsonify({"login":True,"response":"User login successful"}))
         # resp.set_cookie("token", token)
+        resp = make_response(
+            jsonify({"login": True, "response": "User login successful"})
+        )
+        resp.set_cookie("token", token)
         logger.info(
             "%s Logged in successfully using email, otp required to login %s",
             request.remote_addr,
             email,
         )
-        output = jsonify(
-            {
-                "login": True,
-                "response": "User login successful, otp required to login",
-            }
-        )
-        output.set_cookie("token", token)
-        return output
+        return resp
 
 
 @account_page.route("/account/login/verify", methods=["POST", "GET"])
@@ -272,15 +259,16 @@ def login_verify(user):
         otp_details = account_collection.user.find_one(
             {"email": user}, {"otp": 1, "otp_expiry": 1}
         )
-        otp_expiry = otp_details["otp_expiry"]
-        otp = str(request.get_json()["otp"])
+        otp = str(request.get_json()["otp"]).zfill(6)
+        user_otp = str(otp_details["otp"])
+        user_otp_expiry = otp_details["otp_expiry"]
     except:
         return jsonify(
             {"login": False, "response": "User login failed due to invalid input"}
         )
     if (
-        otp_expiry > datetime.utcnow() and otp_details["otp"] == otp
-    ):  # checks if otp has expired
+        user_otp_expiry > datetime.utcnow() and user_otp == otp
+    ):  # checks if otp has expired and is valid
         token = jwt.encode(
             {
                 "email": user,
@@ -296,57 +284,46 @@ def login_verify(user):
             request.remote_addr,
             user,
         )
-        output = jsonify({"login": True, "response": "Login verify successful"})
-        output.set_cookie("token", token)
-        return output
-    else:
-        return jsonify({"login": False, "response": "Invalid or expired otp"})
+        resp = make_response(
+            jsonify({"login": True, "response": "User login successful"})
+        )
+        resp.set_cookie("token", token)
+        return resp
+    elif user_otp_expiry < datetime.utcnow():
+        print(
+            f"{datetime.utcnow()} is the current time, {user_otp_expiry} is when the otp expires "
+        )
+        return jsonify({"login": False, "response": "Expired otp"})
+    elif user_otp != otp:
+        print(f"{otp} is what user entered, {user_otp} is the valid otp")
+        return jsonify({"login": False, "response": "Invalid otp"})
+    return jsonify(
+        {
+            "login": False,
+            "response": "Error logging verifying account please try again later",
+        }
+    )
 
 
-@account_page.route("/account/profile/update", methods=["POST"])
+@account_page.route("/account/profile/update", methods=["POST", "GET"])
 @token_required()  # user is email registered
-def update_profile(user_email):
+def update_profile(user):
     try:
         profile_information = request.get_json()
         user_detail_collection = mongo_account_details_write.account_details
         new_account_details = account.UserDetails(
-            email=user_email,
-            display_name=profile_information["displayName"],
-            birthday=profile_information["birthday"],
-            gender=profile_information["gender"],
-            location=profile_information["location"],
+            user,
+            profile_information["display_name"],
+            profile_information["birthday"],
+            profile_information["gender"],
+            profile_information["location"],
         )
-    except Exception as e:
-        print(e)
+    except:
         return jsonify({"update": False, "response": "Invalid user input"})
     if (
-        user_detail_collection.account_details.find_one(
-            {"email": user_email}, {"email": 1}
-        )
+        user_detail_collection.account_details.find_one({"email": user}, {"email": 1})
         == None
     ):  # check if need to update profilwwwwwe or create new profile
-        #         output = jsonify({"login": True, "response": "User login successful"})
-        #         output.set_cookie("token", token)
-        #         return output
-        #     return jsonify({"login": False, "response": "Invalid or expired otp"})
-
-        # @account_page.route("/account/profile/update")
-        # @token_required()  # user is email registered
-        # def update_profile(user_email):
-        #     profile_information = request.get_json()
-        #     user_detail_collection = mongo_account_details_write.account_details
-        #     new_account_details = account.UserDetails(
-        #         user_email,
-        #         # profile_information["username"],
-        #         profile_information["birthday"],
-        #         profile_information["location"],
-        #     )
-        #     if (
-        #         user_detail_collection.account_details.find_one(
-        #             {"email": user_email}, {"email": 1}
-        #         )
-        #         == None
-        #     ):  # check if need to update profile or create new profile
         user_detail_collection.account_details.insert_one(new_account_details.__dict__)
         return jsonify(
             {"update": True, "response": "User account details has been created"}
@@ -354,43 +331,149 @@ def update_profile(user_email):
     else:
         new_values = {
             "$set": {
-                "username": profile_information["displayName"],
+                "display_name": profile_information["display_name"],
                 "gender": profile_information["gender"],
                 "birthday": profile_information["birthday"],
                 "location": profile_information["location"],
             }
         }
         user_detail_collection.account_details.update_one(
-            {"update": user_email}, update=new_values
+            {"email": user}, update=new_values
         )
         return jsonify({"update": True, "response": "User details has been updated"})
 
-        # user_detail_collection.account_details.update_one({})
-        # return jsonify(
-        #     {"create": False, "response": "User details has already been created"}
-        # )
+
+@account_page.route("/account/profile/update/display_pic", methods=["POST", "GET"])
+@token_required()
+def update_display_pic(user):
+    def compare_hash(hash, file):
+        import hashlib
+        import base64
+
+        text = base64.b64encode(file.read())
+        encoded_text = text.decode("utf-8").encode("utf-8")
+        hash_object = hashlib.sha512(encoded_text)
+        hex_dig = hash_object.hexdigest()
+        print(hex_dig == hash)
+
+    try:
+        hash = request.form.get("hash")
+        print(hash)
+        user_detail_collection = mongo_account_details_write.account_details
+        display_pic = request.files["display_pic"]
+        compare_hash(hash, display_pic)
+        new_account_details = account.UserDetails(user, "", "", "", "")
+    except Exception as e:
+        print(e)
+        return jsonify({"update": False, "response": "Invalid user input"})
+    if (
+        user_detail_collection.account_details.find_one({"email": user}, {"email": 1})
+        == None
+    ):  # check if need to update profile or create new profile
+        user_detail_collection.account_details.insert_one(new_account_details.__dict__)
+        return jsonify(
+            {
+                "update": True,
+                "response": "display_pic was updated and empty user details was created",
+            }
+        )
+    else:
+        encoded_display_pic = display_pic.read()
+        new_values = {"$set": {"display_pic": encoded_display_pic}}
+        user_detail_collection.account_details.update_one(
+            {"email": user}, update=new_values
+        )
+        return jsonify(
+            {"update": True, "response": "User display_pic has been updated"}
+        )
+
+
+@account_page.route("/account/profile/update/profile_pic", methods=["POST", "GET"])
+@token_required()
+def update_profile_pic(user):
+    try:
+        user_detail_collection = mongo_account_details_write.account_details
+        profile_pic = request.files["profile_pic"]
+        new_account_details = account.UserDetails(user, "", "", "", "")
+    except:
+        return jsonify({"update": False, "response": "Invalid user input"})
+    if (
+        user_detail_collection.account_details.find_one({"email": user}, {"email": 1})
+        == None
+    ):  # check if need to update profile or create new profile
+        user_detail_collection.account_details.insert_one(new_account_details.__dict__)
+        return jsonify(
+            {
+                "update": True,
+                "response": "profile_pic was updated and empty user details was created",
+            }
+        )
+    else:
+        encoded_profile_pic = profile_pic.read()
+        new_values = {"$set": {"profile_pic": encoded_profile_pic}}
+        user_detail_collection.account_details.update_one(
+            {"email": user}, update=new_values
+        )
+        return jsonify(
+            {"update": True, "response": "User profile_pic has been updated"}
+        )
 
 
 @account_page.route("/account/profile")
 @token_required()
-def profile(user_email):
-    user_detail_collection = mongo_account_details_write.account_details
-    account_details = user_detail_collection.account_details.find_one(
-        {"email": user_email}
-    )
-    if account_details == None:
-        return jsonify(
-            {"read": False, "response": "User details has not been created yet"}
+def profile(user):
+    try:
+        user_detail_collection = mongo_account_details_write.account_details
+        account_details = user_detail_collection.account_details.find_one(
+            {"email": user}
         )
-    else:
         account_details["_id"] = str(account_details["_id"])
+        display_pic = base64.b64encode(account_details["display_pic"]).decode("utf-8")
+        profile_pic = base64.b64encode(account_details["profile_pic"]).decode("utf-8")
+        account_details["display_pic"] = display_pic
+        account_details["profile_pic"] = profile_pic
         return jsonify({"read": True, "response": account_details})
+    except Exception as e:
+        return jsonify(
+            {"read": False, "response": f"Error retrieving user profile: {e}"}
+        )
 
 
-# @account_page.route("/account/email")
-# def test_email():
-#     mail = Mail(app)
-#     msg = Message('Hello from the other side!', sender =   'lovelace.dating@gmail.com', recipients = ['joel.lim04@gmail.com'])
-#     msg.body = "Hey Paul, sending you this email from my Flask app, lmk if it works"
-#     mail.send(msg)
-#     return "Message sent!"
+@account_page.route("/account/request_list")
+@token_required()
+def request_lst(user):
+    request_collection = mongo_chat_request_read.account_details
+    try:
+        user_request_lst = request_collection.chat_request.find_one(
+            {"email": user}, {"request": 1}
+        )["request"]
+    except KeyError:
+        return jsonify({"response": "chat request list cannot be found"})
+    except db_errors.OperationFailure:
+        return jsonify({"Invalid database operation"})
+    return jsonify(user_request_lst)
+
+
+@account_page.route("/account/request_list/accept")
+@token_required()
+def accept_request(user):
+    target_user_json = request.get_json()
+    try:
+        target_email = target_user_json["target_email"]
+    except KeyError:
+        return jsonify({"response": "Invalid input was sent"})
+    request_collection = mongo_chat_request_write.account_details
+    if request_collection.chat_request.find_one({"email": user}) != None:
+        follow_lst = request_collection.chat_request.find_one(
+            {"email": user}, {"request": 1}
+        )["request"]
+        for users in follow_lst:
+            if users["target"] == target_email:
+                new_values = {
+                    "$set": {"request": {"target": target_email, "approved": True}}
+                }
+                request_collection.chat_request.update_one(
+                    {"email": user}, update=new_values
+                )
+                return jsonify({"response": "Chat request was approved"})
+    return jsonify({"reponse": "Target user cannot be found in follow list"})

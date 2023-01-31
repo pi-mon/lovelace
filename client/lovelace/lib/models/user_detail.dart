@@ -4,8 +4,8 @@ class UserDetails {
   final String birthday;
   final String gender;
   final String location;
-  final String profilePicPath;
-  final String displayPicPath;
+  final String profilePic;
+  final String displayPic;
 
   UserDetails(
       {required this.email,
@@ -13,29 +13,29 @@ class UserDetails {
       required this.birthday,
       required this.gender,
       required this.location,
-      required this.profilePicPath,
-      required this.displayPicPath});
+      required this.profilePic,
+      required this.displayPic});
 
   UserDetails.fromJson(Map<String, dynamic> json)
       : email = json['email'],
-        displayName = json['displayName'],
+        displayName = json['display_name'],
         birthday = json['birthday'],
         gender = json['gender'],
         location = json['location'],
-        profilePicPath = json['profilePic'] ?? "",
-        displayPicPath = json['displayPic'] ?? "";
+        profilePic = json['profile_pic'] ?? "",
+        displayPic = json['display_pic'] ?? "";
 
   Map<String, dynamic> toJson() => {
         'email': email,
-        'displayName': displayName,
+        'display_name': displayName,
         'birthday': birthday,
         'gender': gender,
         'location': location,
-        'profilePicPath': profilePicPath,
-        'displayPicPath': displayPicPath,
+        'profile_pic': profilePic,
+        'display_pic': displayPic,
       };
 
   @override
   String toString() =>
-      'UserDetails{email: $email, displayName: $displayName, birthday: $birthday, location: $location, gender: $gender, profilePicPath: $profilePicPath, displayPicPath: $displayPicPath}';
+      'UserDetails{email: $email, displayName: $displayName, birthday: $birthday, location: $location, gender: $gender, profilePic: $profilePic, displayPic: $displayPic}';
 }

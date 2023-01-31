@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 from flask_socketio import SocketIO
@@ -7,6 +7,9 @@ import certifi
 import os
 from lovelace.logger import setup_logger
 import dotenv
+from prometheus_flask_exporter import PrometheusMetrics
+
+import flask_monitoringdashboard as dashboard
 
 dotenv.load_dotenv()
 ca = certifi.where()
@@ -29,6 +32,15 @@ mongo_temp_write = pymongo.MongoClient(
 mongo_temp_read = pymongo.MongoClient(
     host=os.environ.get("MONGO_URI_TEMP_USER_READ"), tlsCAFile=ca
 )
+mongo_chat_write = pymongo.MongoClient(
+    host=os.environ.get("MONGO_URI_CHAT_WRITE"), tlsCAFile=ca
+)
+mongo_chat_request_write = pymongo.MongoClient(
+    host=os.environ.get("MONGO_URI_USER_CHAT_REQUEST_WRITE"), tlsCAFile=ca
+)
+mongo_chat_request_read = pymongo.MongoClient(
+    host=os.environ.get("MONGO_URI_USER_CHAT_REQUEST_READ"), tlsCAFile=ca
+)
 
 root_logger = setup_logger("")
 account_logger = setup_logger("account")
@@ -38,7 +50,18 @@ recommendation_logger = setup_logger("recommendation")
 
 
 app = Flask(__name__)
+metrics = PrometheusMetrics(app)
+metrics.register_default(
+    metrics.counter(
+        'by_path_counter', 'Request count by request paths',
+        labels={'path': lambda: request.path}
+    )
+)
 app.config.from_pyfile("config.py")
+
+dashboard.config.init_from(file="monitor/config.cfg")
+dashboard.bind(app)
+
 limiter = Limiter(app, key_func=get_remote_address, default_limits=["50 per minute"])
 socketio = SocketIO(app, cors_allowed_origins=["127.0.0.1", "10.0.2.2"])
 
@@ -46,10 +69,10 @@ from lovelace.account.routes import account_page
 from lovelace.recommendation.routes import recommendation
 from lovelace.chat.routes import chat
 from lovelace.logger.routes import logs
-from lovelace.admin.routes import admin_page
+from lovelace.admin.routes import admin
 
 app.register_blueprint(account_page)
 app.register_blueprint(recommendation)
 app.register_blueprint(chat)
 app.register_blueprint(logs)
-app.register_blueprint(admin_page)
+app.register_blueprint(admin)

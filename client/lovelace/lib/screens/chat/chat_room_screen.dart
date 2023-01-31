@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:lovelace/models/user.dart';
 import 'package:lovelace/models/user_detail.dart';
 import 'package:lovelace/resources/storage_methods.dart';
 
@@ -18,31 +17,31 @@ class ChatRoomScreen extends StatefulWidget {
 }
 
 class _ChatRoomScreenState extends State<ChatRoomScreen> {
-  UserDetails receiverUserDetails = UserDetails(
+  UserDetails senderUserDetails = UserDetails(
     email: "lgf2111@gmail.com",
     displayName: "Lee Guan Feng",
     birthday: "21-11-2004",
     gender: "Male",
     location: "Singapore",
-    profilePicPath: "",
-    displayPicPath: "",
+    profilePic: "",
+    displayPic: "",
   );
-  UserDetails senderUserDetails = UserDetails(
+  UserDetails receiverUserDetails = UserDetails(
     email: "213587x@gmail.com",
     displayName: "Paimon",
     birthday: "01-01-2001",
     gender: "Female",
     location: "Singapore",
-    profilePicPath: "",
-    displayPicPath: "",
+    profilePic: "",
+    displayPic: "",
   );
   String keyName = "";
-
   StreamingSharedPreferences? preferences;
   Preference<String>? content;
   String initialData = "[]";
 
   ChatStreamSocket chatStreamSocket = ChatStreamSocket();
+  StorageMethods storageMethods = StorageMethods();
 
   TextEditingController messageController = TextEditingController();
 
@@ -52,24 +51,25 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
     setState(() {
       initialData = content!.getValue();
     });
+    print(initialData); // returns the messages in the chat
   }
 
-  getReceiverUserDetails() async {
-    dynamic receiverUserDetailsJson =
-        await StorageMethods().read("userDetails");
-    receiverUserDetails =
-        UserDetails.fromJson(json.decode(receiverUserDetailsJson));
+  getSenderUserDetails() async {
+    dynamic senderUserDetailsJson = await storageMethods.read("userDetails");
+    senderUserDetails =
+        UserDetails.fromJson(json.decode(senderUserDetailsJson));
   }
 
   _ChatRoomScreenState() {
-    getReceiverUserDetails();
+    getSenderUserDetails();
     List<String> emails = <String>[
       senderUserDetails.email,
       receiverUserDetails.email
     ];
     emails.sort();
     keyName = "${emails[0]}&${emails[1]}";
-    connectAndListen(keyName, senderUserDetails.displayName);
+    connectAndListen(
+        senderUserDetails.email, receiverUserDetails.email, keyName);
     getContent();
   }
 
@@ -77,7 +77,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
   void dispose() {
     super.dispose();
     messageController.dispose();
-    disconnect(keyName, senderUserDetails.displayName);
+    disconnect(senderUserDetails.email, receiverUserDetails.email, keyName);
   }
 
   dynamic chatMessages() {
@@ -129,12 +129,16 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
       oldContent.add(chatMessageMap);
       String newContent = json.encode(oldContent);
       content!.setValue(newContent);
-
+      print('newContent: $newContent');
       chatMessageMap.addAll({
         "room": keyName,
       });
 
-      sendingMessage(chatMessageMap);
+      print(content);
+      sendingMessage(
+          chatMessageMap, senderUserDetails.email, receiverUserDetails.email);
+      storageMethods.write("message", newContent);
+      // storageMethods.read("message");
       setState(() {
         messageController.clear();
       });

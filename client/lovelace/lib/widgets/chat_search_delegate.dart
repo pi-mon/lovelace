@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:lovelace/models/user_detail.dart';
 import 'package:lovelace/screens/chat/chat_room_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 
-class MySearchDelegate extends SearchDelegate {
-  List<String> searchResults = [
-    'Sarah',
-    'John',
-    'Adam',
-    'Tom',
-    'Ryan'
-  ]; // contain the list of contacts the user has chats with
+class ChatSearchDelegate extends SearchDelegate {
+  final List<UserDetails> userDetailsList;
+  ChatSearchDelegate(this.userDetailsList);
+
   @override
   Widget? buildLeading(BuildContext context) => IconButton(
       onPressed: () {
@@ -39,21 +36,22 @@ class MySearchDelegate extends SearchDelegate {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    List<String> suggestions = searchResults.where((searchResult) {
-      final result = searchResult.toLowerCase();
-      final input = query.toLowerCase();
+    List<UserDetails> userDetailsListSearched = userDetailsList.where((value) {
+      String searchResult = value.displayName;
+      String result = searchResult.toLowerCase();
+      String input = query.toLowerCase();
       return result.contains(input);
     }).toList();
 
     return ListView.builder(
-      itemCount: suggestions.length,
+      itemCount: userDetailsListSearched.length,
       itemBuilder: (context, index) {
-        final suggestion = suggestions[index];
+        UserDetails userDetails = userDetailsListSearched[index];
         return ListTile(
-          title: Text(suggestion),
+          title: Text(userDetails.displayName),
           onTap: () {
-            query = suggestion;
-            debugPrint(query);
+            query = userDetails.displayName;
+            print(query);
             Navigator.push(
                 context,
                 MaterialPageRoute(

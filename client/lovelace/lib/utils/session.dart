@@ -1,12 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:lovelace/models/user_detail.dart';
 import 'package:lovelace/resources/storage_methods.dart';
 import 'package:lovelace/utils/global_variables.dart';
-import 'package:socket_io_client/socket_io_client.dart' as socket_io;
+import 'package:crypto/crypto.dart';
 
 class Session {
   final _storageMethods = StorageMethods();
@@ -20,36 +17,41 @@ class Session {
     if (cookie != null) {
       headers[HttpHeaders.cookieHeader] = cookie;
     }
+
     http.Response response =
-        await http.get(Uri.http(_baseUrl, route), headers: headers);
+        await http.get(Uri.https(_baseUrl, route), headers: headers);
     updateCookie(response);
     checkTokenExpired(response);
     return response.body;
   }
 
   Future<String> post(String route, dynamic data,
-      {List<Map<String, String>>? filesMap}) async {
-    dynamic cookie = await _storageMethods.read("cookie") ?? "";
+      {bool isFilePath = false}) async {
+    dynamic cookie = await _storageMethods.read("cookie");
 
-    if (filesMap != null) {
-      headers[HttpHeaders.contentTypeHeader] = 'multipart/form-data';
+    if (cookie != null) {
       headers[HttpHeaders.cookieHeader] = cookie;
+    }
+
+    if (isFilePath) {
+      String fileBase64 = base64.encode(File(data[1]).readAsBytesSync());
+      print(fileBase64);
+      String hash = sha512.convert(utf8.encode(fileBase64)).toString();
+      print(hash);
+      headers[HttpHeaders.contentTypeHeader] = 'multipart/form-data';
       http.MultipartRequest request =
-          http.MultipartRequest("POST", Uri.http(_baseUrl, route));
+          http.MultipartRequest("POST", Uri.https(_baseUrl, route));
       request.headers.addAll(headers);
       request.fields['payload'] = jsonEncode(data);
-      for (Map<String, String> fileMap in filesMap) {
-        request.files.add(await http.MultipartFile.fromPath(
-            fileMap["name"]!, fileMap["path"]!));
-      }
+      request.fields['hash'] = hash;
+      request.files.add(await http.MultipartFile.fromPath(data[0], data[1]));
       http.StreamedResponse response = await request.send();
       return response.stream.bytesToString();
     } else {
       headers[HttpHeaders.contentTypeHeader] =
           'application/json; charset=UTF-8';
-      headers[HttpHeaders.cookieHeader] = cookie;
 
-      http.Response response = await http.post(Uri.http(_baseUrl, route),
+      http.Response response = await http.post(Uri.https(_baseUrl, route),
           body: jsonEncode(data), headers: headers);
       updateCookie(response);
       checkTokenExpired(response);
@@ -67,19 +69,18 @@ class Session {
     }
   }
 
-  bool checkTokenExpired(http.Response response) {
+  void checkTokenExpired(http.Response response) {
     String responseBody = response.body;
     try {
       dynamic responseJson = json.decode(responseBody);
       if (responseJson['message'] == "Token has expired !!") {
-        _storageMethods.delete("isLoggedIn");
-        _storageMethods.delete("isFTL");
-        _storageMethods.delete("cookie");
-        return true;
+        List<String> deleteList = ["isLoggedIn", "isFTL", "cookie"];
+        for (String key in deleteList) {
+          _storageMethods.delete(key);
+        }
       }
     } catch (e) {
       print(e);
     }
-    return false;
   }
 }

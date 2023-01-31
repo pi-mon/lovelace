@@ -100,20 +100,20 @@ class _InitDisplayPicScreenState extends State<InitDisplayPicScreen> {
                     ),
                     Container(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 32, vertical: 32),
+                          horizontal: 32, vertical: 28),
                       child: GestureDetector(
                         onTap: () async {
                           XFile? image = await _picker.pickImage(
                               source: ImageSource.gallery);
                           if (image != null) {
                             setState(() {
-                              print("setstate done");
+                              // print("setstate done");
                               _image = File(image.path);
                             });
                           }
                         },
                         child: DisplayCard(
-                            image: _image!,
+                            image: Image.file(_image!).image,
                             name: widget.displayName,
                             age: age,
                             location: widget.location),
@@ -145,24 +145,26 @@ class _InitDisplayPicScreenState extends State<InitDisplayPicScreen> {
                             //     await widget.profilePic.readAsBytes();
                             // Uint8List displayPicData =
                             //     await _image!.readAsBytes();
-                            // print('before update function');
                             UserDetails userDetails = UserDetails(
-                                email: await StorageMethods().read("email"),
-                                displayName: widget.displayName,
-                                birthday: widget.birthday,
-                                gender: widget.gender,
-                                location: widget.location,
-                                profilePicPath: widget.profilePic.path,
-                                displayPicPath: _image!.path);
+                              email: await StorageMethods().read("email") ?? "",
+                              displayName: widget.displayName,
+                              birthday: widget.birthday,
+                              gender: widget.gender,
+                              location: widget.location,
+                              profilePic: widget.profilePic.path,
+                              displayPic: _image!.path,
+                            );
                             List response = await _accountMethods.update(
                                 userDetails: userDetails);
                             bool isSuccess = response[2];
                             if (isSuccess) {
+                              // String output = response[0];
+                              StorageMethods().delete("isFTL");
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          InitCompleteScreen()));
+                                          const InitCompleteScreen()));
                             }
                           },
                           style: ElevatedButton.styleFrom(

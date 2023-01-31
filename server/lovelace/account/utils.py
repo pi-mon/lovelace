@@ -27,7 +27,9 @@ def token_required(need_authenticated=True, database=mongo_account_read.account.
                 token = request.cookies.get("token")
             # return 401 if token is not passed
             if not token:
-                return jsonify({"message": "Token is missing !!"}), 401
+                message = "Token is missing !!"
+                print(message)
+                return jsonify({"message": message}), 401
 
             try:
                 # decoding the payload to fetch the stored details
@@ -47,7 +49,9 @@ def token_required(need_authenticated=True, database=mongo_account_read.account.
                     )
                 current_user = current_user["email"]
             except jwt.ExpiredSignatureError:
-                return jsonify({"message": "Token has expired !!"}), 401
+                message = "Token has expired !!"
+                print(message)
+                return jsonify({"message": message}), 401
             except db_errors.OperationFailure:
                 return jsonify({"message": "Disallowed database operation"})
             except:

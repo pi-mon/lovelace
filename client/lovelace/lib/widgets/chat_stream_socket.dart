@@ -22,7 +22,8 @@ class ChatStreamSocket {
 ChatStreamSocket streamSocket = ChatStreamSocket();
 
 //STEP2: Add this function in main function in main.dart file and add incoming data to the stream
-void connectAndListen(String keyName, String senderName) async {
+void connectAndListen(
+    String senderName, String receiverName, String keyName) async {
   dynamic cookie = await StorageMethods().read("cookie");
   String baseUrl = checkDevice();
   StreamingSharedPreferences preferences =
@@ -38,7 +39,7 @@ void connectAndListen(String keyName, String senderName) async {
       }).build());
 
   socket.onConnect((_) {
-    socket.emit('join', {"room": keyName, "username": senderName});
+    socket.emit('join', {"user1": senderName, "user2": receiverName});
   });
 
   socket.on('sent', (data) {
@@ -56,17 +57,13 @@ void connectAndListen(String keyName, String senderName) async {
   });
 
   socket.onDisconnect((_) {
-    socket.emit('leave', {"room": keyName, "username": senderName});
+    socket.emit('leave', {"user1": senderName, "user2": receiverName});
   });
 }
 
-void disconnect(String keyName, String senderName) async {
+void disconnect(String senderName, String receiverName, String keyName) async {
   dynamic cookie = await StorageMethods().read("cookie");
   String baseUrl = checkDevice();
-  StreamingSharedPreferences preferences =
-      await StreamingSharedPreferences.instance;
-  Preference<String> content =
-      preferences.getString(keyName, defaultValue: "[]");
 
   socket_io.Socket socket = socket_io.io(
       Uri.http(baseUrl, '/chat').toString(),
@@ -75,11 +72,12 @@ void disconnect(String keyName, String senderName) async {
         HttpHeaders.cookieHeader: cookie
       }).build());
 
-  socket.emit('leave', {"room": keyName, "username": senderName});
+  socket.emit('leave', {"user1": senderName, "user2": receiverName});
   socket.disconnect();
 }
 
-void sendingMessage(dynamic chatMessageMap) async {
+void sendingMessage(
+    dynamic chatMessageMap, String senderEmail, String receiverEmail) async {
   dynamic cookie = await StorageMethods().read("cookie");
   String baseUrl = checkDevice();
 
@@ -90,7 +88,11 @@ void sendingMessage(dynamic chatMessageMap) async {
         HttpHeaders.cookieHeader: cookie
       }).build());
 
-  socket.emit('sent', chatMessageMap);
+  socket.emit('sent', {
+    "message": chatMessageMap,
+    "user1": senderEmail,
+    "user2": receiverEmail
+  });
   // print(chatMessageMap);
 }
 

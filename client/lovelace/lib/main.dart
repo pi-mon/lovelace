@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
@@ -11,16 +10,6 @@ import 'package:lovelace/screens/user/initialise/init_display_name_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:flutter/services.dart';
 import 'package:screen_capture_event/screen_capture_event.dart';
-import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
-
-class MyAppSettings {
-  MyAppSettings(StreamingSharedPreferences preferences)
-      : content = preferences.getCustomValue('content',
-            defaultValue: 0,
-            adapter: JsonAdapter(serializer: (value) => value));
-
-  final Preference<dynamic> content;
-}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -56,15 +45,19 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   final ScreenCaptureEvent screenCaptureEvent = ScreenCaptureEvent();
+  bool isJailBroken = false;
+  bool canMockLocation = false;
+  bool isRealDevice = true;
+  bool isOnExternalStorage = false;
+  bool isSafeDevice = false;
+  bool isDevelopmentModeEnable = false;
 
   @override
   void initState() {
     screenCaptureEvent.watch();
     screenCaptureEvent.preventAndroidScreenShot(true);
     WidgetsBinding.instance.addObserver(this);
-    screenShotRecord();
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
   }
 
   @override
@@ -77,21 +70,12 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
-    if (state == AppLifecycleState.detached) return;
-
-    if (state == AppLifecycleState.inactive) {
-      debugPrint('App in background - $state');
-    } else {
-      debugPrint('App in foreground - $state');
+    if (state == AppLifecycleState.detached)
+      return;
+    else if (state == AppLifecycleState.resumed) {
+      // prompt user to do biometrics
     }
-  }
-
-  Future<void> screenShotRecord() async {
-    bool isSecureMode = false;
-    setState(() {
-      isSecureMode = !isSecureMode;
-    });
-    print('secure mode: $isSecureMode');
+    print(state.toString());
   }
 
   @override
@@ -109,7 +93,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     } else {
       home = widget._userPages;
     }
-    // home = widget._userPages;
+
     MaterialApp materialApp = MaterialApp(
         debugShowCheckedModeBanner: true,
         title: 'Lovelace',
@@ -118,5 +102,3 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     return materialApp;
   }
 }
-
-enum Swipe { left, right, none }
