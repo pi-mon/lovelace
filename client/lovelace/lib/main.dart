@@ -93,6 +93,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     } else {
       home = widget._userPages;
     }
+    home = LandingScreen();
 
     MaterialApp materialApp = MaterialApp(
         debugShowCheckedModeBanner: true,
