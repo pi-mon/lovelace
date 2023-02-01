@@ -1,3 +1,5 @@
 .DS_Store
 .env
 server/lovelace/account/__pycache__
+*.pem
+*.pyc
