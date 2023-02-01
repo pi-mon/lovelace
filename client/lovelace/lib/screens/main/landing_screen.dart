@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:location_permissions/location_permissions.dart';
+import 'package:lovelace/resources/storage_methods.dart';
 import 'package:lovelace/resources/user_state_methods.dart';
 import 'package:lovelace/screens/user/login/login_screen.dart';
 import 'package:lovelace/utils/colors.dart';
@@ -23,6 +26,7 @@ class LandingScreen extends StatefulWidget {
 
 class _LandingScreenState extends State<LandingScreen> {
   final LocalAuthentication auth = LocalAuthentication();
+  final StorageMethods storageMethods = StorageMethods();
 
   _SupportState _supportState = _SupportState.unknown;
   bool? _canCheckBiometrics;
@@ -170,10 +174,12 @@ class _LandingScreenState extends State<LandingScreen> {
     if (_supportState == _SupportState.supported) {
       return MaterialButton(
         onPressed: () async {
-          SharedPreferences sharedPreferences =
-              await SharedPreferences.getInstance();
-          bool? isLoggedIn = sharedPreferences.getBool('isLoggedIn');
-
+          // SharedPreferences sharedPreferences =
+          //     await SharedPreferences.getInstance();
+          // bool? isLoggedIn = sharedPreferences.getBool('isLoggedIn');
+          final bool isLoggedIn =
+              json.decode(await storageMethods.read('isLoggedIn') ?? 'false');
+          print("isLoggedIn: $isLoggedIn");
           if (isLoggedIn == null || !isLoggedIn) {
             ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
               content: Text("Login once to enable biometrics"),
