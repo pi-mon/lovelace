@@ -227,7 +227,7 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
                           backgroundColor: primaryColor,
                         ),
                         child: !_isLoading
-                            ? const Text("Sign Up",
+                            ? const Text("Next",
                                 style: TextStyle(
                                     fontSize: 18,
                                     color: whiteColor,

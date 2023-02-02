@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lovelace/resources/authenticate_methods.dart';
 import 'package:lovelace/resources/user_state_methods.dart';
-import 'package:lovelace/screens/user/register/register_pin_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:lovelace/widgets/text_field_input.dart';
 

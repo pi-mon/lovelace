@@ -9,14 +9,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "52.0.0"
-  aes_crypt:
+  aes_crypt_null_safe:
     dependency: "direct main"
     description:
-      name: aes_crypt
-      sha256: "3558fac4527b4d0844e26023345146d5acee4dd9423ded2541f70f41a45d7560"
+      name: aes_crypt_null_safe
+      sha256: f73e782400d54056de2cbf3cb50f680d8fc1328ce59eb9749ec94c080ea4ec0d
       url: "https://pub.dev"
     source: hosted
-    version: "0.1.1"
+    version: "2.0.2"
   age_calculator:
     dependency: "direct main"
     description:
@@ -1254,5 +1254,5 @@ packages:
     source: hosted
     version: "3.1.1"
 sdks:
-  dart: ">=2.18.5 <3.0.0"
+  dart: ">=2.18.5 <4.0.0"
   flutter: ">=3.0.0"

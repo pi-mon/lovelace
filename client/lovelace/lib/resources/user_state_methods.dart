@@ -1,5 +1,6 @@
 import 'dart:convert';
-import 'package:aes_crypt/aes_crypt.dart';
+import 'dart:typed_data';
+import 'package:aes_crypt_null_safe/aes_crypt_null_safe.dart';
 import 'package:flutter/material.dart';
 import 'package:lovelace/models/user_detail.dart';
 import 'package:lovelace/resources/account_methods.dart';
@@ -25,18 +26,24 @@ class UserStateMethods {
       UserDetails userDetails =
           UserDetails.fromJson(json.decode(output)["response"]);
       print(userDetails);
-      // var crypt = AesCrypt(pin); // initizlize encrypter
-      // final emailPlainText = userDetails.email;
-      // final passwordPlainText = userDetails.password;
+      var crypt = AesCrypt(pin); // initizlize encrypter
+      String emailPlainText = userDetails.email;
+      String passwordPlainText = userDetails.password;
 
-      // dynamic emailCipher = crypt.aesEncrypt();
-      // dynamic passwordCipher = crypt.aesEncrypt();
+      // encode and encrypt the email and password
+      dynamic emailCipher = crypt.aesEncrypt(Uint8List.fromList(emailPlainText.codeUnits));
+      dynamic passwordCipher = crypt.aesEncrypt(Uint8List.fromList(passwordPlainText.codeUnits));
+      print(emailCipher);
+      print(passwordCipher);
+      
+      // userDetails.email = emailCipher;
+      // userDetails.password = passwordCipher;
 
       _storageMethods.write("userDetails", userDetails);
 
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => userPages));
-      // TODO: Delete pin from SS
+      storageMethods.delete("pin"); // delete pin from secure storage after encrypting data
     } else {
       // is user is not registered yet
       Navigator.of(context).pushAndRemoveUntil(

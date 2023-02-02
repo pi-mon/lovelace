@@ -126,9 +126,6 @@ class _RegisterPinScreenState extends State<RegisterPinScreen> {
                             );
                             return;
                           }
-                          // * Should store pin temporarily in SS for validation when logging in later.
-                          // storageMethods.write("pin", pin);
-                          // * Can delete pin from SS after using it to encrypt email & password.
                           setState(() {
                             _isLoading = false;
                           });
