@@ -7,9 +7,8 @@ import 'package:lovelace/widgets/text_field_input.dart';
 class LoginVerifyScreen extends StatefulWidget {
   final String email;
   final String password;
-  final String pin;
   const LoginVerifyScreen(
-      {super.key, required this.email, required this.password, required this.pin});
+      {super.key, required this.email, required this.password});
 
   @override
   State<LoginVerifyScreen> createState() =>
@@ -138,8 +137,6 @@ class _LoginVerifyScreenState extends State<LoginVerifyScreen> {
                         ));
 
                         if (isSuccess) {
-                          // * Store the pin in SS to retrieve later when encrypting the email and password in loginState. Will delete later.
-                          storageMethods.write("pin", widget.pin);
                           UserStateMethods().loginState(context); 
                           // Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPinScreen()));
                         }

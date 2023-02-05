@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lovelace/resources/authenticate_methods.dart';
-import 'package:lovelace/screens/user/login/login_pin.dart';
-import 'package:lovelace/screens/user/register/register_details_screen.dart';
+import 'package:lovelace/screens/user/login/login_verify_screen.dart';
+import 'package:lovelace/screens/user/register/register_email_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:lovelace/widgets/text_field_input.dart';
 
@@ -110,7 +110,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ?.unfocus(); // closes keyboard on login
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) {
-                        return const RegisterDetailsScreen();
+                        return const RegisterEmailScreen();
                       }));
                     },
                     child: Row(
@@ -174,7 +174,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => LoginPinScreen(
+                                builder: (context) => LoginVerifyScreen(
                                       email: email,
                                       password: password,
                                     )),

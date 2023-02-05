@@ -37,7 +37,7 @@ void main() async {
     // do something
     print('test');
     dynamic chatDataJson = await StorageMethods().read("message");
-    print(chatDataJson.runtimeType); // returns Future<dynamic>
+    // print(chatDataJson.runtimeType); // returns Future<dynamic>
     dynamic chatDataString = jsonDecode(chatDataJson);
     BackupMethods().writeJsonFile(chatDataString);
   });
@@ -80,20 +80,20 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     super.dispose();
   }
 
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    super.didChangeAppLifecycleState(state);
-    if (state == AppLifecycleState.resumed ||
-        state == AppLifecycleState.inactive) {
-      print(state);
-      final navigator = _navigatorKey.currentState;
-      if (navigator == null) return;
-      navigator
-          .push(MaterialPageRoute(builder: (context) => const LockVerifyScreen()));
-    } else {
-      return;
-    }
-  }
+  // @override
+  // void didChangeAppLifecycleState(AppLifecycleState state) {
+  //   super.didChangeAppLifecycleState(state);
+  //   if (state == AppLifecycleState.resumed ||
+  //       state == AppLifecycleState.inactive) {
+  //     print(state);
+  //     final navigator = _navigatorKey.currentState;
+  //     if (navigator == null) return;
+  //     navigator
+  //         .push(MaterialPageRoute(builder: (context) => const LockVerifyScreen()));
+  //   } else {
+  //     return;
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -106,7 +106,8 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     if (!widget.isLoggedIn) {
       home = const LandingScreen();
     } else if (widget.isFTL) {
-      home = const InitDisplayNameScreen();
+      // home = const InitDisplayNameScreen();
+      home = const LandingScreen();
     } else {
       home = widget._userPages;
       // home = const SetPinScreen();

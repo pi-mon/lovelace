@@ -4,14 +4,14 @@ import 'package:lovelace/screens/user/register/register_password_screen.dart';
 import 'package:lovelace/utils/colors.dart';
 import 'package:lovelace/widgets/text_field_input.dart';
 
-class RegisterDetailsScreen extends StatefulWidget {
-  const RegisterDetailsScreen({super.key});
+class RegisterEmailScreen extends StatefulWidget {
+  const RegisterEmailScreen({super.key});
 
   @override
-  State<RegisterDetailsScreen> createState() => _RegisterDetailsScreenState();
+  State<RegisterEmailScreen> createState() => _RegisterEmailScreenState();
 }
 
-class _RegisterDetailsScreenState extends State<RegisterDetailsScreen> {
+class _RegisterEmailScreenState extends State<RegisterEmailScreen> {
   final TextEditingController _emailController = TextEditingController();
 
   @override

@@ -16,7 +16,6 @@ class UserStateMethods {
   void loginState(BuildContext context) async {
     _storageMethods.write("isLoggedIn", true);
     List response = await _accountMethods.read();
-    String pin = await storageMethods.read("pin");
     String output = response[0];
     bool isSuccess = response[2];
     print(isSuccess);
@@ -26,26 +25,11 @@ class UserStateMethods {
       UserDetails userDetails =
           UserDetails.fromJson(json.decode(output)["response"]);
       print(userDetails);
-      var crypt = AesCrypt(pin); // initizlize encrypter
-      String emailPlainText = userDetails.email;
-      String passwordPlainText = userDetails.password;
-
-      // encode and encrypt the email and password
-      dynamic emailCipher = crypt.aesEncrypt(Uint8List.fromList(emailPlainText.codeUnits));
-      dynamic passwordCipher = crypt.aesEncrypt(Uint8List.fromList(passwordPlainText.codeUnits));
-      print(emailCipher);
-      print(passwordCipher);
-      
-      // userDetails.email = emailCipher;
-      // userDetails.password = passwordCipher;
-
       _storageMethods.write("userDetails", userDetails);
-
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => userPages));
       storageMethods.delete("pin"); // delete pin from secure storage after encrypting data
     } else {
-      // is user is not registered yet
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(
               builder: (context) => const InitDisplayNameScreen()),

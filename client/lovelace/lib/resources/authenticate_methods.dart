@@ -30,7 +30,7 @@ class AuthenticateMethods {
           if (outputJson['creation'] == true) {
             isSuccess = true;
             message = "Enter OTP to verify your account";
-            print(output);
+            // print(output);
           } else {
             message = outputJson['response'];
           }
