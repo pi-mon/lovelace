@@ -23,7 +23,7 @@ class LandingScreen extends StatefulWidget {
 class _LandingScreenState extends State<LandingScreen> {
   final LocalAuthentication auth = LocalAuthentication();
 
-  _SupportState _supportState = _SupportState.unknown;
+  _SupportState supportState = _SupportState.unknown;
   bool? _canCheckBiometrics;
   List<BiometricType>? _availableBiometrics;
   String _authorized = 'Not Authorized';
@@ -52,7 +52,7 @@ class _LandingScreenState extends State<LandingScreen> {
     });
   }
 
-  Future<void> _getAvailableBiometrics() async {
+  Future<void> getAvailableBiometrics() async {
     late List<BiometricType> availableBiometrics;
     try {
       availableBiometrics = await auth.getAvailableBiometrics();
@@ -69,7 +69,7 @@ class _LandingScreenState extends State<LandingScreen> {
     });
   }
 
-  Future<void> _authenticate() async {
+  Future<void> authenticate() async {
     bool authenticated = false;
     try {
       setState(() {
@@ -100,7 +100,7 @@ class _LandingScreenState extends State<LandingScreen> {
         () => _authorized = authenticated ? 'Authorized' : 'Not Authorized');
   }
 
-  Future<dynamic> _authenticateWithBiometrics() async {
+  Future<dynamic> authenticateWithBiometrics() async {
     bool authenticated = false;
     try {
       setState(() {
@@ -164,8 +164,8 @@ class _LandingScreenState extends State<LandingScreen> {
     });
   }
 
-  Widget get _biometricButton {
-    if (_supportState == _SupportState.supported) {
+  Widget biometricButton() {
+    if (supportState == _SupportState.supported) {
       return MaterialButton(
         onPressed: () async {
           SharedPreferences sharedPreferences =
@@ -177,7 +177,7 @@ class _LandingScreenState extends State<LandingScreen> {
               content: Text("Login once to enable biometrics"),
             ));
           } else {
-            String message = await _authenticateWithBiometrics();
+            String message = await authenticateWithBiometrics();
             bool isSuccess = message == 'Login Success!';
 
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -207,7 +207,7 @@ class _LandingScreenState extends State<LandingScreen> {
   void initState() {
     super.initState();
     auth.isDeviceSupported().then(
-          (bool isSupported) => setState(() => _supportState = isSupported
+          (bool isSupported) => setState(() => supportState = isSupported
               ? _SupportState.supported
               : _SupportState.unsupported),
         );
@@ -226,7 +226,7 @@ class _LandingScreenState extends State<LandingScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 32),
               width: double.infinity,
               child: (() {
-                if (_supportState == _SupportState.unknown) {
+                if (supportState == _SupportState.unknown) {
                   return const Center(
                     child: CircularProgressIndicator(),
                   );
@@ -259,7 +259,7 @@ class _LandingScreenState extends State<LandingScreen> {
                           ),
                         ),
                         const SizedBox(height: 128),
-                        _biometricButton,
+                        biometricButton(),
                         Flexible(
                           flex: 1,
                           child: Container(),
