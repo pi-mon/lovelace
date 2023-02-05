@@ -186,16 +186,6 @@ class _UpdateUserDetailsScreenState extends State<UpdateUserDetailsScreen> {
                   },
                 ),
                 const SizedBox(height: 16),
-                TextFieldInput(
-                  label: "Password",
-                  hintText: "Enter your password",
-                  textInputType: TextInputType.text,
-                  textEditingController: _newPasswordController,
-                  validator: (value) {
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 16),
                 DropdownFieldInput(
                   textEditingController: _newGenderController,
                   label: "Gender",
@@ -296,7 +286,6 @@ class _UpdateUserDetailsScreenState extends State<UpdateUserDetailsScreen> {
                       UserDetails userDetails = UserDetails(
                         email: email,
                         displayName: displayName,
-                        password: password,
                         gender: gender,
                         birthday: birthday,
                         location: location,

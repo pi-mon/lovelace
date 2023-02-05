@@ -17,7 +17,6 @@ class _ChatScreenState extends State<ChatListScreen> {
     UserDetails(
       email: "lgf2111@gmail.com",
       displayName: "Lee Guan Feng",
-      password: '',
       birthday: "21-11-2004",
       gender: "Male",
       location: "Singapore",
@@ -27,7 +26,6 @@ class _ChatScreenState extends State<ChatListScreen> {
     UserDetails(
       email: "213587x@gmail.com",
       displayName: "Paimon",
-      password: '',
       birthday: "01-01-2001",
       gender: "Female",
       location: "Singapore",

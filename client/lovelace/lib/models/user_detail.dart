@@ -1,7 +1,6 @@
 class UserDetails {
   final String email;
   final String displayName;
-  final String password;
   final String birthday;
   final String gender;
   final String location;
@@ -11,7 +10,6 @@ class UserDetails {
   UserDetails(
       {required this.email,
       required this.displayName,
-      required this.password,
       required this.birthday,
       required this.gender,
       required this.location,
@@ -21,7 +19,6 @@ class UserDetails {
   UserDetails.fromJson(Map<String, dynamic> json)
       : email = json['email'],
         displayName = json['display_name'],
-        password = json['password'],
         birthday = json['birthday'],
         gender = json['gender'],
         location = json['location'],
@@ -31,7 +28,6 @@ class UserDetails {
   Map<String, dynamic> toJson() => {
         'email': email,
         'display_name': displayName,
-        // 'password': password,
         'birthday': birthday,
         'gender': gender,
         'location': location,
@@ -41,5 +37,5 @@ class UserDetails {
 
   @override
   String toString() =>
-      'UserDetails{email: $email, displayName: $displayName, password: $password, birthday: $birthday, location: $location, gender: $gender, profilePic: $profilePic, displayPic: $displayPic}';
+      'UserDetails{email: $email, displayName: $displayName, birthday: $birthday, location: $location, gender: $gender, profilePic: $profilePic, displayPic: $displayPic}';
 }

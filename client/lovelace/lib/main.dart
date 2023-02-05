@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:lovelace/resources/account_methods.dart';
 import 'package:lovelace/resources/backup_methods.dart';
 import 'package:lovelace/resources/storage_methods.dart';
 import 'package:lovelace/responsive/mobile_screen_layout.dart';
@@ -57,6 +58,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
+  final StorageMethods storageMethods = StorageMethods();
   final ScreenCaptureEvent screenCaptureEvent = ScreenCaptureEvent();
   final _navigatorKey = GlobalKey<NavigatorState>();
   bool canMockLocation = false;
@@ -80,20 +82,21 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     super.dispose();
   }
 
-  // @override
-  // void didChangeAppLifecycleState(AppLifecycleState state) {
-  //   super.didChangeAppLifecycleState(state);
-  //   if (state == AppLifecycleState.resumed ||
-  //       state == AppLifecycleState.inactive) {
-  //     print(state);
-  //     final navigator = _navigatorKey.currentState;
-  //     if (navigator == null) return;
-  //     navigator
-  //         .push(MaterialPageRoute(builder: (context) => const LockVerifyScreen()));
-  //   } else {
-  //     return;
-  //   }
-  // }
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    Future isFTL = storageMethods.read("isFTL");
+    if (state == AppLifecycleState.resumed && isFTL == false ||
+        state == AppLifecycleState.inactive && isFTL == false) {
+      print(state);
+      final navigator = _navigatorKey.currentState;
+      if (navigator == null) return;
+      navigator
+          .push(MaterialPageRoute(builder: (context) => const LockVerifyScreen()));
+    } else {
+      return;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
