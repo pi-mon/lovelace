@@ -51,8 +51,9 @@ PODS:
     - Flutter
   - "location_permissions (3.0.0+1)":
     - Flutter
-  - path_provider_ios (0.0.1):
+  - path_provider_foundation (0.0.1):
     - Flutter
+    - FlutterMacOS
   - permission_handler_apple (9.0.4):
     - Flutter
   - safe_device (1.0.0):
@@ -63,8 +64,9 @@ PODS:
   - SDWebImage (5.14.3):
     - SDWebImage/Core (= 5.14.3)
   - SDWebImage/Core (5.14.3)
-  - shared_preferences_ios (0.0.1):
+  - shared_preferences_foundation (0.0.1):
     - Flutter
+    - FlutterMacOS
   - SwiftyGif (5.4.3)
   - url_launcher_ios (0.0.1):
     - Flutter
@@ -82,11 +84,11 @@ DEPENDENCIES:
   - image_picker_ios (from `.symlinks/plugins/image_picker_ios/ios`)
   - local_auth_ios (from `.symlinks/plugins/local_auth_ios/ios`)
   - location_permissions (from `.symlinks/plugins/location_permissions/ios`)
-  - path_provider_ios (from `.symlinks/plugins/path_provider_ios/ios`)
+  - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/ios`)
   - permission_handler_apple (from `.symlinks/plugins/permission_handler_apple/ios`)
   - safe_device (from `.symlinks/plugins/safe_device/ios`)
   - screen_capture_event (from `.symlinks/plugins/screen_capture_event/ios`)
-  - shared_preferences_ios (from `.symlinks/plugins/shared_preferences_ios/ios`)
+  - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/ios`)
   - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
   - webcrypto (from `.symlinks/plugins/webcrypto/ios`)
 
@@ -119,16 +121,16 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/local_auth_ios/ios"
   location_permissions:
     :path: ".symlinks/plugins/location_permissions/ios"
-  path_provider_ios:
-    :path: ".symlinks/plugins/path_provider_ios/ios"
+  path_provider_foundation:
+    :path: ".symlinks/plugins/path_provider_foundation/ios"
   permission_handler_apple:
     :path: ".symlinks/plugins/permission_handler_apple/ios"
   safe_device:
     :path: ".symlinks/plugins/safe_device/ios"
   screen_capture_event:
     :path: ".symlinks/plugins/screen_capture_event/ios"
-  shared_preferences_ios:
-    :path: ".symlinks/plugins/shared_preferences_ios/ios"
+  shared_preferences_foundation:
+    :path: ".symlinks/plugins/shared_preferences_foundation/ios"
   url_launcher_ios:
     :path: ".symlinks/plugins/url_launcher_ios/ios"
   webcrypto:
@@ -148,12 +150,12 @@ SPEC CHECKSUMS:
   image_picker_ios: b786a5dcf033a8336a657191401bfdf12017dabb
   local_auth_ios: 0d333dde7780f669e66f19d2ff6005f3ea84008d
   location_permissions: 7e0f9aa0f60deb8ff93ddf0e2a164c7e8197bc94
-  path_provider_ios: 14f3d2fd28c4fdb42f44e0f751d12861c43cee02
+  path_provider_foundation: 37748e03f12783f9de2cb2c4eadfaa25fe6d4852
   permission_handler_apple: 44366e37eaf29454a1e7b1b7d736c2cceaeb17ce
   safe_device: 4539eb6bdbeb4b61a763a51c4e73e6b37dea4e3d
   screen_capture_event: bcf965bb31968a51c08ad3698725c5ad8c597124
   SDWebImage: 9c36e66c8ce4620b41a7407698dda44211a96764
-  shared_preferences_ios: 548a61f8053b9b8a49ac19c1ffbc8b92c50d68ad
+  shared_preferences_foundation: 297b3ebca31b34ec92be11acd7fb0ba932c822ca
   SwiftyGif: 6c3eafd0ce693cad58bb63d2b2fb9bacb8552780
   url_launcher_ios: ae1517e5e344f5544fb090b079e11f399dfbe4d2
   webcrypto: 58dac29c85327d3d72a47d19d44128f10905f58e
