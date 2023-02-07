@@ -1,0 +1,6 @@
+[submodule "lovelace-server"]
+	path = lovelace-server
+	url = https://github.com/lgf2111/lovelace-server.git
+[submodule "lovelace-client"]
+	path = lovelace-client
+	url = https://github.com/lgf2111/lovelace-client.git
