@@ -1,0 +1,1 @@
+ssh -i "aws-ec2.pem" ubuntu@ec2-13-229-224-40.ap-southeast-1.compute.amazonaws.com
