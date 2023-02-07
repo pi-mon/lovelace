@@ -6,20 +6,20 @@
     "configurations": [
         {
             "name": "lovelace",
-            "cwd": "client/lovelace",
+            "cwd": "lovelace-client/lovelace",
             "request": "launch",
             "type": "dart"
         },
         {
             "name": "lovelace (profile mode)",
-            "cwd": "client/lovelace",
+            "cwd": "lovelace-client/lovelace",
             "request": "launch",
             "type": "dart",
             "flutterMode": "profile"
         },
         {
             "name": "lovelace (release mode)",
-            "cwd": "client/lovelace",
+            "cwd": "lovelace-client/lovelace",
             "request": "launch",
             "type": "dart",
             "flutterMode": "release"
