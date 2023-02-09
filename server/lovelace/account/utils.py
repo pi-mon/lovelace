@@ -34,9 +34,14 @@ def token_required(need_authenticated=True, database=mongo_account_read.account.
             try:
                 # decoding the payload to fetch the stored details
                 account_collection = database
-                data = jwt.decode(
+                try:
+                  data = jwt.decode(
                     token, environ.get("APPLICATION_SIGNATURE_KEY"), algorithms="HS256"
-                )
+                  )
+                except jwt.InvalidSignatureError:
+                  data = jwt.decode(
+                    token, environ.get("APPLICATION_SIGNATURE_KEY_TEMP"), algorithms="HS256"
+                  )
                 if data["request ip"] != request.remote_addr:
                     return jsonify("Mismatched request ip address !!")
                 current_user = account_collection.find_one({"email": data["email"]})
