@@ -18,6 +18,8 @@ def index():
 def rotate_key():
     # get random password pf length 8 with letters, digits, and symbols
     characters = string.ascii_letters + string.digits + string.punctuation
+    characters = characters.replace('"','')
+    characters = characters.replace("'","")
     key = ''.join(random.choice(characters) for i in range(256))
     os.environ["APPLICATION_SIGNATURE_KEY_TEMP"] = os.environ["APPLICATION_SIGNATURE_KEY"] #store key temp
     os.environ["APPLICATION_SIGNATURE_KEY"] = key
@@ -25,7 +27,7 @@ def rotate_key():
     set_key(dotenv_file,"APPLICATION_SIGNATURE_KEY_TEMP",os.environ.get("APPLICATION_SIGNATURE_KEY_TEMP"))
 
 sched = BackgroundScheduler(daemon=True)
-sched.add_job(rotate_key,'interval',hours=336) #reset every 2 weeks
+sched.add_job(rotate_key,'interval',seconds=5) #reset every 2 weeks
 sched.start()
 
 
