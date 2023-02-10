@@ -2,9 +2,10 @@ import os
 from lovelace import app, socketio
 from apscheduler.schedulers.background import BackgroundScheduler
 from dotenv import load_dotenv,set_key,find_dotenv
-import hashlib
 import random
 import string
+# from flask_wtf.csrf import CSRFError,generate_csrf
+# from flask import jsonify
 
 
 dotenv_file = find_dotenv()
@@ -14,9 +15,17 @@ load_dotenv(dotenv_file)
 def index():
     return "I'm alive!"
 
+#@app.route("/get_crsf")
+#def get_csrf():
+    #crsf_token = generate_csrf()
+    #eturn(jsonify({"token":crsf_token}))
+
+#@app.errorhandler(CSRFError)
+#def handle_csrf_error(e):
+    #return(jsonify({"response":"CRSF token is invalid"}))
 
 def rotate_key():
-    # get random password pf length 8 with letters, digits, and symbols
+    # get random string with letters, digits, and symbols
     characters = string.ascii_letters + string.digits + string.punctuation
     characters = characters.replace('"','')
     characters = characters.replace("'","")
@@ -27,7 +36,7 @@ def rotate_key():
     set_key(dotenv_file,"APPLICATION_SIGNATURE_KEY_TEMP",os.environ.get("APPLICATION_SIGNATURE_KEY_TEMP"))
 
 sched = BackgroundScheduler(daemon=True)
-sched.add_job(rotate_key,'interval',seconds=5) #reset every 2 weeks
+sched.add_job(rotate_key,'interval',hours=336) #reset every 2 weeks
 sched.start()
 
 
