@@ -1,0 +1,45 @@
+﻿Name,Assign,Description,Last modified,Side,Status,Type
+End to end encryption,"Jon, asdasd",Encrypt messages with RSA and send cipher text with public key to server side.,"February 10, 2023 8:47 PM",,In progress,Security
+Hide sensitive data on application when not running,Jon,Obscures app contents when moving between apps in the background and users must unlock app when they return,"February 5, 2023 5:50 PM",Client,Done,Security
+Initialize PIN screen,Jon,User sets up a PIN to encrypt their data. Appears after login and OTP verification success,"January 28, 2023 7:16 PM",Client,Done,Base
+Automate backup process (Maybe),Jon,Let the app back up user data automatically (eg once a week),"January 27, 2023 9:44 PM",Client,Done,Security
+Implement authentication for lock screen,Jon,Authenticate via email on client side,"January 27, 2023 12:33 PM",Client,Done,Security
+Admin pages,Jeff Lee,Make sure all admin pages are created. Update Figma too,"January 27, 2023 11:21 AM",Client,Not started,Base
+Account Screen,Jeff Lee,"Make it according to Figma, if not update Figma","January 26, 2023 7:05 PM",Client,Done,Base
+Send update user profile data to server side,"Jon, Jeff Lee",Send request to server side to update user details when user submit update form,"January 26, 2023 7:05 PM","Client, Server",Done,Base
+Create Lock screen when app state is resumed (Static),Jon,User must be authenticated before accessing app content,"January 26, 2023 12:10 AM",Client,Done,Security
+Restore backed up data,Jon,Send data of a back up copy to update user function to restore data to that previous state,"January 24, 2023 8:36 PM",Client,In progress,Security
+Fix read issues of backup data,Jon,Use AES 256-bit key to encrypt/decrypt. Store the secret key in secure_storage,"January 24, 2023 8:35 PM",Client,Done,Security
+MFA Implementation,"Shin thant te aung, asdasd",Whenever login in new device,"January 24, 2023 7:25 PM","Client, Server",Done,Security
+Detect spoofing of location,Shin thant te aung,,"January 24, 2023 7:06 PM",Client,Done,Security
+Admin View,Jeff Lee,"Able to get a list of account, account details and so ","January 24, 2023 5:34 PM",Server,Done,Security
+Monitoring (Temp),Jeff Lee,Implemented Monitoring Dashboard,"January 24, 2023 3:38 PM",Server,Done,Security
+Create encryption/decryption algorithm for E2EE and data,Jon,"Use AES 256-bit key and 128-bit IV ","January 21, 2023 11:57 AM",Client,Done,Security
+Home Screen Swiping,Shin thant te aung,"Left = No, Right = Yes","January 18, 2023 1:38 PM",Client,Done,Base
+Back up user data,Jon,"Get user data, write to json file and restore the backed up data","January 17, 2023 3:06 PM",Client,Done,Security
+Add logo to app,Shin thant te aung,,"January 17, 2023 3:05 PM",Client,Done,Base
+Update User Model,"Jeff Lee, Jon, asdasd, Joel",It’s not just email and password,"January 15, 2023 7:25 PM","Client, Server",Done,Base
+Make SS work with SSP,Jon,,"January 14, 2023 5:30 PM",Client,Done,Security
+Remove Overflow on screens,"Jon, Shin thant te aung, Jeff Lee",remove bottom overflow on screen,"January 11, 2023 10:39 PM",Client,Done,Base
+Swipe API,"Jeff Lee, asdasd",Send to server if user pass/fail another user,"January 11, 2023 2:55 PM","Client, Server",Not started,Base
+Swipe Logic,Joel,Proper DBMS relation,"January 11, 2023 2:55 PM",Server,In progress,Base
+Face Bio Config,Shin thant te aung,Have local auth accessible with face-id,"January 11, 2023 2:55 PM",Client,Done,Base
+Kick user when token expired,Shin thant te aung,,"January 10, 2023 10:41 PM",Client,Not started,Security
+Create backup methods,Jon,methods to read from and write to file,"January 10, 2023 2:11 PM",Client,Done,Security
+Make chat messages persistent,"Jon, Jeff Lee",Use Streaming Shared Prefs,"January 9, 2023 12:57 AM",Client,Done,Base
+Create user JSON objects and store in secure_storage,Jon,store different user objects inside secure_storage. Each object stores user specific data,"January 8, 2023 9:01 PM",Client,Done,Security
+Chat API,"Jeff Lee, asdasd","Allow casual chat between 2 users ","January 7, 2023 5:38 PM","Client, Server",Done,Base
+App logo to have words,Jon,Logo should be like Instagram format,"January 6, 2023 12:14 PM",Client,Done,Base
+Random recommendation,asdasd,,"January 4, 2023 9:38 PM",,Done,Base
+Chats Screen (Static),Jon,Lists of fake contacts with working search feature,"January 4, 2023 12:21 PM",Client,Done,Base
+Swipe Card Size,Jon,Make swipe card size dynamic according to screen size,"January 4, 2023 6:37 AM",Client,Done,Base
+Detect Location,Shin thant te aung,Detect User Location,"January 4, 2023 6:36 AM",Client,Done,Base
+Age Validation,Jeff Lee,,"January 4, 2023 6:33 AM","Client, Server",Not started,Security
+Email Validation,"Jeff Lee, Joel",Check if email exists before registration,"January 4, 2023 6:32 AM","Client, Server",Done,Security
+User Configuration Screen (Static),Jeff Lee,"After login, directly configure profile","January 4, 2023 6:31 AM",Client,Done,Base
+Proper check for biometric accessibility,Shin thant te aung,Check if mobile can do biometric,"December 28, 2022 12:48 PM",Client,Not started,Security
+Fingerprint only when logged in,Shin thant te aung,,"December 28, 2022 12:47 PM",Client,Done,Security
+User Profile Screen (Static),Jon,Allow users to update their details,"December 23, 2022 3:17 PM",Client,Done,Base
+Chat End-to-End encryption of messages,"asdasd, Jon, Jeff Lee",Messages are to be encrypted and sent with digital signatures,"December 23, 2022 9:20 AM","Client, Server",In progress,Security
+Prevent Screen shots/recordings,Jon,,"December 23, 2022 9:09 AM",Client,Done,Security
+Access Control,Shin thant te aung,Make it available for admin/dev mode in account page,"December 16, 2022 7:05 PM",Client,Not started,Security

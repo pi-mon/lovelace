@@ -1,0 +1,691 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Vulnerabilities</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-transparentGray { background-color: rgba(227, 226, 224, 0); }
+.select-value-color-translucentGray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="2c994287-d1a7-4a95-b289-bec48c99ef5c" class="page sans"><header><div class="page-header-icon undefined"><span class="icon">⚠️</span></div><h1 class="page-title">Vulnerabilities</h1><p class="page-description"></p></header><div class="page-body"><details open=""><summary style="font-weight:600;font-size:1.875em;line-height:1.3;margin:0">OWASP Top 10 2021</summary><div class="indented"><figure id="c687a8e1-223c-430a-a9ca-ccac0ed32f1b"><a href="https://owasp.org/www-project-top-ten/" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">OWASP Top Ten</div><div class="bookmark-description">The OWASP Top 10 is a standard awareness document for developers and web application security. It represents a broad consensus about the most critical security risks to web applications. Globally recognized by developers as the first step towards more secure coding. Companies should adopt this document and start the process of ensuring that their web applications minimize these risks.</div></div><div class="bookmark-href"><img src="https://owasp.org/www--site-theme/favicon.ico" class="icon bookmark-icon"/>https://owasp.org/www-project-top-ten/</div></div><img src="https://owasp.org/www--site-theme/favicon.ico" class="bookmark-image"/></a></figure><ul id="cd615b2d-6e6f-412e-b57c-62752071eefd" class="toggle"><li><details open=""><summary>Broken Access Control (Guan Feng)</summary><ul id="206b4622-013b-438f-8dda-2c24514d8f92" class="bulleted-list"><li style="list-style-type:disc">Least privilege or deny by default</li></ul><ul id="d91e59c2-b0ef-49f1-846c-6276c9acb8fc" class="bulleted-list"><li style="list-style-type:disc">Minimise CORS usage</li></ul><ul id="5110ad0a-f478-43ee-923f-199ad8d0f072" class="bulleted-list"><li style="list-style-type:disc">Stateful session identifiers should be invalidated on the server after logout</li></ul></details></li></ul><ul id="de2a8e3f-b629-486a-9791-c27fcf2b78bd" class="toggle"><li><details open=""><summary>Cryptographic Failures (Jon)</summary><ul id="cb6a23d4-984e-48f2-8013-27c77375940d" class="bulleted-list"><li style="list-style-type:disc">Don’t store sensitive data unnecessarily</li></ul><ul id="99a62a15-3c42-47f0-baed-ccdd3e0bc8ba" class="bulleted-list"><li style="list-style-type:disc">Make sure to encrypt all sensitive data at rest</li></ul><ul id="358db7c3-47e4-4598-b691-29400037f617" class="bulleted-list"><li style="list-style-type:disc">Don’t use legacy protocols such as FTP and SMTP for transporting sensitive data</li></ul></details></li></ul><ul id="883abec5-89ae-4c66-ac5f-c43e08f7f8ae" class="toggle"><li><details open=""><summary>Injection (Yan Qi)</summary></details></li></ul><ul id="7277f4f0-d446-4b46-a51d-f6cb0d31e356" class="toggle"><li><details open=""><summary>Insecure Design (Joel)</summary></details></li></ul><ul id="50004540-8c81-432d-9648-201a638ebeb0" class="toggle"><li><details open=""><summary>Security Misconfiguration (Jon)</summary></details></li></ul><ul id="2270b649-805e-4c13-8056-8fbc4270234f" class="toggle"><li><details open=""><summary>Vulnerable and Outdated Components (Joel)</summary></details></li></ul><ul id="a8936b7e-bde2-406a-b58f-9d840e5776f8" class="toggle"><li><details open=""><summary>Identification and Authentication Failures (Shin)</summary></details></li></ul><ul id="56ba7b95-37ae-4227-b677-37722d40eb48" class="toggle"><li><details open=""><summary>Software and Data Integrity Failures (Yan Qi)</summary><p id="ca7cf0dd-dc5d-48b3-ba7c-37238e453439" class="">
+</p></details></li></ul><ul id="d8def997-4625-4442-9b42-045e46892edc" class="toggle"><li><details open=""><summary>Security Logging and Monitoring Failures (Guan Feng)</summary></details></li></ul><ul id="a32229de-3826-4dd4-8c4a-a70bcf540e1d" class="toggle"><li><details open=""><summary>Server-Side Request Forgery (Shin)</summary></details></li></ul></div></details><details open=""><summary style="font-weight:600;font-size:1.875em;line-height:1.3;margin:0"> <strong><strong>API Security Top 10 2019</strong></strong></summary><div class="indented"><figure id="dadd89d7-ce32-4954-bac3-6fe9b91b39cf"><a href="https://owasp.org/www-project-api-security/" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">OWASP API Security Project</div><div class="bookmark-description">A foundational element of innovation in today&#x27;s app-driven world is the API. From banks, retail and transportation to IoT, autonomous vehicles and smart cities, APIs are a critical part of modern mobile, SaaS and web applications and can be found in customer-facing, partner-facing and internal applications.</div></div><div class="bookmark-href"><img src="https://owasp.org/www--site-theme/favicon.ico" class="icon bookmark-icon"/>https://owasp.org/www-project-api-security/</div></div><img src="https://owasp.org/www--site-theme/favicon.ico" class="bookmark-image"/></a></figure><ul id="45b4653e-cb0c-4906-8244-d09f31449edd" class="toggle"><li><details open=""><summary>Broken Object Level Authorisation (Guan Feng)</summary></details></li></ul><ul id="2d3b2dd7-7b59-4ae4-8af4-ec02b6221646" class="toggle"><li><details open=""><summary>Broken User Authentication (Yan Qi)</summary></details></li></ul><ul id="40de25c2-5ad4-4f01-9644-68f5688a30d5" class="toggle"><li><details open=""><summary>Excessive Data Exposure (Jon)</summary></details></li></ul><ul id="a4110d5d-6511-4e1a-86bb-e6406b081919" class="toggle"><li><details open=""><summary>Lack of Resources &amp; Rate Limiting (Shin)</summary></details></li></ul><ul id="2c66c425-5913-442c-8aab-6094e4db8b04" class="toggle"><li><details open=""><summary>Broken Function Level Authorisation (Joel)</summary></details></li></ul><ul id="07443e7f-3adb-4535-93a5-a8cc18f5df55" class="toggle"><li><details open=""><summary>Mass Assignment (Jon)</summary></details></li></ul><ul id="b850085d-336a-4e12-a174-d209dbe3dd41" class="toggle"><li><details open=""><summary>Security Misconfiguration (Joel)</summary></details></li></ul><ul id="439ce0d5-2634-4f3a-afd3-dc93f7e57eea" class="toggle"><li><details open=""><summary>Injection (Yan Qi)</summary></details></li></ul><ul id="e2263e13-1dd5-4ac8-ae44-5da0b7e49e65" class="toggle"><li><details open=""><summary>Improper Assets Management (Shin)</summary></details></li></ul><ul id="8b9b5f0a-ca31-427c-84cb-ac930cc92f7f" class="toggle"><li><details open=""><summary>Insufficient Logging &amp; Monitoring  (Guan Feng)</summary></details></li></ul></div></details><details open=""><summary style="font-weight:600;font-size:1.875em;line-height:1.3;margin:0">Flutter Security</summary><div class="indented"><ul id="91fb55c4-9712-470c-b2b1-00e5a3f4a4dd" class="toggle"><li><details open=""><summary>Enable Code Obfuscation</summary><ul id="c20299f4-61ee-4613-b5f2-72435eb567d6" class="bulleted-list"><li style="list-style-type:disc">Encryption of plaintext data</li></ul><ul id="07e926bb-6dbb-4108-b912-749bf561a917" class="bulleted-list"><li style="list-style-type:disc">Ensure that functions and class names that are being used are hidden</li></ul><ul id="63ba3564-bc11-4d64-bad3-2b205bd5d02b" class="bulleted-list"><li style="list-style-type:disc">Make use of the -obfuscate parameter</li></ul></details></li></ul><ul id="d5fc039e-a304-4ce3-9427-c14fb2d0a116" class="toggle"><li><details open=""><summary>Securing of API Keys</summary><ul id="30fd0ebb-4761-4c4c-a251-198c29c1f5c0" class="bulleted-list"><li style="list-style-type:disc">Apply restriction controls in order to control which applications, websites, or IP addresses are able to access API Keys</li></ul><ul id="c3fd2dbb-e275-4e15-abfd-5a9c6d64b672" class="bulleted-list"><li style="list-style-type:disc">Encrypting API Keys on runtime</li></ul><ul id="5a70254f-805d-44f6-aa97-827fb900f293" class="bulleted-list"><li style="list-style-type:disc">Disable tracking of API Keys on the repository </li></ul></details></li></ul><ul id="5529c132-5a12-4283-bd63-707f0cac0fb5" class="toggle"><li><details open=""><summary>Flutter Jailbreak Detection</summary><ul id="a0c9d967-70c0-40b8-a959-d0f77475b93a" class="bulleted-list"><li style="list-style-type:disc">Detect whether the user device is jailbroken</li></ul><ul id="9022170b-d98a-4296-9d04-cfaec04dd7d2" class="bulleted-list"><li style="list-style-type:disc">Make use of Rootbeer (Android), DTTJailbreakDetection (iOS)</li></ul><ul id="d312c73b-ea5f-4686-9f71-bf0f6967809b" class="bulleted-list"><li style="list-style-type:disc">A compromised or rooted device might be able to have escalated privileges and would enable the installation of malware and virus</li></ul></details></li></ul><ul id="33382748-d1e0-4110-bd6e-0c20a760a8bb" class="toggle"><li><details open=""><summary>Ensuring the use of secure network connections</summary><ul id="67e375d7-1b14-4746-bbb6-d742583aba07" class="bulleted-list"><li style="list-style-type:disc">Engage the use of Transport Secure Layer for connection to Flask</li></ul></details></li></ul><ul id="f706f63d-222d-4c3f-9bef-4dc1f2e99880" class="toggle"><li><details open=""><summary>Ensure that user data is secure</summary><ul id="594194a8-1b15-4009-bff3-be4eaac72214" class="bulleted-list"><li style="list-style-type:disc">Use secure storage for PII, Auth Token, or other sensitive data</li></ul><ul id="bdf91cd1-5c72-49af-9610-8ec305cffc79" class="bulleted-list"><li style="list-style-type:disc">Employ the use of Flutter_secure_storage</li></ul><ul id="f4edc69f-13fd-49aa-a415-8bc302ad2fa8" class="bulleted-list"><li style="list-style-type:disc">Makes use of Keystore for Android and Keychains for iOS</li></ul></details></li></ul><ul id="bc8fbf72-8ced-47e9-8029-02c30b38823c" class="toggle"><li><details open=""><summary>Background Snapshot Protection</summary><ul id="04520263-abf2-447f-998c-da10acafa5b2" class="bulleted-list"><li style="list-style-type:disc">Ensure that background app switchers do not display the last snapshot state of an app </li></ul></details></li></ul><ul id="3e5b8929-a09a-4257-8bc6-b1bf256fa27d" class="toggle"><li><details open=""><summary>Implement Local Authentication</summary><ul id="7a7e654a-171e-48f7-8058-a7085b12ddbd" class="bulleted-list"><li style="list-style-type:disc">Making use of passwords for identification</li></ul><ul id="119a7464-5e2b-4424-b20b-e6a9b93f62d6" class="bulleted-list"><li style="list-style-type:disc">Making use of Biometric systems </li></ul><ul id="cfac41c8-181e-4b28-84e4-17d388609374" class="bulleted-list"><li style="list-style-type:disc">Engaging the use of 2FA</li></ul></details></li></ul><figure id="b9e7d14b-936c-4a36-bc1d-547e233b1491"><a href="https://www.appsealing.com/flutter-security/" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Flutter Security - Follow these 10 security tips to prevent security risks - AppSealing</div><div class="bookmark-description">Though Flutter apps have become immensely popular in recent years, certain security risks pose a threat to app security. Flutter apps can expose sensitive data in the absence of adequate security measures. Reverse engineering is among the most common threats faced by Flutter apps as Dart code (the programming language used in Flutter apps) generates metadata that can easily give insights into the application&#x27;s workings.</div></div><div class="bookmark-href"><img src="https://resources.appsealing.com/4-svc/wp-content/uploads/2019/10/18195708/favicon-16.png" class="icon bookmark-icon"/>https://www.appsealing.com/flutter-security/</div></div><img src="https://resources.appsealing.com/4-svc/wp-content/uploads/2022/09/12140610/82.png" class="bookmark-image"/></a></figure></div></details><details open=""><summary style="font-weight:600;font-size:1.875em;line-height:1.3;margin:0">Flask Security</summary><div class="indented"><figure id="133b37ef-ed51-41e6-b534-b0e4d354d3ba"><a href="https://flask.palletsprojects.com/en/latest/security/" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Security Considerations - Flask Documentation (2.2.x)</div><div class="bookmark-description">Web applications usually face all kinds of security problems and it&#x27;s very hard to get everything right. Flask tries to solve a few of these things for you, but there are a couple more you have to take care of yourself.</div></div><div class="bookmark-href"><img src="https://flask.palletsprojects.com/en/2.2.x/_static/flask-icon.png" class="icon bookmark-icon"/>https://flask.palletsprojects.com/en/latest/security/</div></div></a></figure><figure id="efc7aa96-6848-4153-bca3-dd8d118d74a6"><a href="https://www.securecoding.com/blog/flask-security-best-practices/" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Best Practices For Flask Security - SecureCoding</div><div class="bookmark-description">All about the best practices one should follow to optimize security for the Flask micro-framework.</div></div><div class="bookmark-href">https://www.securecoding.com/blog/flask-security-best-practices/</div></div><img src="https://www.securecoding.com/wp-content/uploads/2021/01/flask-blog-1.png" class="bookmark-image"/></a></figure><figure id="191839da-1ac4-4d2d-8ce9-1f29e80aa0f1"><a href="https://testdriven.io/blog/csrf-flask/" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">CSRF Protection in Flask</div><div class="bookmark-description">This article looks at how to prevent CSRF attacks in Flask. Along the way, we&#x27;ll look at what CSRF is, an example of a CSRF attack, and how to protect against CSRF via Flask-WTF. CSRF, which stands for Cross-Site Request Forgery, is an attack against a web application in which the attacker attempts to trick an authenticated user into performing a malicious action.</div></div><div class="bookmark-href"><img src="https://testdriven.io/static/images/favicon.419dfe6cb3f6.png" class="icon bookmark-icon"/>https://testdriven.io/blog/csrf-flask/</div></div><img src="https://testdriven.io/static/images/blog/csrf-flask/social_card.png" class="bookmark-image"/></a></figure><figure id="283281e9-106c-4e05-a24f-0db716b6c520"><a href="https://www.soapui.org/learn/api/understanding-rest-headers-and-parameters/" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title"></div></div><div class="bookmark-href">https://www.soapui.org/learn/api/understanding-rest-headers-and-parameters/</div></div></a></figure><figure id="bd407ca3-8e30-498f-ad80-d9aa6b1fa86c"><a href="https://flask.palletsprojects.com/en/1.0.x/patterns/fileuploads/" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title"></div></div><div class="bookmark-href">https://flask.palletsprojects.com/en/1.0.x/patterns/fileuploads/</div></div></a></figure><ul id="aa11d175-0e75-4ba2-9a10-bd2aa472e4e4" class="toggle"><li><details open=""><summary>CRSF Protection</summary><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="5d778cf2-82cb-46d6-b2f8-aa1bbac105ad" class="code"><code class="language-Python">from flask_wtf.csrf import CSRFProtect
+csrf = CSRFProtect(app)</code></pre><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="8bc08077-2239-4796-8979-24443a5d9c01" class="code"><code class="language-HTML">&lt;input type=&quot;hidden&quot; name=&quot;csrf_token&quot; value=&quot;{{ csrf_token() }}&quot;/&gt;</code></pre></details></li></ul><ul id="cdd2127e-7d3b-46e0-b68f-2ac4839f1fea" class="toggle"><li><details open=""><summary>JSON Security</summary><p id="5be401c9-f61d-43da-a7b3-97144ad3f8aa" class="">Use jsonify</p></details></li></ul><ul id="fea6ee2c-3f8a-49ed-903d-ab9d863301a6" class="toggle"><li><details open=""><summary>XSS</summary><figure id="3ac8e6b3-0c6c-496f-8f0d-b07220e7077f"><a href="https://flask.palletsprojects.com/en/2.2.x/security/" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Security Considerations - Flask Documentation (2.2.x)</div><div class="bookmark-description">Web applications usually face all kinds of security problems and it&#x27;s very hard to get everything right. Flask tries to solve a few of these things for you, but there are a couple more you have to take care of yourself.</div></div><div class="bookmark-href"><img src="https://flask.palletsprojects.com/en/2.2.x/_static/flask-icon.png" class="icon bookmark-icon"/>https://flask.palletsprojects.com/en/2.2.x/security/</div></div></a></figure></details></li></ul><ul id="b5a9658a-a8df-4725-bed5-168e54e2b386" class="toggle"><li><details open=""><summary>Security Headers</summary><figure id="f8514f76-4c92-4991-81c1-b5ffa88f1842"><a href="https://github.com/GoogleCloudPlatform/flask-talisman" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">GitHub - GoogleCloudPlatform/flask-talisman: HTTP security headers for Flask</div><div class="bookmark-description">HTTP security headers for Flask. Contribute to GoogleCloudPlatform/flask-talisman development by creating an account on GitHub.</div></div><div class="bookmark-href"><img src="https://github.com/favicon.ico" class="icon bookmark-icon"/>https://github.com/GoogleCloudPlatform/flask-talisman</div></div><img src="https://opengraph.githubassets.com/35dd1c77b649ee0d4f861497fda087abbb00af9e3fcd2e80bb175db6fdf810b8/GoogleCloudPlatform/flask-talisman" class="bookmark-image"/></a></figure></details></li></ul><ul id="bdf79e55-d215-43ec-ac0d-780cdcbc72de" class="toggle"><li><details open=""><summary>HTTP Strict Transport Security</summary><p id="205cb9fd-e5de-4125-83a4-ac0f95742f18" class=""><code>response.headers</code><code><strong>[</strong></code><code>&#x27;Strict-Transport-Security&#x27;</code><code><strong>]</strong></code><code> = &#x27;max-age=31536000; includeSubDomains&#x27;</code></p></details></li></ul><ul id="c9f7579b-08b6-45de-860f-8f669548cb36" class="toggle"><li><details open=""><summary>Content Security Policy</summary><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="33d8c429-6ed4-4af4-a67f-fddba62afd68" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">@app.after_request
+def add_security_headers(resp):
+    resp.headers[&#x27;Content-Security-Policy&#x27;]=&#x27;default-src \&#x27;self\&#x27;&#x27;
+    return resp</code></pre><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="0eb78668-4a87-4a89-9c2f-e943b81bcb4f" class="code"><code class="language-Python">@app.route(&#x27;/csp_report&#x27;,methods=[&#x27;POST&#x27;])
+def csp_report():
+    with open(&#x27;/var/log/csp/csp_reports&#x27;, &quot;a&quot;) as fh:
+        fh.write(request.data.decode()+&quot;\n&quot;)
+    response = make_response()
+    response.status_code = 204
+    return response
+#logging of csp violations</code></pre><p id="9c5573f1-6f38-4947-a439-09ed4b9d7e72" class="">
+</p></details></li></ul><ul id="6ff23ddc-3627-4eb9-99ce-d8f6d20ea6ea" class="toggle"><li><details open=""><summary>Uploading files securely</summary><figure id="41f2034d-5af9-4acf-987d-f1f721476420"><a href="https://flask.palletsprojects.com/en/1.0.x/patterns/fileuploads/" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title"></div></div><div class="bookmark-href">https://flask.palletsprojects.com/en/1.0.x/patterns/fileuploads/</div></div></a></figure></details></li></ul><ul id="6c7f9588-4279-41f9-ae2e-0ab13f17bbce" class="toggle"><li><details open=""><summary><strong>X-Frame-Options</strong></summary><p id="1f86e4d1-e872-43cb-8705-766e0f9eb26d" class=""><code>response.headers</code><code><strong>[</strong></code><code>&#x27;X-Frame-Options&#x27;</code><code><strong>]</strong></code><code> = &#x27;SAMEORIGIN&#x27;</code></p><p id="56c41049-64ad-4915-95fb-e6ea5797de8f" class="">prevent clickjacking</p></details></li></ul><p id="248a0c69-5d38-415b-a5bf-20282bcf2ed3" class="">
+</p></div></details><details open=""><summary style="font-weight:600;font-size:1.875em;line-height:1.3;margin:0">MongoDB Security</summary><div class="indented"><figure id="af1eb10e-d707-465e-927e-330277bd2bf7"><a href="https://www.mongodb.com/docs/manual/administration/security-checklist/" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Security Checklist</div></div><div class="bookmark-href"><img src="https://www.mongodb.com/docs/assets/favicon.ico" class="icon bookmark-icon"/>https://www.mongodb.com/docs/manual/administration/security-checklist/</div></div><img src="http://www.mongodb.com/docs/assets/meta_generic.png" class="bookmark-image"/></a></figure><figure id="fd1fe324-fb2e-4257-b5c8-1545218a7390"><a href="https://resources.infosecinstitute.com/topic/mongodb-part-3-how-to-secure-data/" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">MongoDB (part 3): How to secure data | Infosec Resources</div><div class="bookmark-description">Learn how to secure data in a MongoDB database.</div></div><div class="bookmark-href"><img src="https://resources.infosecinstitute.com/wp-content/uploads/2022/10/cropped-infosec-favicon-192x192.png" class="icon bookmark-icon"/>https://resources.infosecinstitute.com/topic/mongodb-part-3-how-to-secure-data/</div></div><img src="https://resources.infosecinstitute.com/wp-content/uploads/2021/01/bigstock-Group-Of-Casual-Business-Worki-312521434-copy-768x513.png" class="bookmark-image"/></a></figure><figure id="d7598cf1-cd9e-433b-aa0b-4c7e0a279691"><a href="https://www.mongodb.com/docs/manual/core/security-hardening/" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Network and Configuration Hardening</div><div class="bookmark-description">To reduce the risk exposure of the entire MongoDB system, ensure that only trusted hosts have access to MongoDB. Starting with MongoDB 3.6, MongoDB binaries, and , bind to localhost by default. From MongoDB versions 2.6 to 3.4, only the binaries from the official MongoDB RPM (Red Hat, CentOS, Fedora Linux, and derivatives) and DEB (Debian, Ubuntu, and derivatives) packages would bind to localhost by default.</div></div><div class="bookmark-href"><img src="https://www.mongodb.com/docs/assets/favicon.ico" class="icon bookmark-icon"/>https://www.mongodb.com/docs/manual/core/security-hardening/</div></div><img src="http://www.mongodb.com/docs/assets/meta_generic.png" class="bookmark-image"/></a></figure><ul id="9b607ca8-98ef-48f5-bf98-f4c38872943a" class="toggle"><li><details open=""><summary><strong>Network configuration</strong></summary><ul id="37295ed9-9978-41c2-b29e-9e2b73b83d19" class="bulleted-list"><li style="list-style-type:disc">Use TLS</li></ul><ul id="a42f0c47-fc04-4cda-972d-94d7d3ea87c3" class="bulleted-list"><li style="list-style-type:disc">Firewall</li></ul><ul id="394fb396-704d-4c69-bfd7-8c962b2039ed" class="bulleted-list"><li style="list-style-type:disc">VPN between DB and API</li></ul><ul id="9f5876b4-9276-44b0-951d-9b2b0e41e183" class="bulleted-list"><li style="list-style-type:disc">Allow only trusted clients to access network interface and ports</li></ul><ul id="4e81bbf0-3f2b-42a9-814b-5a5fe457d6bc" class="bulleted-list"><li style="list-style-type:disc">Disable direct SSH root access</li></ul><ul id="480e6845-e5de-4274-8ccd-f4e90532e2f6" class="bulleted-list"><li style="list-style-type:disc">security.clusterIpSourceAllowlist configuration<br/>setting<br/></li></ul><ul id="7d6fc3da-10f3-41ba-84f2-43d765abcdbb" class="bulleted-list"><li style="list-style-type:disc">net.bindIp configuration setting</li></ul><ul id="91ff282f-13c9-48dc-994f-ac3611d5b0ab" class="bulleted-list"><li style="list-style-type:disc">authenticationRestrictions field to the<br/>db.createUser() command to specify a per-user IP<br/>allow list<br/></li></ul></details></li></ul><ul id="5e690f92-9ca4-4a36-87da-42cf38ae8041" class="toggle"><li><details open=""><summary><strong>Encryption</strong></summary><ul id="cda003d8-86a3-4581-a5b7-f1585b7cbcd5" class="bulleted-list"><li style="list-style-type:disc">Client-Side Field Level Encryption</li></ul><ul id="af5aa58b-be20-41e7-9523-15697008461d" class="bulleted-list"><li style="list-style-type:disc">Encrypt MongoDB data includes log file, data file, config file, keyfiles</li></ul></details></li></ul><ul id="d34beb7b-bbcb-4f6b-b315-c510d642c61a" class="toggle"><li><details open=""><summary><strong>Logging</strong></summary><p id="e19a67ac-fd7b-4197-b9f4-34b82475ac52" class="">Centralize logging</p></details></li></ul><ul id="dc32aa54-8af7-4cec-a4b4-aa2827d5bb89" class="toggle"><li><details open=""><summary><strong>User management</strong></summary><ul id="aa306bfa-314f-4ba6-80ff-7501bc38c4c1" class="bulleted-list"><li style="list-style-type:disc">Root user &gt; make an account for each application using db</li></ul><ul id="faafcea8-5d6f-4f8c-b667-62e82e260219" class="bulleted-list"><li style="list-style-type:disc">Enable access control (Role BAC, instruction on how to is in checklist)</li></ul></details></li></ul><ul id="4ec7da3d-19ba-464b-9d65-d4549c199132" class="bulleted-list"><li style="list-style-type:disc">Field Level Redaction</li></ul><ul id="87f346ef-e65a-457b-bd81-7fa05800b99f" class="bulleted-list"><li style="list-style-type:disc">Authentication using SCRAM (default) or X.509</li></ul><ul id="cf52fe5e-7560-480d-b142-89fb70a17db0" class="bulleted-list"><li style="list-style-type:disc">Run MongoDB processes with a dedicated operating system user<br/>account (not sure how this will work on cloud)<br/></li></ul><ul id="38396583-7e61-4954-a258-8e2d619b0de1" class="bulleted-list"><li style="list-style-type:disc">Enable input validation (enabled by default)</li></ul><ul id="741fe423-e052-463a-9c07-d1865de4ef8b" class="bulleted-list"><li style="list-style-type:disc">If not using any of this javascript code: mapReduce, $where,<br/>$accumulator, and $function <br/>disable server side scripting using<br/>the --noscripting option<br/></li></ul></div></details><details open=""><summary style="font-weight:600;font-size:1.875em;line-height:1.3;margin:0"><strong><strong>AWS Cloud Security</strong></strong></summary><div class="indented"><figure id="7b89b126-4068-4fdd-bc36-3cd48f64718e"><a href="https://aws.amazon.com/security/" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Cloud Security - Amazon Web Services (AWS)</div><div class="bookmark-description">Infrastructure and services to elevate your security in the cloud Using AWS, you will gain the control and confidence you need to securely run your business with the most flexible and secure cloud computing environment available today. As an AWS customer, you will benefit from AWS data centers and a network architected to protect your information, identities, applications, and devices.</div></div><div class="bookmark-href"><img src="https://a0.awsstatic.com/libra-css/images/site/fav/favicon.ico" class="icon bookmark-icon"/>https://aws.amazon.com/security/</div></div><img src="https://a0.awsstatic.com/libra-css/images/logos/aws_logo_smile_1200x630.png" class="bookmark-image"/></a></figure><ul id="8b84b202-53c5-49c2-af3a-45eaa3220fa0" class="toggle"><li><details open=""><summary>Identity and Access Management</summary><ul id="237105ed-d0a9-4ae8-af21-558d4cf6ca10" class="bulleted-list"><li style="list-style-type:disc">AWS IAM Users and Groups<ul id="922dc3ec-7006-4a64-b6c0-099e78fa24df" class="bulleted-list"><li style="list-style-type:circle">A centralised mechanism for creating and managing individual users and their permissions with AWS account</li></ul></li></ul></details></li></ul><ul id="bbd1a767-6d02-40d9-a1fb-04525b91760a" class="toggle"><li><details open=""><summary>Infrastructure Protection</summary><ul id="ad6830f5-3c17-48d8-a42b-b1411d5f24bc" class="bulleted-list"><li style="list-style-type:disc">Protection via Isolation<ul id="d9b4ab17-7848-4588-90cf-5704d1afe42a" class="bulleted-list"><li style="list-style-type:circle">Amazon VPC (Virtual Private Cloud)<ul id="778a9db1-d07a-4754-a5e7-ce45fb684c10" class="bulleted-list"><li style="list-style-type:square">Allows one to isolate AWS resources in the cloud</li></ul><ul id="9fbe1b0b-d1ff-447f-a28e-25a6a4fbf6a6" class="bulleted-list"><li style="list-style-type:square">Enables one to launch resources into a virtual network</li></ul><ul id="f17ad244-59a2-49da-a9af-91026da35af6" class="bulleted-list"><li style="list-style-type:square">Most common VPC features<ul id="d6e11db7-6b29-4ea8-ae3b-0c1f7987fd5e" class="bulleted-list"><li style="list-style-type:disc">Subnet Routing</li></ul><ul id="76b5147f-909d-42b0-b224-ac9882b1a627" class="bulleted-list"><li style="list-style-type:disc">Network ACLs (Access Control Lists)</li></ul><ul id="a1b1b472-f519-4268-bbac-89db40c30da3" class="bulleted-list"><li style="list-style-type:disc">Security Group</li></ul></li></ul></li></ul></li></ul><ul id="70bae835-fd6e-4d56-a440-9735c86a8c40" class="bulleted-list"><li style="list-style-type:disc">Application and OS Security<ul id="02b32f7d-d661-4b79-9e9b-be35e8d2b5a7" class="bulleted-list"><li style="list-style-type:circle">AWS Systems Manager<ul id="14a7aa2d-bdb5-418f-98af-001484838b60" class="bulleted-list"><li style="list-style-type:square">Automate management tasks such as collecting system inventory, applying operating system patches, maintaining up-to-date anti-virus definitions, and configuring operating systems and applications at scale.</li></ul><ul id="703d29f3-5fd2-497b-93cd-ca24d7c77357" class="bulleted-list"><li style="list-style-type:square">Features<ul id="b11f37db-1843-4ec6-894c-628259fda42e" class="bulleted-list"><li style="list-style-type:disc">Automation</li></ul><ul id="4c71dfbe-c3ef-4137-a9c8-7feca64543bb" class="bulleted-list"><li style="list-style-type:disc">Inventory</li></ul><ul id="9e5b59c6-9d3e-4774-bf3f-d824aa0c0341" class="bulleted-list"><li style="list-style-type:disc">Patch Manager</li></ul><ul id="f5ab6f3a-12c6-4c82-984d-2cd68ff4b6e7" class="bulleted-list"><li style="list-style-type:disc">Parameter Store</li></ul><ul id="92e6215c-a949-4063-829c-09234f4f0989" class="bulleted-list"><li style="list-style-type:disc">Run Command</li></ul><ul id="59d1ae90-ac65-4f36-b2a5-c989ceda401a" class="bulleted-list"><li style="list-style-type:disc">Session Manager</li></ul></li></ul></li></ul></li></ul></details></li></ul><ul id="1117dda1-1c97-42e3-8936-cf1a8ea16d93" class="toggle"><li><details open=""><summary>DDoS</summary><ul id="9a3e9312-1168-41f0-b4fd-85235d10f1ae" class="bulleted-list"><li style="list-style-type:disc">Amazon Route 53<ul id="0882f2c0-6508-4943-9340-f16696ed5652" class="bulleted-list"><li style="list-style-type:circle">Hosted at numerous AWS edge locations, creating a global surface area capable of absorbing large amounts of DDoS traffic</li></ul></li></ul><ul id="a2addf80-7c56-4e27-94ad-98513743ea28" class="bulleted-list"><li style="list-style-type:disc">Amazon CloudFront<ul id="ea66b59a-8c9b-4836-b471-cfe653046249" class="bulleted-list"><li style="list-style-type:circle">Only accepts HTTPS and HTTP well-formed connections to prevent many common DDoS attacks</li></ul></li></ul><ul id="9895a6d4-350f-4de8-935f-c5bedf28ef40" class="bulleted-list"><li style="list-style-type:disc">AWS Shield<ul id="14fb10be-b27e-4d5d-8d8b-1d65ac736891" class="bulleted-list"><li style="list-style-type:circle">A managed DDoS protection service that safeguards web applications that run on AWS.</li></ul></li></ul><ul id="48e7375a-4585-4128-9ae9-b2772cb4eb05" class="bulleted-list"><li style="list-style-type:disc">AWS WAF (Web Application Firewall)<ul id="30ca8d8d-a9ff-40ab-af0e-1ca0209244d1" class="bulleted-list"><li style="list-style-type:circle">Helps protect web application from common web exploits</li></ul><ul id="4e7f2d22-fbdf-43b1-ac3d-7ed42395b59e" class="bulleted-list"><li style="list-style-type:circle">Gives control over which traffic to allow or block by defining customisable web security rules</li></ul></li></ul></details></li></ul><ul id="4104ccd2-a090-4dc9-98a2-769a25e7e0b8" class="toggle"><li><details open=""><summary>Data Protection</summary><ul id="e8695997-3c9d-48d4-af41-6b4ecc0fdf84" class="bulleted-list"><li style="list-style-type:disc">Protection at Rest<ul id="dd83bcad-9675-4cb7-a71a-4a6b80fcfc1f" class="bulleted-list"><li style="list-style-type:circle">Two topes of encryption options available<ul id="23313534-7341-4840-9992-a94ae3f623ed" class="bulleted-list"><li style="list-style-type:square">Client-side encryption</li></ul><ul id="daf5615e-58f4-40be-a873-308ace6162f3" class="bulleted-list"><li style="list-style-type:square">Server-side encryption</li></ul></li></ul></li></ul><ul id="50cde266-adb3-4c7c-9117-2f3ca0d7f9cf" class="bulleted-list"><li style="list-style-type:disc">Protection in Transit<ul id="e2f0331f-acb4-4223-aca3-c258725108fd" class="bulleted-list"><li style="list-style-type:circle">AWS services provide HTTPS endpoints using TLS for communication</li></ul><ul id="8c8d455f-bb26-460f-bb82-3c98e91703cf" class="bulleted-list"><li style="list-style-type:circle">Use AWS to generate, deploy, and manage public and private certifications used for TLS encryption in web-based workloads</li></ul><ul id="9e4c393c-7f2b-41b8-a28b-5008498cfc8d" class="bulleted-list"><li style="list-style-type:circle">Use IPsec with VPN connectivity into AWS to facilitate encryption of traffic</li></ul></li></ul><ul id="1db60ab4-4303-476c-9aec-818aefdd3bcd" class="bulleted-list"><li style="list-style-type:disc">Amazon Macie<ul id="11afe357-4512-4bf5-bee5-df0063f8e112" class="bulleted-list"><li style="list-style-type:circle">Uses machine learning to automatically discover, classify, and protect sensitive data in AWS</li></ul><ul id="a761219c-6a37-49dd-9fff-4c61ad8a66e1" class="bulleted-list"><li style="list-style-type:circle">Provide dashboards and alerts that give visibility into how datas are being accessed or moved</li></ul></li></ul></details></li></ul></div></details></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

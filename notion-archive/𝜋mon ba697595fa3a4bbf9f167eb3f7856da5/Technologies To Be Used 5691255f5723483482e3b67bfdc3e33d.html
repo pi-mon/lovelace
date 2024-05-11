@@ -1,0 +1,678 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Technologies To Be Used</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-transparentGray { background-color: rgba(227, 226, 224, 0); }
+.select-value-color-translucentGray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="5691255f-5723-4834-82e3-b67bfdc3e33d" class="page sans"><header><div class="page-header-icon undefined"><span class="icon">⌨️</span></div><h1 class="page-title">Technologies To Be Used</h1><p class="page-description"></p></header><div class="page-body"><details open=""><summary style="font-weight:600;font-size:1.875em;line-height:1.3;margin:0">Database (MongoDB)</summary><div class="indented"><ul id="4191f934-d11d-42b6-a4ad-bf2689e4e9ad" class="bulleted-list"><li style="list-style-type:disc">Encrypt data when not in use</li></ul><ul id="c38bdcde-7a22-430d-949e-a81145f56085" class="bulleted-list"><li style="list-style-type:disc">Use HTTPS (Includes TLS)</li></ul><ul id="8ebce7e2-9c90-442e-acf7-5f9350ecbe1f" class="bulleted-list"><li style="list-style-type:disc">Limit network connections</li></ul><ul id="662e62fb-3fcc-4c8a-b321-4595543ca097" class="bulleted-list"><li style="list-style-type:disc">Authentication</li></ul><ul id="5024bb5d-a87f-4a7c-8b61-816a1039585a" class="bulleted-list"><li style="list-style-type:disc">Access control (Role-BAC)</li></ul><ul id="8a538021-92b3-46a5-86ed-ecc593b42b7b" class="bulleted-list"><li style="list-style-type:disc">Audit log</li></ul><ul id="05fb0c0b-bf10-4ea2-84f0-b031380bd09a" class="bulleted-list"><li style="list-style-type:disc">https://www.mongodb.com/docs/manual/administration/security-checklist/</li></ul></div></details><details open=""><summary style="font-weight:600;font-size:1.875em;line-height:1.3;margin:0">API (Flask)</summary><div class="indented"><ul id="4f392d45-cbfd-4d51-b7fa-240bb99701a4" class="bulleted-list"><li style="list-style-type:disc">Connect with MongoDB<ul id="f34473f8-ac4a-47a9-8698-036dc72fd486" class="bulleted-list"><li style="list-style-type:circle">pip install pymongo and import MongoClient </li></ul></li></ul><ul id="6d8750ae-ba81-46ba-8c5a-569d1e7d1648" class="bulleted-list"><li style="list-style-type:disc">Use blueprints</li></ul><ul id="00a20020-a947-4c81-b86b-b036667820b5" class="bulleted-list"><li style="list-style-type:disc">Use a secure key generator</li></ul></div></details><details open=""><summary style="font-weight:600;font-size:1.875em;line-height:1.3;margin:0">Frontend (Flutter)</summary><div class="indented"><ul id="24c72dc4-8009-43a5-b231-41371a3cc86a" class="toggle"><li><details open=""><summary>Form Validation</summary><ul id="7cecfaf5-0400-4b98-80f3-f753a2938ff1" class="bulleted-list"><li style="list-style-type:disc">Making use of Global key as a way to identify and mark a certain form for data retrieval, <code>final _formKey = GlobalKey&lt;FormState&gt;();</code></li></ul><ul id="644e7a5c-98b2-47ca-a546-5f24396c6e38" class="bulleted-list"><li style="list-style-type:disc">Making use of a <code>TextFormField()</code> to render a design for text input and to make use of a <code>validator()</code> function for validation and to return a string with an error message if an abnormality is found</li></ul><ul id="43841d46-5226-49b8-8c28-66030140e689" class="bulleted-list"><li style="list-style-type:disc">Requirements:<ul id="80f92068-745c-47df-a30a-c9f11e1febb2" class="bulleted-list"><li style="list-style-type:circle">Creation of form liked together with GlobalKey</li></ul><ul id="e76e6599-01bd-4f1e-9549-48fc6efad9df" class="bulleted-list"><li style="list-style-type:circle">Using a text form in order to input data and for performing validation logic</li></ul><ul id="e8f9f430-e278-46a7-98a1-06cd04e3f61e" class="bulleted-list"><li style="list-style-type:circle">Making use of a button in order to validate and submission of data </li></ul><ul id="c2555ded-1f68-491b-abde-fb12535d0c17" class="bulleted-list"><li style="list-style-type:circle"><a href="https://docs.flutter.dev/cookbook/forms/validation#:~:text=Validate%20the%20input%20by%20providing,the%20TextFormField%20isn&#x27;t%20empty">https://docs.flutter.dev/cookbook/forms/validation#:~:text=Validate the input by providing,the TextFormField isn&#x27;t empty</a>.</li></ul></li></ul></details></li></ul><ul id="4cd84c5a-1dea-4454-93fd-96991614a78d" class="toggle"><li><details open=""><summary>Integrating Flask with Flutter</summary><ul id="f27114ad-1a79-4b3f-9e23-bdef76cfe4b2" class="bulleted-list"><li style="list-style-type:disc">Making an API and using it in Flutter apps): <a href="https://www.youtube.com/watch?v=4TUsq4GizXk">https://www.youtube.com/watch?v=4TUsq4GizXk</a></li></ul></details></li></ul><ul id="87a7ef4d-45b1-422e-9872-73a71cfbd792" class="toggle"><li><details open=""><summary>Securing Flutter local database</summary><figure id="71e9ed66-ab92-4dd7-9afe-012768bbe238"><a href="https://pusher.com/tutorials/local-data-flutter/#saving-to-a-database" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">How to save data locally in Flutter</div><div class="bookmark-description">This tutorial looks at saving data locally with Flutter. It provides code samples for three methods: saving to shared preferences, to a database, and to a file. You will learn when to use each method, as well as the basic Flutter code and dependencies needed.</div></div><div class="bookmark-href"><img src="https://d2cy1obokpvee9.cloudfront.net/manifest/favicon-16x16.png" class="icon bookmark-icon"/>https://pusher.com/tutorials/local-data-flutter/#saving-to-a-database</div></div></a></figure><figure id="95bee67b-4ca9-416e-ba55-a85350c9ad6a"><a href="https://pub.dev/packages/lit_backup_service" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">lit_backup_service | Flutter Package</div><div class="bookmark-description">by LitLifeSoftware LitBackupService is a Flutter package allowing you to create and restore backups using JSON files. This package does implement a very simple persistent (key-value pair) storage on local devices and should only be used as a secondary storage solution (such as for backuping other databases).</div></div><div class="bookmark-href"><img src="https://pub.dev/static/hash-ftdiapv8/img/flutter-logo-32x32.png" class="icon bookmark-icon"/>https://pub.dev/packages/lit_backup_service</div></div><img src="https://pub.dev/static/hash-ftdiapv8/img/pub-dev-icon-cover-image.png" class="bookmark-image"/></a></figure><figure id="faec6934-29e0-44ad-88f4-bf5e22211757"><a href="https://pub.dev/packages/flutter_secure_storage" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">flutter_secure_storage | Flutter Package</div><div class="bookmark-description">Flutter Secure Storage provides API to store data in secure storage. Keychain is used in iOS, KeyStore based solution is used in Android.</div></div><div class="bookmark-href"><img src="https://pub.dev/static/hash-ftdiapv8/img/flutter-logo-32x32.png" class="icon bookmark-icon"/>https://pub.dev/packages/flutter_secure_storage</div></div><img src="https://pub.dev/static/hash-ftdiapv8/img/pub-dev-icon-cover-image.png" class="bookmark-image"/></a></figure><figure id="022a020d-f40b-4ddd-aa26-90b2bbceed96"><a href="https://levelup.gitconnected.com/the-4-ways-to-store-data-locally-in-your-flutter-app-that-youre-going-to-need-abdafa991ae3" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">The 4 Ways to Store Data Locally in Your Flutter App (That you&#x27;re Going to Need)</div><div class="bookmark-description">Not all data is created equally - and not all data should be stored the same way. Similar to learning about HashMaps, Linked Lists, Heaps, etc., it&#x27;s important to know the different ways to store data in your Flutter App to create the best user experience possible.</div></div><div class="bookmark-href"><img src="https://miro.medium.com/fit/c/256/256/1*MMpkJtmeCME-6BmGNH5l8A.png" class="icon bookmark-icon"/>https://levelup.gitconnected.com/the-4-ways-to-store-data-locally-in-your-flutter-app-that-youre-going-to-need-abdafa991ae3</div></div><img src="https://miro.medium.com/max/1000/0*OA8mG-mK8hncsgQ4.jpg" class="bookmark-image"/></a></figure><figure id="61db9d48-cf4c-4404-8121-e8859649ad4d"><a href="https://itnext.io/save-your-data-locally-in-flutter-with-hive-11ec5d30fb55" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Save Your Data Locally in Flutter with Hive</div><div class="bookmark-description">Storing data locally and persisting between app launches is one of the fundamental concepts of any mobile app development process. Almost every app requires that you handle data from storing customer information for a food delivery app to a simple value to understand whether the user has turned on dark mode during their last visit.</div></div><div class="bookmark-href"><img src="https://miro.medium.com/fit/c/256/256/1*SiXeRxgOt0pAYlYhwZIu3g.png" class="icon bookmark-icon"/>https://itnext.io/save-your-data-locally-in-flutter-with-hive-11ec5d30fb55</div></div><img src="https://miro.medium.com/max/1200/1*zLVa4FjCu1Jry1A57d24eQ.png" class="bookmark-image"/></a></figure><figure id="dedd0168-2910-4a04-8b47-9a06a355390b"><a href="https://blog.logrocket.com/securing-local-storage-flutter/" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Securing local storage in Flutter - LogRocket Blog</div><div class="bookmark-description">Local storage is a crucial part of mobile app development for maintaining and preserving users&#x27; data until the app is removed. Today, an app&#x27;s trustworthiness hinges upon how its data is being saved. In this tutorial, you&#x27;ll learn how to securely save data locally from your Flutter app.</div></div><div class="bookmark-href"><img src="https://blog.logrocket.com/wp-content/uploads/2019/06/cropped-cropped-favicon-196x196-192x192.png" class="icon bookmark-icon"/>https://blog.logrocket.com/securing-local-storage-flutter/</div></div><img src="https://blog.logrocket.com/wp-content/uploads/2022/02/securing-local-storage-in-flutter.png" class="bookmark-image"/></a></figure><figure id="edd47b66-ad69-461e-8bc1-1846169e6126"><a href="https://medium.com/flutter-community/flutter-secure-your-sensitive-data-2869239e6f9a" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Flutter Secure your sensitive data</div><div class="bookmark-description">In this article, I will show you how to encrypt your sensitive data in your flutter application, and most importantly how to check it on both iOS and Android platforms. I took Flutter technology as example, but Android and iOS native developers may be interested too, as we will dissect applications!</div></div><div class="bookmark-href"><img src="https://miro.medium.com/1*m-R_BkNf1Qjr1YbyOIJY2w.png" class="icon bookmark-icon"/>https://medium.com/flutter-community/flutter-secure-your-sensitive-data-2869239e6f9a</div></div><img src="https://miro.medium.com/max/1000/1*YmJj6WcGtzqeWNFOKJrPrA.png" class="bookmark-image"/></a></figure></details></li></ul><ul id="f66f5134-f725-4164-8365-bee1864c08a3" class="toggle"><li><details open=""><summary>Storing data in Flutter offline</summary><figure id="3eef487e-06fb-4916-a713-b5fcf217ac9a"><a href="https://www.kindacode.com/article/ways-to-store-data-offline-in-flutter/" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">5 Ways to Store Data Offline in Flutter (updated) - Kindacode</div><div class="bookmark-description">There are many cases where you need to store data locally on users&#x27; devices instead of using remote cloud servers or APIs. For example, you may need to persist data across app launches or download a language dictionary from the internet and save it for later offline use.</div></div><div class="bookmark-href"><img src="https://www.kindacode.com/wp-content/uploads/2020/01/cropped-favicon-192x192.png" class="icon bookmark-icon"/>https://www.kindacode.com/article/ways-to-store-data-offline-in-flutter/</div></div><img src="https://www.kindacode.com/wp-content/uploads/2021/01/Flutter-store-data.jpg" class="bookmark-image"/></a></figure></details></li></ul><ul id="9e199a6d-2271-42f8-831c-0d64f64e87b1" class="bulleted-list"><li style="list-style-type:disc">How to upload an image from Flutter the to Flask server securely</li></ul><ul id="da26a5f1-9613-4b2c-bdfa-4809e0526a22" class="bulleted-list"><li style="list-style-type:disc">Securing local database storage for Flutter</li></ul><figure id="83a3957b-65d2-4f77-b08c-61859d7f1c14"><a href="https://medium.com/nerd-for-tech/local-database-in-flutter-93f1d15abc9a" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Local Database In Flutter</div><div class="bookmark-description">All mobile applications nowadays revolve around data. Some of it is stored in cloud and some in local storage according to it&#x27;s usage. To provide offline access to the app, it is necessary to store data in a local database. In this article we will be using Flutter as our framework and learn about local storage of data.</div></div><div class="bookmark-href"><img src="https://miro.medium.com/1*m-R_BkNf1Qjr1YbyOIJY2w.png" class="icon bookmark-icon"/>https://medium.com/nerd-for-tech/local-database-in-flutter-93f1d15abc9a</div></div><img src="https://miro.medium.com/max/1024/1*LDK0AwmUIq9EilhMW4dIxg.png" class="bookmark-image"/></a></figure><figure id="7dba8170-9a67-4359-ae66-3057c17f68ec"><a href="https://pub.dev/packages/secure_application" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">secure_application | Flutter Package</div><div class="bookmark-description">This plugin allow you to protect your application content from view on demand Pluggin in iOS is in swift Pluggin in Android is in Kotlin / AndroidX libraries Pluggin is also working for web Plugin work for windows (will lock when you minimize the window and lock screen) Add secure_application as a dependency in your pubspec.yaml file ( what?).</div></div><div class="bookmark-href"><img src="https://pub.dev/static/hash-ftdiapv8/img/flutter-logo-32x32.png" class="icon bookmark-icon"/>https://pub.dev/packages/secure_application</div></div><img src="https://pub.dev/static/hash-ftdiapv8/img/pub-dev-icon-cover-image.png" class="bookmark-image"/></a></figure><figure id="8d7edb50-bdbe-4609-b240-b7d3d8ec01b1"><a href="https://www.appsealing.com/flutter-security/" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Flutter Security - Follow these 10 security tips to prevent security risks - AppSealing</div><div class="bookmark-description">Though Flutter apps have become immensely popular in recent years, certain security risks pose a threat to app security. Flutter apps can expose sensitive data in the absence of adequate security measures. Reverse engineering is among the most common threats faced by Flutter apps as Dart code (the programming language used in Flutter apps) generates metadata that can easily give insights into the application&#x27;s workings.</div></div><div class="bookmark-href"><img src="https://resources.appsealing.com/4-svc/wp-content/uploads/2019/10/18195708/favicon-16.png" class="icon bookmark-icon"/>https://www.appsealing.com/flutter-security/</div></div><img src="https://resources.appsealing.com/4-svc/wp-content/uploads/2022/09/12140610/82.png" class="bookmark-image"/></a></figure><figure id="50523b23-58d0-4836-8a2f-a3be68b519c9"><a href="https://blog.logrocket.com/integrating-flask-flutter-apps/" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Integrating Flask and Flutter apps - LogRocket Blog</div><div class="bookmark-description">When building a full-stack application, you&#x27;d typically separate your frontend from your backend. In most cases, each of these implementations are written using different frameworks for the frontend and backend services, and are hosted on separate remote servers.</div></div><div class="bookmark-href"><img src="https://blog.logrocket.com/wp-content/uploads/2019/06/cropped-cropped-favicon-196x196-192x192.png" class="icon bookmark-icon"/>https://blog.logrocket.com/integrating-flask-flutter-apps/</div></div><img src="https://blog.logrocket.com/wp-content/uploads/2022/09/integrating-flask-flutter-apps.png" class="bookmark-image"/></a></figure><figure id="278a37f1-32b0-4ec7-b592-14334e28655f"><div class="source"><a href="https://www.youtube.com/watch?v=Su_qbc98xsE">https://www.youtube.com/watch?v=Su_qbc98xsE</a></div></figure></div></details><details open=""><summary style="font-weight:600;font-size:1.875em;line-height:1.3;margin:0">Cloud (AWS)</summary><div class="indented"><ul id="5e9f3374-0688-4c54-80fd-b6267a4c5a4a" class="bulleted-list"><li style="list-style-type:disc">Firewall</li></ul><ul id="462a5d65-461d-48b1-b729-08c4491bd883" class="bulleted-list"><li style="list-style-type:disc">Security Group</li></ul><figure id="3ff1831c-68bf-4eae-a827-d10344244d11"><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-security.html" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Security in Amazon EC2</div><div class="bookmark-description">Cloud security at AWS is the highest priority. As an AWS customer, you benefit from a data center and network architecture that are built to meet the requirements of the most security-sensitive organizations. Security is a shared responsibility between AWS and you.</div></div><div class="bookmark-href"><img src="https://docs.aws.amazon.com/assets/images/favicon.ico" class="icon bookmark-icon"/>https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-security.html</div></div></a></figure><ul id="58ae3a06-d611-4800-815a-d38054856964" class="bulleted-list"><li style="list-style-type:disc">Security of the cloud</li></ul><ul id="00dd30c6-98fa-4673-a3d4-2cbec831e6fb" class="bulleted-list"><li style="list-style-type:disc">Security in the cloud</li></ul><ul id="1ae53cd0-1324-4b71-b1e6-cdb2f08427ca" class="bulleted-list"><li style="list-style-type:disc"><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/infrastructure-security.html">Infrastructure security in Amazon EC2</a></li></ul><ul id="a862395d-ca63-44e9-a1b0-6be9fb4001a2" class="bulleted-list"><li style="list-style-type:disc"><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/disaster-recovery-resiliency.html">Resilience in Amazon EC2</a></li></ul><ul id="3353ec40-e113-41d2-8e8e-909883f800dc" class="bulleted-list"><li style="list-style-type:disc"><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/data-protection.html">Data protection in Amazon EC2</a></li></ul><ul id="6ce79e30-4aa6-441e-9c7f-b623e9b2c724" class="bulleted-list"><li style="list-style-type:disc"><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/security-iam.html">Identity and access management for Amazon EC2</a></li></ul><ul id="3f4d22e4-ff41-42c5-ae99-886748d7c82c" class="bulleted-list"><li style="list-style-type:disc"><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html">Amazon EC2 key pairs and Linux instances</a></li></ul><ul id="595f947c-ea79-4b4d-947d-7a9aa359c07f" class="bulleted-list"><li style="list-style-type:disc"><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-security-groups.html">Amazon EC2 security groups for Linux instances</a></li></ul><ul id="b807a84d-806e-4cb9-902f-e4353067a9d6" class="bulleted-list"><li style="list-style-type:disc"><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/interface-vpc-endpoints.html">Access Amazon EC2 using an interface VPC endpoint</a></li></ul><ul id="e89a3c58-f4fe-47bc-bf69-97c0be3f1120" class="bulleted-list"><li style="list-style-type:disc"><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/update-management.html">Update management in Amazon EC2</a></li></ul><ul id="81aa3e85-2323-4b97-ad4e-52f7455fef8c" class="bulleted-list"><li style="list-style-type:disc"><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/compliance-validation.html">Compliance validation for Amazon EC2</a></li></ul><ul id="c3bc1e89-0992-4e45-81e8-741c2c08e64a" class="bulleted-list"><li style="list-style-type:disc"><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/nitrotpm.html">NitroTPM</a></li></ul></div></details><p id="61dbbb62-2b3b-4a30-8550-d256b49f3f42" class="">
+</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
